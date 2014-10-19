@@ -1,0 +1,12 @@
+{
+  "name": "surf-better-ionic-app",
+  "private": "true",
+  "dependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.0-beta.12",
+    "angular-resource": "~1.2.22",
+    "moment": "~2.8.2",
+    "oauth-js": "~0.2.4",
+    "angular-cache": "~3.1.0",
+    "jquery": "~2.1.1"
+  }
+}

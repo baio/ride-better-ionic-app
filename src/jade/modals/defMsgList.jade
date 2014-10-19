@@ -1,0 +1,11 @@
+ion-modal-view
+    .bar.bar-header.item-input-inset
+        button.button.button-clear(ng-click="cancelDefMsgListModal()")
+            | {{res.str.cancel}}
+        button.button.button-clear(ng-click="closeDefMsgListModal()")
+            | {{res.str.select}}
+    ul.list
+        li.item.item-checkbox(ng-repeat="msg in defMsgList")
+            label.checkbox
+                input(type="checkbox", ng-model="msg.selected")
+            | {{msg.text}}

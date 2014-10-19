@@ -1,0 +1,15 @@
+ion-view(ng-attr-title="{{homeLabel}}")
+    ion-content.has-header
+        .list
+            .item(ng-repeat="msg in messages")
+                .item-note
+                    | {{msg.user.name}}
+                    &nbsp;
+                    i.icon.ion-ios7-clock-outline
+                    &nbsp;
+                    | {{msg.date | time}}
+                h2
+                    i.icon.big(ng-class="prettifyer.getReportIconCss(msg.code)")
+                    &nbsp;
+                    | {{prettifyer.getText(msg.code)}}
+                | {{msg.message}}

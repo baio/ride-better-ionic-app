@@ -1,0 +1,11 @@
+ion-modal-view
+    .bar.bar-header.item-input-inset
+        h1.title {{res.str.msgsent}}
+        button.button.button-clear.icon.ion-ios7-chatbubble-outline.right-buttons(ng-click="openDefMsgListModal()")
+    .list
+        label.item.item-input
+            textarea(placeholder="{{res.str.addmssg}}", ng-model="data.message", style="height: 120px")
+    .button-bar
+        a.button.button-stable(ng-click="closeAddMessageModal()") {{res.str.cancel}}
+        a.button.button-stable(ng-click="addReportMessage(data.message)") {{res.str.send}}
+

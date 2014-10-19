@@ -1,0 +1,57 @@
+dev:
+  server:
+    port : 8005 #port where dev application are running
+  env:
+    platform : browser
+    debug : true
+  client :
+    apiUrl : //localhost:8001/
+    auth :
+      user :
+        profile :
+          id : facebook_1
+          name : max putilov
+          provider : facebook
+          avatar : unk.png
+debug:
+  server:
+    port : 8005 #port where dev application are running
+  env:
+    platform : browser
+    debug : true
+  client :
+    apiUrl : //localhost:8001/
+    auth :
+      oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
+      apiUrl : //localhost:8002/
+stage:
+  server:
+    port : 8000
+  env:
+    platform : browser
+    debug : false
+  client :
+    apiUrl : //surf-better-web-api.herokuapp.com/
+    auth :
+      apiUrl : //auth-server-oauthio.herokuapp.com/
+      oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
+cordova_dev:
+  env:
+    platform : cordova
+    debug : true
+    weinreUrl : 192.168.0.14:9090
+  client :
+    apiUrl : http://surf-better-web-api.herokuapp.com/
+    auth :
+      oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
+      apiUrl : http://192.168.0.14:8002/
+cordova_stage:
+  env:
+    platform : cordova
+    debug : false
+  client :
+    apiUrl : http://surf-better-web-api.herokuapp.com/
+    auth :
+      oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
+      apiUrl : http://auth-server-oauthio.herokuapp.com/
+

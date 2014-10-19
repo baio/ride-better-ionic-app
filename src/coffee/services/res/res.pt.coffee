@@ -1,0 +1,48 @@
+app.constant "res_pt",
+  home : "Casa"
+  favorites : "Preferidos"
+  me : "Eu"
+  surf : "Surf !"
+  dunno : "Nem sei"
+  nosurf : "Não há surf"
+  swell : "Inchamento"
+  period : "Periodo"
+  wind : "Ventro"
+  addnew : "Adicionar"
+  search : "Buscar"
+  cancel : "Cancelar"
+  myinfo : "Meu Info"
+  homebeach : "Praia da Casa"
+  units : "Unidades"
+  eu : "Europa"
+  uk : "Reino Unido"
+  us : "Estados Unidos"
+  reset : "Reset"
+  login : "Entrar"
+  logout : "Sair"
+  authreqcaption : "Autenticação necessária"
+  authreqtext : "Para fazer esta ação voce precisa conectar sua conta do facebook. Conectar ?"
+  ok : "OK"
+  msgsent : "Seu relatório enviado !"
+  addmssg : "adicionar mensagem aqui"
+  send : "Enviar"
+  select : "Selecione"
+  coldwater : "agua fria"
+  crowdalert : "alerta multidão"
+  eventalert : "alerta de evento"
+  strongwaves : "ondas fortes"
+  weakwaves : "ondas fracas"
+  reportfirst : "Ser o Primeiro"
+  name : "Nome"
+  langen : "Inglês"
+  langpt : "Português"
+  langfr : "Frances"
+  langes : "Espanhol"
+  lang : "Idioma"
+
+
+
+
+
+
+

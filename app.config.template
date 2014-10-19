@@ -1,0 +1,21 @@
+"use strict"
+
+#Tis file was generated from app.config.template
+
+app.constant "webApiConfig",
+  url : "<%= apiUrl %>"
+
+app.constant "authConfig",
+  <% if (auth.user) { %>
+  user :
+    id : "<%= auth.user.id %>"
+    name : "<%= auth.user.name %>"
+    img : "<%= auth.user.img %>"
+  <% } %>
+  <% if (auth.oauthio_key) { %>
+  oauthio_key : "<%= auth.oauthio_key %>"
+  <% } %>
+  <% if (auth.apiUrl) { %>
+  apiUrl : "<%= auth.apiUrl %>"
+  <% } %>
+
