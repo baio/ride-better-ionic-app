@@ -28,12 +28,12 @@ app = angular.module("surf-better", [
       "tab-home":
         templateUrl: "tabs/tab-home.html"
         controller: "HomeController"
-  ).state("tab.pals",
-    url: "/pals"
+  ).state("tab.reports",
+    url: "/reports"
     views:
       "tab-home":
-        templateUrl: "tabs/tab-pals.html"
-        controller: "PalsController"
+        templateUrl: "tabs/tab-reports.html"
+        controller: "ReportsController"
   ).state("tab.forecast",
     url: "/forecast"
     views:

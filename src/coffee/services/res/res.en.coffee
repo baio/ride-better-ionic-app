@@ -2,6 +2,8 @@ app.constant "res_en",
   home : "Home"
   favorites : "Favorites"
   me : "Me"
+  closed : "Closed"
+  report : "Report"
   surf : "Surf !"
   dunno : "I dunno"
   nosurf : "No surf"

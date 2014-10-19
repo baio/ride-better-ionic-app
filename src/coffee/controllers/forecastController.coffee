@@ -6,7 +6,7 @@ app.controller "ForecastController", ($scope, forecast, $ionicScrollDelegate,  $
     if serviceData
       $scope.forecast = serviceData
       if scroll
-        idx = $scope.forecast.conditions.indexOf $scope.forecast.conditions.filter((f) -> f.isCurrent)[0]
+        idx = $scope.forecast.items.indexOf $scope.forecast.items.filter((f) -> f.isCurrent)[0]
         $ionicScrollDelegate.$getByHandle("forecast-scroll").scrollTo 0, 112 * idx, false
 
   $scope.$on "$destroy", ->
@@ -15,8 +15,7 @@ app.controller "ForecastController", ($scope, forecast, $ionicScrollDelegate,  $
 
 
   homeCode =  user.getHome().code
-  setForecast forecast.getForecastCache homeCode
-  forecast.getForecast(homeCode).then (res) -> setForecast res, true
+  forecast.get(homeCode).then (res) -> setForecast res, true
 
 
 

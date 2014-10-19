@@ -7,9 +7,9 @@ ion-view(ng-attr-title="{{homeLabel}}")
                     &nbsp;
                     i.icon.ion-ios7-clock-outline
                     &nbsp;
-                    | {{msg.date | time}}
-                h2
-                    i.icon.big(ng-class="prettifyer.getReportIconCss(msg.code)")
-                    &nbsp;
-                    | {{prettifyer.getText(msg.code)}}
-                | {{msg.message}}
+                    | {{msg.time}}
+                i.icon.ion-ios7-paw-outline {{msg.tracks}} &nbsp;
+                i.icon.ion-ios7-snowy {{msg.snowing}} &nbsp;
+                i.icon.ion-ios7-people-outline {{msg.crowd}} &nbsp;
+                small {{msg.text}}
+

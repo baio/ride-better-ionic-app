@@ -1,22 +1,12 @@
 ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header(delegate-handle="forecast-scroll")
-        .list(id="forecast-list")
-            div(ng-repeat="ct in forecast.conditions")
-                .item
-                    h3
-                        small(ng-class="{positive : ct.isCurrent}") {{ct.time}} &nbsp;
-                        span(ng-repeat="star in ct.rating.stars")
-                            span(ng-switch on="star.type")
-                                i.icon.ion-ios7-star(ng-switch-when="solid")
-                                i.icon.ion-ios7-star-outline(ng-switch-when="faded")
-                                i.icon.ion-ios7-star-outline.faded(ng-switch-when="empty")
-                        &nbsp;
-                        span.msw-sw(ng-class="prettifyer.getWeatherIconCss(ct.weather.weather)")
-                        | {{ct.weather.temperature}}
-                        small °{{forecast.units.temperature}}
-                    | {{res.str.swell}} {{ct.swell.compassDirection}} {{ct.swell.height}} {{forecast.units.height}}. {{res.str.period}} {{ct.swell.period}} sec.
-                    br
-                    | {{res.str.wind}} {{ct.wind.compassDirection}} {{ct.wind.speed}}
-                    small -{{ct.wind.gusts}} &nbsp;
-                    | {{forecast.units.speed}}.
+        .list
+            .item(ng-repeat="item in forecast.items")
+                h3
+                    small(ng-class="{positive : item.isCurrent}") {{item.time}} &nbsp;
+                | {{item.weather}} {{item.temperature}} {{forecast.units.temp}}.
+                br
+                | Latest 7 days fallout {{item.cumulativeSnow}} {{item.units.deep}}.
+                br
+                | Today's expected fallout {{item.todaySnow}} {{item.units.deep}}.
 

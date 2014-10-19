@@ -57,18 +57,5 @@ app.controller "FavsController", ($scope, $ionicModal, spot, forecast, user, $st
   $scope.canRemoveFav = ->
     $scope.favs.length > 1
 
-  setReports = (reports) ->
-    if reports
-      for fav in $scope.favs
-        fav.report = reports.filter((f) -> f.spot == fav.code)[0]
-
-  spots = $scope.favs.map((m) -> m.code).join(",")
-
-  setReports(forecast.getInstantReportsCache(spots))
-
-  forecast.getInstantReports(spots).then setReports
-
-
-
 
 

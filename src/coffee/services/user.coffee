@@ -22,7 +22,7 @@ app.factory "user", ($q, cache, spot,  $rootScope, $ionicPopup, res, culture, ge
 
   saveChanges = ->
     cache.put "user", user
-    authio.setData "surf_better", user.settings
+    authio.setData "ride_better", user.settings
     $rootScope.homeLabel = getHome().label
 
   defaultUser = ->
@@ -31,7 +31,7 @@ app.factory "user", ($q, cache, spot,  $rootScope, $ionicPopup, res, culture, ge
       lang : "en"
       culture : "eu"
       favs : [
-          { code : "BR_RJ_RDJ_AR", name : "Arpoador", label : "Arpoador, Rio de Janeiro", isHome : true }
+          { code : "1936", label : "Завьялиха (Zavyalikha)", isHome : true }
         ]
 
   getHome = -> user.settings.favs.filter((f) -> f.isHome)[0]
