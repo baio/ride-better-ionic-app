@@ -1,4 +1,4 @@
-app.factory "forecast", ($q, $resource, webApiConfig, mapper, cache) ->
+app.factory "forecastEP", ($q, $resource, webApiConfig, mapper, cache) ->
 
 
   get : (spot) ->

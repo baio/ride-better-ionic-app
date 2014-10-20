@@ -1,0 +1,99 @@
+ion-view(ng-attr-title="{{homeLabel}}")
+    ion-content.has-header
+        ion-slide-box(on-slide-changed='slideChanged(index)')
+            // first slide
+            ion-slide
+                h3 Snow on traks ?
+                .list
+                    label.item.item-radio
+                        input(type='radio', name='tracks', ng-model="data.tracks", value="best")
+                        .item-content
+                            | Much lot
+                        i.radio-icon.ion-checkmark
+                    label.item.item-radio
+                        input(type='radio', name='tracks', ng-model="data.tracks", value="good")
+                        .item-content
+                            | A lot
+                        i.radio-icon.ion-checkmark
+                    label.item.item-radio
+                        input(type='radio', name='tracks', ng-model="data.tracks", value="normal")
+                        .item-content
+                            | Normal
+                        i.radio-icon.ion-checkmark
+                    label.item.item-radio
+                        input(type='radio', name='tracks', ng-model="data.tracks", value="bad")
+                        .item-content
+                            | A Little
+                        i.radio-icon.ion-checkmark
+                    label.item.item-radio
+                        input(type='radio', name='tracks', ng-model="data.tracks", value="worst")
+                        .item-content
+                            | Nothing
+                        i.radio-icon.ion-checkmark
+            // second slide
+            ion-slide
+                h3 Snowing ?
+                    .list
+                        label.item.item-radio
+                            input(type='radio', name='snowing', ng-model="data.snowing", value="best")
+                            .item-content
+                                | Much lot
+                            i.radio-icon.ion-checkmark
+                        label.item.item-radio
+                            input(type='radio', name='snowing', ng-model="data.snowing", value="good")
+                            .item-content
+                                | A lot
+                            i.radio-icon.ion-checkmark
+                        label.item.item-radio
+                            input(type='radio', name='snowing', ng-model="data.snowing", value="normal")
+                            .item-content
+                                | Normal
+                            i.radio-icon.ion-checkmark
+                        label.item.item-radio
+                            input(type='radio', name='snowing', ng-model="data.snowing", value="bad")
+                            .item-content
+                                | A Little
+                            i.radio-icon.ion-checkmark
+                        label.item.item-radio
+                            input(type='radio', name='snowing', ng-model="data.snowing", value="worst")
+                            .item-content
+                                | Nope
+                            i.radio-icon.ion-checkmark
+
+            // third slide
+            ion-slide.pink
+                h3 Crowd ?
+                    .list
+                        label.item.item-radio
+                            input(type='radio', name='crowd', ng-model="data.crowd", value="worst")
+                            .item-content
+                                | Crawded
+                            i.radio-icon.ion-checkmark
+                        label.item.item-radio
+                            input(type='radio', name='crowd', ng-model="data.crowd", value="bad")
+                            .item-content
+                                | Many
+                            i.radio-icon.ion-checkmark
+                        label.item.item-radio
+                            input(type='radio', name='crowd', ng-model="data.crowd", value="normal")
+                            .item-content
+                                | So so
+                            i.radio-icon.ion-checkmark
+                        label.item.item-radio
+                            input(type='radio', name='crowd', ng-model="data.crowd", value="good")
+                            .item-content
+                                | A Few
+                            i.radio-icon.ion-checkmark
+                        label.item.item-radio
+                            input(type='radio', name='crowd', ng-model="data.crowd", value="best")
+                            .item-content
+                                | Nobody
+                            i.radio-icon.ion-checkmark
+            ion-slide.green
+                h3 Complete
+                .list
+                    label.item.item-input
+                        textarea(placeholder="{{res.str.addmssg}}", ng-model="data.message", style="height: 120px")
+                .button-bar
+                    a.button.button-stable(ng-click="cancelReport()") {{res.str.cancel}}
+                    a.button.button-stable(ng-click="sendReport()") {{res.str.send}}

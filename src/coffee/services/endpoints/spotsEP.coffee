@@ -1,4 +1,4 @@
-app.factory "spot", ($q, $resource, webApiConfig, mapper) ->
+app.factory "spotsEP", ($q, $resource, webApiConfig, mapper) ->
 
   resource = $resource(webApiConfig.url + "spots")
 

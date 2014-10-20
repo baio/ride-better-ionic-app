@@ -1,4 +1,4 @@
-app.factory "user", ($q, cache, spot,  $rootScope, $ionicPopup, res, culture, geoLocator, authio, mapper) ->
+app.factory "user", ($q, cache, $rootScope, $ionicPopup, res, culture, geoLocator, authio) ->
 
   user = {}
 

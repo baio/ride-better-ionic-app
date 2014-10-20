@@ -1,14 +1,12 @@
-app.controller "FavsController", ($scope, $ionicModal, spot, forecast, user, $state, geoLocator) ->
+app.controller "FavsController", ($scope, $ionicModal, spots, forecast, user, $state, geoLocator) ->
 
   console.log "Favs Controller"
 
-  geo = null
-
   $scope.favs = user.user.settings.favs
 
-  loadSpots = (term) ->
+  loadSpots = (term, geo) ->
     if (!term and geo) or (term and term.length > 2)
-      spot.get(term, geo).then (res) ->
+      spots.get(term, geo).then (res) ->
         $scope.spotsList = res.map (r) ->
           r.descr = [r.city, r.region, r.country].filter((f) -> f).join(", ")
           r
@@ -26,7 +24,7 @@ app.controller "FavsController", ($scope, $ionicModal, spot, forecast, user, $st
     geoLocator.getPosition().then (res) ->
       geo = res.lat + "," + res.lon
       if !$scope.spotsList
-        loadSpots()
+        loadSpots(null, geo)
 
   $scope.closeSpotSelectorModal = ->
     $scope.spotSelectorModal.hide()

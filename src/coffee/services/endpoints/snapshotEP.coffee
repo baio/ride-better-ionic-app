@@ -1,4 +1,4 @@
-app.factory "snapshot", ($q, $http, webApiConfig, user, mapper, cache) ->
+app.factory "snapshotEP", ($q, $http, webApiConfig, user, mapper, cache) ->
 
   get : (spot) ->
     # best, good, normal, bad, worst

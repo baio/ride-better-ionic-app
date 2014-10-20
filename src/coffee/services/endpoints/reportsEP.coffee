@@ -1,4 +1,4 @@
-app.factory "reports", ($q, $http, webApiConfig, user, mapper, cache) ->
+app.factory "reportsEP", ($q, $http, webApiConfig, user, mapper, cache) ->
 
   get : (spot) ->
     # best, good, normal, bad, worst
@@ -8,3 +8,6 @@ app.factory "reports", ($q, $http, webApiConfig, user, mapper, cache) ->
           {tracks : "best", snowing : "bad", crowd : "normal", time : "сегодня 10:00", user : { name : "max" }, text : "blah"}
           {tracks : "best", snowing : "normal", crowd : "normal", time : "сегодня 09:30", user : { name : "max" }}
         ]
+
+  send: (spot, data) ->
+    $q.when id : "1"

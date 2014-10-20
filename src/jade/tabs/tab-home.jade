@@ -18,7 +18,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
                         i.icon.ion-ios7-people-outline {{msg.crowd}} &nbsp;
                 span(ng-if="!report.messages.length")
                     i.icon.ion-ios7-pulse-strong &nbsp; {{res.str.reportfirst}}
-        button.button.button-block.button-positive(on-tap="sendReport()")
+        button.button.button-block.button-positive(ui-sref="tab.report")
             i.icon.ion-ios7-chatboxes-outline &nbsp; {{res.str.report}}
         button.button.button-block.button-assertive(on-tap="sendReport('closed')")
             i.icon.ion-ios7-locked-outline &nbsp; {{res.str.closed}}
