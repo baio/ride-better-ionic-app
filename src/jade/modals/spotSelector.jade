@@ -8,7 +8,5 @@ ion-modal-view
     ion-content.has-header
         ul.list
             li.item(ng-repeat="spot in spotsList", on-tap="selectSpot(spot)")
-                span.text-hlt(ng-bind-html="spot.spot")
+                span.text-hlt(ng-bind-html="spot.label")
                 span.item-note(ng-if="spot.dist") {{spot.dist}} {{spot.units.dist}}
-                br
-                small.text-hlt(ng-bind-html="spot.descr")

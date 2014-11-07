@@ -1,4 +1,4 @@
-app.controller "UserController", ($scope, user, res, reports) ->
+app.controller "UserController", ($scope, user, res) ->
 
   console.log "User Controller"
 
@@ -24,9 +24,6 @@ app.controller "UserController", ($scope, user, res, reports) ->
 
   $scope.user = user.user
   $scope.data = {}
-
-  $scope.sendClosed = ->
-    reports.send user.home(), closed : true
 
   updScopeData = ->
     $scope.data.culture = $scope.culturesList.filter((f) -> f.code == user.getCulture())[0]

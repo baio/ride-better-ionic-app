@@ -1,6 +1,6 @@
 app.factory "_ep", ($q, $http, webApiConfig) ->
 
-  get : (path) ->
+  get : (path, qs) ->
 
     deferred = $q.defer()
 
@@ -10,7 +10,7 @@ app.factory "_ep", ($q, $http, webApiConfig) ->
       deferred.reject(new Error "In progress")
     else
       inProgress = true
-      $http.get(webApiConfig.url + path).success (data) ->
+      $http.get(webApiConfig.url + path, params : qs).success (data) ->
         inProgress = false
         deferred.resolve data
       .error (data) ->
