@@ -1,12 +1,11 @@
 ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header(delegate-handle="forecast-scroll")
         .list
-            .item(ng-repeat="item in forecast.items")
+            .item(ng-repeat="item in forecast")
                 h3
-                    small(ng-class="{positive : item.isCurrent}") {{item.time}} &nbsp;
-                | {{item.weather}} {{item.temperature}} {{forecast.units.temp}}.
+                | {{item.summary}}
                 br
-                | Latest 7 days fallout {{item.cumulativeSnow}} {{item.units.deep}}.
+                | {{item.precipType}} {{item.precipAccumulation}}
                 br
-                | Today's expected fallout {{item.todaySnow}} {{item.units.deep}}.
+                | {{item.temperatureMax}} {{item.temperatureMin}} {{item.time}}
 

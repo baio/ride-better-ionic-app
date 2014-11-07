@@ -1,15 +1,15 @@
 ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header
         .list
-            .item(ng-repeat="msg in messages")
+            .item(ng-repeat="report in reports")
                 .item-note
-                    | {{msg.user.name}}
+                    | {{report.user.name}}
                     &nbsp;
                     i.icon.ion-ios7-clock-outline
                     &nbsp;
-                    | {{msg.time}}
-                i.icon.ion-ios7-paw-outline {{msg.tracks}} &nbsp;
-                i.icon.ion-ios7-snowy {{msg.snowing}} &nbsp;
-                i.icon.ion-ios7-people-outline {{msg.crowd}} &nbsp;
-                small {{msg.text}}
+                    | {{report.time}}
+                i.icon.ion-ios7-paw-outline {{report.conditions.tracks}} &nbsp;
+                i.icon.ion-ios7-snowy {{report.conditions.snowing}} &nbsp;
+                i.icon.ion-ios7-people-outline {{report.conditions.crowd}} &nbsp;
+                small {{report.conditions.text}}
 

@@ -1,19 +1,18 @@
-app.controller "HomeController", ($scope, $ionicModal, snapshot, reports, user, res) ->
+app.controller "HomeController", ($scope, snapshotDA, reportsDA, user) ->
 
   console.log "Home Controller"
 
-  setSnapshot = (serviceData) ->
-    if serviceData
-      $scope.report = serviceData.report
-      $scope.forecast =  serviceData.forecast
+  setSnapshot = (data) ->
+    if data
+      $scope.snapshot = data
 
   home = user.getHome()
 
   if home
-    snapshot.get(home.code).then setSnapshot
+    snapshotDA.get(home.code).then setSnapshot
 
   $scope.$on "user.changed", ->
-    snapshot.get(user.getHome().code).then setSnapshot
+    snapshotDA.get(user.getHome().code).then setSnapshot
 
 
 

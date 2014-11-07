@@ -1,13 +1,8 @@
-app.factory "reportsEP", ($q, $http, webApiConfig, user, mapper, cache) ->
+app.factory "reportsEP", (_ep) ->
 
   get : (spot) ->
-    # best, good, normal, bad, worst
-    console.log "reports::get", spot
-    $q.when
-        messages : [
-          {tracks : "best", snowing : "bad", crowd : "normal", time : "сегодня 10:00", user : { name : "max" }, text : "blah"}
-          {tracks : "best", snowing : "normal", crowd : "normal", time : "сегодня 09:30", user : { name : "max" }}
-        ]
+    _ep.get "reports/" + spot
 
   send: (spot, data) ->
-    $q.when id : "1"
+    _ep.post "reports/" + spot, data
+

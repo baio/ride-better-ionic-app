@@ -1,4 +1,4 @@
-app.factory "spots", ($q, spotsEP) ->
+app.factory "spotsDA", ($q, spotsEP) ->
 
 
   inProgress = false

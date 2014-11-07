@@ -1,10 +1,10 @@
-app.controller "ReportsController", ($scope, reports, user) ->
+app.controller "ReportsController", ($scope, reportsDA, user) ->
 
   console.log "Reports Controller"
 
-  setMessages = (serviceData) ->
-    if serviceData
-      $scope.messages = serviceData.messages
+  setMessages = (data) ->
+    if data
+      $scope.reports = data
 
   homeCode = user.getHome().code
-  reports.get(homeCode).then setMessages
+  reportsDA.get(homeCode).then setMessages

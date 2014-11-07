@@ -1,23 +1,13 @@
 ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header
         .list
+            .item.text-center(ui-sref="tab.reports")
+                span {{snapshot.report.summary}}
             .item.text-center(ui-sref="tab.forecast")
-                span(ng-if="forecast.time")
-                    small {{forecast.time}} &nbsp;
-                    | {{forecast.weather}} {{forecast.temperature}} {{forecast.units.temp}}.
-                    br
-                    | Latest 7 days fallout {{forecast.cumulativeSnow}} {{forecast.units.deep}}.
-                    br
-                    | Today's expected fallout {{forecast.todaySnow}} {{forecast.units.deep}}.
-            .item.text-center(ui-sref="tab.reports", ng-repeat="msg in report.messages")
-                span(ng-if="report.messages.length")
-                    span(ng-repeat="msg in report.messages")
-                        small {{msg.time}} &nbsp;
-                        i.icon.ion-ios7-paw-outline {{msg.tracks}} &nbsp;
-                        i.icon.ion-ios7-snowy {{msg.snowing}} &nbsp;
-                        i.icon.ion-ios7-people-outline {{msg.crowd}} &nbsp;
-                span(ng-if="!report.messages.length")
-                    i.icon.ion-ios7-pulse-strong &nbsp; {{res.str.reportfirst}}
+                span Today : {{snapshot.forecast.summary}}
+                br
+                span Min : {{snapshot.forecast.temperatureMin}} &nbsp;
+                span Max : {{snapshot.forecast.temperatureMax}}
         button.button.button-block.button-positive(ui-sref="tab.report")
             i.icon.ion-ios7-chatboxes-outline &nbsp; {{res.str.report}}
         button.button.button-block.button-assertive(on-tap="sendReport('closed')")

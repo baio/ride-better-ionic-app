@@ -1,4 +1,4 @@
-app.factory "reports", (reportsEP) ->
+app.factory "reportsDA", (reportsEP) ->
 
   get : reportsEP.get
 

@@ -6,6 +6,7 @@ app.factory "spotsEP", ($q, $resource, webApiConfig, mapper) ->
 
   get : (term, geo) ->
 
+    $http.get('/someUrl').
     term = undefined if !term
     console.log "spot::get", term, geo
 
