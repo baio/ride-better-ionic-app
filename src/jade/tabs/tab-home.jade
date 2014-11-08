@@ -10,5 +10,5 @@ ion-view(ng-attr-title="{{homeLabel}}")
                 span Max : {{snapshot.forecast.temperatureMax | round}}&deg;C
         button.button.button-block.button-positive(ui-sref="tab.report")
             i.icon.ion-ios7-chatboxes-outline &nbsp; {{res.str.report}}
-        button.button.button-block.button-assertive(on-tap="sendReport('closed')")
+        button.button.button-block.button-assertive(ui-sref="tab.closed")
             i.icon.ion-ios7-locked-outline &nbsp; {{res.str.closed}}

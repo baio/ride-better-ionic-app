@@ -29,6 +29,12 @@ app = angular.module("surf-better", [
       "tab-home":
         templateUrl: "tabs/tab-send-report.html"
         controller: "SendReportController"
+  ).state("tab.closed",
+    url: "/closed"
+    views:
+      "tab-home":
+        templateUrl: "tabs/tab-closed-report.html"
+        controller: "ClosedReportController"
   ).state("tab.reports",
     url: "/reports"
     views:
