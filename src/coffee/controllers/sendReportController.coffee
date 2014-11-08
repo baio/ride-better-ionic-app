@@ -9,7 +9,11 @@ app.controller "SendReportController", ($scope, reportsDA, user, $state) ->
 
   $scope.sendReport = ->
     home = user.getHome().code
-    reportsDA.send(home, $scope.data).then (res) ->
+    data = conditions :
+      tracks : parseInt $scope.data.tracks
+      snowing : parseInt $scope.data.snowing
+      crowd : parseInt $scope.data.crowd
+    reportsDA.send(home, data).then (res) ->
       $state.go "tab.home"
 
   $scope.cancelReport = ->

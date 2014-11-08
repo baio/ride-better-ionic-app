@@ -1,17 +1,12 @@
 app = angular.module("surf-better", [
-  "ionic", "ngResource", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt"
+  "ionic", "ngResource", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt", "angularMoment"
 ]).run(($ionicPlatform, $rootScope, res, prettifyer, user, authio, authioLogin, mapper) ->
 
-  console.log ">>>app.coffee:5"
   $ionicPlatform.ready ->
-    console.log ">>>app.coffee:7"
     authioLogin.activate()
-    console.log ">>>app.coffee:9"
     cordova.plugins.Keyboard.hideKeyboardAccessoryBar true  if window.cordova and window.cordova.plugins.Keyboard
     StatusBar.styleDefault() if window.StatusBar
-    console.log ">>>app.coffee:10"
     authio.login("facebook").then (res) ->
-      console.log ">>>app.coffee:12"
       user.setUser mapper.mapUser(res), true
   user.initialize()
   $rootScope.prettifyer = prettifyer
@@ -77,3 +72,6 @@ app.config (authioLoginProvider, authConfig) ->
     oauthio_key : authConfig.oauthio_key
     baseUrl : authConfig.apiUrl
     user : authConfig.user
+
+app.constant "angularMomentConfig",
+  preprocess: 'unix'

@@ -1,15 +1,18 @@
 ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header
         .list
-            .item(ng-repeat="report in reports")
-                .item-note
-                    | {{report.user.name}}
-                    &nbsp;
-                    i.icon.ion-ios7-clock-outline
-                    &nbsp;
-                    | {{report.time}}
-                i.icon.ion-ios7-paw-outline {{report.conditions.tracks}} &nbsp;
-                i.icon.ion-ios7-snowy {{report.conditions.snowing}} &nbsp;
-                i.icon.ion-ios7-people-outline {{report.conditions.crowd}} &nbsp;
-                small {{report.conditions.text}}
+            .item.item-text-wrap(ng-repeat="report in reports")
+                h3
+                    | {{report.user.name}} &nbsp;
+                    i.icon.ion-ios7-clock-outline &nbsp;
+                    | {{report.time | amCalendar}}
+                //
+                    i.icon.ion-ios7-paw-outline.icon-middle &nbsp; {{report.conditions.tracks}} &nbsp;
+                    br
+                    i.icon.ion-ios7-snowy.icon-middle &nbsp; {{report.conditions.snowing}} &nbsp;
+                    br
+                    i.icon.ion-ios7-people-outline.icon-middle &nbsp; {{report.conditions.crowd}} &nbsp;
+                    br
+                | {{report.summary | capitalize}}.
+                small {{report.text}}
 

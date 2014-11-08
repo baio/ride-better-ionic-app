@@ -4,6 +4,10 @@ body
     -ms-content-zooming: none;
 }
 
+.icon-middle {
+    font-size: 30px;
+}
+
 .text-hlt em {
     background-color: aliceblue;
 }
