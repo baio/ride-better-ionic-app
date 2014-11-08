@@ -1,6 +1,7 @@
-app.factory "user", ($q, cache, $rootScope, $ionicPopup, res, culture, geoLocator, authio, mapper) ->
+app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper) ->
 
   user = {}
+  authForm = null
 
   initialize = ->
     $rootScope.res = res
@@ -45,12 +46,27 @@ app.factory "user", ($q, cache, $rootScope, $ionicPopup, res, culture, geoLocato
     saveChanges()
     $rootScope.$broadcast "user.reset"
 
-  showConfirmAuth = ->
-    $ionicPopup.confirm(
-      title: res.str.authreqcaption
-      template: res.str.authreqtext
-    ).then (res) ->
-      if res then res else $q.reject()
+  # Auth form
+
+  $ionicModal.fromTemplateUrl( 'modals/authForm.html',
+      animation: "slide-in-up"
+      scope : $rootScope
+  ).then (form) ->
+    authForm = form
+
+  showAuthForm = ->
+    authForm.show()
+
+  $rootScope.authorizeProvider = (provider) ->
+    opts = force : true
+    authio.login(provider, opts).then (res) ->
+      setUser mapper.mapUser(res)
+      $rootScope.hideAuthForm()
+
+  $rootScope.hideAuthForm = ->
+    authForm.hide()
+
+  #
 
   initialize : initialize
 
@@ -94,11 +110,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicPopup, res, culture, geoLocato
     user.settings.culture
 
   login: ->
-    console.log ">>>user.coffee:97"
-    opts = force : true
-    opts.confirm = showConfirmAuth
-    authio.login("facebook", opts).then (res) ->
-      setUser(mapper.mapUser(res))
+    showAuthForm()
 
   logout: ->
     authio.logout()
