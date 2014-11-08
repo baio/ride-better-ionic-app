@@ -1,4 +1,6 @@
-app.factory "_ep", ($q, $http, webApiConfig) ->
+app.factory "_ep", ($q, $http, webApiConfig, authio) ->
+
+  getAuthHeaders = -> authorization: "Bearer " + authio.getJWT()
 
   get : (path, qs) ->
 
@@ -20,7 +22,7 @@ app.factory "_ep", ($q, $http, webApiConfig) ->
     deferred.promise
 
 
-  post : (path, data) ->
+  post : (path, data, useAuth) ->
 
     deferred = $q.defer()
 
@@ -30,7 +32,8 @@ app.factory "_ep", ($q, $http, webApiConfig) ->
       deferred.reject(new Error "In progress")
     else
       inProgress = true
-      $http.post(webApiConfig.url + path, data).success (data) ->
+      headers = headers : getAuthHeaders() if useAuth
+      $http.post(webApiConfig.url + path, data, headers).success (data) ->
         inProgress = false
         deferred.resolve data
       .error (data) ->

@@ -4,5 +4,5 @@ app.factory "reportsEP", (_ep) ->
     _ep.get "reports/" + spot
 
   send: (spot, data) ->
-    _ep.post "reports/" + spot, data
+    _ep.post "reports/" + spot, data, true
 

@@ -37,12 +37,12 @@ app.provider "authioLogin", ->
   _user = null
   _key = null
   _authBaseUrl = null
+  _token = null
 
   initialize : (opts) ->
     _authBaseUrl = opts.baseUrl
     _user = opts.user
     _key = opts.oauthio_key
-    console.log ">>>angular-authio-jwt.coffee:51" + _key
 
   $get : ($q, authioEndpoints) ->
     popup = (provider, token, opts) ->
@@ -55,18 +55,18 @@ app.provider "authioLogin", ->
     login : (provider, opts) ->
       if _user
         return $q.when _user
-      authioEndpoints.getToken().then (res) ->
-        popup(provider, res.token, opts).then (res1) ->
-          authioEndpoints.signin(provider, res1.code, res.token)
+      popup(provider, _token, opts).then (res) ->
+        authioEndpoints.signin(provider, res.code, _token)
 
     logout: (provider) ->
       OAuth.clearCache provider
 
     activate : ->
-      authioEndpoints.setUrl _authBaseUrl
-      console.log ">>>angular-authio-jwt.coffee:37" + _key
-      OAuth.initialize _key
-      console.log ">>>angular-authio-jwt.coffee:38"
+      if _authBaseUrl
+        authioEndpoints.setUrl _authBaseUrl
+        OAuth.initialize _key
+        authioEndpoints.getToken().then (res) ->
+          _token = res.token
 
 app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
 

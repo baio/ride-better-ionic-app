@@ -1,4 +1,4 @@
-app.factory "user", ($q, cache, $rootScope, $ionicPopup, res, culture, geoLocator, authio) ->
+app.factory "user", ($q, cache, $rootScope, $ionicPopup, res, culture, geoLocator, authio, mapper) ->
 
   user = {}
 
@@ -93,10 +93,12 @@ app.factory "user", ($q, cache, $rootScope, $ionicPopup, res, culture, geoLocato
   getCulture: ->
     user.settings.culture
 
-  login: (confirm) ->
+  login: ->
+    console.log ">>>user.coffee:97"
     opts = force : true
-    opts.confirm = showConfirmAuth if confirm
-    authio.login("facebook", opts).then (res) -> setUser(mapper.mapUser(res))
+    opts.confirm = showConfirmAuth
+    authio.login("facebook", opts).then (res) ->
+      setUser(mapper.mapUser(res))
 
   logout: ->
     authio.logout()

@@ -1,4 +1,4 @@
-app.controller "HomeController", ($scope, snapshotDA, reportsDA, user) ->
+app.controller "HomeController", ($scope, snapshotDA, reportsDA, user, $state) ->
 
   console.log "Home Controller"
 
@@ -14,6 +14,11 @@ app.controller "HomeController", ($scope, snapshotDA, reportsDA, user) ->
   $scope.$on "user.changed", ->
     snapshotDA.get(user.getHome().code).then setSnapshot
 
+  $scope.sendReport = ->
+    console.log ">>>homeController.coffee:18"
+    user.login().then ->
+      $state.go "tab.report"
 
-
-
+  $scope.closedReport = ->
+    user.login().then ->
+      $state.go "tab.closed"

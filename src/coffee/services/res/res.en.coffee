@@ -14,7 +14,7 @@ app.constant "res_en",
   search : "Search"
   cancel : "Cancel"
   myinfo : "My Info"
-  homebeach : "Home Beach"
+  homebeach : "Home"
   units : "Units"
   eu : "Europe"
   uk : "United Kingdom"
