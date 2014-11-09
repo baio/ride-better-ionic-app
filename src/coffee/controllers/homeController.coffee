@@ -9,15 +9,13 @@ app.controller "HomeController", ($scope, snapshotDA, reportsDA, user, $state) -
   home = user.getHome()
 
   if home
-    snapshotDA.get(home.code).then setSnapshot
+    snapshotDA.get(home.code, user.getLang()).then setSnapshot
 
   $scope.$on "user.changed", ->
-    snapshotDA.get(user.getHome().code).then setSnapshot
+    snapshotDA.get(user.getHome().code, user.getLang()).then setSnapshot
 
   $scope.sendReport = ->
-    console.log ">>>homeController.coffee:18"
     user.login().then ->
-      console.log ">>>homeController.coffee:20"
       $state.go "tab.report"
 
   $scope.closedReport = ->

@@ -1,7 +1,7 @@
 app.factory "forecastEP", (_ep) ->
 
 
-  get : (spot) ->
-    _ep.get "forecast/" + spot
+  get : (spot, lang) ->
+    _ep.get "forecast/" + spot, lang : lang
 
 

@@ -7,4 +7,4 @@ app.controller "ReportsController", ($scope, reportsDA, user) ->
       $scope.reports = data
 
   homeCode = user.getHome().code
-  reportsDA.get(homeCode).then setMessages
+  reportsDA.get(homeCode, user.getLang()).then setMessages

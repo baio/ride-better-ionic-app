@@ -2,9 +2,9 @@ ion-modal-view
     .bar.bar-header.item-input-inset
         label.item-input-wrapper
             i.icon.ion-ios7-search.placeholder-icon
-            input(type='search', placeholder='{{res.str.search}}', ng-model="spotTerm", ng-delay="1000", ng-change="onSpotTermChanged(spotTerm)")
+            input(type='search', placeholder="{{res.str('Search')}}", ng-model="spotTerm", ng-delay="1000", ng-change="onSpotTermChanged(spotTerm)")
         button.button.button-clear(ng-click="closeSpotSelectorModal()")
-            | {{res.str.cancel}}
+            | {{res.str("Cancel")}}
     ion-content.has-header
         ul.list
             li.item(ng-repeat="spot in spotsList", on-tap="selectSpot(spot)")
