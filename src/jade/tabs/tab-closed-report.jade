@@ -2,7 +2,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
    ion-content.has-header
       .list
          label.item.text-center
-            h2 Closed
+            h2 {{ 'Closed' | res }}
          label.item.item-input.item-select
             span.input-label Reason
             select(ng-options="reason.name for reason in reasonsList", ng-model="data.reason")
@@ -10,7 +10,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
             span.input-label Supposed open date
             input(type="date", ng-model="data.openDate")
          label.item.item-input
-            textarea(placeholder="{{res.str('Add Message')}}", ng-model="data.message", style="height: 120px")
+            textarea(placeholder="{{'Add Message' | res}}", ng-model="data.message", style="height: 120px")
       .button-bar
-         a.button.button-stable(ng-click="cancelReport()") {{res.str("Cancel")}}
-         a.button.button-stable(ng-click="sendReport()") {{res.str("Send")}}
+         a.button.button-stable(ng-click="cancelReport()") {{"Cancel" | res}}
+         a.button.button-stable(ng-click="sendReport()") {{"Send" | res}}

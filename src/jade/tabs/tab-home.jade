@@ -6,9 +6,9 @@ ion-view(ng-attr-title="{{homeLabel}}")
             .item.item-text-wrap.text-center(ui-sref="tab.forecast")
                 | {{snapshot.forecast.summary}}
                 br
-                span {{res.str('Min')}} : {{snapshot.forecast.temperatureMin | round}}&deg;C &nbsp;
-                span {{res.str('Max')}} : {{snapshot.forecast.temperatureMax | round}}&deg;C
+                span {{'Min' | res}} : {{culture.temp(snapshot.forecast.temperatureMin) | round | plus}}&deg;{{culture.tempU()}} &nbsp;
+                span {{'Max' | res}} : {{culture.temp(snapshot.forecast.temperatureMax) | round | plus}}&deg;{{culture.tempU()}}
         button.button.button-block.button-positive(ng-click="sendReport()")
-            i.icon.ion-ios7-chatboxes-outline &nbsp; {{res.str('Report')}}
+            i.icon.ion-ios7-chatboxes-outline &nbsp; {{'Report' | res}}
         button.button.button-block.button-assertive(ng-click="closedReport()")
-            i.icon.ion-ios7-locked-outline &nbsp; {{res.str('Closed')}}
+            i.icon.ion-ios7-locked-outline &nbsp; {{'Closed' | res}}

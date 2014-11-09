@@ -38,3 +38,7 @@ app.constant "res_ru",
   "Me" : "Профайл"
   "Authorization" : "Авторизация"
   "Search" : "Поиск"
+  "mi" : "миль"
+  "in" : "дм"
+  "km" : "км"
+  "cm" : "см"

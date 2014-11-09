@@ -3,50 +3,40 @@ app.factory "culture", ($rootScope) ->
   culture = "eu"
 
   data =
-    eu : ["m", "kph", "c", "km"]
-    uk : ["ft", "mph", "c", "mi"]
-    us : ["ft", "mph", "f", "mi"]
+    eu : ["km", "cm", "c"]
+    uk : ["mi", "in", "c"]
+    us : ["mi", "in", "f"]
 
   setCulture: (c) -> culture = c
 
   getCulture: -> culture
 
-  getHeight: (m) ->
-
-    if data[@getCulture()][0] != "m"
-      Math.round m * 3.2808
+  height: (cm) ->
+    if data[@getCulture()][1] != "cm"
+      Math.round cm / 0.393701
     else
-      m
+      cm
 
-  getHeightUnits: ->
-    data[@getCulture()][0]
-
-  getSpeed: (s) ->
-    if data[@getCulture()][1] != "mph"
-      Math.round 1.6 * s
-    else
-      s
-
-  getSpeedUnits: ->
+  heightU: ->
     data[@getCulture()][1]
 
-  getTemp: (c) ->
+  temp: (c) ->
     if data[@getCulture()][2] != "c"
       Math.round c * 1.8 + 32
     else
       c
 
-  getTempUnits: ->
+  tempU: ->
     if data[@getCulture()][2] == "c"
-      "c"
+      "C"
     else
       "F"
 
-  getDist: (km) ->
-    if data[@getCulture()][3] != "km"
+  dist: (km) ->
+    if data[@getCulture()][0] != "km"
       Math.round km * 0.621371
     else
       km
 
-  getDistUnits: ->
-    data[@getCulture()][3]
+  distU: ->
+    data[@getCulture()][0]

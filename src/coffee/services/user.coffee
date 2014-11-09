@@ -1,11 +1,11 @@
-app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper) ->
+app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment) ->
 
   user = {}
   authForm = null
   deferredAuthForm = null
 
   initialize = ->
-    $rootScope.res = res
+    $rootScope.culture = culture
     geoLocator.getPosition()
     _user = cache.get "user"
     _user ?= defaultUser()
@@ -105,6 +105,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
   setLang: (lang) ->
     res.setLang lang.code
     user.settings.lang = lang.code
+    amMoment.changeLocale lang.code
     saveChanges()
 
   getLang: ->
