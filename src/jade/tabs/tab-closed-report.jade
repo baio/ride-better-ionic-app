@@ -10,7 +10,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
             span.input-label Supposed open date
             input(type="date", ng-model="data.openDate")
          label.item.item-input
-            textarea(placeholder="{{res.str.addmssg}}", ng-model="data.message", style="height: 120px")
+            textarea(placeholder="{{res.str('Add Message')}}", ng-model="data.message", style="height: 120px")
       .button-bar
-         a.button.button-stable(ng-click="cancelReport()") {{res.str.cancel}}
-         a.button.button-stable(ng-click="sendReport()") {{res.str.send}}
+         a.button.button-stable(ng-click="cancelReport()") {{res.str("Cancel")}}
+         a.button.button-stable(ng-click="sendReport()") {{res.str("Send")}}

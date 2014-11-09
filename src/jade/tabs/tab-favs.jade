@@ -2,7 +2,8 @@ ion-view(ng-attr-title="{{res.str.favorites}}")
     ion-content.has-header
         .list
             .item(ng-show="canAddFav()")
-                button.button.button-block.button-stable.icon.ion-ios7-plus-outline(ng-click="openSpotSelectorModal()") &nbsp; {{res.str.addnew}}
+                button.button.button-block.button-stable.icon.ion-ios7-plus-outline(ng-click="openSpotSelectorModal()") &nbsp;
+                    | {{res.str('Add New')}}
             .item.item-icon-left.item-icon-right(ng-repeat="fav in favs")
                 i.icon(ng-class="{'ion-ios7-home-outline' : !fav.isHome, 'ion-ios7-home' : fav.isHome}", on-tap="setHome(fav)")
                 span(on-tap="openHome(fav)")

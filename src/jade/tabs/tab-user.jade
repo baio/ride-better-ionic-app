@@ -1,24 +1,18 @@
-ion-view(title="{{res.str.myinfo}}")
+ion-view(title="{{res.str('My Info')}}")
     ion-content.has-header
         .list
             label.item.item-input.item-stacked-label(ng-show="user.profile.name")
-                span.input-label {{res.str.name}}
+                span.input-label {{res.str("Name")}}
                 input(type='text', ng-model="user.profile.name", disabled)
             label.item.item-input.item-stacked-label
-                span.input-label {{res.str.homebeach}}
+                span.input-label {{res.str("Home")}}
                 input(type='text', ng-model="homeLabel", disabled)
-            //
-                label.item.item-input.item-select
-                    span.input-label {{res.str.lang}}
-                        select(ng-options="lang.name for lang in langsList", ng-model="data.lang", ng-change="setLang(data.lang)")
-                label.item.item-input.item-select
-                    span.input-label {{res.str.units}}
-                        select(ng-options="culture.name for culture in culturesList", ng-model="data.culture", ng-change="setCulture(data.culture)")
-            button.button.button-full.button-energized(ng-click="reset()") {{res.str.reset}}
-            button.button.button-full.button-positive(ng-click="login()", ng-show="!isLogin()") {{res.str.login}}
-            button.button.button-full.button-assertive(ng-click="logout()", ng-show="isLogin()") {{res.str.logout}}
-            //
-                p.text-center
-                    | Forecast data provided by &nbsp;
-                    a(href="http://magicseaweed.com/", target="_blank") Magicseaweed
-
+            label.item.item-input.item-select
+                span.input-label {{res.str("Language")}}
+                    select(ng-options="lang.name for lang in langsList", ng-model="data.lang", ng-change="setLang(data.lang)")
+            label.item.item-input.item-select
+                span.input-label {{res.str("Units")}}
+                    select(ng-options="culture.name for culture in culturesList", ng-model="data.culture", ng-change="setCulture(data.culture)")
+            button.button.button-full.button-energized(ng-click="reset()") {{res.str("Reset")}}
+            button.button.button-full.button-positive(ng-click="login()", ng-show="!isLogin()") {{res.str("Login")}}
+            button.button.button-full.button-assertive(ng-click="logout()", ng-show="isLogin()") {{res.str("Logout")}}

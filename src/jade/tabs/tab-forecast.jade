@@ -5,7 +5,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
                 h2 {{item.time | amDateFormat: 'dddd, Do MMMM'}}
                 h3 {{item.summary}}
                 span(ng-if="item.precipType") {{item.precipType | capitalize}} {{item.precipAccumulation | round:1}} cm.
-                span(ng-if="!item.precipType") Snow 0 cm.
+                span(ng-if="!item.precipType") {{res.str('Snow')}} 0 cm.
                 br
                 | {{item.temperatureMin | round}}&deg;C  &mdash;  {{item.temperatureMax | round | plus}}&deg;C
 

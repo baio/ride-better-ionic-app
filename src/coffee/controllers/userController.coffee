@@ -1,4 +1,4 @@
-app.controller "UserController", ($scope, user, res) ->
+app.controller "UserController", ($scope, user) ->
 
   console.log "User Controller"
 
@@ -8,15 +8,14 @@ app.controller "UserController", ($scope, user, res) ->
   $scope.reset = user.reset
 
   $scope.culturesList = [
-    {code : "eu", name : res.str.eu},
-    {code : "uk", name : res.str.uk},
-    {code : "us", name : res.str.us}]
+    {code : "eu", name : "Europe"}
+    {code : "uk", name : "United Kingdom"}
+    {code : "us", name : "United States"}
+  ]
 
   $scope.langsList = [
-    {code : "en", name : res.str.langen},
-    {code : "pt", name : res.str.langpt},
-    {code : "fr", name : res.str.langfr},
-    {code : "es", name : res.str.langes},
+    {code : "en", name : "English"}
+    {code : "ru", name : "Russian"}
   ]
 
   $scope.setCulture = user.setCulture

@@ -1,19 +1,18 @@
-app.factory "res", ($rootScope, res_en, res_pt, res_fr, res_es) ->
+app.factory "res", (res_ru) ->
 
-  res_current = {}
+  langs =
+    ru : res_ru
 
-  setLang = (langName) ->
-    switch langName
-      when "pt" then angular.copy res_pt, res_current
-      when "es" then angular.copy res_es, res_current
-      when "fr" then angular.copy res_fr, res_current
-      else angular.copy res_en, res_current
+  _lang = "en"
 
-  setLang()
+  str : (txt) ->
+    lang = langs[_lang]
+    if lang
+      lang[txt]
+    else
+      txt
 
-  str : res_current
-
-  setLang : setLang
+  setLang : (lang) -> _lang = lang
 
 
 
