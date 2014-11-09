@@ -2,6 +2,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
 
   user = {}
   authForm = null
+  deferredAuthForm = null
 
   initialize = ->
     $rootScope.res = res
@@ -55,7 +56,15 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     authForm = form
 
   showAuthForm = ->
+    deferredAuthForm = $q.defer()
     authForm.show()
+    deferredAuthForm.promise
+
+  $rootScope.$on "modal.hidden", (modal) ->
+    if user.profile
+      deferredAuthForm.resolve()
+    else
+      deferredAuthForm.reject()
 
   $rootScope.authorizeProvider = (provider) ->
     opts = force : true
@@ -110,7 +119,10 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     user.settings.culture
 
   login: ->
-    showAuthForm()
+    if !@isLogin()
+      showAuthForm()
+    else
+      $q.when()
 
   logout: ->
     authio.logout()
