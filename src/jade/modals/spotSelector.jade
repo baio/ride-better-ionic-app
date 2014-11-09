@@ -9,4 +9,4 @@ ion-modal-view
         ul.list
             li.item(ng-repeat="spot in spotsList", on-tap="selectSpot(spot)")
                 span.text-hlt(ng-bind-html="spot.label")
-                span.item-note(ng-if="spot.dist") {{spot.dist}} {{spot.units.dist}}
+                span.item-note(ng-if="spot.dist") {{spot.dist}} km

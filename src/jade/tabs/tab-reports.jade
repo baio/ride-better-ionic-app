@@ -6,13 +6,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
                     | {{report.user.name}} &nbsp;
                     i.icon.ion-ios7-clock-outline &nbsp;
                     | {{report.time | amCalendar}}
-                //
-                    i.icon.ion-ios7-paw-outline.icon-middle &nbsp; {{report.conditions.tracks}} &nbsp;
-                    br
-                    i.icon.ion-ios7-snowy.icon-middle &nbsp; {{report.conditions.snowing}} &nbsp;
-                    br
-                    i.icon.ion-ios7-people-outline.icon-middle &nbsp; {{report.conditions.crowd}} &nbsp;
-                    br
-                | {{report.summary | capitalize}}.
-                small {{report.text}}
+                | {{report.summary | capitalize}}
+                br
+                small {{report.comment}}
 

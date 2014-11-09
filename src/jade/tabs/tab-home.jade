@@ -2,7 +2,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header
         .list
             .item.item-text-wrap.text-center(ui-sref="tab.reports")
-                span {{snapshot.report.summary | capitalize}}.
+                span {{snapshot.report.summary | capitalize}}
             .item.item-text-wrap.text-center(ui-sref="tab.forecast")
                 | {{snapshot.forecast.summary}}
                 br
