@@ -50,7 +50,7 @@ cordova_stage:
     platform : cordova
     debug : false
   client :
-    apiUrl : http://surf-better-web-api.herokuapp.com/
+    apiUrl : http://ride-better-web-api.herokuapp.com/
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
       apiUrl : http://auth-server-oauthio.herokuapp.com/
