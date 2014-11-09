@@ -36,3 +36,5 @@ res/icon
 res/screen
 
 .*/
+
+!newrelic.js
