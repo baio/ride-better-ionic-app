@@ -1,5 +1,5 @@
 app = angular.module("surf-better", [
-  "ionic", "ngResource", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt", "angularMoment", "ngCordova"
+  "ionic", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt", "angularMoment"
 ]).run(($ionicPlatform, $rootScope, res, prettifyer, user, authio, authioLogin, mapper) ->
 
   $ionicPlatform.ready ->
