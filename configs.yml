@@ -31,7 +31,7 @@ stage:
     platform : browser
     debug : false
   client :
-    apiUrl : //surf-better-web-api.herokuapp.com/
+    apiUrl : //ride-better-web-api.herokuapp.com/
     auth :
       apiUrl : //auth-server-oauthio.herokuapp.com/
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
