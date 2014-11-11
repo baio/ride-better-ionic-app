@@ -4,6 +4,15 @@ body
     -ms-content-zooming: none;
 }
 
+.home-container
+{
+    background: url('../img/bkg/light-clouds.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 .icon-middle {
     font-size: 30px;
 }

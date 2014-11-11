@@ -8,9 +8,12 @@ app.constant "webApiConfig",
 app.constant "authConfig",
   <% if (auth.user) { %>
   user :
-    id : "<%= auth.user.id %>"
-    name : "<%= auth.user.name %>"
-    img : "<%= auth.user.img %>"
+    profile :
+      key : "<%= auth.user.profile.key %>"
+      provider : "<%= auth.user.profile.provider %>"
+      id : "<%= auth.user.profile.id %>"
+      name : "<%= auth.user.profile.name %>"
+      avatar : "<%= auth.user.profile.avatar %>"
   <% } %>
   <% if (auth.oauthio_key) { %>
   oauthio_key : "<%= auth.oauthio_key %>"

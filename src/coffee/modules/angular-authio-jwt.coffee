@@ -40,6 +40,7 @@ app.provider "authioLogin", ->
   _token = null
 
   initialize : (opts) ->
+    console.log ">>>angular-authio-jwt.coffee:43", opts
     _authBaseUrl = opts.baseUrl
     _user = opts.user
     _key = opts.oauthio_key
@@ -54,6 +55,7 @@ app.provider "authioLogin", ->
 
     login : (provider, opts) ->
       if _user
+        console.log ">>>angular-authio-jwt.coffee:57", _user
         return $q.when _user
       popup(provider, _token, opts).then (res) ->
         authioEndpoints.signin(provider, res.code, _token)
