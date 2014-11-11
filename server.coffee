@@ -1,3 +1,5 @@
+require "newrelic"
+
 express = require('express')
 config = require('yaml-config')
 
