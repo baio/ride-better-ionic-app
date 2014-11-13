@@ -5,7 +5,11 @@ app = angular.module("surf-better", [
   $ionicPlatform.ready ->
     authioLogin.activate()
     cordova.plugins.Keyboard.hideKeyboardAccessoryBar true  if window.cordova and window.cordova.plugins.Keyboard
-    StatusBar.styleDefault() if window.StatusBar
+    if window.StatusBar
+      #StatusBar.styleDefault()
+      StatusBar.overlaysWebView(true)
+      StatusBar.style(1)
+      StatusBar.styleColor('blue')
     authio.login("facebook").then (res) ->
       user.setUser mapper.mapUser(res), true
   user.initialize()

@@ -1,4 +1,4 @@
-app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicSlideBoxDelegate, notifyer, $q) ->
+app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicSlideBoxDelegate, notifier, $q) ->
 
   console.log "SendReport Controller"
 
@@ -15,7 +15,7 @@ app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicS
 
   $scope.sendReport = ->
     if !$scope.data.tracks and !$scope.data.snowing and !$scope.data.crowd and !$scope.data.message
-      notifyer.message "Please input some data to send"
+      notifier.message "Please input some data to send"
       $q.when()
     else
       home = user.getHome().code
