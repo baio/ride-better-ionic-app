@@ -52,3 +52,6 @@ app.constant "res_ru",
   "Unknown" : "Неизвестно"
   "Day off" : "Выходной"
   "Off season" : "Сезон закрыт"
+  "Some error occurred, please try again later." : "Ошибка! Попробуйте повторить позднее."
+  "Error" : "Ошибка"
+  "Alert" : "Внимание"

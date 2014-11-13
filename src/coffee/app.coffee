@@ -81,3 +81,6 @@ app.config (authioLoginProvider, authConfig) ->
 
 app.constant "angularMomentConfig",
   preprocess: 'unix'
+
+app.config ($httpProvider) ->
+  $httpProvider.responseInterceptors.push "httpFailureInterceptor"
