@@ -30,4 +30,5 @@ app.controller "HomeController", ($scope, snapshotDA, reportsDA, user, $state) -
 
   $scope.sendReport = ->
     user.login().then ->
+      console.log ">>>homeController.coffee:33"
       $state.go "tab.report"

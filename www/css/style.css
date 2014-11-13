@@ -53,11 +53,12 @@ body
     padding-right: 10px;
 }
 
-.bar.bar-stable {
+.bar.bar-stable, .bar-header {
     background-color: #145fd7;
 }
 
-.bar.bar-stable .title
+
+.bar.bar-stable .title, .bar-header .title
 {
     color: #ffffff;
     text-decoration: dotted;
