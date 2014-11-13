@@ -1,11 +1,11 @@
-app.controller "ClosedReportController", ($scope, reportsDA, user, $state) ->
+app.controller "ClosedReportController", ($scope, reportsDA, user, $state, res) ->
 
   console.log "ClosedReportController"
 
   $scope.reasonsList = [
-    {code : "closed", name : "Unknown"}
-    {code : "day-off", name : "Day off"}
-    {code : "off-season", name : "Off season"}
+    {code : "closed", name : res.str("Unknown")}
+    {code : "day-off", name : res.str("Day off")}
+    {code : "off-season", name : res.str("Off season")}
   ]
 
   $scope.data =
