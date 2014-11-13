@@ -3,12 +3,17 @@ app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicS
   console.log "SendReport Controller"
 
   $scope.data =
-    tracks : null
-    snowing : null
-    crowd : null
+      tracks : null
+      snowing : null
+      crowd : null
+
+  $scope.firstSlideShown = true
+
+  $scope.slideHasChanged = (index) ->
+    $scope.firstSlideShown = index == 0
+    console.log ">>>sendReportController.coffee:14", index
 
   $scope.sendReport = ->
-
     if !$scope.data.tracks and !$scope.data.snowing and !$scope.data.crowd and !$scope.data.message
       notifyer.message "Please input some data to send"
       $q.when()
@@ -28,6 +33,8 @@ app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicS
     $state.go "tab.home"
 
   $scope.nextSlide = ->
-    console.log ">>>sendReportController.coffee:26"
     $ionicSlideBoxDelegate.next()
 
+  $scope.closedReport = ->
+    user.login().then ->
+      $state.go "tab.closed"

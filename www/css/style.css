@@ -4,140 +4,143 @@ body
     -ms-content-zooming: none;
 }
 
-.home-container
-{
-    background: url('../img/bkg/light-clouds.jpg') no-repeat center center fixed;
+.transparent-background {
+    background-color: transparent;
+}
+.transparent-background-img {
+    background: url('../img/bkg/60degree_gray.png') repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 
-.icon-middle {
-    font-size: 30px;
-}
-
-.text-hlt em {
-    background-color: aliceblue;
-}
-
-.icon.big {
-    font-size: 30px;
-}
-
-.icon.faded {
-    color: lightgrey;
-}
-
-i.faded {
-    color: lightgrey;
-}
-
-.icon.emoji {
-    text-indent: 40px;
-    background: no-repeat top left;
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    background-size: contain;
-    margin-right: 5px;
-}
-
-button .icon.emoji {
-    text-align: center;
-    margin-top: 3px;
-    margin-left: -20px;
-}
-
-.float-left {
-    float: left;
-}
-
-.emoji.emoji-dunno {
-    background: url("svg/dunno.svg");
-}
-
-.emoji.emoji-sad {
-    background: url("svg/sad.svg");
-}
-
-.emoji.emoji-happy {
-    background: url("svg/happy.svg");
-}
-
-.emoji.inline{
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    margin-right: 1px;
-}
-
-.msw-sw
+.home-container
 {
-    display:            inline-block;
-    width:              30px;
-    height:             30px;
-    background:         url("img/weather-sprite.png") no-repeat top left;
-}
-.msw-sw-1{ background-position: 0 0; width: 30px; height: 30px; }
-.msw-sw-10{ background-position: 0 -60px; width: 30px; height: 30px; }
-.msw-sw-11{ background-position: 0 -120px; width: 30px; height: 30px; }
-.msw-sw-12{ background-position: 0 -180px; width: 30px; height: 30px; }
-.msw-sw-13{ background-position: 0 -240px; width: 30px; height: 30px; }
-.msw-sw-14{ background-position: 0 -300px; width: 30px; height: 30px; }
-.msw-sw-15{ background-position: 0 -360px; width: 30px; height: 30px; }
-.msw-sw-16{ background-position: 0 -420px; width: 30px; height: 30px; }
-.msw-sw-17{ background-position: 0 -480px; width: 30px; height: 30px; }
-.msw-sw-18{ background-position: 0 -540px; width: 30px; height: 30px; }
-.msw-sw-19{ background-position: 0 -600px; width: 30px; height: 30px; }
-.msw-sw-2{ background-position: 0 -660px; width: 30px; height: 30px; }
-.msw-sw-20{ background-position: 0 -720px; width: 30px; height: 30px; }
-.msw-sw-21{ background-position: 0 -780px; width: 30px; height: 30px; }
-.msw-sw-22{ background-position: 0 -840px; width: 30px; height: 30px; }
-.msw-sw-23{ background-position: 0 -900px; width: 30px; height: 30px; }
-.msw-sw-24{ background-position: 0 -960px; width: 30px; height: 30px; }
-.msw-sw-25{ background-position: 0 -1020px; width: 30px; height: 30px; }
-.msw-sw-26{ background-position: 0 -1080px; width: 30px; height: 30px; }
-.msw-sw-27{ background-position: 0 -1140px; width: 30px; height: 30px; }
-.msw-sw-28{ background-position: 0 -1200px; width: 30px; height: 30px; }
-.msw-sw-29{ background-position: 0 -1260px; width: 30px; height: 30px; }
-.msw-sw-3{ background-position: 0 -1320px; width: 30px; height: 30px; }
-.msw-sw-30{ background-position: 0 -1380px; width: 30px; height: 30px; }
-.msw-sw-31{ background-position: 0 -1440px; width: 30px; height: 30px; }
-.msw-sw-32{ background-position: 0 -1500px; width: 30px; height: 30px; }
-.msw-sw-33{ background-position: 0 -1560px; width: 30px; height: 30px; }
-.msw-sw-34{ background-position: 0 -1620px; width: 30px; height: 30px; }
-.msw-sw-35{ background-position: 0 -1680px; width: 30px; height: 30px; }
-.msw-sw-36{ background-position: 0 -1740px; width: 30px; height: 30px; }
-.msw-sw-37{ background-position: 0 -1800px; width: 30px; height: 30px; }
-.msw-sw-38{ background-position: 0 -1860px; width: 30px; height: 30px; }
-.msw-sw-4{ background-position: 0 -1920px; width: 30px; height: 30px; }
-.msw-sw-5{ background-position: -60px 0; width: 30px; height: 30px; }
-.msw-sw-6{ background-position: -60px -60px; width: 30px; height: 30px; }
-.msw-sw-7{ background-position: -60px -120px; width: 30px; height: 30px; }
-.msw-sw-8{ background-position: -60px -180px; width: 30px; height: 30px; }
-.msw-sw-9{ background-position: -60px -240px; width: 30px; height: 30px; }
+    background: url('../img/bkg/very-light-sky.png') repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 
-
-.slider {
-    height: 100%;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.scroll
+.home-container-sun
 {
-    height: 100%;
+    background: url('../img/bkg/sky-sun.png') repeat center center fixed;
 }
 
-.slider-slide {
-    padding-top: 5px;
-    color: #000;
-    background-color: #fff;
+.home-container-light-clouds
+{
+    background: url('../img/bkg/very-light-sky-br.png') repeat center center fixed;
+}
+
+.home-container-clouds
+{
+    background: url('../img/bkg/cloudy.png') repeat center center fixed;
+}
+
+.home-container-snow
+{
+    background: url('../img/bkg/light_snow.png') repeat center center fixed;
+}
+
+.padding-vertical {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.bar.bar-stable {
+    background-color: #145fd7;
+}
+
+.bar.bar-stable .title
+{
+    color: #ffffff;
+    text-decoration: dotted;
+}
+
+.tabs
+{
+    background-color: #145fd7;
+    color: #ffffff;
+}
+
+.button-footer
+{
+    margin: 0!important;
+    padding: 0!important;
+}
+
+
+ion-footer-bar.no-padding-footer-bar
+{
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-spacing: 0;
+    padding: 0;
+}
+
+button.button.button-wide-letters
+{
+    letter-spacing: 1px;
+}
+
+.text-bold
+{
+    color: #000000;
+    text-emphasis: grey;
+    font-family: "Bookman", Georgia, "Times New Roman", serif;
+    text-shadow: 1px 1px rgb(172,193,222);
+}
+
+ion-content
+{
+    background-color: rgb(152,204,241);
+}
+
+.list
+{
+    background-color: transparent;
+}
+
+.item
+{
+    background-color: transparent;;
+}
+
+.item-content
+{
+    background-color: transparent!important;
+}
+
+.slider
+{
+    background-color: transparent;
+}
+
+ion-slide
+{
+    background-color: transparent;
+}
+
+textarea, input
+{
+    margin-left: -5px!important;
+}
+
+.slider-pager {
+    top: 0;
+    bottom: initial;
+}
+
+ion-slide h3:first-child
+{
     text-align: center;
-
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-weight: 300;
+    margin-top: 20px;
 }
 
-
-
+/*rgb(172,193,222);*/

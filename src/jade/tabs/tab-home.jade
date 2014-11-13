@@ -1,14 +1,17 @@
 ion-view(ng-attr-title="{{homeLabel}}")
-    ion-content.has-header.home-container
-        .list
-            .item.item-text-wrap.text-center(ui-sref="tab.reports")
+    ion-content.has-header.home-container(ng-class="getBackgroundStyle(snapshot.forecast.icon)")
+        .transparent-background.card.list.home-card(ng-if="snapshot.report.summary || snapshot.forecast.summary")
+            .transparent-background.transparent-background-img.height-300.item.item-text-wrap.text-center.text-bold(ui-sref="tab.reports", ng-if="snapshot.report.summary")
                 span {{snapshot.report.summary | capitalize}}
-            .item.item-text-wrap.text-center(ui-sref="tab.forecast")
+            .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(ui-sref="tab.forecast", ng-if="snapshot.forecast.summary")
                 | {{snapshot.forecast.summary}}
                 br
-                span {{'Min' | res}} : {{culture.temp(snapshot.forecast.temperatureMin) | round | plus}}&deg;{{culture.tempU()}} &nbsp;
-                span {{'Max' | res}} : {{culture.temp(snapshot.forecast.temperatureMax) | round | plus}}&deg;{{culture.tempU()}}
-        button.button.button-block.button-positive(ng-click="sendReport()")
+                i.icon.ion-arrow-down-c &nbsp; {{culture.temp(snapshot.forecast.temperatureMin) | round | plus}}&deg;{{culture.tempU()}} &nbsp;
+                | &nbsp;&nbsp;&nbsp;
+                i.icon.ion-arrow-up-c &nbsp; {{culture.temp(snapshot.forecast.temperatureMax) | round | plus}}&deg;{{culture.tempU()}}
+    ion-footer-bar.no-padding-footer-bar
+        button.button-footer.button.button-full.button-positive.button-wide-letters(ng-click="sendReport()")
             i.icon.ion-ios7-chatboxes-outline &nbsp; {{'Report' | res}}
-        button.button.button-block.button-assertive(ng-click="closedReport()")
-            i.icon.ion-ios7-locked-outline &nbsp; {{'Closed' | res}}
+        //
+            button.button.button-block.button-assertive(ng-click="closedReport()")
+                i.icon.ion-ios7-locked-outline &nbsp; {{'Closed' | res}}

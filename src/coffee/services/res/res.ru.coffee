@@ -42,3 +42,5 @@ app.constant "res_ru",
   "in" : "дм"
   "km" : "км"
   "cm" : "см"
+  "Reason" : "Причина"
+  "Supposed open date" : "Возможная дата открытия"

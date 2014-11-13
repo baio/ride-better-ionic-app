@@ -4,10 +4,10 @@ ion-view(ng-attr-title="{{homeLabel}}")
          label.item.text-center
             h2 {{ 'Closed' | res }}
          label.item.item-input.item-select
-            span.input-label Reason
+            span.input-label {{ 'Reason' | res }}
             select(ng-options="reason.name for reason in reasonsList", ng-model="data.reason")
          label.item.item-input.item-stacked-label
-            span.input-label Supposed open date
+            span.input-label {{ 'Supposed open date' | res }}
             input(type="date", ng-model="data.openDate")
          label.item.item-input
             textarea(placeholder="{{'Add Message' | res}}", ng-model="data.message", style="height: 120px")
