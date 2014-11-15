@@ -1,4 +1,4 @@
-app.factory "_ep", ($q, $http, webApiConfig, authio) ->
+app.factory "_ep", ($q, $http, webApiConfig, authio, notifier) ->
 
   getAuthHeaders = -> authorization: "Bearer " + authio.getJWT()
 
@@ -11,13 +11,14 @@ app.factory "_ep", ($q, $http, webApiConfig, authio) ->
     if inProgress
       deferred.reject(new Error "In progress")
     else
+      notifier.showLoading()
       inProgress = true
-      $http.get(webApiConfig.url + path, params : qs).success (data) ->
-        inProgress = false
-        deferred.resolve data
-      .error (data) ->
-        inProgress = false
-        deferred.reject data
+      $http.get(webApiConfig.url + path, params : qs)
+        .success(deferred.resolve)
+        .error(deferred.reject)
+        .finally ->
+          inProgress = false
+          notifier.hideLoading()
 
     deferred.promise
 

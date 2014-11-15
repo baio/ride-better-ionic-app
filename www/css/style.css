@@ -153,3 +153,17 @@ textarea, input
 */
 
 /*rgb(172,193,222);*/
+
+.loading-container .loading {
+    display: block;
+    position: absolute;
+    left: 0px;
+    margin-top: 0;
+    background-color: transparent;
+    padding: 1px;
+}
+
+.loading-non-block {
+ font-size: 40px;
+    color: blue;
+}

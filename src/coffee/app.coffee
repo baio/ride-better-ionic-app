@@ -83,3 +83,6 @@ app.constant "angularMomentConfig",
 
 app.config ($httpProvider) ->
   $httpProvider.responseInterceptors.push "httpFailureInterceptor"
+
+app.constant "$ionicLoadingConfig",
+  template: 'Loading...'
