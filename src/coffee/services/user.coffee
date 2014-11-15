@@ -11,6 +11,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     _user ?= defaultUser()
     setUser _user
     $rootScope.homeLabel = getHome().label
+    amMoment.changeLocale _user.settings.lang
 
   setUser = (u, save) ->
     user.profile = u.profile

@@ -3,19 +3,8 @@ app = angular.module("surf-better", [
 ]).run(($ionicPlatform, $rootScope, res, prettifyer, user, authio, authioLogin, mapper) ->
 
   $ionicPlatform.ready ->
-    authioLogin.activate()
-    console.log ">>>app.coffee:7"
-    ###
-    if $cordovaKeyboard
-      console.log ">>>app.coffee:9"
-      $cordovaKeyboard.hideKeyboardAccessoryBar true
-    ###
-    console.log ">>>app.coffee:11"
+    authioLogin.activate()      
     StatusBar.styleDefault() if window.StatusBar
-    console.log ">>>app.coffee:18", window.StatusBar
-    #$cordovaStatusbar.overlaysWebView(true)
-    #$cordovaStatusbar.style(1)
-    #$cordovaStatusbar.styleColor('blue')
     authio.login("facebook").then (res) ->
       user.setUser mapper.mapUser(res), true
   user.initialize()
