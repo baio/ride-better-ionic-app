@@ -3,7 +3,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
       .list
          label.item.text-center
             h2 {{ 'Closed' | res }}
-         label.item.item-input.item-select
+         .item.item-input.item-select
             span.input-label {{ 'Reason' | res }}
             select(ng-options="reason.name for reason in reasonsList", ng-model="data.reason")
          label.item.item-input.item-stacked-label
