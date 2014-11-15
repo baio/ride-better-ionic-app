@@ -160,5 +160,5 @@ sh gen-screen.sh src-icon.jpg lightblue
 
 ###WEINRE
 
-`weinre --boundHost 192.168.0.14 --httpPort 9090`
+`weinre --boundHost 172.30.99.102 --httpPort 9090`
 

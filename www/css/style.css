@@ -53,6 +53,8 @@ body
     padding-right: 10px;
 }
 
+/*
+
 .bar.bar-stable, .bar-header {
     background-color: #145fd7;
 }
@@ -69,6 +71,7 @@ body
     background-color: #145fd7;
     color: #ffffff;
 }
+*/
 
 .button-footer
 {
@@ -98,6 +101,19 @@ button.button.button-wide-letters
     text-shadow: 1px 1px rgb(172,193,222);
 }
 
+.slider-pager {
+    top: 0;
+    bottom: initial;
+}
+
+ion-slide h3:first-child
+{
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+/*
 ion-content
 {
     background-color: rgb(152,204,241);
@@ -133,15 +149,7 @@ textarea, input
     margin-left: -5px!important;
 }
 
-.slider-pager {
-    top: 0;
-    bottom: initial;
-}
 
-ion-slide h3:first-child
-{
-    text-align: center;
-    margin-top: 20px;
-}
+*/
 
 /*rgb(172,193,222);*/

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.surfbetterionicapp614407" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" versionCode="00001"
+<widget id="com.ionicframework.ridebetter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" versionCode="00001"
         xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>Ride Better</name>
     <description>
@@ -10,18 +10,18 @@
     </author>
     <content src="index.html"/>
     <access origin="*"/>
-    <preference name="phonegap-version" value="3.6.3"/>
-    <preference name="webviewbounce" value="false"/>
-    <preference name="UIWebViewBounce" value="false"/>
-    <preference name="DisallowOverscroll" value="true"/>
-    <preference name="BackupWebStorage" value="none"/>
-    <preference name="orientation" value="portrait"/>
-    <preference name="fullscreen" value="true"/>
-    <preference name="SplashScreen" value="screen"/>
-    <preference name="SplashScreenDelay" value="3000"/>
-    <preference name="DisableBouncyScrolling" value="true"/>
+    <preference name="phonegap-version" value="3.6.3" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="UIWebViewBounce" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="orientation" value="portrait" />
+    <preference name="fullscreen" value="true" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="DisableBouncyScrolling" value="true" />
     <feature name="StatusBar">
-        <param name="ios-package" value="CDVStatusBar" onload="true"/>
+        <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
     <gap:platform name="ios"/>
     <gap:platform name="android"/>
@@ -117,7 +117,7 @@
         <param name="id" value="com.ionic.keyboard" />
     </feature>
     <feature name="OAuth.io">
-        <param name="id" value="com.oauthio.plugins.oauthio" />
+        <param name="id" value="https://github.com/oauth-io/oauth-phonegap" />
     </feature>
     <feature name="Device">
         <param name="id" value="org.apache.cordova.device" />
@@ -135,7 +135,7 @@
         <param name="id" value="org.apache.cordova.statusbar" />
     </feature>
     <feature name="Toast">
-        <param name="id" value="nl.x-services.plugins.toast" />
+        <param name="id" value="https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git" />
     </feature>
 
 </widget>

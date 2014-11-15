@@ -39,12 +39,12 @@ cordova_dev:
   env:
     platform : cordova
     debug : true
-    weinreUrl : 192.168.0.14:9090
+    weinreUrl : 172.30.99.102:9090
   client :
-    apiUrl : http://surf-better-web-api.herokuapp.com/
+    apiUrl : http://ride-better-web-api.herokuapp.com/
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
-      apiUrl : http://192.168.0.14:8002/
+      apiUrl : http://auth-server-oauthio.herokuapp.com/
 cordova_stage:
   env:
     platform : cordova
