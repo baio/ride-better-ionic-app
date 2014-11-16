@@ -16,7 +16,7 @@ app.controller "ClosedReportController", ($scope, reportsDA, user, $state, res) 
   $scope.sendReport = ->
     home = user.getHome().code
 
-    openDate = moment.utc($scope.data.openDate, ["YYYY-MM-DD", "dd.mm.yyyy"]) if $scope.data.openDate
+    openDate = moment.utc($scope.data.openDate, ["YYYY-MM-DD", "DD.MM.YYYY"]) if $scope.data.openDate
     console.log ">>>closedReportController.coffee:18", openDate
     data =
       operate:
