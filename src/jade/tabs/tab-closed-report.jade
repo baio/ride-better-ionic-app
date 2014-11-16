@@ -8,7 +8,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
             select(ng-options="reason.name for reason in reasonsList", ng-model="data.reason")
          label.item.item-input.item-stacked-label
             span.input-label {{ 'Supposed open date' | res }}
-            input(type="date", ng-model="data.openDate")
+            input(type="date", ng-model="data.openDate", placeholder="{{'dd.mm.yyyy' | res}}")
          label.item.item-input
             textarea(placeholder="{{'Add Message' | res}}", ng-model="data.message", style="height: 120px")
       .button-bar

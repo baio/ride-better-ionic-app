@@ -55,3 +55,4 @@ app.constant "res_ru",
   "Some error occurred, please try again later." : "Ошибка! Попробуйте повторить позднее."
   "Error" : "Ошибка"
   "Alert" : "Внимание"
+  "dd.mm.yyyy" : "дд.мм.гггг"
