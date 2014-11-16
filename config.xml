@@ -111,7 +111,7 @@
     <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.3" />
     <gap:plugin name="org.apache.cordova.inappbrowser" version="0.3.3"/>
     <gap:plugin name="nl.x-services.plugins.toast" />
-
+    <gap:plugin name="org.apache.cordova.globalization" />
 
     <feature name="Keyboard">
         <param name="id" value="com.ionic.keyboard" />
@@ -137,5 +137,7 @@
     <feature name="Toast">
         <param name="id" value="https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git" />
     </feature>
-
+    <feature>
+        <param name="id" value="org.apache.cordova.globalization" />
+    </feature>
 </widget>

@@ -1,4 +1,4 @@
-app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment) ->
+app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization) ->
 
   user = {}
   authForm = null
@@ -8,10 +8,15 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     $rootScope.culture = culture
     geoLocator.getPosition()
     _user = cache.get "user"
+    fUserCached = _user
     _user ?= defaultUser()
     setUser _user
     $rootScope.homeLabel = getHome().label
     amMoment.changeLocale _user.settings.lang
+    if !fUserCached
+      globalization.getLangAndCulture().then (r) ->
+        res.setLang r.lang
+        culture.setCulture r.culture
 
   setUser = (u, save) ->
     user.profile = u.profile
