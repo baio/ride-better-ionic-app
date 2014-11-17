@@ -3,7 +3,8 @@ app = angular.module("surf-better", [
 ]).run(($ionicPlatform, $rootScope, res, prettifyer, user, authio, authioLogin, mapper) ->
 
   $ionicPlatform.ready ->
-    authioLogin.activate()      
+    authioLogin.activate()
+    user.activate()
     StatusBar.styleDefault() if window.StatusBar
     authio.login("facebook").then (res) ->
       user.setUser mapper.mapUser(res), true

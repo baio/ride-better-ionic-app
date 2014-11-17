@@ -1,20 +1,23 @@
-app.factory "globalization", ($q) ->
+app.factory "globalization", ($q, res, culture) ->
 
   getLangAndCulture: ->
+
+    _default = lang : "en", culture : "eu"
 
     deferred = $q.defer()
 
     if navigator.globalization
       navigator.globalization.getLocaleName (locale) ->
         spts = locale.value.split("-")
+        lang = spts[0].toLowerCase()
+        cl = if spts.length > 1 then spts[1].toLowerCase() else lang
         deferred.resolve
-          lang : spts[0].toLocaleString()
-          culture : spts[1].toLocaleString()
-      , deferred.reject
+          lang : res.getKnownLang lang
+          culture : culture.getKnownCulture cl
+      , -> deferred.resolve _default
     else
-      deferred.resolve
-        lang : "en"
-        culture : "eu"
+      deferred.resolve _default
+
 
     deferred.promise
 

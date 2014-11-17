@@ -7,7 +7,18 @@ app.factory "culture", ($rootScope) ->
     uk : ["mi", "in", "c"]
     us : ["mi", "in", "f"]
 
-  setCulture: (c) -> culture = c
+  getKnownCulture: (c) ->
+    if data[c]
+      return c
+    else
+      return "eu"
+
+  setCulture: (c) ->
+    if data[c]
+      culture = c
+    else
+      console.log ">>>culture.coffee:14", "Culture #{c} not found set default 'eu'"
+      culture = "eu"
 
   getCulture: -> culture
 

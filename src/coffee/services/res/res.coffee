@@ -14,5 +14,13 @@ app.factory "res", (res_ru) ->
 
   setLang : (lang) -> _lang = lang
 
+  getKnownLang : (lang) ->
+    lg = langs[lang]
+    if lg
+      return lang
+    else
+      "en"
+
+
 
 
