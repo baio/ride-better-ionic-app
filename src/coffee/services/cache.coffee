@@ -21,9 +21,12 @@ app.factory "cache", (DSCacheFactory) ->
 
   put: (name, val, expired) ->
     if expired
-      if expired == "eod"
-        exp = moment().endOf("day").valueOf()
-        cache.put name, _val : val, _expired : exp, _ver : _ver
+      if expired == "eod" or not isNaN(expired)
+        if expired == "eod"
+          exp = moment().endOf("day")
+        else
+          exp = moment().add(expired, "minutes")
+        cache.put name, _val : val, _expired : exp.valueOf(), _ver : _ver
       else
         throw new Error("Not implemented")
     else
