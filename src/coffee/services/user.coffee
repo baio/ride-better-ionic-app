@@ -10,7 +10,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     _user = cache.get "user"
     _user ?= defaultUser()
     setUser _user
-    
+
     $rootScope.homeLabel = getHome().label
     amMoment.changeLocale _user.settings.lang
 
