@@ -28,7 +28,11 @@ app.controller "UserController", ($scope, user, res) ->
     $scope.data.culture = $scope.culturesList.filter((f) -> f.code == user.getCulture())[0]
     $scope.data.lang = $scope.langsList.filter((f) -> f.code == user.getLang())[0]
 
+  if $scope.$root.activated
+    updScopeData()
+
   $scope.$on "user.reset", ->
     updScopeData()
 
-  updScopeData()
+  $scope.$on "app.activated", ->
+    updScopeData()

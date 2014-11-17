@@ -1,4 +1,4 @@
-app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization) ->
+app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization, notifier) ->
 
   user = {}
   authForm = null
@@ -10,7 +10,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     _user = cache.get "user"
     _user ?= defaultUser()
     setUser _user
-
     $rootScope.homeLabel = getHome().label
     amMoment.changeLocale _user.settings.lang
 
@@ -59,6 +58,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
 
   showAuthForm = ->
     deferredAuthForm = $q.defer()
+    authio.preLogin()
     authForm.show()
     deferredAuthForm.promise
 
@@ -71,7 +71,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
   $rootScope.authorizeProvider = (provider) ->
     opts = force : true
     authio.login(provider, opts).then (res) ->
-      setUser mapper.mapUser(res)
+      setUser mapper.mapUser(res), true
+      $rootScope.hideAuthForm()
+    , (err) ->
       $rootScope.hideAuthForm()
 
   $rootScope.hideAuthForm = ->
@@ -79,15 +81,28 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
 
   #
 
-  initialize : initialize
-
   activate: ->
-    firstLaunch = false #cache.get "firstLaunch"
+    console.log ">>>user.coffee:85"
+    initialize()
+    console.log ">>>user.coffee:87"
+    firstLaunch = cache.get "firstLaunch"
     if !firstLaunch
+      console.log ">>>user.coffee:90"
       cache.put "firstLaunch", true
       globalization.getLangAndCulture().then (r) =>
         @setLang code : r.lang
         @setCulture code : r.culture
+        null
+    else
+      console.log ">>>user.coffee:97"
+      if user.profile
+        authio.login(user.profile.provider, force : false).then (res) ->
+          setUser mapper.mapUser(res)
+        , ->
+          #override error
+          $q.when()
+      else
+        $q.when()
 
   getHome: getHome
 

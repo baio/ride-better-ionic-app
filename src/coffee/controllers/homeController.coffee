@@ -1,7 +1,5 @@
 app.controller "HomeController", ($scope, snapshotDA, reportsDA, user, $state) ->
 
-  console.log "Home Controller"
-
   $scope.getBackgroundStyle = (icon) ->
     if !icon
       return null
@@ -20,15 +18,15 @@ app.controller "HomeController", ($scope, snapshotDA, reportsDA, user, $state) -
     if data
       $scope.snapshot = data
 
-  home = user.getHome()
-
-  if home
+  loadSnapshot = ->
+    home = user.getHome()
     snapshotDA.get(home.code, user.getLang()).then setSnapshot
 
-  $scope.$on "user.changed", ->
-    snapshotDA.get(user.getHome().code, user.getLang()).then setSnapshot
+  if $scope.$root.activated
+    loadSnapshot()
+
+  $scope.$on "app.activated", loadSnapshot
 
   $scope.sendReport = ->
     user.login().then ->
-      console.log ">>>homeController.coffee:33"
       $state.go "tab.report"

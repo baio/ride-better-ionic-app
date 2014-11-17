@@ -1,16 +1,11 @@
 app = angular.module("surf-better", [
   "ionic", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt", "angularMoment"
-]).run(($ionicPlatform, $rootScope, res, prettifyer, user, authio, authioLogin, mapper) ->
-
+]).run(($ionicPlatform, $rootScope, user) ->
   $ionicPlatform.ready ->
-    authioLogin.activate()
-    user.activate()
     StatusBar.styleDefault() if window.StatusBar
-    authio.login("facebook").then (res) ->
-      user.setUser mapper.mapUser(res), true
-  user.initialize()
-  $rootScope.prettifyer = prettifyer
-
+    user.activate().then ->
+      $rootScope.activated = true
+      $rootScope.$broadcast("app.activated")
 ).config ($stateProvider, $urlRouterProvider) ->
 
   $stateProvider.state("tab",
@@ -65,8 +60,6 @@ app = angular.module("surf-better", [
   $urlRouterProvider.otherwise "/tab/home"
   return
 
-app.constant '$ionicLoadingConfig', template: 'Loading ...'
-
 app.config (DSCacheFactoryProvider) ->
   DSCacheFactoryProvider.setCacheDefaults
     maxAge: 1000 * 60 * 60 * 24
@@ -85,5 +78,3 @@ app.constant "angularMomentConfig",
 app.config ($httpProvider) ->
   $httpProvider.responseInterceptors.push "httpFailureInterceptor"
 
-app.constant "$ionicLoadingConfig",
-  template: 'Loading...'

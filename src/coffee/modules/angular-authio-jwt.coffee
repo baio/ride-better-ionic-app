@@ -1,18 +1,7 @@
 app = angular.module "angular-authio-jwt", ["angular-data.DSCacheFactory"]
 
-###
-app.config (DSCacheFactoryProvider) ->
-  DSCacheFactoryProvider.setCacheDefaults
-    maxAge: 1000 * 60 * 60 * 24
-    deleteOnExpire: 'aggressive'
-    storageMode: 'localStorage'
-###
-
-
-
 app.factory "authioEndpoints", ($q, $http) ->
 
-  console.log ">>>angular-authio-jwt.coffee:11"
   _authBaseUrl = null
 
   setUrl: (url) -> _authBaseUrl = url
@@ -20,9 +9,7 @@ app.factory "authioEndpoints", ($q, $http) ->
   getToken: ->
     $http.get(_authBaseUrl + "oauth/token").then((res) -> res.data)
 
-  signin: (provider, code, token) ->
-    data = code : code, provider : provider, token : token
-    console.log ">>>angular-authio-jwt.coffee:27"
+  signin: (data) ->
     $http.post(_authBaseUrl + "oauth/signin", data).then((res) -> res.data)
 
   user: (jwt) ->
@@ -40,35 +27,49 @@ app.provider "authioLogin", ->
   _token = null
 
   initialize : (opts) ->
-    console.log ">>>angular-authio-jwt.coffee:43", opts
     _authBaseUrl = opts.baseUrl
     _user = opts.user
     _key = opts.oauthio_key
 
   $get : ($q, authioEndpoints) ->
-    popup = (provider, token, opts) ->
+
+    activate = ->
+      if _authBaseUrl and _key
+        authioEndpoints.setUrl _authBaseUrl
+        OAuth.initialize _key
+        _key = null
+
+    popup = (provider, opts) ->
       deferred = $q.defer()
-      _opts = if opts then angular.copy(opts) else {}
-      _opts.state = token
-      OAuth.popup(provider, _opts).done(deferred.resolve).fail(deferred.reject)
+      if _token
+        _opts = if opts then angular.copy(opts) else {}
+        _opts.state = _token
+        OAuth.popup(provider, _opts).then (res) ->
+          token = _token
+          _token = null
+          deferred.resolve code : res.code, token : token, provider : provider
+        , deferred.reject
+      else
+        deferred.reject new Error "Token not found, invoke requestToken first"
       deferred.promise
 
     login : (provider, opts) ->
       if _user
-        console.log ">>>angular-authio-jwt.coffee:57", _user
         return $q.when _user
-      popup(provider, _token, opts).then (res) ->
-        authioEndpoints.signin(provider, res.code, _token)
+      activate()
+      popup(provider, opts).then authioEndpoints.signin
 
-    logout: (provider) ->
-      OAuth.clearCache provider
-
-    activate : ->
+    requestToken: ->
       if _authBaseUrl
-        authioEndpoints.setUrl _authBaseUrl
-        OAuth.initialize _key
+        activate()
         authioEndpoints.getToken().then (res) ->
           _token = res.token
+      else
+        $q.reject new Error "authBaseUrl not defined"
+
+    logout: (provider) ->
+      activate()
+      OAuth.clearCache provider
 
 app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
 
@@ -85,18 +86,14 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
 
   login = (provider, opts) ->
     jwt = getJWT()
-    if !jwt and opts?.force
-      promise = $q.when()
-      if opts?.confirm then promise = opts.confirm()
-      promise.then ->
-        authioLogin.login(provider, opts).then (res) ->
-          setJWT res.token
-          authioLogin.logout provider
-          res
+    if !jwt
+      authioLogin.login(provider, opts).then (res) ->
+        setJWT res.token
+        authioLogin.logout provider
+        res
     else if jwt
       authioEndpoints.user(jwt).catch ->
         setJWT undefined
-        login(provider, opts)
     else
       $q.reject new Error("Token not found")
 
@@ -107,6 +104,8 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
     else
       $q.reject new Error status : 401
 
+  preLogin: ->
+    authioLogin.requestToken()
 
   login : login
 
