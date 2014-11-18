@@ -6,7 +6,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
                 h3 {{item.summary}}
                 span(ng-if="item.precipType") {{item.precipType | capitalize}}&nbsp;
                     |{{culture.height(item.precipAccumulation) | round:1}} {{culture.heightU() | res}}.
-                br
+                    br
                 | {{culture.temp(item.temperatureMin) | round | plus}}&deg;{{culture.tempU()}}  &mdash;
                 | {{culture.temp(item.temperatureMax) | round | plus}}&deg;{{culture.tempU()}}
 
