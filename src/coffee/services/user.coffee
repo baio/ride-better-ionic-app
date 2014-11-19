@@ -11,17 +11,17 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     _user ?= defaultUser()
     setUser _user
     $rootScope.homeLabel = getHome().label
-    amMoment.changeLocale _user.settings.lang
 
   setUser = (u, save) ->
     user.profile = u.profile
     if u.settings
       user.settings = u.settings
-      res.setLang user.settings.lang
-      culture.setCulture user.settings.culture
+      putLang user.settings.lang
+      putCulture user.settings.culture
     $rootScope.homeLabel = getHome().label
     if save
       saveChanges()
+    $rootScope.$broadcast "user.changed"
 
   saveChanges = ->
     cache.put "user", user
@@ -43,10 +43,10 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     cache.clean()
     angular.copy defaultUser(), user
     $rootScope.homeLabel = getHome().label
-    res.setLang user.settings.lang
-    culture.setCulture user.settings.culture
+    putLang user.settings.lang
+    putCulture user.settings.culture
     saveChanges()
-    $rootScope.$broadcast "user.reset"
+    $rootScope.$broadcast "user.changed"
 
   # Auth form
 
@@ -79,6 +79,16 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
   $rootScope.hideAuthForm = ->
     authForm.hide()
 
+  putLang = (lang) ->
+    res.setLang lang
+    user.settings.lang = lang
+    amMoment.changeLocale lang
+
+
+  putCulture = (c) ->
+    culture.setCulture c
+    user.settings.culture = c
+
   #
 
   activate: ->
@@ -94,7 +104,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
       if user.profile
         _this = @
         authio.login(user.profile.provider, force : false).then (res) ->
-          setUser mapper.mapUser(res)
+          setUser mapper.mapUser(res), true
         , (err) ->
           console.log ">>>user.coffee:98", "login error", err
           _this.logout()
@@ -125,17 +135,14 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
       saveChanges()
 
   setLang: (lang) ->
-    res.setLang lang.code
-    user.settings.lang = lang.code
-    amMoment.changeLocale lang.code
+    putLang lang.code
     saveChanges()
 
   getLang: ->
     user.settings.lang
 
   setCulture: (c) ->
-    culture.setCulture c.code
-    user.settings.culture = c.code
+    putCulture c.code
     saveChanges()
 
   getCulture: ->

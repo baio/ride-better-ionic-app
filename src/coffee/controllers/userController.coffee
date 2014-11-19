@@ -31,7 +31,7 @@ app.controller "UserController", ($scope, user, res) ->
   if $scope.$root.activated
     updScopeData()
 
-  $scope.$on "user.reset", ->
+  $scope.$on "user.changed", ->
     updScopeData()
 
   $scope.$on "app.activated", ->
