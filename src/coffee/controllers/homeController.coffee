@@ -1,4 +1,4 @@
-app.controller "HomeController", ($scope, snapshotDA, reportsDA, user, $state) ->
+app.controller "HomeController", ($scope, homeDA, reportsDA, user, $state) ->
 
   $scope.getBackgroundStyle = (icon) ->
     if !icon
@@ -16,11 +16,11 @@ app.controller "HomeController", ($scope, snapshotDA, reportsDA, user, $state) -
 
   setSnapshot = (data) ->
     if data
-      $scope.snapshot = data
+      $scope.snapshot = data.snapshot
 
   loadSnapshot = ->
     home = user.getHome()
-    snapshotDA.get(home.code, user.getLang()).then setSnapshot
+    homeDA.get(home.code, user.getLang()).then setSnapshot
 
   if $scope.$root.activated
     loadSnapshot()

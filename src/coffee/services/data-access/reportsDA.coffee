@@ -1,5 +1,6 @@
-app.factory "reportsDA", (reportsEP) ->
+app.factory "reportsDA", (reportsEP, homeDA) ->
 
-  get : reportsEP.get
-
-  send : reportsEP.send
+  send : (spot, data) ->
+    reportsEP.send(spot, data).then (res) ->
+      homeDA.resetNext()
+      res

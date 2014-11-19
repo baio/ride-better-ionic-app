@@ -11,7 +11,6 @@ app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicS
 
   $scope.slideHasChanged = (index) ->
     $scope.firstSlideShown = index == 0
-    console.log ">>>sendReportController.coffee:14", index
 
   $scope.sendReport = ->
     if !$scope.data.tracks and !$scope.data.snowing and !$scope.data.crowd and !$scope.data.message

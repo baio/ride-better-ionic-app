@@ -1,13 +1,13 @@
-app.controller "ForecastController", ($scope, forecastDA, user) ->
+app.controller "ForecastController", ($scope, homeDA, user) ->
 
   console.log "Forecast Controller"
 
   setForecast = (data) ->
     if data
-      $scope.forecast = data
+      $scope.forecast = data.forecast
 
   homeCode =  user.getHome().code
-  forecastDA.get(homeCode, user.getLang()).then (res) -> setForecast res
+  homeDA.get(homeCode, user.getLang()).then (res) -> setForecast res
 
 
 
