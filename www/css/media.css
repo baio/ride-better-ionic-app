@@ -1,0 +1,25 @@
+@media only screen and (min-device-width: 480px) {
+	
+	body {
+		background-color: darkgrey;
+	}
+	.body-left 
+	{
+		position: absolute;
+		margin-left: 2px;	
+	}
+
+	.body-content 
+	{
+		position: absolute;
+		z-index: 1;
+		width: 380px;
+		height: 610px;
+		margin-left: auto;
+		margin-right: auto;
+		left: 0;
+		right: 0;
+	}
+
+
+}

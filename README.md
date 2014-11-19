@@ -1,6 +1,14 @@
 Ionic App Base
 =====================
 
+#Global insatlled npm packages
+
+```
+gulp
+nodemon
+coffee-script
+```
+
 A starting project for Ionic that optionally supports
 using custom SCSS.
 
