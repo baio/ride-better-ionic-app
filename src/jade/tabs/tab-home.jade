@@ -2,7 +2,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header.home-container(ng-class="getBackgroundStyle(snapshot.forecast.icon)")
         .transparent-background.card.list.home-card(ng-if="snapshot.report.summary || snapshot.forecast.summary")
             .transparent-background.transparent-background-img.height-300.item.item-text-wrap.text-center.text-bold(ui-sref="tab.reports", ng-if="snapshot.report.summary")
-                span {{snapshot.report.summary | capitalize}}
+                span {{snapshot.report.summary}}
             .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(ui-sref="tab.forecast", ng-if="snapshot.forecast.summary")
                 | {{snapshot.forecast.summary}}
                 br
