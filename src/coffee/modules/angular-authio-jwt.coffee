@@ -71,6 +71,10 @@ app.provider "authioLogin", ->
       activate()
       OAuth.clearCache provider
 
+    getUser: (jwt) ->
+      activate()
+      authioEndpoints.user(jwt)
+
 app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
 
   cache = DSCacheFactory("authioCache")
@@ -92,8 +96,9 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
         authioLogin.logout provider
         res
     else if jwt
-      authioEndpoints.user(jwt).catch ->
+      authioLogin.getUser(jwt).catch (e) ->
         setJWT undefined
+        $q.reject e
     else
       $q.reject new Error("Token not found")
 

@@ -7,12 +7,15 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
   geoLocator.getPosition().then (res) ->
     geo = res.lat + "," + res.lon
 
-  $scope.favs = user.user.settings.favs
+  if $scope.$root.activated
+    $scope.favs = user.user.settings.favs
+
+  $scope.$on "app.activated", ->
+    $scope.favs = user.user.settings.favs
 
   loadSpots = (term) ->
     if (!term and geo) or (term and term.length > 2)
       spotsDA.get(term, geo).then (res) ->
-        console.log ">>>favsController.coffee:10", res
         $scope.spotsList = res
     else
       $scope.spotsList = null
@@ -54,10 +57,10 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
   $scope.isHome = user.isHome
 
   $scope.canAddFav = ->
-    $scope.favs.length < 5
+    $scope.favs and $scope.favs.length < 5
 
   $scope.canRemoveFav = ->
-    $scope.favs.length > 1
+    $scope.favs and $scope.favs.length > 1
 
 
 

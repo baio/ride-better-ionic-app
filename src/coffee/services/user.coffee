@@ -82,25 +82,22 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
   #
 
   activate: ->
-    console.log ">>>user.coffee:85"
     initialize()
-    console.log ">>>user.coffee:87"
     firstLaunch = cache.get "firstLaunch"
     if !firstLaunch
-      console.log ">>>user.coffee:90"
       cache.put "firstLaunch", true
       globalization.getLangAndCulture().then (r) =>
         @setLang code : r.lang
         @setCulture code : r.culture
         null
     else
-      console.log ">>>user.coffee:97"
       if user.profile
+        _this = @
         authio.login(user.profile.provider, force : false).then (res) ->
           setUser mapper.mapUser(res)
-        , ->
-          #override error
-          $q.when()
+        , (err) ->
+          console.log ">>>user.coffee:98", "login error", err
+          _this.logout()
       else
         $q.when()
 
