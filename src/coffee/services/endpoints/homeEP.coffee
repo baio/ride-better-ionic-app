@@ -1,7 +1,7 @@
 app.factory "homeEP", (_ep) ->
 
-  get : (spot, lang) ->
+  get : (opts) ->
 
-    console.log "home::get", spot, lang
+    console.log "home::get", opts
 
-    _ep.get "home/" + spot, lang : lang
+    _ep.get "home/" + opts.spot, lang : opts.lang, culture : opts.culture

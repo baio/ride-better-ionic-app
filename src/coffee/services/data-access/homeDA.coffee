@@ -1,12 +1,12 @@
 app.factory "homeDA", (homeEP, cache, $q) ->
 
   _resetNext = false
-  getCacheName = (spot, lang) -> "home_" + spot + "_" + lang
+  getCacheName = (opts) -> "home_" + opts.spot + "_" + opts.lang + "_" + opts.culture
 
   resetNext: -> _resetNext = true
 
-  get : (spot, lang) ->
-    cacheName = getCacheName spot, lang
+  get : (opts) ->
+    cacheName = getCacheName opts
     if _resetNext
       cache.rm cacheName
       _resetNext = false
@@ -15,6 +15,6 @@ app.factory "homeDA", (homeEP, cache, $q) ->
     if cached
       $q.when cached
     else
-      homeEP.get(spot, lang).then (res) ->
+      homeEP.get(opts).then (res) ->
         cache.put cacheName, res, 5
         res

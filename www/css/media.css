@@ -1,5 +1,5 @@
 @media only screen and (min-device-width: 480px) {
-	
+	/*
 	body {
 		background-color: darkgrey;
 	}
@@ -13,13 +13,14 @@
 	{
 		position: absolute;
 		z-index: 1;
-		width: 380px;
+		width: 50%;
 		height: 610px;
 		margin-left: auto;
 		margin-right: auto;
 		left: 0;
 		right: 0;
 	}
+	*/
 }
 
 @media only screen and (max-device-width: 481px) {

@@ -6,5 +6,5 @@ app.controller "ReportsController", ($scope, homeDA, user) ->
     if data
       $scope.reports = data.reports
 
-  homeCode = user.getHome().code
-  homeDA.get(homeCode, user.getLang()).then setMessages
+  home = user.getHome()
+  homeDA.get(spot : home.code, lang : user.getLang(), culture : user.getCulture()).then setMessages

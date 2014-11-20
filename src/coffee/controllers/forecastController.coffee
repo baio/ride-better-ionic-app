@@ -6,8 +6,8 @@ app.controller "ForecastController", ($scope, homeDA, user) ->
     if data
       $scope.forecast = data.forecast
 
-  homeCode =  user.getHome().code
-  homeDA.get(homeCode, user.getLang()).then (res) -> setForecast res
+  home =  user.getHome()
+  homeDA.get(spot : home.code, lang : user.getLang(), culture : user.getCulture()).then (res) -> setForecast res
 
 
 
