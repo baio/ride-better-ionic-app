@@ -2,7 +2,7 @@ app.factory "notifier", ($ionicPopup, res, $ionicLoading) ->
 
   message : (msg) ->
     if window.plugins?.toast
-      window.plugins.toast.showLongTop(msg)
+      window.plugins.toast.showLongTop(res.str(msg))
     else
       $ionicPopup.alert  title : res.str("Alert"), template : msg
 

@@ -1,4 +1,4 @@
-app.controller "ClosedReportController", ($scope, reportsDA, user, $state, res) ->
+app.controller "ClosedReportController", ($scope, reportsDA, user, $state, res, notifier) ->
 
   console.log "ClosedReportController"
 
@@ -17,11 +17,12 @@ app.controller "ClosedReportController", ($scope, reportsDA, user, $state, res) 
     home = user.getHome().code
 
     openDate = moment.utc($scope.data.openDate, ["YYYY-MM-DD", "DD.MM.YYYY"]) if $scope.data.openDate
-    console.log ">>>closedReportController.coffee:18", openDate
+    if openDate and !openDate.isValid()
+      notifier.error "Date in wrong format"
     data =
       operate:
         status : $scope.data.reason.code
-        openDate : openDate.unix() if openDate and openDate.isValid()
+        openDate : openDate.unix() if openDate
       comment : $scope.data.message
 
     reportsDA.send(home, data).then (res) ->

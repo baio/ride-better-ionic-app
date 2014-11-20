@@ -60,3 +60,5 @@ app.constant "res_ru",
   "snow" : "снег"
   "sleet" : "дождь со снегом"
   "hail" : "град"
+  "Please input some data to send" : "Пожайлуста введите данные чтобы отправить"
+  "Date in wrong format" : "Дата имеет неправильный формат"
