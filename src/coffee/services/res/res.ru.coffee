@@ -56,3 +56,7 @@ app.constant "res_ru",
   "Error" : "Ошибка"
   "Alert" : "Внимание"
   "dd.mm.yyyy" : "дд.мм.гггг"
+  "rain" : "дождь"
+  "snow" : "снег"
+  "sleet" : "дождь со снегом"
+  "hail" : "град"

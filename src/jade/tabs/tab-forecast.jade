@@ -4,7 +4,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
             .item.item-text-wrap(ng-repeat="item in forecast")
                 h2 {{item.time | amDateFormat: 'dddd, Do MMMM'}}
                 h3 {{item.summary}}
-                span(ng-if="item.precipType") {{item.precipType}}&nbsp;
+                span(ng-if="item.precipType") {{item.precipType | res}}&nbsp;
                     |{{culture.height(item.precipAccumulation) | round:1}} {{culture.heightU() | res}}.
                     br
                 | {{culture.temp(item.temperatureMin) | round | plus}}&deg;{{culture.tempU()}}  &mdash;
