@@ -20,6 +20,11 @@
 		left: 0;
 		right: 0;
 	}
+}
 
-
+@media only screen and (max-device-width: 481px) {
+	.body-left 
+	{
+		display: none;	
+	}
 }
