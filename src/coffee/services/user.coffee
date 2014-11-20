@@ -1,4 +1,4 @@
-app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization, notifier) ->
+app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization) ->
 
   user = {}
   authForm = null
