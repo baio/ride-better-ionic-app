@@ -1,0 +1,40 @@
+doctype html
+html
+head
+    meta(charset='utf-8')
+    meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width')
+    title Ride Better
+
+    if env.platform == 'cordova'
+        link(href='fixes/ionic.css', rel='stylesheet')
+    else
+        link(href='lib/ionic/css/ionic.css', rel='stylesheet')
+
+    link(href='css/style.css', rel='stylesheet')
+    block header
+    
+    script(src='lib/ionic/js/ionic.bundle.js')
+    script(src="lib/moment/moment.js")
+    script(src="lib/moment/locale/ru.js")
+    script(src="lib/angular-moment/angular-moment.js")
+
+    script(src="lib/angular-cache/dist/angular-cache.js")
+
+    if env
+        if env.platform == 'cordova'
+            script(src='cordova.js')
+            if env.debug
+                script(src='http://#{env.weinreUrl}/target/target-script-min.js#anonymous')
+        else
+            script(src="lib/oauth-js/dist/oauth.js")
+            if env.debug
+                script(src="http://localhost:35729/livereload.js")
+
+    script(src="fixes/ng-delay.js")
+    script(src='app.js')
+
+    body(ng-app='surf-better')
+        block content
+        include tabs/_index
+        include modals/_index
+        include utils/_index

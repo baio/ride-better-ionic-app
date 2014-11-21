@@ -40,11 +40,30 @@ lrServer = lr()
 
 gulp.task "default", ["dev-server"]
 
-gulp.task "jade", ->
-  gulp.src("./src/jade/*.jade")
+gulp.task "jade", ["jade.d", "jade.m"]
+
+gulp.task "jade.m", ->
+
+  gulp.src("./src/jade/index.jade")
   .pipe(plumber())
   .pipe(jade(pretty : true, locals : env : config.env))
   .pipe(concat("index.html"))
+  .pipe(gulp.dest("./www"))
+
+
+gulp.task "jade.m", ->
+
+  gulp.src("./src/jade/index.jade")
+  .pipe(plumber())
+  .pipe(jade(pretty : true, locals : env : config.env))
+  .pipe(concat("index.html"))
+  .pipe(gulp.dest("./www"))
+
+gulp.task "jade.d", ->
+  gulp.src("./src/jade/index.d.jade")
+  .pipe(plumber())
+  .pipe(jade(pretty : true, locals : env : config.env))
+  .pipe(concat("index.d.html"))
   .pipe(gulp.dest("./www"))
 
 gulp.task "coffee", ["create-app-config"], ->

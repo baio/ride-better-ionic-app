@@ -1,62 +1,7 @@
-doctype html
-html
-head
-    meta(charset='utf-8')
-    meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width')
-    title Ride Better
+extends ./layout.jade
 
-    if env.platform == 'cordova'
-        link(href='fixes/ionic.css', rel='stylesheet')
-    else
-        link(href='lib/ionic/css/ionic.css', rel='stylesheet')
-        link(href='css/media.css', rel='stylesheet')
+block content
+   ion-nav-bar.bar-stable.nav-title-slide-ios7
+      ion-nav-back-button.button-icon.icon.ion-ios7-arrow-back
+   ion-nav-view
 
-    link(href='css/style.css', rel='stylesheet')
-    
-    script(src='lib/ionic/js/ionic.bundle.js')
-    script(src="lib/moment/moment.js")
-    script(src="lib/moment/locale/ru.js")
-    script(src="lib/angular-moment/angular-moment.js")
-
-    script(src="lib/angular-cache/dist/angular-cache.js")
-
-    if env
-        if env.platform == 'cordova'
-            script(src='cordova.js')
-            if env.debug
-                script(src='http://#{env.weinreUrl}/target/target-script-min.js#anonymous')
-        else
-            script(src="lib/oauth-js/dist/oauth.js")
-            if env.debug
-                script(src="http://localhost:35729/livereload.js")
-
-    script(src="fixes/ng-delay.js")
-    script(src='app.js')
-
-    body(ng-app='surf-better')
-        if env.platform != 'cordova'
-            .body-left
-                ul
-                    li
-                        i.ion-social-apple
-                    li
-                        i.ion-social-android
-                    li
-                        i.ion-social-windows
-            .body-content
-                ion-nav-bar.bar-stable.nav-title-slide-ios7
-                    ion-nav-back-button.button-icon.icon.ion-ios7-arrow-back
-                ion-nav-view
-            .body-right
-                b Mission contol
-                ul
-                    li Amount of snow for last 3 days
-                    li Instant messages
-                    li Local services list
-        if env.platform == 'cordova'
-            ion-nav-bar.bar-stable.nav-title-slide-ios7
-                ion-nav-back-button.button-icon.icon.ion-ios7-arrow-back
-            ion-nav-view
-        include tabs/_index
-        include modals/_index
-        include utils/_index
