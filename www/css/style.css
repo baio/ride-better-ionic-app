@@ -113,46 +113,7 @@ ion-slide h3:first-child
 }
 
 
-/*
-ion-content
-{
-    background-color: rgb(152,204,241);
-}
 
-.list
-{
-    background-color: transparent;
-}
-
-.item
-{
-    background-color: transparent;;
-}
-
-.item-content
-{
-    background-color: transparent!important;
-}
-
-.slider
-{
-    background-color: transparent;
-}
-
-ion-slide
-{
-    background-color: transparent;
-}
-
-textarea, input
-{
-    margin-left: -5px!important;
-}
-
-
-*/
-
-/*rgb(172,193,222);*/
 
 .loading-container .loading {
     display: block;
@@ -166,4 +127,10 @@ textarea, input
 .loading-non-block {
  font-size: 40px;
     color: blue;
+}
+
+.arrow-more {
+    float: right;
+    font-size: 25px;
+    color: gray;
 }
