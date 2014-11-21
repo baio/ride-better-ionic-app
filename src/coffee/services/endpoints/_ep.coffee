@@ -32,13 +32,16 @@ app.factory "_ep", ($q, $http, webApiConfig, authio, notifier) ->
     if inProgress
       deferred.reject(new Error "In progress")
     else
+      notifier.showLoading()
       inProgress = true
       headers = headers : getAuthHeaders() if useAuth
       $http.post(webApiConfig.url + path, data, headers).success (data) ->
         inProgress = false
         deferred.resolve data
       .error (data) ->
-        inProgress = false
         deferred.reject data
+      .finally ->
+        inProgress = false
+        notifier.hideLoading()
 
     deferred.promise

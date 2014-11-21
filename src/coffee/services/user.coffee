@@ -1,4 +1,4 @@
-app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization) ->
+app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization, notifier) ->
 
   user = {}
   authForm = null
@@ -70,11 +70,12 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
 
   $rootScope.authorizeProvider = (provider) ->
     opts = force : true
-    authio.login(provider, opts).then (res) ->
+    notifier.showLoading()
+    authio.login(provider, opts).then((res) ->
       setUser mapper.mapUser(res), true
+    ).finally ->
       $rootScope.hideAuthForm()
-    , (err) ->
-      $rootScope.hideAuthForm()
+      notifier.hideLoading()
 
   $rootScope.hideAuthForm = ->
     authForm.hide()
