@@ -1,16 +1,17 @@
 @media only screen and (min-device-width: 480px) {
 
 	body {
-		background-color: darkgrey;
+		background: url("../img/bkg/site-bkg.png") repeat;
 	}
-	.body-left 
+	.body-left
 	{
 		position: absolute;
-		margin-left: 2px;	
+		margin-left: 2px;
 	}
 
 	.body-content 
 	{
+		top: 25px;
 		position: absolute;
 		z-index: 1;
 		width: 380px;
