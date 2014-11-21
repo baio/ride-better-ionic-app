@@ -12,13 +12,19 @@ head
 
     link(href='css/style.css', rel='stylesheet')
     block header
-    
-    script(src='lib/ionic/js/ionic.bundle.js')
-    script(src="lib/moment/moment.js")
-    script(src="lib/moment/locale/ru.js")
-    script(src="lib/angular-moment/angular-moment.js")
 
-    script(src="lib/angular-cache/dist/angular-cache.js")
+    if env.platform == 'cordova'
+        script(src='lib/ionic/js/ionic.bundle.min.js')
+        script(src="lib/moment/min/moment.min.js")
+        script(src="lib/moment/locale/ru.js")
+        script(src="lib/angular-moment/angular-moment.min.js")
+        script(src="lib/angular-cache/dist/angular-cache.min.js")
+    else
+        script(src='lib/ionic/js/ionic.bundle.js')
+        script(src="lib/moment/moment.js")
+        script(src="lib/moment/locale/ru.js")
+        script(src="lib/angular-moment/angular-moment.js")
+        script(src="lib/angular-cache/dist/angular-cache.js")
 
     if env
         if env.platform == 'cordova'
