@@ -1,4 +1,4 @@
-app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization, notifier) ->
+app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization, notifier, spotsDA) ->
 
   user = {}
   authForm = null
@@ -6,7 +6,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
 
   initialize = ->
     $rootScope.culture = culture
-    geoLocator.getPosition()
     _user = cache.get "user"
     _user ?= defaultUser()
     setUser _user
@@ -92,15 +91,48 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
 
   #
 
+  setHome = (spot) ->
+    for fav in user.settings.favs
+      fav.isHome = false
+    spot.isHome = true
+    saveChanges()
+
+  addSpot = (spot) ->
+    favs = user.settings.favs
+    fav = favs.filter((f) -> f.code == spot.code)[0]
+    if !fav
+      favs.push spot
+      saveChanges()
+
+
+  setLang = (lang) ->
+    putLang lang.code
+    saveChanges()
+
+  setCulture = (c) ->
+    putCulture c.code
+    saveChanges()
+
+  getDefaultNearestSpot = ->
+    geoLocator.getPosition()
+    .then (geo) ->
+      spotsDA.nearest(geo.lat + "," + geo.lon).then (spot) ->
+        addSpot spot
+        setHome spot
+      null
+
+  getDefaultLagAndCulture = ->
+    globalization.getLangAndCulture().then (r) =>
+      setLang code : r.lang
+      setCulture code : r.culture
+      null
+
   activate: ->
     initialize()
     firstLaunch = cache.get "firstLaunch"
     if !firstLaunch
       cache.put "firstLaunch", true
-      globalization.getLangAndCulture().then (r) =>
-        @setLang code : r.lang
-        @setCulture code : r.culture
-        null
+      $q.all([getDefaultNearestSpot(), getDefaultLagAndCulture()])
     else
       if user.profile
         _this = @
@@ -113,19 +145,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
         $q.when()
 
   getHome: getHome
-
-  setHome: (spot) ->
-    for fav in user.settings.favs
-      fav.isHome = false
-    spot.isHome = true
-    saveChanges()
-
-  addSpot: (spot) ->
-    favs = user.settings.favs
-    fav = favs.filter((f) -> f.code == spot.code)[0]
-    if !fav
-      favs.push spot
-      saveChanges()
+  setHome: setHome
+  addSpot: addSpot
 
   removeSpot: (spot) ->
     favs = user.settings.favs
@@ -135,16 +156,12 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
       if fav.isHome then favs[0].isHome = true
       saveChanges()
 
-  setLang: (lang) ->
-    putLang lang.code
-    saveChanges()
+  setLang: setLang
 
   getLang: ->
     user.settings.lang
 
-  setCulture: (c) ->
-    putCulture c.code
-    saveChanges()
+  setCulture: setCulture
 
   getCulture: ->
     user.settings.culture
