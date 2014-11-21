@@ -53,26 +53,6 @@ body
     padding-right: 10px;
 }
 
-/*
-
-.bar.bar-stable, .bar-header {
-    background-color: #145fd7;
-}
-
-
-.bar.bar-stable .title, .bar-header .title
-{
-    color: #ffffff;
-    text-decoration: dotted;
-}
-
-.tabs
-{
-    background-color: #145fd7;
-    color: #ffffff;
-}
-*/
-
 .button-footer
 {
     margin: 0!important;
@@ -130,7 +110,11 @@ ion-slide h3:first-child
 }
 
 .arrow-more {
-    float: right;
+    top: 0px;
+    right: 3px;
+    position: absolute;
+
     font-size: 25px;
-    color: gray;
+    color: #000000;
+
 }
