@@ -6,12 +6,15 @@
 	.body-left
 	{
 		position: absolute;
-		margin-left: 2px;
+		left: 0px;
+		margin-left: 5px;
+		color: darkslategray;
+		font-size: 35px;
+		clear: both;
 	}
-
 	.body-content 
 	{
-		top: 25px;
+		top: 5px;
 		position: absolute;
 		z-index: 1;
 		width: 380px;
@@ -21,6 +24,13 @@
 		left: 0;
 		right: 0;
 	}
+	.body-right
+	{
+		float: right;
+		clear: both;
+		color: lightgray;
+	}
+
 }
 
 @media only screen and (max-device-width: 481px) {
