@@ -17,11 +17,14 @@ body
 
 .home-container
 {
-    background: url('../img/bkg/light-clouds.jpg') fixed;
+    background-image: url('../img/bkg/light-clouds.jpg');
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    background-repeat: repeat;
+    background-position: center;
+    background-attachment: local;
 
     display: flex;
     flex-direction: column;
@@ -30,22 +33,22 @@ body
 
 .home-container-sun
 {
-    background: url('../img/bkg/sky-sun.png') repeat center center fixed;
+    background-image: url('../img/bkg/sky-sun.png');
 }
 
 .home-container-light-clouds
 {
-    background: url('../img/bkg/light-clouds.jpg') repeat center center fixed;
+    background-image: url('../img/bkg/light-clouds.jpg');
 }
 
 .home-container-clouds
 {
-    background: url('../img/bkg/thick-clouds.jpg') repeat center center fixed;
+    background-image: url('../img/bkg/thick-clouds.jpg');
 }
 
 .home-container-snow
 {
-    background: url('../img/bkg/light-snow.png') repeat center center fixed;
+    background-image: url('../img/bkg/light-snow.png');
 }
 
 .padding-vertical {
