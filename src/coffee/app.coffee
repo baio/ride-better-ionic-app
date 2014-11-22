@@ -62,7 +62,7 @@ app = angular.module("surf-better", [
 
 app.config (DSCacheFactoryProvider) ->
   DSCacheFactoryProvider.setCacheDefaults
-    maxAge: 1000 * 60 * 60 * 24
+    maxAge: 1000 * 60 * 60 * 24 * 100
     deleteOnExpire: 'aggressive'
     storageMode: 'localStorage'
 
