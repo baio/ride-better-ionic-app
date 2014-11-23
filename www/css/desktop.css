@@ -30,6 +30,10 @@
 		clear: both;
 		color: lightgray;
 	}
+    .body-left a
+    {
+        color: #ffffff;
+    }
 
 }
 
