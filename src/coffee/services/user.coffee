@@ -128,21 +128,24 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
       null
 
   activate: ->
+    notifier.showLoading()
     initialize()
     firstLaunch = cache.get "firstLaunch"
     if !firstLaunch
       cache.put "firstLaunch", true
-      $q.all([getDefaultNearestSpot(), getDefaultLagAndCulture()])
+      promise = $q.all([getDefaultNearestSpot(), getDefaultLagAndCulture()])
     else
       if user.profile
         _this = @
-        authio.login(user.profile.provider, force : false).then (res) ->
+        promise = authio.login(user.profile.provider, force : false).then (res) ->
           setUser mapper.mapUser(res), true
         , (err) ->
-          console.log ">>>user.coffee:98", "login error", err
           _this.logout()
       else
-        $q.when()
+        promise = $q.when()
+    promise.finally ->
+      notifier.hideLoading()
+    promise
 
   getHome: getHome
   setHome: setHome

@@ -95,13 +95,10 @@ ion-slide h3:first-child
     margin-top: 20px;
 }
 
-
-
-
 .loading-container .loading {
-    display: block;
     position: absolute;
     right: 0px;
+    top: 0px;
     margin-top: 0;
     background-color: transparent;
     padding: 1px;
@@ -109,7 +106,7 @@ ion-slide h3:first-child
 
 .loading-non-block {
  font-size: 40px;
-    color: blue;
+ color: blue;
 }
 
 .arrow-more {
