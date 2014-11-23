@@ -1,12 +1,12 @@
 ion-view(ng-attr-title="{{homeLabel}}")
-    ion-footer-bar.no-padding-footer-bar(ng-show="firstSlideShown")
-        button.button-footer.button.button-full.button-assertive.button-wide-letters(ng-click="closedReport()")
-            i.icon.ion-ios7-locked-outline &nbsp; {{'Closed' | res}}
     ion-content.has-header
-        ion-slide-box(on-slide-changed='slideHasChanged($index)')
-            ion-slide(show-pager="false")
+        ion-slide-box
+            ion-slide
                 h3 {{'Powder on pistes ?' | res}}
                 .list
+                    label.item.text-center.assertive(ng-click="closedReport()")
+                        span.item-conent-closed(ng-click="closedReport()")
+                            i.icon.ion-ios7-locked-outline &nbsp; {{'Closed' | res}}
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="4")
                         .item-content

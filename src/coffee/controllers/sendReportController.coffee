@@ -7,11 +7,6 @@ app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicS
       snowing : null
       crowd : null
 
-  $scope.firstSlideShown = true
-
-  $scope.slideHasChanged = (index) ->
-    $scope.firstSlideShown = index == 0
-
   $scope.sendReport = ->
     if !$scope.data.tracks and !$scope.data.snowing and !$scope.data.crowd and !$scope.data.message
       notifier.message "Please input some data to send"
