@@ -5,32 +5,32 @@ ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header
         ion-slide-box(on-slide-changed='slideHasChanged($index)')
             ion-slide(show-pager="false")
-                h3 {{'Snow on traks ?' | res}}
+                h3 {{'Powder on pistes ?' | res}}
                 .list
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="4")
                         .item-content
-                            | {{'lots of snow' | res}}
+                            | {{'lots of powder' | res}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="3")
                         .item-content
-                            | {{'much snow' | res}}
+                            | {{'much powder' | res}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="2")
                         .item-content
-                            | {{'enough snow' | res}}
+                            | {{'enough powder' | res}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="1")
                         .item-content(ng-click="nextSlide()")
-                            | {{'not enough snow' | res}}
+                            | {{'not enough powder' | res}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="0")
                         .item-content
-                            | {{'very little snow' | res}}
+                            | {{'very little powder' | res}}
                         i.radio-icon.ion-checkmark
             ion-slide
                 h3 {{'Snowing ?' | res}}
