@@ -30,3 +30,7 @@ app.controller "HomeController", ($scope, homeDA, reportsDA, user, $state) ->
   $scope.sendReport = ->
     user.login().then ->
       $state.go "tab.report"
+
+  $scope.openTalk = ->
+    $state.go "tab.talk"
+

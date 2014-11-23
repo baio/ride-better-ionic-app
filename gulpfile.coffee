@@ -66,7 +66,7 @@ gulp.task "jade.d", ->
   .pipe(concat("index.d.html"))
   .pipe(gulp.dest("./www"))
 
-gulp.task "coffee", ["create-app-config"], ->
+gulp.task "coffee",  ["create-app-config"], ->
   gulp.src(["./src/coffee/app.coffee", "./src/coffee/**/*.coffee"])
   .pipe(plumber())
   .pipe(coffee(bare: true))

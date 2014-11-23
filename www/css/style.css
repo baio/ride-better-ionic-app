@@ -65,10 +65,11 @@ body
 
 ion-footer-bar.no-padding-footer-bar
 {
-    border-top-width: 0;
-    border-bottom-width: 0;
-    border-spacing: 0;
-    padding: 0;
+
+    /*background-color: lightcyan;*/
+
+    /*padding: 0;*/
+
 }
 
 button.button.button-wide-letters
