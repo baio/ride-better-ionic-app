@@ -1,5 +1,6 @@
 ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header
+        ion-refresher(pulling-text="Pull to refresh..." on-refresh="pullTalk()")
         .list
             .item.item-icon-right(ng-repeat="thread in talk.threads")
                 h3

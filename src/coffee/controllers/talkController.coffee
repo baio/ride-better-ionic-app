@@ -11,7 +11,7 @@ app.controller "TalkController", ($scope, talkDA, user, $ionicModal, notifier) -
 
   loadTalk = ->
     home = user.getHome()
-    talkDA.get(home.code).then setMessages
+    talkDA.get(home.code).then(setMessages)
 
   if $scope.$root.activated
     loadTalk()
@@ -21,6 +21,10 @@ app.controller "TalkController", ($scope, talkDA, user, $ionicModal, notifier) -
   $scope.removeThread = (thread) ->
     talkDA.remove(thread._id).then ->
       $scope.talk.threads.splice $scope.talk.threads.indexOf(thread), 1
+
+  $scope.pullTalk = ->
+    loadTalk().finally ->
+      $scope.$broadcast('scroll.refreshComplete')
 
   # --- Send Message Form ---
 
