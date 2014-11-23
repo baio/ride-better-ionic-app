@@ -105,8 +105,11 @@ ion-slide h3:first-child
 }
 
 .loading-non-block {
- font-size: 40px;
- color: blue;
+ margin-top: 5px;
+ margin-right: 5px;
+ font-size: 30px;
+ color: darkgrey;
+ /*color: black;*/
 }
 
 .arrow-more {

@@ -5,7 +5,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
                 h2 {{item.time | amDateFormat: 'dddd, Do MMMM'}}
                 h3 {{item.summary}}
                 span(ng-if="item.precipType") {{item.precipType | res}}&nbsp;
-                    |{{culture.height(item.precipAccumulation) | round:1}} {{culture.heightU() | res}}.
+                    span(ng-if="item.precipAccumulation") {{culture.height(item.precipAccumulation) | round:1}} {{culture.heightU() | res}}.
                     br
                 | {{culture.temp(item.temperatureMin) | round | plus}}&deg;{{culture.tempU()}}  &mdash;
                 | {{culture.temp(item.temperatureMax) | round | plus}}&deg;{{culture.tempU()}}
