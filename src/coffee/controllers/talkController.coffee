@@ -18,6 +18,9 @@ app.controller "TalkController", ($scope, talkDA, user, $ionicModal, notifier) -
 
   $scope.$on "app.activated", loadTalk
 
+  $scope.removeThread = (thread) ->
+    talkDA.remove(thread._id).then ->
+      $scope.talk.threads.splice $scope.talk.threads.indexOf(thread), 1
 
   # --- Send Message Form ---
 

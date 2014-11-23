@@ -1,12 +1,13 @@
 ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header
         .list
-            .item.item-text-wrap(ng-repeat="thread in talk.threads")
+            .item.item-icon-right(ng-repeat="thread in talk.threads")
                 h3
                     | {{thread.message.user.name}} &nbsp;
-                    i.icon.ion-ios7-clock-outline &nbsp;
+                    i.ion-ios7-clock-outline &nbsp;
                     | {{thread.message.created | amCalendar}}
                 | {{thread.message.message}}
+                i.icon.ion-ios7-trash-outline(ng-click="removeThread(thread)")
     ion-footer-bar.no-padding-footer-bar
         .button-bar
             button.button.button-positive.button-wide-letters(ng-click="openSendMsgModal()")

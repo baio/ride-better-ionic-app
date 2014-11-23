@@ -45,3 +45,26 @@ app.factory "_ep", ($q, $http, webApiConfig, authio, notifier) ->
         notifier.hideLoading()
 
     deferred.promise
+
+  remove : (path, useAuth) ->
+
+    deferred = $q.defer()
+
+    inProgress = false
+
+    if inProgress
+      deferred.reject(new Error "In progress")
+    else
+      notifier.showLoading()
+      inProgress = true
+      headers = headers : getAuthHeaders() if useAuth
+      $http.delete(webApiConfig.url + path, headers).success (data) ->
+        inProgress = false
+        deferred.resolve data
+      .error (data) ->
+          deferred.reject data
+      .finally ->
+          inProgress = false
+          notifier.hideLoading()
+
+    deferred.promise

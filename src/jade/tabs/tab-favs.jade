@@ -8,10 +8,4 @@ ion-view(ng-attr-title="{{'Favorites' | res}}")
                 i.icon(ng-class="{'ion-ios7-home-outline' : !fav.isHome, 'ion-ios7-home' : fav.isHome}", on-tap="setHome(fav)")
                 span(on-tap="openHome(fav)")
                     h2 {{fav.label}}
-                    .float-left
-                        span(ng-repeat="star in fav.report.rating.stars")
-                            i(ng-class="prettifyer.getStarIconCss(star.type)")
-                        | &nbsp;
-                        span(ng-repeat="msg in fav.report.report.messages")
-                            i(ng-class="prettifyer.getReportIconCss(msg.code)")&nbsp;
                 i.icon.ion-ios7-minus-outline(ng-show="canRemoveFav()", ng-click="removeFav(fav)")
