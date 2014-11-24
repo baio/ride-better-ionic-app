@@ -1,7 +1,7 @@
 app.factory "talkEP", (_ep) ->
 
-  get: (spot) ->
-    _ep.get "spots/" + spot + "/messages"
+  get: (spot, opts) ->
+    _ep.get "spots/" + spot + "/messages", opts
 
   send: (spot, data) ->
     _ep.post "spots/" + spot + "/messages", data, true
