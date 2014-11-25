@@ -41,6 +41,9 @@ app.controller "TalkController", ($scope, talkDA, user, $ionicModal, notifier) -
     loadTalk(till : till, 0).finally ->
       $scope.$broadcast('scroll.refreshComplete')
 
+  $scope.canRemove = (thread) ->
+    thread.message._user == user.user.profile?.key
+
   $scope.removeThread = (thread) ->
     talkDA.remove(thread._id).then ->
       $scope.talk.threads.splice $scope.talk.threads.indexOf(thread), 1

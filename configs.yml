@@ -9,9 +9,10 @@ dev:
     auth :
       user :
         profile :
-          id : facebook_1
+          key : unk_baio
+          id : baio
           name : max putilov
-          provider : facebook
+          provider : unk
           avatar : unk.png
 debug:
   server:

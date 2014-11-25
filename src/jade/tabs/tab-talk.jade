@@ -8,7 +8,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
                     i.ion-ios7-clock-outline &nbsp;
                     | {{thread.message.created | amCalendar}}
                 | {{thread.message.message}}
-                i.icon.ion-ios7-trash-outline(ng-click="removeThread(thread)")
+                i.icon.ion-ios7-trash-outline(ng-click="removeThread(thread)" ng-if="canRemove(thread)")
         ion-infinite-scroll(on-infinite="loadMore()" ng-if="data.canLoadMore")
 
     ion-footer-bar.no-padding-footer-bar
