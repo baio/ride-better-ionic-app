@@ -9,12 +9,9 @@ app.controller "TalkController", ($scope, talkDA, user, $ionicModal, notifier) -
 
   setMessages = (data, index) ->
     if data
-      console.log ">>>talkController.coffee:12", index
       if index is undefined
-        console.log ">>>talkController.coffee:14"
         $scope.talk.threads.push data.threads...
       else
-        console.log ">>>talkController.coffee:17"
         $scope.talk.threads.splice index, 0, data.threads...
     data
 

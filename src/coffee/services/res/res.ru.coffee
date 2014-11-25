@@ -62,3 +62,5 @@ app.constant "res_ru",
   "hail" : "град"
   "Please input some data to send" : "Пожайлуста введите данные чтобы отправить"
   "Date in wrong format" : "Дата имеет неправильный формат"
+  "Talk" : "Разговор"
+  "Send Message" : "Отправить сообщение"
