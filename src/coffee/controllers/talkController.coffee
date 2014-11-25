@@ -62,7 +62,8 @@ app.controller "TalkController", ($scope, talkDA, user, $ionicModal, notifier) -
     $scope.sendMsgModal = modal
 
   $scope.openSendMsgModal = ->
-    $scope.sendMsgModal.show()
+    user.login().then ->
+      $scope.sendMsgModal.show()
 
   $scope.$on '$destroy', -> $scope.sendMsgModal.remove()
 

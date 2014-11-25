@@ -30,5 +30,4 @@ app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicS
     $ionicSlideBoxDelegate.next()
 
   $scope.closedReport = ->
-    user.login().then ->
-      $state.go "tab.closed"
+    $state.go "tab.closed"
