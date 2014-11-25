@@ -11,9 +11,11 @@ ion-view(ng-attr-title="{{homeLabel}}")
                 | &nbsp;&nbsp;&nbsp;
                 i.icon.ion-arrow-up-c &nbsp; {{culture.temp(snapshot.forecast.temperatureMax) | round | plus}}&deg;{{culture.tempU()}} &nbsp;
                 i.arrow-more.ion-ios7-arrow-thin-right
-    ion-footer-bar.no-padding-footer-bar
+    ion-footer-bar.bar-stable
         .button-bar
-            button.button.button-positive.button-wide-letters(ng-click="sendReport()")
-                i.icon.ion-ios7-chatboxes-outline &nbsp; {{'Report' | res}}
-            button.button.button-calm.button-wide-letters(ng-click="openTalk()")
-                i.icon.ion-ios7-chatboxes-outline &nbsp; {{'Talk' | res}}
+            button.button.button-wide-letters.button-positive(ng-click="sendReport()")
+                i.ion-ios7-compose-outline(style="font-size: 20px;")
+                &nbsp; {{'Report' | res}}
+            button.button.button-wide-letters.button-royal(ng-click="openTalk()")
+                i.ion-ios7-chatboxes-outline(style="font-size: 20px;")
+                &nbsp; {{'Talk' | res}}

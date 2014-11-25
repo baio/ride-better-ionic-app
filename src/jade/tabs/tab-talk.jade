@@ -11,7 +11,6 @@ ion-view(ng-attr-title="{{homeLabel}}")
                 i.icon.ion-ios7-trash-outline(ng-click="removeThread(thread)" ng-if="canRemove(thread)")
         ion-infinite-scroll(on-infinite="loadMore()" ng-if="data.canLoadMore")
 
-    ion-footer-bar.no-padding-footer-bar
-        .button-bar
-            button.button.button-positive.button-wide-letters(ng-click="openSendMsgModal()")
-                i.icon.ion-ios7-chatboxes-outline &nbsp; {{'Send Message' | res}}
+    ion-footer-bar
+        h1.title.positive(ng-click="openSendMsgModal()")
+            i.icon.ion-speakerphone &nbsp; {{'Send Message' | res}}
