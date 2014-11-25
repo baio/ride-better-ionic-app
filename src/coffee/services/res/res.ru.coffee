@@ -64,3 +64,4 @@ app.constant "res_ru",
   "Date in wrong format" : "Дата имеет неправильный формат"
   "Talk" : "Разговор"
   "Send Message" : "Отправить сообщение"
+  "Message" : "Сообщение"
