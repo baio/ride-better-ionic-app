@@ -25,7 +25,7 @@ app.constant "res_ru",
   "too many people" : "очень много людей"
   "Crowd ?" : "Сколько людей?"
   "Snowing ?" : "Идет Снег ?"
-  "Snow on pistes ?" : "Снег на Трассах ?"
+  "Powder on pistes ?" : "Снег на Трассах ?"
   "Name" : "Имя"
   "Home" : "Дом"
   "Language" : "Язык"
