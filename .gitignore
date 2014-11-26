@@ -38,3 +38,5 @@ res/screen
 .*/
 
 !newrelic.js
+!hooks/after_prepare/clean_bower.js
+!hooks/after_prepare/icons_and_plash.js
