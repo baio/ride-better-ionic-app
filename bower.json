@@ -6,11 +6,30 @@
     "moment": "~2.8.2",
     "oauth-js": "~0.2.4",
     "angular-cache": "~3.1.0",
-    "angular-moment": "~0.8.2",
-    "ngCordova": "~0.1.7-alpha"
+    "angular-moment": "~0.8.2"
   },
   "resolutions": {
     "angular": "~1.2.17",
     "collide": "1.0.0-beta.3"
+  },
+  "overrides": {
+    "ionic": {
+        "main": "js/ionic.bundle.min.js",
+        "dependencies" : null
+    },
+    "moment": {
+        "main": ["min/moment.min.js", "locale/ru.js"]
+    },
+    "angular-moment": {
+        "main": "angular-moment.min.js",
+        "dependencies" : null
+    },
+    "angular-cache": {
+        "main": "dist/angular-cache.min.js",
+        "dependencies" : null
+    },
+    "oauth-js": {
+      "ignore": true
+    }
   }
 }

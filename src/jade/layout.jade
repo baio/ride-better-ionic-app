@@ -13,18 +13,19 @@ head
     link(href='css/style.css', rel='stylesheet')
     block header
 
-    if env.platform == 'cordova'
+    script(src='lib-bundle/ionic.bundle.min.js')
+    script(src="lib-bundle/moment.min.js")
+    script(src="lib-bundle/ru.js")
+    script(src="lib-bundle/angular-moment.min.js")
+    script(src="lib-bundle/angular-cache.min.js")
+
+
+    //
         script(src='lib/ionic/js/ionic.bundle.min.js')
         script(src="lib/moment/min/moment.min.js")
         script(src="lib/moment/locale/ru.js")
         script(src="lib/angular-moment/angular-moment.min.js")
         script(src="lib/angular-cache/dist/angular-cache.min.js")
-    else
-        script(src='lib/ionic/js/ionic.bundle.js')
-        script(src="lib/moment/moment.js")
-        script(src="lib/moment/locale/ru.js")
-        script(src="lib/angular-moment/angular-moment.js")
-        script(src="lib/angular-cache/dist/angular-cache.js")
 
     if env
         if env.platform == 'cordova'
@@ -32,7 +33,7 @@ head
             if env.debug
                 script(src='http://#{env.weinreUrl}/target/target-script-min.js#anonymous')
         else
-            script(src="lib/oauth-js/dist/oauth.js")
+            script(src="lib/oauth-js/dist/oauth.min.js")
             if env.debug
                 script(src="http://localhost:35729/livereload.js")
 

@@ -18,6 +18,8 @@ jade = require "gulp-jade"
 lr = require "tiny-lr"
 zip = require "gulp-zip"
 
+mainBowerFiles = require "main-bower-files"
+
 require("gulp-grunt")(gulp)
 
 yamlConfig = require "yaml-config"
@@ -126,12 +128,13 @@ gulp.task "pgb-clean", ->
 
 gulp.task "pgb-build", ["build", "pgb-clean"],  (done) ->
   gulp.src("./www/**/*").pipe(gulp.dest(".release/pgb-src"))
-  gulp.src("./www/.pgbomit").pipe(gulp.dest(".release/pgb-src"))
   gulp.src("./config.xml").pipe(gulp.dest(".release/pgb-src"))
   gulp.src("./res/.res/**/*").pipe(gulp.dest(".release/pgb-src/res"))
-  gulp.src("./res/.res/icon/96.png").pipe(rename("icon.png")).pipe(gulp.dest(".release/pgb-src"))
-  gulp.src("./res/.res/screen/480x800.png").pipe(rename("splash.png")).pipe(gulp.dest(".release/pgb-src"))
-  setTimeout done, 3000
+  gulp.src("./www/.pgbomit").pipe(gulp.dest(".release/pgb-src/res"))
+  gulp.src("./www/.pgbomit").pipe(gulp.dest(".release/pgb-src/lib"))
+  #gulp.src("./res/.res/icon/96.png").pipe(rename("icon.png")).pipe(gulp.dest(".release/pgb-src"))
+  #gulp.src("./res/.res/screen/480x800.png").pipe(rename("splash.png")).pipe(gulp.dest(".release/pgb-src"))
+  setTimeout done, 5000
 
 gulp.task "pgb-zip", ["pgb-build"], ->
   gulp.src('.release/pgb-src/**/*').pipe(zip('pgb-src.zip')).pipe(gulp.dest('.release/pgb-src'))
@@ -139,5 +142,10 @@ gulp.task "pgb-zip", ["pgb-build"], ->
 gulp.task "pgb-release", ["pgb-zip"], ->
   gulp.run("grunt-phonegap-build")
 
-gulp.task "dev-server", ["watch-jade", "watch-coffee", "watch-assets", "nodemon"]
-gulp.task "build", ["jade", "coffee"]
+gulp.task "bundle-lib", ->
+  gulp.src(mainBowerFiles())
+  .pipe(gulp.dest('www/lib-bundle'))
+
+gulp.task "dev-server", ["bundle-lib", "watch-jade", "watch-coffee", "watch-assets", "nodemon"]
+gulp.task "build", ["bundle-lib", "jade", "coffee"]
+

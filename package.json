@@ -38,5 +38,10 @@
   "scripts": {
     "start": "coffee server.coffee",
     "postinstall": "bower install && gulp build"
+  },
+  "devDependencies": {
+    "gulp-bower-src": "^0.1.0",
+    "main-bower-files": "^2.4.0",
+    "fs-extra": "^0.12.0"
   }
 }

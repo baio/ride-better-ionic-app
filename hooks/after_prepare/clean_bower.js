@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 
 // no need to configure below
 var rootdir = process.argv[2];
 
-var libsdirAndroid = rootdir + "/platforms/android/assets/www/lib";
-var libsdirWP8 = rootdir + "/platforms/wp8/www/lib";
+var android = rootdir + "/platforms/android/assets/www/lib";
+var wp8 = rootdir + "/platforms/wp8/www/lib";
+var ios = rootdir + "/platforms/ios/Ride Better/www/lib";
 
-
+fs.removeSync(android);
+fs.removeSync(wp8);
+fs.removeSync(ios);
+/*
 var filesToNotRemove = [
     'ionic.bundle.min.js',
     "moment.min.js",
@@ -40,4 +44,4 @@ cleanDir = function(dirPath) {
 
 cleanDir(libsdirAndroid);
 cleanDir(libsdirWP8);
-
+*/
