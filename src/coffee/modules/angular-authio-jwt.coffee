@@ -75,6 +75,10 @@ app.provider "authioLogin", ->
       activate()
       authioEndpoints.user(jwt)
 
+    setData: (jwt, key, data) ->
+      activate()
+      authioEndpoints.setData jwt, key, data
+
 app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
 
   cache = DSCacheFactory("authioCache")
@@ -105,7 +109,7 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
   setData : (key, data) ->
     jwt = getJWT()
     if jwt
-      authioEndpoints.setData jwt, key, data
+      authioLogin.setData jwt, key, data
     else
       $q.reject new Error status : 401
 

@@ -39,6 +39,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
   getHome = -> user.settings.favs.filter((f) -> f.isHome)[0]
 
   reset = ->
+    authio.logout()
     cache.clean()
     angular.copy defaultUser(), user
     $rootScope.homeLabel = getHome().label
