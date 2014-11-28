@@ -17,6 +17,7 @@ app.controller "HomeController", ($scope, homeDA, reportsDA, user, $state) ->
   setSnapshot = (data) ->
     if data
       $scope.snapshot = data.snapshot
+      $scope.snowfallHistory = data.snowfallHistory
 
   loadSnapshot = ->
     home = user.getHome()
