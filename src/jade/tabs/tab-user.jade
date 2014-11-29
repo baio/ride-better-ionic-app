@@ -14,5 +14,5 @@ ion-view(title="{{'My Info' | res}}")
                 span.input-label {{"Units" | res}}
                     select(ng-options="culture.name for culture in culturesList", ng-model="data.culture", ng-change="setCulture(data.culture)")
             button.button.button-full.button-energized(ng-click="reset()") {{"Reset" | res}}
-            button.button.button-full.button-positive(ng-click="login()", ng-show="!isLogin()") {{"Login" | res}}
-            button.button.button-full.button-assertive(ng-click="logout()", ng-show="isLogin()") {{"Logout" | res}}
+            button.button.button-full.button-positive(ng-click="login()", ng-show="!isLogined()") {{"Login" | res}}
+            button.button.button-full.button-assertive(ng-click="logout()", ng-show="isLogined()") {{"Logout" | res}}

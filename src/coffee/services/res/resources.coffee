@@ -1,7 +1,7 @@
-app.factory "res", (res_ru) ->
+app.factory "resources", (resources_ru) ->
 
   langs =
-    ru : res_ru
+    ru : resources_ru
 
   _lang = "en"
 

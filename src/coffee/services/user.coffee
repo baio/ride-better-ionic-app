@@ -1,31 +1,34 @@
-app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocator, authio, mapper, amMoment, globalization, notifier, spotsDA) ->
+app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geoLocator,
+                     authio, mapper, amMoment, globalization, notifier, spotsDA) ->
 
   user = {}
   authForm = null
   deferredAuthForm = null
 
   initialize = ->
+    setUser defaultUser()
     $rootScope.culture = culture
-    _user = cache.get "user"
-    _user ?= defaultUser()
-    setUser _user
     $rootScope.homeLabel = getHome().label
 
-  setUser = (u, save) ->
+  setUser = (u) ->
     user.profile = u.profile
+    console.log ">>>user.coffee:14", user, u
     if u.settings
       user.settings = u.settings
+      console.log ">>>user.coffee:15", user, u
       putLang user.settings.lang
       putCulture user.settings.culture
     $rootScope.homeLabel = getHome().label
-    if save
-      saveChanges()
-    $rootScope.$broadcast "user.changed"
+
+  saveChangesToCache = ->
+    cache.put "user", user
+
+  saveChangesOnline = ->
+    authio.setData "ride_better", user.settings
 
   saveChanges = ->
-    cache.put "user", user
-    authio.setData "ride_better", user.settings
-    $rootScope.homeLabel = getHome().label
+    saveChangesToCache()
+    saveChangesOnline()
 
   defaultUser = ->
     profile : null
@@ -46,7 +49,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     putLang user.settings.lang
     putCulture user.settings.culture
     saveChanges()
-    $rootScope.$broadcast "user.changed"
 
   # Auth form
 
@@ -72,7 +74,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     opts = force : true
     notifier.showLoading()
     authio.login(provider, opts).then((res) ->
-      setUser mapper.mapUser(res), true
+      setUser mapUser(res)
+      saveChangesToCache()
     ).finally ->
       $rootScope.hideAuthForm()
       notifier.hideLoading()
@@ -81,7 +84,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     authForm.hide()
 
   putLang = (lang) ->
-    res.setLang lang
+    resources.setLang lang
     user.settings.lang = lang
     amMoment.changeLocale lang
 
@@ -96,15 +99,12 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     for fav in user.settings.favs
       fav.isHome = false
     spot.isHome = true
-    saveChanges()
 
   addSpot = (spot) ->
     favs = user.settings.favs
     fav = favs.filter((f) -> f.code == spot.code)[0]
     if !fav
       favs.push spot
-      saveChanges()
-
 
   setLang = (lang) ->
     putLang lang.code
@@ -124,28 +124,66 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
 
   getDefaultLagAndCulture = ->
     globalization.getLangAndCulture().then (r) =>
-      setLang code : r.lang
-      setCulture code : r.culture
+      putLang r.lang
+      putCulture r.culture
       null
+
+  setFisrtLaunchComplete = ->
+    cache.put "firstLaunchComplete", true
+
+  isFirstLaunch = ->
+    !(cache.get("firstLaunchComplete") == true)
+
+  mapUser = (user) ->
+    res = profile : user.profile
+    if user.data?.ride_better
+      res.settings = user.data.ride_better
+    res
+
+  getCahchedUser = ->
+    cache.get "user"
+
+  setUserFromCache = ->
+    cachedUser = getCahchedUser()
+    if cachedUser
+      setUser cachedUser
+    notifier.message "User not logined"
+
 
   activate: ->
     notifier.showLoading()
     initialize()
-    firstLaunch = cache.get "firstLaunch"
-    if !firstLaunch
-      cache.put "firstLaunch", true
-      promise = $q.all([getDefaultNearestSpot(), getDefaultLagAndCulture()])
+
+    if isFirstLaunch()
+      console.log ">>>user.coffee:146", "This is first launch"
+      setFisrtLaunchComplete()
+      promise = $q.all([getDefaultNearestSpot(), getDefaultLagAndCulture()]).then ->
+        saveChangesToCache()
     else
-      if user.profile
-        _this = @
-        promise = authio.login(user.profile.provider, force : false).then (res) ->
-          setUser mapper.mapUser(res), true
-        , (err) ->
-          _this.logout()
+      if !authio.isLogined() and user.profile
+        console.log ">>>user.coffee:153", "Something wrong, user not logined but profile exists! reset profile"
+        user.profile = null
+      cachedUser = getCahchedUser()
+      if authio.isLogined() and !cachedUser.profile
+        console.log ">>>user.coffee:163", "Something wrong, user is logined but profile not exists! logout"
+        authio.logout()
+      if cachedUser.profile
+        promise = authio.login(cachedUser.profile.provider, force : false)
+        .then (res) ->
+            setUser mapUser res
+            saveChangesToCache()
+        .catch ->
+          if cachedUser and cachedUser.profile
+            cachedUser.profile = null
+            saveChangesToCache()
+          setUserFromCache()
       else
+        setUserFromCache()
         promise = $q.when()
-    promise.finally ->
+
+    promise.finally (res) ->
       notifier.hideLoading()
+
     promise
 
   getHome: getHome
@@ -171,7 +209,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     user.settings.culture
 
   login: ->
-    if !@isLogin()
+    if !authio.isLogined()
       showAuthForm()
     else
       $q.when()
@@ -181,7 +219,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, res, culture, geoLocato
     user.profile = null
     saveChanges()
 
-  isLogin: -> user.profile
+  isLogined: -> authio.isLogined()
 
   reset : reset
 

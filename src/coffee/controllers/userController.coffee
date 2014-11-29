@@ -1,21 +1,21 @@
-app.controller "UserController", ($scope, user, res) ->
+app.controller "UserController", ($scope, user, resources) ->
 
   console.log "User Controller"
 
   $scope.login = user.login
   $scope.logout = user.logout
-  $scope.isLogin = user.isLogin
+  $scope.isLogined = user.isLogined
   $scope.reset = user.reset
 
   $scope.culturesList = [
-    {code : "eu", name : res.str("Europe")}
-    {code : "uk", name : res.str("United Kingdom")}
-    {code : "us", name : res.str("United States")}
+    {code : "eu", name : resources.str("Europe")}
+    {code : "uk", name : resources.str("United Kingdom")}
+    {code : "us", name : resources.str("United States")}
   ]
 
   $scope.langsList = [
-    {code : "en", name : res.str("English")}
-    {code : "ru", name : res.str("Russian")}
+    {code : "en", name : resources.str("English")}
+    {code : "ru", name : resources.str("Russian")}
   ]
 
   $scope.setCulture = user.setCulture

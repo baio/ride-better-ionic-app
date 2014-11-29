@@ -68,7 +68,9 @@ gulp.task "jade.d", ->
   .pipe(concat("index.d.html"))
   .pipe(gulp.dest("./www"))
 
-gulp.task "coffee",  ["create-app-config"], ->
+gulp.task "build-coffee",  ["create-app-config", "coffee"]
+
+gulp.task "coffee",  ->
   gulp.src(["./src/coffee/app.coffee", "./src/coffee/**/*.coffee"])
   .pipe(plumber())
   .pipe(coffee(bare: true))
@@ -78,7 +80,7 @@ gulp.task "coffee",  ["create-app-config"], ->
 gulp.task "watch-jade", ["jade"], ->
   gulp.watch "./src/jade/**/*.jade", ["jade"]
 
-gulp.task "watch-coffee", ["coffee"], ->
+gulp.task "watch-coffee", ["build-coffee"], ->
   gulp.watch "./src/coffee/**/*.coffee", ["coffee"]
 
 gulp.task "sass", (done) ->
@@ -93,7 +95,8 @@ gulp.task "watch-assets", ->
   lrServer.listen 35729, (err) ->
     if err
       console.log err
-  gulp.watch ["./www/js/*.js", "./www/css/*.css", "./www/index.html"], (file) ->
+  gulp.watch ["./www/app.js", "./www/css/*.css", "./www/index.html"], (file) ->
+    console.log ">>>gulpfile.coffee:99"
     lrServer.changed body : files: [file.path]
 
 gulp.task "nodemon", ->

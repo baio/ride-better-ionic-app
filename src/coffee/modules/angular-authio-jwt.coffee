@@ -54,6 +54,7 @@ app.provider "authioLogin", ->
       deferred.promise
 
     login : (provider, opts) ->
+      #return `dev` user if exists
       if _user
         return $q.when _user
       activate()
@@ -76,6 +77,10 @@ app.provider "authioLogin", ->
       authioEndpoints.user(jwt)
 
     setData: (jwt, key, data) ->
+      #return `dev` user if exists
+      if _user
+        console.log ">>>angular-authio-jwt.coffee:82", "`dev` mode, setData ignored"
+        return
       activate()
       authioEndpoints.setData jwt, key, data
 
@@ -94,7 +99,7 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
 
   login = (provider, opts) ->
     jwt = getJWT()
-    if !jwt
+    if !jwt and opts.force
       authioLogin.login(provider, opts).then (res) ->
         setJWT res.token
         authioLogin.logout provider
@@ -122,3 +127,6 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
     setJWT undefined
 
   getJWT: getJWT
+
+  isLogined: -> getJWT()
+

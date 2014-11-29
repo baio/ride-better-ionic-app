@@ -7,13 +7,8 @@ dev:
   client :
     apiUrl : //localhost:8001/
     auth :
-      user :
-        profile :
-          key : unk_baio
-          id : baio
-          name : max putilov
-          provider : unk
-          avatar : unk.png
+      oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
+      apiUrl : //auth-server-oauthio.herokuapp.com/
 debug:
   server:
     port : 8005 #port where dev application are running

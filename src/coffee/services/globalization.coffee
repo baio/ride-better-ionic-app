@@ -1,4 +1,4 @@
-app.factory "globalization", ($q, res, culture) ->
+app.factory "globalization", ($q, resources, culture) ->
 
   getLangAndCulture: ->
 
@@ -12,7 +12,7 @@ app.factory "globalization", ($q, res, culture) ->
         lang = spts[0].toLowerCase()
         cl = if spts.length > 1 then spts[1].toLowerCase() else lang
         deferred.resolve
-          lang : res.getKnownLang lang
+          lang : resources.getKnownLang lang
           culture : culture.getKnownCulture cl
       , -> deferred.resolve _default
     else

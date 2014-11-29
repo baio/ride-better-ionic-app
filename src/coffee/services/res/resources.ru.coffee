@@ -1,4 +1,4 @@
-app.constant "res_ru",
+app.constant "resources_ru",
   "Send" : "Отправить"
   "Cancel" : "Отменить"
   "Add Message" : "Добавить сообщение"
@@ -65,3 +65,4 @@ app.constant "res_ru",
   "Talk" : "Разговор"
   "Send Message" : "Отправить сообщение"
   "Message" : "Сообщение"
+  "User not logined" : "Пользователь не залогинен"

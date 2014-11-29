@@ -1,4 +1,4 @@
-app = angular.module("surf-better", [
+app = angular.module("ride-better", [
   "ionic", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt", "angularMoment"
 ]).run(($ionicPlatform, $rootScope, user) ->
   $ionicPlatform.ready ->

@@ -1,5 +1,5 @@
 "use strict"
 
-app.filter "res", (res) ->
+app.filter "res", (resources) ->
   (str) ->
-    res.str str
+    resources.str str

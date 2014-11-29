@@ -3,8 +3,10 @@ app.factory "cache", (DSCacheFactory) ->
   cache = DSCacheFactory("app-cache")
 
   _ver = "1"
+  _disbale_cachce = false
 
   get: (name) ->
+    if _disbale_cachce then return
     val = cache.get name
     if val and val._val
       if val._ver != _ver
@@ -20,6 +22,7 @@ app.factory "cache", (DSCacheFactory) ->
     val
 
   put: (name, val, expired) ->
+    if _disbale_cachce then return
     if expired
       if expired == "eod" or not isNaN(expired)
         if expired == "eod"
@@ -32,28 +35,7 @@ app.factory "cache", (DSCacheFactory) ->
     else
       cache.put name, _val : val, _ver : _ver
 
-  rm: (name) -> cache.remove name
-
-  clean: -> cache.removeAll()
-
-  replace: (coll, name, val) ->
-    @pop coll, name
-    @push coll, name, val
-
-  push: (coll, name, val) ->
-    if !@get coll + "." + name
-      @put coll + "." + name, val
-      true
-    else
-      false
-
-  pop: (coll, name) ->
-    @rm coll + "." + name
-
-  item: (coll, name) ->
-    @get coll + "." + name
-
-  all: (coll) ->
-    @get(key) for key in cache.keys().filter (f) -> f.indexOf(coll + ".") == 0
-
+  clean: ->
+    if _disbale_cachce then return
+    cache.removeAll()
 
