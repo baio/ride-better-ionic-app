@@ -1,6 +1,7 @@
 app.factory "notifier", ($ionicPopup, resources, $ionicLoading) ->
 
   message : (msg) ->
+    
     if window.plugins?.toast
       window.plugins.toast.showLongTop(resources.str(msg))
     else

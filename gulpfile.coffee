@@ -68,14 +68,17 @@ gulp.task "jade.d", ->
   .pipe(concat("index.d.html"))
   .pipe(gulp.dest("./www"))
 
-gulp.task "build-coffee",  ["create-app-config", "coffee"]
 
-gulp.task "coffee",  ->
+buildCoffee = ->
   gulp.src(["./src/coffee/app.coffee", "./src/coffee/**/*.coffee"])
   .pipe(plumber())
   .pipe(coffee(bare: true))
   .pipe(concat("app.js"))
   .pipe(gulp.dest("./www"))
+
+gulp.task "build-coffee",  ["create-app-config"], buildCoffee
+gulp.task "coffee",  buildCoffee
+
 
 gulp.task "watch-jade", ["jade"], ->
   gulp.watch "./src/jade/**/*.jade", ["jade"]
@@ -150,5 +153,5 @@ gulp.task "bundle-lib", ->
   .pipe(gulp.dest('www/lib-bundle'))
 
 gulp.task "dev-server", ["bundle-lib", "watch-jade", "watch-coffee", "watch-assets", "nodemon"]
-gulp.task "build", ["bundle-lib", "jade", "coffee"]
+gulp.task "build", ["bundle-lib", "jade", "build-coffee"]
 
