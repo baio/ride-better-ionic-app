@@ -38,7 +38,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
           { code : "1936", label : "Завьялиха (Zavyalikha)", isHome : true }
         ]
 
-  getHome = -> user.settings.favs.filter((f) -> f.isHome)[0]
+  getHome = ->
+    user.settings.favs.filter((f) -> f.isHome)[0]
 
   reset = ->
     authio.logout()
@@ -119,10 +120,10 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
   getDefaultNearestSpot = ->
     geoLocator.getPosition()
     .then (geo) ->
-      spotsDA.nearest(geo.lat + "," + geo.lon).then (spot) ->
-        addSpot spot
-        setHome spot
-      null
+      spotsDA.nearest(geo.lat + "," + geo.lon)
+    .then (spot) ->
+      addSpot spot
+      setHome spot
 
   getDefaultLagAndCulture = ->
     globalization.getLangAndCulture().then (r) =>

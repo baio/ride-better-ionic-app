@@ -21,6 +21,7 @@ app.controller "HomeController", ($scope, homeDA, reportsDA, user, $state) ->
 
   loadSnapshot = ->
     home = user.getHome()
+    console.log ">>>homeController.coffee:24", home
     homeDA.get(spot : home.code, lang : user.getLang(), culture : user.getCulture()).then setSnapshot
 
   if $scope.$root.activated
