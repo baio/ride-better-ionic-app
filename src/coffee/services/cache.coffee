@@ -39,3 +39,6 @@ app.factory "cache", (DSCacheFactory) ->
     if _disbale_cachce then return
     cache.removeAll()
 
+  rm: (name) ->
+    if _disbale_cachce then return
+    cache.remove name

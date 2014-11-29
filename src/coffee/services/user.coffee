@@ -12,10 +12,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
 
   setUser = (u) ->
     user.profile = u.profile
-    console.log ">>>user.coffee:14", user, u
     if u.settings
       user.settings = u.settings
-      console.log ">>>user.coffee:15", user, u
       putLang user.settings.lang
       putCulture user.settings.culture
     $rootScope.homeLabel = getHome().label
@@ -24,7 +22,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
     cache.put "user", user
 
   saveChangesOnline = ->
-    authio.setData "ride_better", user.settings
+    if authio.isLogined()
+      authio.setData "ride_better", user.settings
 
   saveChanges = ->
     saveChangesToCache()
@@ -60,8 +59,10 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
 
   showAuthForm = ->
     deferredAuthForm = $q.defer()
-    authio.preLogin()
     authForm.show()
+    notifier.showLoading()
+    authio.preLogin().finally ->
+      notifier.hideLoading()
     deferredAuthForm.promise
 
   $rootScope.$on "modal.hidden", (modal) ->
@@ -99,6 +100,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
     for fav in user.settings.favs
       fav.isHome = false
     spot.isHome = true
+    $rootScope.homeLabel = getHome().label
 
   addSpot = (spot) ->
     favs = user.settings.favs
@@ -165,7 +167,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
         user.profile = null
       cachedUser = getCahchedUser()
       if authio.isLogined() and !cachedUser.profile
-        console.log ">>>user.coffee:163", "Something wrong, user is logined but profile not exists! logout"
+        console.log ">>>user.coffee:16 3", "Something wrong, user is logined but profile not exists! logout"
         authio.logout()
       if cachedUser.profile
         promise = authio.login(cachedUser.profile.provider, force : false)
@@ -187,8 +189,14 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
     promise
 
   getHome: getHome
-  setHome: setHome
-  addSpot: addSpot
+
+  setHome: (spot) ->
+    setHome(spot)
+    saveChanges()
+
+  addSpot: (spot)->
+    addSpot(spot)
+    saveChanges()
 
   removeSpot: (spot) ->
     favs = user.settings.favs
