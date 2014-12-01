@@ -14,14 +14,13 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
 
   loadLatest = ->
     home = user.getHome()
-    home.code = "1936"
-    webcamsDA.latest(spot : home.code).then setWebcam
+    #home.code
+    webcamsDA.latest(spot : "1936").then setWebcam
 
   loadPrev = (index) ->
     cur = $scope.cards[index]
     home = user.getHome()
-    home.code = "1936"
-    webcamsDA.prev(spot : home.code, time : $scope.cards[index].created)
+    webcamsDA.prev(spot : "1936", time : $scope.cards[index].created)
     .then setWebcam
     .catch -> notifier.message "No more images, try again later."
 
@@ -29,8 +28,7 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
   loadNext = (index) ->
     cur = $scope.cards[index]
     home = user.getHome()
-    home.code = "1936"
-    webcamsDA.next(spot : home.code, time : $scope.cards[index].created)
+    webcamsDA.next(spot : "1936", time : $scope.cards[index].created)
     .then setWebcam
     .catch ->
       setWebcam cur
