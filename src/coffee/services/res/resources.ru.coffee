@@ -66,3 +66,4 @@ app.constant "resources_ru",
   "Send Message" : "Отправить сообщение"
   "Message" : "Сообщение"
   "User not logined" : "Пользователь не залогинен"
+  "No more images, try again later." : "Больше нет изображений, попробуйте позднее."

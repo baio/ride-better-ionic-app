@@ -1,0 +1,8 @@
+ion-view(ng-attr-title="{{homeLabel}}")
+    ion-content.has-header
+        td-cards
+            td-card(ng-repeat='card in cards', on-destroy="cardDestroyed($index)", on-swipe-left='cardSwipedLeft($index)', on-swipe-right='cardSwipedRight($index)', class="card-{{card.index}}")
+                .image
+                    .yes-text(ng-style="leftTextOpacity") {{card.created | amCalendar}}
+                    img(ng-src='{{card.src}}')
+                    .no-text(ng-style="rightTextOpacity")

@@ -36,3 +36,8 @@ app.controller "HomeController", ($scope, homeDA, reportsDA, user, $state) ->
   $scope.openTalk = ->
     $state.go "tab.talk"
 
+app.directive 'noScroll', ($document) ->
+  restrict: 'A'
+  link: ($scope, $element, $attr) ->
+    $document.on 'touchmove', (e) ->
+      e.preventDefault()
