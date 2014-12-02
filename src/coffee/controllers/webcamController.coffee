@@ -3,14 +3,17 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
   console.log "Webcam Controller"
 
   $scope.cards = []
+  $scope.currentCard = null
 
   $scope.cardSwipedLeft = (index) ->
 
   $scope.cardSwipedRigth = (index) ->
 
   setWebcam = (res) ->
+    console.log ">>>webcamController.coffee:13"
     $scope.cards.push(res)
     res.index = $scope.cards.indexOf res
+    $scope.currentCard = res
 
   loadLatest = ->
     home = user.getHome()
@@ -50,3 +53,11 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
     console.log ">>>webcamController.coffee:49", index
     $scope.cards.splice(index, 1)
 
+app.directive "noScroll", ($document) ->
+  restrict: "A"
+  link: ($scope, $element, $attr) ->
+    $document.on "touchmove", (e) ->
+      e.preventDefault()
+      return
+
+    return
