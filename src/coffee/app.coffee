@@ -40,7 +40,12 @@ app = angular.module("ride-better", [
     url: "/talk"
     views:
       "tab-home":
-        templateUrl: "tabs/tab-talk.html"
+        templateUrl: "tabs/talks/tab-index.html"
+  ).state("tab.talk-today",
+    url: "/talk/today"
+    views:
+      "tab-home":
+        templateUrl: "tabs/talks/tab-today.html"
         controller: "TalkController"
   ).state("tab.forecast",
     url: "/forecast"
