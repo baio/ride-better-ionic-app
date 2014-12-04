@@ -27,7 +27,7 @@ stage:
     platform : browser
     debug : false
   client :
-    apiUrl : //ride-better-web-api.herokuapp.com/
+    apiUrl :  //ride-better-web-api.herokuapp.com/
     auth :
       apiUrl : //auth-server-oauthio.herokuapp.com/
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
@@ -50,4 +50,18 @@ cordova_stage:
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
       apiUrl : http://auth-server-oauthio.herokuapp.com/
-
+gce_stage:
+  server:
+    port : 8000
+  env:
+    platform : browser
+    debug : false
+  client :
+    apiUrl :
+      host : $RIDE_BETTER_WEB_API_SERVICE_HOST 
+      port : $RIDE_BETTER_WEB_API_SERVICE_PORT
+    auth :
+      apiUrl : 
+        host : $RIDE_BETTER_AUTH_SERVICE_HOST 
+        port : $RIDE_BETTER_AUTH_SERVICE_PORT
+      oauthio_key : $OAUTHIO_KEY
