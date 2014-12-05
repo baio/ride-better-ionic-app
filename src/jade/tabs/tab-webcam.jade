@@ -3,7 +3,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
 		button.button.button-clear.ion-ios7-arrow-left(ng-click="cardSwipedRight(currentCard.index)")
 		h2.title {{currentCard.created | amCalendar}}
 		button.button.button-clear.ion-ios7-arrow-right(ng-click="cardSwipedLeft(currentCard.index)")
-	ion-content.has-header(no-scroll)
+	ion-content.has-header
 		td-cards
 			td-card(ng-repeat='card in cards', on-destroy="cardDestroyed($index)", on-swipe-left='cardSwipedLeft($index)', on-swipe-right='cardSwipedRight($index)', class="card-{{card.index}}")
 				.image
