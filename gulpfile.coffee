@@ -40,8 +40,9 @@ else
 
 config = yamlConfig.readConfig('./configs.yml', $ENV)
 
+
 traverse(config).forEach (x) ->
-  if typeof x == "string" and x.indexOf(x) == 0
+  if typeof x == "string" and x[0] == "$"
     @update process.env[x[1..]]
 
 if typeof config.client.apiUrl == "object"
@@ -49,6 +50,7 @@ if typeof config.client.apiUrl == "object"
 
 if typeof config.client.auth.apiUrl == "object"
   config.client.auth.apiUrl = "//" + config.client.auth.apiUrl.host + ":" +  config.client.auth.apiUrl.port
+
 
 lrServer = lr()
 
