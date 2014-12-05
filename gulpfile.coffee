@@ -23,6 +23,8 @@ mainBowerFiles = require "main-bower-files"
 require("gulp-grunt")(gulp)
 
 yamlConfig = require "yaml-config"
+traverse = require "traverse"
+
 $ENV = process.argv.slice(3)[0]
 if $ENV
   $ENV = $ENV.replace "--", ""
@@ -37,6 +39,18 @@ else
   console.log "$ENV is set to #{$ENV}"
 
 config = yamlConfig.readConfig('./configs.yml', $ENV)
+
+
+traverse(config).forEach (x) ->
+  if typeof x == "string" and x[0] == "$"
+    @update process.env[x[1..]]
+
+if typeof config.client.apiUrl == "object"
+  config.client.apiUrl = "//" + config.client.apiUrl.host + ":" +  config.client.apiUrl.port
+
+if typeof config.client.auth.apiUrl == "object"
+  config.client.auth.apiUrl = "//" + config.client.auth.apiUrl.host + ":" +  config.client.auth.apiUrl.port
+
 
 lrServer = lr()
 
@@ -138,8 +152,6 @@ gulp.task "pgb-build", ["build", "pgb-clean"],  (done) ->
   gulp.src("./res/.res/**/*").pipe(gulp.dest(".release/pgb-src/res"))
   gulp.src("./www/.pgbomit").pipe(gulp.dest(".release/pgb-src/res"))
   gulp.src("./www/.pgbomit").pipe(gulp.dest(".release/pgb-src/lib"))
-  #gulp.src("./res/.res/icon/96.png").pipe(rename("icon.png")).pipe(gulp.dest(".release/pgb-src"))
-  #gulp.src("./res/.res/screen/480x800.png").pipe(rename("splash.png")).pipe(gulp.dest(".release/pgb-src"))
   setTimeout done, 5000
 
 gulp.task "pgb-zip", ["pgb-build"], ->
