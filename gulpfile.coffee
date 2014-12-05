@@ -47,8 +47,8 @@ traverse(config).forEach (x) ->
 if typeof config.client.apiUrl == "object"
   config.client.apiUrl = "//" + config.client.apiUrl.host + ":" +  config.client.apiUrl.port
 
-if typeof config.auth.apiUrl == "object"
-  config.auth.apiUrl = "//" + config.auth.apiUrl.host + ":" +  config.auth.apiUrl.port
+if typeof config.client.auth.apiUrl == "object"
+  config.client.auth.apiUrl = "//" + config.client.auth.apiUrl.host + ":" +  config.client.auth.apiUrl.port
 
 lrServer = lr()
 
