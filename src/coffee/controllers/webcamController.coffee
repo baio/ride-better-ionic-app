@@ -55,12 +55,3 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
   $scope.cardDestroyed = (index) ->
     console.log ">>>webcamController.coffee:49", index
     $scope.cards.splice(index, 1)
-
-app.directive "noScroll", ($document) ->
-  restrict: "A"
-  link: ($scope, $element, $attr) ->
-    $document.on "touchmove", (e) ->
-      e.preventDefault()
-      return
-
-    return
