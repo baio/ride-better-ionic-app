@@ -1,0 +1,10 @@
+id: web-app-service
+kind: Service
+apiVersion: v1beta1
+port: 80
+createExternalLoadBalancer: true
+containerPort: web-app-port
+selector: 
+  name: web-app
+labels: 
+  name: web-app

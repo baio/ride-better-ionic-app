@@ -1,6 +1,15 @@
 Ionic App Base
 =====================
 
+```
+ gcloud compute firewall-rules create http-port-80 --allow=tcp:80 --target-tags k8s-ride-better-managed-node
+  "scripts": {
+    "start": "node_modules/.bin/coffee server.coffee"/*,
+    "postinstall": "bower install && gulp build"*/
+  },
+
+```
+
 #Global insatlled npm packages
 
 ```

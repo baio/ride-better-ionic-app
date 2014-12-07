@@ -38,8 +38,7 @@
     "url": "https://baio@bitbucket.org/baio/ride-better-ionic-app.git"
   },
   "scripts": {
-    "start": "coffee server.coffee",
-    "postinstall": "bower install && gulp build"
+    "start": "node_modules/.bin/coffee server.coffee"
   },
   "devDependencies": {
     "fs-extra": "^0.12.0"

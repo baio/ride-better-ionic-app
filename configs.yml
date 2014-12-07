@@ -52,16 +52,12 @@ cordova_stage:
       apiUrl : http://auth-server-oauthio.herokuapp.com/
 gce_stage:
   server:
-    port : 8000
+    port : 8080
   env:
     platform : browser
     debug : false
   client :
-    apiUrl :
-      host : $RIDE_BETTER_WEB_API_SERVICE_HOST 
-      port : $RIDE_BETTER_WEB_API_SERVICE_PORT
+    apiUrl : http://ridebetter.info:85/
     auth :
-      apiUrl : 
-        host : $RIDE_BETTER_AUTH_SERVICE_HOST 
-        port : $RIDE_BETTER_AUTH_SERVICE_PORT
-      oauthio_key : $OAUTHIO_KEY
+      apiUrl :  http://ridebetter.info:87/
+      oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic

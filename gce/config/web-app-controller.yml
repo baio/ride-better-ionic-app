@@ -1,0 +1,33 @@
+id: "web-app-controller"
+kind: "ReplicationController"
+apiVersion: "v1beta1"
+desiredState: 
+  replicas: 3
+  replicaSelector: 
+    name: "web-app"
+  podTemplate: 
+    desiredState: 
+      manifest: 
+        version: "v1beta1"
+        id: "web-app-controller"
+        containers: 
+          - 
+            name: "web-app"
+            image: "baio/ride-better-web-app"
+            cpu: 10000
+            ports: 
+              - 
+                name: "web-app-port"
+                containerPort: 8080
+                hostPort: 80
+            env:
+              - name: NEW_RELIC_LICENSE_KEY 
+                value: cdc04e9a1643f8b59cbfe567de85e9fa2e7e39f8
+              - name: NODE_ENV
+                value: gce_stage
+              - name: PORT
+                value: 8080
+    labels: 
+      name: "web-app"
+labels: 
+  name: "web-app"
