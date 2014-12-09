@@ -95,3 +95,5 @@ app.constant "angularMomentConfig",
 app.config ($httpProvider) ->
   $httpProvider.responseInterceptors.push "httpFailureInterceptor"
 
+app.config ($sceDelegateProvider) ->
+  $sceDelegateProvider.resourceUrlWhitelist ["self", "http://ipeye.ru/ipeye_service/api/**"]

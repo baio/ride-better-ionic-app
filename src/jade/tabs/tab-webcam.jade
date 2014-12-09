@@ -1,13 +1,14 @@
 ion-view(ng-attr-title="{{homeLabel}}")
-	.bar.bar-subheader
-		button.button.button-clear.ion-ios7-arrow-left(ng-click="cardSwipedRight(currentCard.index)")
-		h2.title {{currentCard.created | amCalendar}}
-		button.button.button-clear.ion-ios7-arrow-right(ng-click="cardSwipedLeft(currentCard.index)")
-	ion-content.has-header
-		td-cards
-			td-card(ng-repeat='card in cards', on-destroy="cardDestroyed($index)", on-swipe-left='cardSwipedLeft($index)', on-swipe-right='cardSwipedRight($index)', class="card-{{card.index}}")
-				.image
-
-					.yes-text(ng-style="leftTextOpacity")
-					img(ng-src='{{card.src}}')
-					.no-text(ng-style="rightTextOpacity")
+	div(ng-if="current.meta.type === 'img'")
+		.bar.bar-subheader
+			button.button.button-clear.ion-ios7-arrow-left(ng-click="loadNext()")
+			h2.title {{current.meta.created | amCalendar}}
+			button.button.button-clear.ion-ios7-arrow-right(ng-click="loadPerv()")
+		ion-content.has-header.has-subheader
+			img.webcam-img(ng-src='{{current.meta.src}}' width="100%")
+	div(ng-if="current.meta.type === 'stream'")
+		ion-content.has-header
+			div.webcam-stream-container(style="width: 100%; text-align: center")
+				iframe.webcam-stream(src="{{current.meta.src}}" height="300" width="350"  frameborder="0" seamless="seamless")
+	ion-footer-bar.bar-positive
+		select(ng-options="cam.title for cam in list", ng-model="currentItem", ng-change="loadLatest()")

@@ -2,56 +2,35 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
 
   console.log "Webcam Controller"
 
-  $scope.cards = []
-  $scope.currentCard = null
+  $scope.current = null
 
   setWebcam = (res) ->
-    #$scope.cards.push(res)
-    $scope.cards.splice(0, $scope.cards.length, res)
-    res.index = $scope.cards.indexOf res
-    $scope.currentCard = res
+    $scope.current = res.current
+    $scope.list = res.list
+    $scope.currentItem = res.list.filter((f) -> f.index == res.current.index)[0]
+    console.log $scope.list, $scope.currentItem
 
-  loadLatest = ->    
+  getIndex = ->  if $scope.currentItem then $scope.currentItem.index else 0
+
+  $scope.loadLatest = ->
     home = user.getHome()
-    webcamsDA.latest(spot : "1936").then (res) ->
-      $scope.cards.splice(0, $scope.cards.length)
-      setWebcam res
+    webcamsDA.latest(spot : "1936", index : getIndex()).then setWebcam
 
-  loadPrev = (index) ->
-    if !$scope.cards.length
-      loadLatest()
-    else
-      cur = $scope.cards[index]
-      home = user.getHome()
-      webcamsDA.prev(spot : "1936", time : $scope.cards[index].created)
-      .then setWebcam
-      .catch -> notifier.message "No more images, try again later."
+  $scope.loadPrev = ->
+    home = user.getHome()
+    webcamsDA.prev(spot : "1936", index : getIndex(), time : $scope.current.created)
+    .then setWebcam
+    .catch -> notifier.message "No more images, try again later."
 
-
-  loadNext = (index) ->
-   if !$scope.cards.length
-      loadLatest()
-    else      
-      cur = $scope.cards[index]
-      home = user.getHome()
-      webcamsDA.next(spot : "1936", time : $scope.cards[index].created)
-      .then setWebcam
-      .catch ->
-        setWebcam cur
-        notifier.message "No more images, try again later."
+  $scope.loadNext = ->
+    home = user.getHome()
+    webcamsDA.next(spot : "1936", index : getIndex(), time : $scope.current.created)
+    .then setWebcam
+    .catch ->
+      notifier.message "No more images, try again later."
 
   if $scope.$root.activated
-    loadLatest()
+    $scope.loadLatest()
 
-  $scope.$on "app.activated", loadLatest
+  $scope.$on "app.activated", $scope.loadLatest
 
-  $scope.cardSwipedLeft = (index) ->
-    loadPrev(index)
-
-  $scope.cardSwipedRight = (index) ->
-    loadNext(index)
-
-
-  $scope.cardDestroyed = (index) ->
-    console.log ">>>webcamController.coffee:49", index
-    $scope.cards.splice(index, 1)

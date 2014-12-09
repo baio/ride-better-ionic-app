@@ -167,22 +167,26 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
         console.log ">>>user.coffee:153", "Something wrong, user not logined but profile exists! reset profile"
         user.profile = null
       cachedUser = getCahchedUser()
-      if authio.isLogined() and !cachedUser.profile
-        console.log ">>>user.coffee:16 3", "Something wrong, user is logined but profile not exists! logout"
-        authio.logout()
-      if cachedUser.profile
-        promise = authio.login(cachedUser.profile.provider, force : false)
-        .then (res) ->
-            setUser mapUser res
-            saveChangesToCache()
-        .catch ->
-          if cachedUser and cachedUser.profile
-            cachedUser.profile = null
-            saveChangesToCache()
-          setUserFromCache()
-      else
-        setUserFromCache()
+      if !cachedUser 
+        console.log ">>>user.coffee:16 3", "This is not first entance, but user doesn't exist in cache"
         promise = $q.when()
+      else
+        if authio.isLogined() and !cachedUser.profile
+          console.log ">>>user.coffee:16 3", "Something wrong, user is logined but profile not exists! logout"
+          authio.logout()
+        if cachedUser.profile
+          promise = authio.login(cachedUser.profile.provider, force : false)
+          .then (res) ->
+              setUser mapUser res
+              saveChangesToCache()
+          .catch ->
+            if cachedUser and cachedUser.profile
+              cachedUser.profile = null
+              saveChangesToCache()
+            setUserFromCache()
+        else
+          setUserFromCache()
+          promise = $q.when()
 
     promise.finally (res) ->
       notifier.hideLoading()
