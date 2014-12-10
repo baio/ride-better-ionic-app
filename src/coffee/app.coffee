@@ -1,5 +1,5 @@
 app = angular.module("ride-better", [
-  "ionic", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt", "angularMoment", 'ionic.contrib.ui.tinderCards'
+  "ionic", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt", "angularMoment", 'googlechart'
 ]).run(($ionicPlatform, $rootScope, user) ->
   $ionicPlatform.ready ->
     StatusBar.styleDefault() if window.StatusBar
@@ -36,6 +36,12 @@ app = angular.module("ride-better", [
       "tab-home":
         templateUrl: "tabs/tab-reports.html"
         controller: "ReportsController"
+  ).state("tab.snowHist",
+    url: "/snow-hist"
+    views:
+      "tab-home":
+        templateUrl: "tabs/tab-snow-hist.html"
+        controller: "SnowHistController"
   ).state("tab.talk",
     url: "/talk"
     views:

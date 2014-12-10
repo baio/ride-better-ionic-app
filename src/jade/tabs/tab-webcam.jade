@@ -3,7 +3,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
 		.bar.bar-subheader
 			button.button.button-clear.ion-ios7-arrow-left(ng-click="loadNext()")
 			h2.title {{current.meta.created | amCalendar}}
-			button.button.button-clear.ion-ios7-arrow-right(ng-click="loadPerv()")
+			button.button.button-clear.ion-ios7-arrow-right(ng-click="loadPrev()")
 		ion-content.has-header.has-subheader
 			img.webcam-img(ng-src='{{current.meta.src}}' width="100%")
 	div(ng-if="current.meta.type === 'stream'")

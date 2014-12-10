@@ -10,10 +10,10 @@ ion-view(ng-attr-title="{{homeLabel}}")
                 i.icon.ion-arrow-down-c &nbsp; {{culture.temp(snapshot.forecast.temperatureMin) | round | plus}}&deg;{{culture.tempU()}} &nbsp;
                 | &nbsp;&nbsp;&nbsp;
                 i.icon.ion-arrow-up-c &nbsp; {{culture.temp(snapshot.forecast.temperatureMax) | round | plus}}&deg;{{culture.tempU()}} &nbsp;
-                br
-                span(ng-if="snowfallHistory.summary")
-                    i.icon.ion-ios7-snowy(style="font-size: 20px; color: blue;")
-                    &nbsp; {{snowfallHistory.summary}}
+                i.arrow-more.ion-ios7-arrow-thin-right
+            .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(ui-sref="tab.snowHist", ng-if="snowfallHistory.summary")
+                i.icon.ion-ios7-snowy(style="font-size: 20px; color: blue;")
+                &nbsp; {{snowfallHistory.summary}}
                 i.arrow-more.ion-ios7-arrow-thin-right
     ion-footer-bar.bar-positive
         .button-bar

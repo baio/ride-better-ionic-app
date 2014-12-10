@@ -12,7 +12,7 @@ app.factory "homeDA", (homeEP, cache, $q) ->
       _resetNext = false
     else
       cached = cache.get cacheName
-    if cached
+    if cached      
       $q.when cached
     else
       homeEP.get(opts).then (res) ->

@@ -7,8 +7,7 @@
     "oauth-js": "~0.2.4",
     "angular-cache": "~3.1.0",
     "angular-moment": "~0.8.2",
-    "ionic-contrib-tinder-cards": "*",
-     "collide": "1.0.0-beta.3"
+    "angular-google-chart": "~0.0.11"
   },
   "resolutions": {
     "angular": "~1.2.17",
@@ -33,13 +32,9 @@
       "main": "dist/angular-cache.min.js",
       "dependencies": null
     },
-    "ionic-contrib-tinder-cards": {
-        "main": "ionic.tdcards.js",
-        "dependencies": null
-    },
-    "collide": {
-        "main": "collide.js",
-        "dependencies": null
+    "angular-google-chart": {
+      "main": "ng-google-chart.js",
+      "dependencies": null
     },
     "oauth-js": {
       "ignore": true

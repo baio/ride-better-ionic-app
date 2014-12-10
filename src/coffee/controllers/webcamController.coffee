@@ -5,10 +5,10 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
   $scope.current = null
 
   setWebcam = (res) ->
-    $scope.current = res.current
-    $scope.list = res.list
-    $scope.currentItem = res.list.filter((f) -> f.index == res.current.index)[0]
-    console.log $scope.list, $scope.currentItem
+    if res.current?.meta
+      $scope.current = res.current
+      $scope.list = res.list
+      $scope.currentItem = res.list.filter((f) -> f.index == res.current.index)[0]    
 
   getIndex = ->  if $scope.currentItem then $scope.currentItem.index else 0
 
@@ -18,13 +18,13 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
 
   $scope.loadPrev = ->
     home = user.getHome()
-    webcamsDA.prev(spot : "1936", index : getIndex(), time : $scope.current.created)
+    webcamsDA.prev(spot : "1936", index : getIndex(), time : $scope.current.meta.created)
     .then setWebcam
     .catch -> notifier.message "No more images, try again later."
 
   $scope.loadNext = ->
     home = user.getHome()
-    webcamsDA.next(spot : "1936", index : getIndex(), time : $scope.current.created)
+    webcamsDA.next(spot : "1936", index : getIndex(), time : $scope.current.meta.created)
     .then setWebcam
     .catch ->
       notifier.message "No more images, try again later."
