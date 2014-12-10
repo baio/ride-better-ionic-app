@@ -1,14 +1,13 @@
-app.controller "SnowHistController", ($scope, homeDA, user) ->
+app.controller "SnowHistController", ($scope, homeDA, user, resources, culture) ->
 
-  console.log "Reports Controller"
+  console.log "snowHistController.coffee:3 >>>"
+  
   $scope.chart = 
     type : "BarChart"
     options :
       legend:  position: 'top', maxLines: 3 
-      title: "Snowfall History"
       isStacked: true
       height: 500
-      vAxis: {title: 'Days',  titleTextStyle: {color: 'blue'}}
     data : []
 
   setChart = (data) ->        
@@ -23,11 +22,13 @@ app.controller "SnowHistController", ($scope, homeDA, user) ->
     rows = _rows.map (m) ->
       c : [{v : m.date}, {v : m.cmt}, {v : m.amt}]
 
+    $scope.chart.options.title = resources.str("Snowfall History") + " (" + resources.str(culture.heightU()) + ".)"
+    $scope.chart.options.vAxis = title: resources.str("Days"),  titleTextStyle: {color: 'blue'}
     $scope.chart.data =
       cols : [
-        {id: "t", label: "Dates", type: "string"},     
-        {id: "z", label: "Cumulative", type: "number"}, 
-        {id: "s", label: "Fall", type: "number"},        
+        {id: "t", label: resources.str("Days"), type: "string"},     
+        {id: "z", label: resources.str("Cumulative"), type: "number"}, 
+        {id: "s", label: resources.str("Fall"), type: "number"},        
       ]
       rows : rows
 

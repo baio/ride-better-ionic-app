@@ -74,3 +74,7 @@ app.constant "resources_ru",
   "Food" : "Еда"
   "Shops" : "Магазины"
   "Services" : "Услуги"
+  "Snowfall History" : "История осадков"
+  "Days" : "Дни"
+  "Cumulative" : "Всего"
+  "Fall" : "Выпало"
