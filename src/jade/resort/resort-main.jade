@@ -1,0 +1,17 @@
+ion-view(ng-attr-title="{{homeLabel}}")
+    ion-nav-buttons(side="left")
+        a.button.icon.ion-ios7-home-outline(ui-sref="tab.info")    
+    ion-content.has-header
+        .row
+            .col
+                img(ng-src="{{resort.header}}" width="100%", height="200px")
+        .row
+            .col
+                | {{resort.description}}
+        .row
+            .col
+                ul
+                    li(ng-repeat="txt in resort.pros") {{txt}}.
+            .col
+                ul
+                    li(ng-repeat="txt in resort.cons") {{txt}}.

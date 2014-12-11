@@ -33,8 +33,8 @@ app.controller "HomeController", ($scope, homeDA, reportsDA, user, $state) ->
     user.login().then ->
       $state.go "tab.report"
 
-  $scope.openTalk = ->
-    $state.go "tab.talk"
+  $scope.openInfo = ->
+    $state.go "tab.info"
 
 app.directive 'noScroll', ($document) ->
   restrict: 'A'

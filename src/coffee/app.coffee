@@ -42,17 +42,6 @@ app = angular.module("ride-better", [
       "tab-home":
         templateUrl: "tabs/tab-snow-hist.html"
         controller: "SnowHistController"
-  ).state("tab.talk",
-    url: "/talk"
-    views:
-      "tab-home":
-        templateUrl: "tabs/talks/tab-index.html"
-  ).state("tab.talk-today",
-    url: "/talk/today"
-    views:
-      "tab-home":
-        templateUrl: "tabs/talks/tab-today.html"
-        controller: "TalkController"
   ).state("tab.forecast",
     url: "/forecast"
     views:
@@ -77,6 +66,45 @@ app = angular.module("ride-better", [
       "tab-user":
         templateUrl: "tabs/tab-user.html"
         controller: "UserController"
+  ).state("tab.info",
+    url: "/info"
+    views:
+      "tab-home":
+        templateUrl: "tabs/info/tab-index.html"
+  ).state("tab.today",
+    url: "/info/today"
+    views:
+      "tab-home":
+        templateUrl: "tabs/info/tab-today.html"
+        controller: "TalkController"
+  ).state("resort",
+    abstract: true
+    url: "/resort"
+    templateUrl: "resort/resort.html"
+  ).state("resort.main",
+    url: "/main"
+    views:
+      "resort-main":
+        templateUrl: "resort/resort-main.html"
+        controller: "ResortController"
+  ).state("resort.contacts",
+    url: "/contacts"
+    views:
+      "resort-contacts":
+        templateUrl: "resort/resort-contacts.html"
+        controller: "ResortController"
+  ).state("resort.maps",
+    url: "/maps"
+    views:
+      "resort-maps":
+        templateUrl: "resort/resort-maps.html"
+        controller: "ResortMapController"
+  ).state("resort.prices",
+    url: "/prices"
+    views:
+      "resort-prices":
+        templateUrl: "resort/resort-prices.html"
+        controller: "ResortPricesController"
   )
 
   # if none of the above states are matched, use this as the fallback

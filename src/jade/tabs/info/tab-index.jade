@@ -1,9 +1,11 @@
 ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header
-        button.button.button-full.button-positive(ui-sref="tab.talk-today")
+        button.button.button-full.button-stable(ui-sref="tab.home")
+            i.icon.ion-ios7-arrow-thin-left &nbsp; {{"Back Home" | res}}                
+        button.button.button-full.button-calm(ui-sref="resort.main")
+            i.icon.ion-home &nbsp; {{"Resort" | res}}        
+        button.button.button-full.button-positive(ui-sref="tab.today")
             i.icon.ion-clock &nbsp; {{"Today" | res}}
-        button.button.button-full.button-calm
-            i.icon.ion-home &nbsp; {{"Official" | res}}
         button.button.button-full.button-balanced
             i.icon.ion-key &nbsp; {{"Housing" | res}}
         button.button.button-full.button-energized

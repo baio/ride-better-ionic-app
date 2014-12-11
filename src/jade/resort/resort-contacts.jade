@@ -1,0 +1,8 @@
+ion-view(ng-attr-title="{{homeLabel}}")
+    ion-nav-buttons(side="left")
+        a.button.icon.ion-ios7-home-outline(ui-sref="tab.info") 
+    ion-content.has-header
+        .list
+            .item.item-icon-right(ng-repeat="contact in resort.contacts")
+                | {{contact.val}}
+                span(ng-bind-html="contact | contact")
