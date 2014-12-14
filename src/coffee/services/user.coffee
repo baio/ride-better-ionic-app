@@ -41,6 +41,16 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
   getHome = ->
     user.settings.favs.filter((f) -> f.isHome)[0]
 
+  getHomeAsync = ->
+    console.log "user.coffee:45 >>>", "+"
+    deferred = $q.defer()
+    if $rootScope.activated
+      deferred.resolve(getHome())
+    else
+      $rootScope.$on "app.activated", -> 
+        deferred.resolve(getHome())
+    deferred.promise
+
   reset = ->
     authio.logout()
     cache.clean()
@@ -192,6 +202,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
       notifier.hideLoading()
 
     promise
+
+  getHomeAsync: getHomeAsync
 
   getHome: getHome
 

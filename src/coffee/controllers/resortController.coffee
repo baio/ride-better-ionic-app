@@ -1,16 +1,7 @@
-app.controller "ResortController", ($scope, resortsDA, user) ->
+app.controller "ResortController", ($scope, resortsDA, resort) ->
 
 	console.log "resortController.coffee:3 >>>"
 
-	setResort = (res) ->
-		$scope.resort = res
+	$scope.resort = resort
 
-	loadResort = ->
-	    home = user.getHome()
-	    resortsDA.getInfo(home.code)
-	    .then setResort
 
-	if $scope.$root.activated
-		loadResort()
-
-	$scope.$on "app.activated", loadResort

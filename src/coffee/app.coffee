@@ -78,33 +78,33 @@ app = angular.module("ride-better", [
         templateUrl: "tabs/info/tab-today.html"
         controller: "TalkController"
   ).state("resort",
-    abstract: true
     url: "/resort"
     templateUrl: "resort/resort.html"
+    controller: "ResortController"
+    resolve:
+      resort: (resortsDA, user) ->
+        user.getHomeAsync().then (home) ->          
+          resortsDA.getInfo(home.code)        
   ).state("resort.main",
     url: "/main"
     views:
       "resort-main":
         templateUrl: "resort/resort-main.html"
-        controller: "ResortController"
   ).state("resort.contacts",
     url: "/contacts"
     views:
       "resort-contacts":
         templateUrl: "resort/resort-contacts.html"
-        controller: "ResortController"
   ).state("resort.maps",
     url: "/maps"
     views:
       "resort-maps":
         templateUrl: "resort/resort-maps.html"
-        controller: "ResortMapController"
   ).state("resort.prices",
     url: "/prices"
     views:
       "resort-prices":
         templateUrl: "resort/resort-prices.html"
-        controller: "ResortPricesController"
   )
 
   # if none of the above states are matched, use this as the fallback
