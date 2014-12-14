@@ -80,3 +80,5 @@ app.constant "resources_ru",
   "Resort" : "Курорт"
   "Info" : "Информация"
   "Back Home" : "Назад домой"
+  "Resort Info" : "Информация"
+  "Today's Talks" : "Сегодняшний разговор"

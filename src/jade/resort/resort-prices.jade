@@ -1,6 +1,4 @@
 ion-view(ng-attr-title="{{homeLabel}}")
-    ion-nav-buttons(side="left")
-        a.button.icon.ion-ios7-home-outline(ui-sref="tab.info")
     ion-content.has-header
         ion-slide-box(ng-if="resort.prices.length !== 0" does-continue="true")
             ion-slide.box(ng-repeat="price in resort.prices")

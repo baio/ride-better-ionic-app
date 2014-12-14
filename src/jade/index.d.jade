@@ -16,9 +16,15 @@ block content
             a(href="http://www.windowsphone.com/s?appid=8e18205b-b849-4d41-922b-b5ad2929dc93" target="_blank")
                i.ion-social-windows
    .body-content
-      ion-nav-bar.bar-positive.nav-title-slide-ios7
-         ion-nav-back-button.button-icon.icon.ion-ios7-arrow-back
-      ion-nav-view
+      ion-side-menus
+        ion-side-menu(side='left')
+          include utils/side-menu
+        ion-side-menu-content
+          ion-nav-bar.bar-positive.nav-title-slide-ios7            
+            ion-nav-back-button.button-icon.icon.ion-ios7-arrow-back
+          ion-nav-buttons(side="left")
+            buttonbutton.button-icon.icon.ion-navicon(menu-toggle="left")
+          ion-nav-view
    .body-right
       b Mission contol
       ul
