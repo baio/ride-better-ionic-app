@@ -4,6 +4,6 @@ ion-view(ng-attr-title="{{homeLabel}}")
     ion-content.has-header
         ion-slide-box(ng-if="prices.length !== 0" does-continue="true")
             ion-slide.box(ng-repeat="price in prices")
-                img(width="100%" ng-src="{{price.src}}")
+                img(width="100%" ng-src="{{price.src}}" style="margin-top: 20px")
                 h4 {{price.title}}                  
                 h4 {{price.created | amCalendar}}

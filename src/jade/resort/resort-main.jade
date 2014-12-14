@@ -5,13 +5,15 @@ ion-view(ng-attr-title="{{homeLabel}}")
         .row
             .col
                 img(ng-src="{{resort.header}}" width="100%", height="200px")
+        .row(ng-if="resort.geo")
+            .col(ng-bind-html="resort.geo | geo")                
         .row
             .col
                 | {{resort.description}}
         .row
             .col
                 ul
-                    li(ng-repeat="txt in resort.pros") {{txt}}.
+                    li(ng-repeat="txt in resort.proscons.pros") {{txt}}.
             .col
                 ul
-                    li(ng-repeat="txt in resort.cons") {{txt}}.
+                    li(ng-repeat="txt in resort.proscons.cons") {{txt}}.

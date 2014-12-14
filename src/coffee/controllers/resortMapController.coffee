@@ -4,18 +4,11 @@ app.controller "ResortMapController", ($scope, resortsDA, user) ->
 
 	$scope.maps = []
 	setMaps = (res) ->		
-		$scope.maps.splice 0, $scope.maps.length - 1, res...
-		###
-			for i in [0..4]
-				if i < res.length
-					$scope.maps.push res[i]
-				else
-					$scope.maps.push res[i]
-		###					
+		$scope.maps.splice 0, $scope.maps.length - 1, res.maps...
 
 	loadMaps = ->
 	    home = user.getHome()
-	    resortsDA.getMaps(home.code)
+	    resortsDA.getInfo(home.code)
 	    .then setMaps
 
 	if $scope.$root.activated

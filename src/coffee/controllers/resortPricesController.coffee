@@ -4,11 +4,11 @@ app.controller "ResortPricesController", ($scope, resortsDA, user) ->
 
 	$scope.prices = []
 	setPrices = (res) ->		
-		$scope.prices.splice 0, $scope.prices.length - 1, res...
+		$scope.prices.splice 0, $scope.prices.length - 1, res.prices...
 
 	loadPrices = ->
 	    home = user.getHome()
-	    resortsDA.getPrices(home.code)
+	    resortsDA.getInfo(home.code)
 	    .then setPrices
 
 	if $scope.$root.activated
