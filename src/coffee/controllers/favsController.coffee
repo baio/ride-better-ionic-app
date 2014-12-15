@@ -7,11 +7,7 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
   geoLocator.getPosition().then (res) ->
     geo = res.lat + "," + res.lon
 
-  if $scope.$root.activated
-    $scope.favs = user.user.settings.favs
-
-  $scope.$on "app.activated", ->
-    $scope.favs = user.user.settings.favs
+  $scope.favs = user.user.settings.favs
 
   loadSpots = (term) ->
     if (!term and geo) or (term and term.length > 2)

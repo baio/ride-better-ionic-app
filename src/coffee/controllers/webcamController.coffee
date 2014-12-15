@@ -1,4 +1,4 @@
-app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
+app.controller "WebcamController", ($scope, webcamsDA, home, notifier) ->
 
   console.log "Webcam Controller"
 
@@ -13,18 +13,15 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
   getIndex = ->
     if $scope.currentItem then $scope.currentItem.index
 
-  $scope.loadLatest = ->
-    home = user.getHome()
+  $scope.loadLatest = ->  
     webcamsDA.latest(spot : "1936", index : getIndex()).then setWebcam
 
   $scope.loadPrev = ->
-    home = user.getHome()
     webcamsDA.prev(spot : "1936", index : getIndex(), time : $scope.current.meta.created)
     .then setWebcam
     .catch -> notifier.message "No more images, try again later."
 
   $scope.loadNext = ->
-    home = user.getHome()
     webcamsDA.next(spot : "1936", index : getIndex(), time : $scope.current.meta.created)
     .then setWebcam
     .catch ->

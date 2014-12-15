@@ -12,6 +12,9 @@ app = angular.module("ride-better", [
     url: "/tab"
     abstract: true
     templateUrl: "tabs/tab.html"
+    resolve:
+      home: (user) ->
+        user.getHomeAsync()
   ).state("tab.home",
     url: "/home",
     views:

@@ -1,4 +1,4 @@
-app.controller "ClosedReportController", ($scope, reportsDA, user, $state, resources, notifier) ->
+app.controller "ClosedReportController", ($scope, reportsDA, $state, resources, notifier, home) ->
 
   console.log "ClosedReportController"
 
@@ -14,7 +14,6 @@ app.controller "ClosedReportController", ($scope, reportsDA, user, $state, resou
     openDate : null
 
   $scope.sendReport = ->
-    home = user.getHome().code
 
     openDate = moment.utc($scope.data.openDate, ["YYYY-MM-DD", "DD.MM.YYYY"]) if $scope.data.openDate
     if openDate and !openDate.isValid()
@@ -25,7 +24,7 @@ app.controller "ClosedReportController", ($scope, reportsDA, user, $state, resou
         openDate : openDate.unix() if openDate
       comment : $scope.data.message
 
-    reportsDA.send(home, data).then (res) ->
+    reportsDA.send(home.code, data).then (res) ->
       $state.go "tab.home"
 
   $scope.cancelReport = ->

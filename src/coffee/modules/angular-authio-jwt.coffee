@@ -57,7 +57,7 @@ app.provider "authioLogin", ->
       #return `dev` user if exists
       if _user
         return $q.when _user
-      activate()
+      activate()      
       popup(provider, opts).then authioEndpoints.signin
 
     requestToken: ->
@@ -102,7 +102,6 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
     if !jwt and opts.force
       authioLogin.login(provider, opts).then (res) ->
         setJWT res.token
-        authioLogin.logout provider
         res
     else if jwt
       authioLogin.getUser(jwt).catch (e) ->

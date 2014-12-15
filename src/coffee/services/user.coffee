@@ -42,12 +42,14 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
     user.settings.favs.filter((f) -> f.isHome)[0]
 
   getHomeAsync = ->
-    console.log "user.coffee:45 >>>", "+"
     deferred = $q.defer()
     if $rootScope.activated
+      console.log "user.coffee:47 >>>", "+"
       deferred.resolve(getHome())
     else
+      console.log "user.coffee:50 >>>", ""
       $rootScope.$on "app.activated", -> 
+        console.log "user.coffee:52 >>>", ""
         deferred.resolve(getHome())
     deferred.promise
 

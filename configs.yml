@@ -8,7 +8,7 @@ dev:
     apiUrl : //localhost:8001/
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
-      apiUrl : //auth-server-oauthio.herokuapp.com/
+      apiUrl : //localhost:8002/ #http://ridebetter.info:86/
 debug:
   server:
     port : 8005 #port where dev application are running
