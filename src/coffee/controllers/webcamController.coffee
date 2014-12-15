@@ -10,7 +10,8 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
       $scope.list = res.list
       $scope.currentItem = res.list.filter((f) -> f.index == res.current.index)[0]    
 
-  getIndex = ->  if $scope.currentItem then $scope.currentItem.index else 0
+  getIndex = ->
+    if $scope.currentItem then $scope.currentItem.index
 
   $scope.loadLatest = ->
     home = user.getHome()

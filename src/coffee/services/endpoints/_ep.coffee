@@ -1,8 +1,24 @@
 app.factory "_ep", ($q, $http, webApiConfig, authio, notifier) ->
+  
+  `
+    function normalize (str) {
+      return str
+              .replace(/[\/]+/g, '/')
+              .replace(/\/\?/g, '?')
+              .replace(/\/\#/g, '#')
+              .replace(/\:\//g, '://');
+    };
 
+    function urljoin(arr) {
+      var joined = arr.join('/');
+      return normalize(joined);
+    };
+  `
   getAuthHeaders = -> authorization: "Bearer " + authio.getJWT()
 
   get : (path, qs) ->
+
+    path = urljoin(path) if Array.isArray path
 
     deferred = $q.defer()
 
