@@ -21,3 +21,12 @@ app.factory "notifier", ($ionicPopup, resources, $ionicLoading) ->
 
   hideLoading: ->
     $ionicLoading.hide()
+
+
+  notifyNative: (os) ->
+    $ionicPopup.confirm(
+      title : resources.str("Alert")
+      template : resources.str("Would you like to install native app?")
+      okText : resources.str("Sure")
+      cancelText : resources.str("Not Now")
+    )

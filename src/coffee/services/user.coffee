@@ -1,5 +1,5 @@
 app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geoLocator,
-                     authio, mapper, amMoment, globalization, notifier, spotsDA) ->
+                     authio, mapper, amMoment, globalization, notifier, spotsDA, mobileDetect) ->
 
   user = {}
   authForm = null
@@ -164,8 +164,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
       setUser cachedUser
     notifier.message "User not logined"
 
-
-  activate: ->
+  activate = ->
+    
     notifier.showLoading()
     initialize()
 
@@ -204,6 +204,29 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
       notifier.hideLoading()
 
     promise
+
+
+  notifyNative = ->
+    os = mobileDetect.mobileOS()
+    if os
+      notifier.notifyNative(os)
+      .then (res) ->
+        if res
+          switch os
+            when "ios" 
+              ref = "https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/app/945742403"
+            when "android"
+              ref = "https://play.google.com/store/apps/details?id=com.ionicframework.ridebetter"
+            when "wp"
+              ref = "http://www.windowsphone.com/s?appid=8e18205b-b849-4d41-922b-b5ad2929dc93"
+          window.open ref, "_blank"
+        res
+    else
+      $q.when()
+
+  activate: ->
+    notifyNative().then ->
+      activate()
 
   getHomeAsync: getHomeAsync
 

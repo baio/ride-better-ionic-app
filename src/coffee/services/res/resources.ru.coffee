@@ -81,4 +81,7 @@ app.constant "resources_ru",
   "Info" : "Информация"
   "Back Home" : "Назад домой"
   "Resort Info" : "Информация"
-  "Today's Talks" : "Сегодняшний разговор"
+  "Today's Talks" : "Сегодняшня"
+  "Would you like to install native app?" : "Хотите установить нативное приложение на ваш телефон?"
+  "Sure" : "Конечно"
+  "Not Now" : "Не сейчас"

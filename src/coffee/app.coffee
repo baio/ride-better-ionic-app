@@ -1,6 +1,7 @@
 app = angular.module("ride-better", [
   "ionic", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt", "angularMoment", 'googlechart'
 ]).run(($ionicPlatform, $rootScope, user) ->
+
   $ionicPlatform.ready ->
     StatusBar.styleDefault() if window.StatusBar
     user.activate().then ->
