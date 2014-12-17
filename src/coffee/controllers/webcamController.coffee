@@ -1,4 +1,4 @@
-app.controller "WebcamController", ($scope, webcamsDA, home, notifier) ->
+app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
 
   console.log "Webcam Controller"
 

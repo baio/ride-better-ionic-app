@@ -13,8 +13,8 @@ app.controller "SnowHistController", ($scope, homeDA, user, resources, culture) 
   setChart = (data) ->        
 
     _rows = data.snowfallHistory.items.map (m) ->
-      cmt : Math.round m.cumulSnowAmount
-      amt : Math.round if m.type == "snow" then m.amount else 0      
+      cmt : Math.round(m.cumulSnowAmount * 100) / 100 
+      amt : Math.round((if m.type == "snow" then m.amount else 0) * 100) / 100
       date : moment.utc(m.date, "X").format("ddd")
 
     _rows = _rows.reverse()

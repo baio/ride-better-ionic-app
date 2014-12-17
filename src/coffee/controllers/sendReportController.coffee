@@ -1,4 +1,4 @@
-app.controller "SendReportController", ($scope, reportsDA, home, $state, $ionicSlideBoxDelegate, notifier, $q) ->
+app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicSlideBoxDelegate, notifier, $q) ->
 
   console.log "SendReport Controller"
 
@@ -19,7 +19,7 @@ app.controller "SendReportController", ($scope, reportsDA, home, $state, $ionicS
           crowd : parseInt $scope.data.crowd
         comment : $scope.data.message
 
-      reportsDA.send(home.code, data).then (res) ->
+      reportsDA.send(user.getHome().code, data).then (res) ->
         $state.go "tab.home"
 
   $scope.cancelReport = ->

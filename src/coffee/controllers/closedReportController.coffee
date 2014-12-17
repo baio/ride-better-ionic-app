@@ -1,4 +1,4 @@
-app.controller "ClosedReportController", ($scope, reportsDA, $state, resources, notifier, home) ->
+app.controller "ClosedReportController", ($scope, reportsDA, $state, resources, notifier, user) ->
 
   console.log "ClosedReportController"
 
@@ -24,7 +24,7 @@ app.controller "ClosedReportController", ($scope, reportsDA, $state, resources, 
         openDate : openDate.unix() if openDate
       comment : $scope.data.message
 
-    reportsDA.send(home.code, data).then (res) ->
+    reportsDA.send(user.getHome().code, data).then (res) ->
       $state.go "tab.home"
 
   $scope.cancelReport = ->
