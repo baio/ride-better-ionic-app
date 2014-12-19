@@ -109,6 +109,17 @@ app = angular.module("ride-better", [
     views:
       "resort-prices":
         templateUrl: "resort/resort-prices.html"
+  ).state("faq-list",
+    url: "/faq/list"
+    templateUrl: "faq/faq-list.html"
+    controller: "FaqListController"
+    resolve:
+      home: (user) ->
+        user.getHomeAsync()    
+  ).state("faq-item",
+    url: "/faq/list/:id"
+    templateUrl: "faq/faq-item.html"
+    controller: "FaqItemController"
   )
 
   # if none of the above states are matched, use this as the fallback

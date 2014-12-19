@@ -1,0 +1,17 @@
+ion-view(ng-attr-title="{{homeLabel}}")
+    ion-content.has-header
+        ion-refresher(pulling-text="Pull to refresh..." on-refresh="pullMore()")
+        ion-list.list
+          div(ng-repeat="reply in data.replyes") 
+            .item.item-text-wrap
+              h3
+                  | {{thread.user.name}} &nbsp;
+                  i.ion-ios7-clock-outline &nbsp;
+                  | {{thread.created | amCalendar}}
+              h3 {{thread.text}}              
+              p {{thread.replies[0].text}}                
+        ion-infinite-scroll(on-infinite="loadMore()" ng-if="data.canLoadMore")
+
+    ion-footer-bar
+        h1.title.positive(ng-click="openSendMsgModal()")
+            i.icon.ion-chatboxes &nbsp; {{'Reply' | res}}

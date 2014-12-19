@@ -44,12 +44,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
   getHomeAsync = ->
     deferred = $q.defer()
     if $rootScope.activated
-      console.log "user.coffee:47 >>>", "+"
       deferred.resolve(getHome())
     else
-      console.log "user.coffee:50 >>>", ""
       $rootScope.$on "app.activated", -> 
-        console.log "user.coffee:52 >>>", ""
         deferred.resolve(getHome())
     deferred.promise
 
@@ -277,5 +274,10 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
 
   setUser : setUser
 
+  getKey: -> 
+    user.profile.provider + "_" + user.profile.id if user?.profile
+
+  isUser: (ur) -> 
+    ur.key == @getKey()
 
 
