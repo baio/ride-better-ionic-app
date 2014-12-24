@@ -12,13 +12,13 @@ ion-view(ng-attr-title="{{homeLabel}}")
               p {{thread.replies[0].text}}                
               p
                 a.subdued(ng-href='#/faq/list/{{thread._id}}') 
-                  | {{thread.replies.length}} Replies
+                  | {{thread.replies.length}} {{ "Replies" | res }}
                 a.subdued(ng-click="board.openReplyModal(thread, 'create')")
-                  i.icon.ion-chatbox &nbsp; Reply                               
+                  i.icon.ion-chatbox &nbsp; {{ "Reply" | res }}                               
                 a.subdued(ng-click="board.removeThread(thread)" ng-show="board.canEdit(thread)")
-                  i.icon.ion-trash-b &nbsp; Remove               
+                  i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
                 a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-show="board.canEdit(thread)")
-                  i.icon.ion-edit &nbsp; Edit              
+                  i.icon.ion-edit &nbsp; {{ "Edit" | res }}              
         ion-infinite-scroll(on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads")
 
     ion-footer-bar
