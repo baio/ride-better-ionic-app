@@ -109,17 +109,28 @@ app = angular.module("ride-better", [
     views:
       "resort-prices":
         templateUrl: "resort/resort-prices.html"
-  ).state("faq-list",
-    url: "/faq/list"
-    templateUrl: "faq/faq-list.html"
-    controller: "FaqListController"
+  ).state("faq",
+    url: "/faq"
+    templateUrl: "faq/faq.html"
+    abstract: true
     resolve:
       home: (user) ->
         user.getHomeAsync()    
-  ).state("faq-item",
-    url: "/faq/list/:id"
-    templateUrl: "faq/faq-item.html"
-    controller: "FaqItemController"
+  ).state("faq.item",
+    url: "/list/:id"
+    resolve:
+      thread: (boardDA, $stateParams) ->
+        boardDA.getThread($stateParams.id)    
+    views:
+      "faq-content":
+        templateUrl: "faq/faq-item.html"    
+        controller: "FaqItemController"
+  ).state("faq.list",
+    url: "/list"
+    views:
+      "faq-content":
+        templateUrl: "faq/faq-list.html"    
+        controller: "FaqListController"
   )
 
   # if none of the above states are matched, use this as the fallback

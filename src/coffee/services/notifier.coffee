@@ -22,7 +22,6 @@ app.factory "notifier", ($ionicPopup, resources, $ionicLoading) ->
   hideLoading: ->
     $ionicLoading.hide()
 
-
   notifyNative: (os) ->
     $ionicPopup.confirm(
       title : resources.str("Alert")
@@ -30,3 +29,13 @@ app.factory "notifier", ($ionicPopup, resources, $ionicLoading) ->
       okText : resources.str("Sure")
       cancelText : resources.str("Not Now")
     )
+
+  confirm: (template, okText, cancelText) ->
+    okText ?= "Yes"
+    cancelText ?= "No"
+    $ionicPopup.confirm(
+      title : resources.str("Alert")
+      template : resources.str(template)
+      okText : resources.str(okText)
+      cancelText : resources.str(cancelText)
+    )    

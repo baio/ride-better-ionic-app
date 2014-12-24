@@ -1,5 +1,3 @@
-require "newrelic"
-
 express = require('express')
 MobileDetect = require('mobile-detect')
 config = require('yaml-config')
@@ -16,7 +14,6 @@ app
 .use((req, res, next) ->
   if req.path == "/"
     md = new MobileDetect(req.headers['user-agent'])
-    console.log ">>>server.coffee:20", md.mobile()
     if !md.mobile()
       res.redirect("/d")
       return
