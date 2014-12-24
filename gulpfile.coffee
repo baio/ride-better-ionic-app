@@ -113,7 +113,6 @@ gulp.task "watch-assets", ->
     if err
       console.log err
   gulp.watch ["./www/app.js", "./www/css/*.css", "./www/index.html"], (file) ->
-    console.log ">>>gulpfile.coffee:99"
     lrServer.changed body : files: [file.path]
 
 gulp.task "nodemon", ->

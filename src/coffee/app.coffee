@@ -1,5 +1,5 @@
 app = angular.module("ride-better", [
-  "ionic", "angular-data.DSCacheFactory", "fixes", "angular-authio-jwt", "angularMoment", 'googlechart'
+  "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", 'googlechart'
 ]).run(($ionicPlatform, $rootScope, user) ->
 
   $ionicPlatform.ready ->
@@ -153,7 +153,7 @@ app.constant "angularMomentConfig",
   preprocess: 'unix'
 
 app.config ($httpProvider) ->
-  $httpProvider.responseInterceptors.push "httpFailureInterceptor"
+  $httpProvider.interceptors.push "httpFailureInterceptor"
 
 app.config ($sceDelegateProvider) ->
   $sceDelegateProvider.resourceUrlWhitelist ["self", "http://ipeye.ru/ipeye_service/api/**"]

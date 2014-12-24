@@ -2,7 +2,7 @@
   "name": "ride-better-ionic-app",
   "private": "true",
   "dependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-beta.13",
+    "ionic": "driftyco/ionic-bower#1.0.0-beta.14",
     "moment": "~2.8.2",
     "oauth-js": "~0.2.4",
     "angular-cache": "~3.1.0",
@@ -11,12 +11,15 @@
     "mobile-detect": "hgoebl/mobile-detect.js#~0.4.3"
   },
   "resolutions": {
-    "angular": "~1.2.17",
-    "collide": "1.0.0-beta.3"
+    "angular": "~1.3.6",
+    "collide": "1.0.0-beta.3",
+    "angular-animate": "1.3.6",
+    "angular-sanitize": "1.3.6",
+    "angular-ui-router": "0.2.13"
   },
-  "overrides": {
+  "overrides": {    
     "ionic": {
-      "main": "js/ionic.bundle.min.js",
+      "main": "js/ionic.bundle.js",
       "dependencies": null
     },
     "moment": {
@@ -43,6 +46,6 @@
     "mobile-detect": {
       "main": "mobile-detect.min.js",
       "dependencies": null
-    }    
+    }
   }
 }

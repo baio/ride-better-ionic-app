@@ -2,10 +2,10 @@ ion-view(ng-attr-title="{{'Favorites' | res}}")
     ion-content.has-header
         .list
             .item(ng-show="canAddFav()")
-                button.button.button-block.button-stable.icon.ion-ios7-plus-outline(ng-click="openSpotSelectorModal()") &nbsp;
+                button.button.button-block.button-stable.icon.ion-ios-plus-outline(ng-click="openSpotSelectorModal()") &nbsp;
                     | {{'Add New' | res}}
             .item.item-icon-left.item-icon-right(ng-repeat="fav in favs")
-                i.icon(ng-class="{'ion-ios7-home-outline' : !fav.isHome, 'ion-ios7-home' : fav.isHome}", on-tap="setHome(fav)")
+                i.icon(ng-class="{'ion-ios-home-outline' : !fav.isHome, 'ion-ios-home' : fav.isHome}", on-tap="setHome(fav)")
                 span(on-tap="openHome(fav)")
                     h2 {{fav.label}}
-                i.icon.ion-ios7-minus-outline(ng-show="canRemoveFav()", ng-click="removeFav(fav)")
+                i.icon.ion-ios-minus-outline(ng-show="canRemoveFav()", ng-click="removeFav(fav)")

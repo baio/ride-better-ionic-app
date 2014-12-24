@@ -5,7 +5,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
           ion-item.item.item-divider.item-text-wrap
             h3 
               | {{board.data.currentThread.user.name}} &nbsp;
-              i.ion-ios7-clock-outline &nbsp;
+              i.ion-ios-clock-outline &nbsp;
               | {{board.data.currentThread.created | amCalendar}}
             h3 {{board.data.currentThread.text}}              
             p
@@ -16,7 +16,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
           ion-item.item.item-text-wrap(ng-repeat="reply in board.data.currentThread.replies") 
               h3
                   | {{reply.user.name}} &nbsp;
-                  i.ion-ios7-clock-outline &nbsp;
+                  i.ion-ios-clock-outline &nbsp;
                   | {{reply.created | amCalendar}}
               h3 {{reply.text}}              
               p
