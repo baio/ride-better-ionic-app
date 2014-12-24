@@ -1,8 +1,8 @@
 ion-modal-view
     .bar.bar-header.item-input-inset
         label.item-input-wrapper
-            i.icon.ion-ios7-search.placeholder-icon
-            input(type='search', placeholder="{{'Search' | res}}", ng-model="spotTerm", ng-delay="1000",
+            i.icon.ion-ios-search.placeholder-icon
+            input(type='search', placeholder="{{'Search' | res}}", ng-model="spotTerm" ng-model-options="{debounce:1000}"
                 ng-change="onSpotTermChanged(spotTerm)")
         button.button.button-clear(ng-click="closeSpotSelectorModal()")
             | {{"Cancel" | res}}

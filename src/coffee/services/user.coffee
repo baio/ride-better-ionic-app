@@ -1,5 +1,5 @@
 app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geoLocator,
-                     authio, mapper, amMoment, globalization, notifier, spotsDA, mobileDetect) ->
+                     authio, mapper, amMoment, globalization, notifier, spotsDA, mobileDetect, $ionicConfig) ->
 
   user = {}
   authForm = null
@@ -119,6 +119,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
       favs.push spot
 
   setLang = (lang) ->
+    console.log "user.coffee:122 >>>", lang
     putLang lang.code
     saveChanges()
 

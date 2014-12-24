@@ -27,9 +27,6 @@ app.controller "UserController", ($scope, user, resources) ->
   updScopeData = ->
     $scope.data.culture = $scope.culturesList.filter((f) -> f.code == user.getCulture())[0]
     $scope.data.lang = $scope.langsList.filter((f) -> f.code == user.getLang())[0]
+  
+  updScopeData()
 
-  if $scope.$root.activated
-    updScopeData()
-
-  $scope.$on "app.activated", ->
-    updScopeData()

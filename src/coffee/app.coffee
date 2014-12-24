@@ -157,3 +157,7 @@ app.config ($httpProvider) ->
 
 app.config ($sceDelegateProvider) ->
   $sceDelegateProvider.resourceUrlWhitelist ["self", "http://ipeye.ru/ipeye_service/api/**"]
+
+app.config ($ionicConfigProvider) ->
+  #$ionicConfigProvider.views.maxCache(5);
+  $ionicConfigProvider.backButton.text("")
