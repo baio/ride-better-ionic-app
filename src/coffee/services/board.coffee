@@ -3,6 +3,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
   msgModal = null
   board = null
   scope = null
+  spot = null
 
   data = 
     currentThread : null
@@ -18,8 +19,8 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         data.threads.splice index, 0, res.threads...
 
   loadBoard = (opts, pushIndex) ->
-    home = user.getHome()
-    boardDA.get({spot : home.code, board : "faq"}, opts).then (res) -> 
+    console.log "board.coffee:22 >>>", spot
+    boardDA.get({spot : spot, board : "faq"}, opts).then (res) -> 
       setBoard(res, pushIndex)
 
   setThread = (res, index) ->
@@ -53,10 +54,10 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       msgModal.show()
 
   loadMoreThreads = ->    
+    console.log "board.coffee:57 >>>", spot
     last = data.threads[data.threads.length - 1]
     if last
       since = moment.utc(last.created, "X").unix()
-
     loadBoard(since : since).then (res) ->
       data.canLoadMoreThreads = res.hasMore
     .catch ->
@@ -99,7 +100,8 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       data.threads = []    
   # ----
 
-  init: (scope, boardName, currentThread) -> 
+  init: (spt, scope, boardName, currentThread) ->     
+    spot = spt
     board = boardName
     resetData()
     if currentThread

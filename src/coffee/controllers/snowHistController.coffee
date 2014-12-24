@@ -1,4 +1,4 @@
-app.controller "SnowHistController", ($scope, homeDA, user, resources, culture) ->
+app.controller "SnowHistController", ($scope, homeDA, user, resources, culture, spotResolved) ->
 
   console.log "snowHistController.coffee:3 >>>"
   
@@ -35,13 +35,11 @@ app.controller "SnowHistController", ($scope, homeDA, user, resources, culture) 
 
   loadSnowHist = ->
     home = user.getHome()
-    homeDA.get(spot : home.code, lang : user.getLang(), culture : user.getCulture())
+    homeDA.get(spot : spotResolved, lang : user.getLang(), culture : user.getCulture())
     .then setChart
 
-  if $scope.$root.activated
-    loadSnowHist()
+  loadSnowHist()
 
-  $scope.$on "app.activated", loadSnowHist
 
   
 

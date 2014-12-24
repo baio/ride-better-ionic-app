@@ -7,88 +7,91 @@ app = angular.module("ride-better", [
     user.activate().then ->
       $rootScope.activated = true
       $rootScope.$broadcast("app.activated")
-).config ($stateProvider, $urlRouterProvider) ->
+)
+.config ($stateProvider) ->
 
-  $stateProvider.state("tab",
-    url: "/tab"
+  $stateProvider.state("main",
+    url: "/:id/main"
     abstract: true
-    templateUrl: "tabs/tab.html"
+    templateUrl: "main/main.html"
     resolve:
-      home: (user) ->
+      userResolved: (user) ->
         user.getHomeAsync()
-  ).state("tab.home",
+      spotResolved: ($stateParams, $rootScope) ->        
+        $rootScope.currentSpot = $stateParams.id
+        $stateParams.id
+  ).state("main.home",
     url: "/home",
     views:
-      "tab-home":
-        templateUrl: "tabs/tab-home.html"
+      "main-home":
+        templateUrl: "main/home.html"
         controller: "HomeController"
-  ).state("tab.report",
+  ).state("main.report",
     url: "/report"
     views:
-      "tab-home":
-        templateUrl: "tabs/tab-send-report.html"
+      "main-home":
+        templateUrl: "main/send-report.html"
         controller: "SendReportController"
-  ).state("tab.closed",
+  ).state("main.closed",
     url: "/closed"
     views:
-      "tab-home":
-        templateUrl: "tabs/tab-closed-report.html"
+      "main-home":
+        templateUrl: "main/closed-report.html"
         controller: "ClosedReportController"
-  ).state("tab.reports",
+  ).state("main.reports",
     url: "/reports"
     views:
-      "tab-home":
-        templateUrl: "tabs/tab-reports.html"
+      "main-reports":
+        templateUrl: "main/reports.html"
         controller: "ReportsController"
-  ).state("tab.snowHist",
-    url: "/snow-hist"
+  ).state("main.hist",
+    url: "/hist"
     views:
-      "tab-home":
-        templateUrl: "tabs/tab-snow-hist.html"
+      "main-hist":
+        templateUrl: "main/snow-hist.html"
         controller: "SnowHistController"
-  ).state("tab.forecast",
+  ).state("main.forecast",
     url: "/forecast"
     views:
-      "tab-home":
-        templateUrl: "tabs/tab-forecast.html"
+      "main-forecast":
+        templateUrl: "main/forecast.html"
         controller: "ForecastController"
-  ).state("tab.webcam",
+  ).state("main.webcam",
     url: "/webcam"
     views:
-      "tab-webcam":
-        templateUrl: "tabs/tab-webcam.html"
+      "main-webcam":
+        templateUrl: "main/webcam.html"
         controller: "WebcamController"
-  ).state("tab.favs",
+  ).state("user",
+    url: "/user"
+    templateUrl: "user/user.html"
+    abstract: true
+    resolve:
+      home: (resortsDA, user) ->
+        user.getHomeAsync().then (home) ->          
+          resortsDA.getInfo(home.code)          
+  )
+  .state("user.favs",
     url: "/favs"
     views:
-      "tab-favs":
-        templateUrl: "tabs/tab-favs.html"
+      "user-favs":
+        templateUrl: "user/user-favs.html"
         controller: "FavsController"
-  ).state("tab.user",
-    url: "/user"
+  ).state("user.settings",
+    url: "/settings"
     views:
       "tab-user":
-        templateUrl: "tabs/tab-user.html"
+        templateUrl: "user/user-settings.html"
         controller: "UserController"
-  ).state("tab.info",
-    url: "/info"
-    views:
-      "tab-home":
-        templateUrl: "tabs/info/tab-index.html"
-  ).state("tab.today",
-    url: "/info/today"
-    views:
-      "tab-home":
-        templateUrl: "tabs/info/tab-today.html"
-        controller: "TalkController"
   ).state("resort",
-    url: "/resort"
+    url: "/:id/resort"
     templateUrl: "resort/resort.html"
     controller: "ResortController"
     resolve:
-      resort: (resortsDA, user) ->
-        user.getHomeAsync().then (home) ->          
-          resortsDA.getInfo(home.code)        
+      resortResolved: (resortsDA, $stateParams, $rootScope) ->
+        console.log "app.coffee:92 >>>", $stateParams.id
+        $rootScope.currentSpot = $stateParams.id
+        resortsDA.getInfo($stateParams.id)        
   ).state("resort.main",
     url: "/main"
     views:
@@ -110,12 +113,13 @@ app = angular.module("ride-better", [
       "resort-prices":
         templateUrl: "resort/resort-prices.html"
   ).state("faq",
-    url: "/faq"
+    url: "/:id/faq"
     templateUrl: "faq/faq.html"
     abstract: true
     resolve:
-      home: (user) ->
-        user.getHomeAsync()    
+      spotResolved: ($stateParams, $rootScope) ->        
+        $rootScope.currentSpot = $stateParams.id
+        $stateParams.id
   ).state("faq.item",
     url: "/list/:id"
     resolve:
@@ -133,9 +137,15 @@ app = angular.module("ride-better", [
         controller: "FaqListController"
   )
 
-  # if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise "/tab/home"
-  return
+app.config ($urlRouterProvider) ->
+  
+  $urlRouterProvider.otherwise ($injector, $location) -> 
+    user = $injector.get("user")
+    user.getHomeAsync().then (res) ->
+      console.log "app.coffee:140 >>>", res
+      href = "#{res.code}/main/home"    
+      $location.path href
+
 
 app.config (DSCacheFactoryProvider) ->
   DSCacheFactoryProvider.setCacheDefaults

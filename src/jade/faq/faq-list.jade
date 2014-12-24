@@ -11,7 +11,7 @@ ion-view(ng-attr-title="{{homeLabel}}")
               h3 {{thread.text}}              
               p {{thread.replies[0].text}}                
               p
-                a.subdued(ng-href='#/faq/list/{{thread._id}}') 
+                a.subdued(ng-href='#/{{currentSpot}}/faq/list/{{thread._id}}') 
                   | {{thread.replies.length}} {{ "Replies" | res }}
                 a.subdued(ng-click="board.openReplyModal(thread, 'create')")
                   i.icon.ion-chatbox &nbsp; {{ "Reply" | res }}                               

@@ -1,11 +1,14 @@
 ion-content
   ion-list
-    ion-item.item-icon-left(nav-clear menu-close ui-sref="tab.home")
-      i.icon.ion-ios-home-outline 
-      | {{ "Home" | res }}      
-    ion-item.item-icon-left(nav-clear menu-close ui-sref="resort.main")
-      i.icon.ion-ios-information-outline 
-      | {{ "Resort Info" | res }}
-    ion-item.item-icon-left(nav-clear  menu-close ui-sref="faq.list")
-      i.icon.ion-ios-help-empty
+    ion-item.item-icon-left(nav-clear menu-close ui-sref="main.home({id : currentSpot})")
+      i.icon.ion-ios-home 
+      | {{ "Main" | res }}      
+    ion-item.item-icon-left(nav-clear menu-close ui-sref="resort.main({id : currentSpot})")
+      i.icon.ion-information 
+      | {{ "Resort" | res }}
+    ion-item.item-icon-left(nav-clear  menu-close ui-sref="faq.list({id : currentSpot})")
+      i.icon.ion-help
       | {{ "FAQ" | res }}      
+    ion-item.item-icon-left(nav-clear  menu-close ui-sref="user.settings")
+      i.icon.ion-person
+      | {{ "User" | res }}      

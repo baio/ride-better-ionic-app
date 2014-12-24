@@ -1,7 +1,7 @@
-app.controller "ResortController", ($scope, resortsDA, resort) ->
+app.controller "ResortController", ($scope, resortResolved) ->
 
 	console.log "resortController.coffee:3 >>>"
 
-	$scope.resort = resort
+	$scope.resort = resortResolved
 
 

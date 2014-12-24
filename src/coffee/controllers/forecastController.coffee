@@ -1,4 +1,4 @@
-app.controller "ForecastController", ($scope, homeDA, user) ->
+app.controller "ForecastController", ($scope, homeDA, user, spotResolved) ->
 
   console.log "Forecast Controller"
 
@@ -6,7 +6,7 @@ app.controller "ForecastController", ($scope, homeDA, user) ->
     if data
       $scope.forecast = data.forecast
 
-  homeDA.get(spot : user.getHome().code, lang : user.getLang(), culture : user.getCulture()).then (res) -> setForecast res
+  homeDA.get(spot : spotResolved, lang : user.getLang(), culture : user.getCulture()).then (res) -> setForecast res
 
 
 

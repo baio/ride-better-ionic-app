@@ -1,4 +1,4 @@
-app.controller "ReportsController", ($scope, homeDA, user) ->
+app.controller "ReportsController", ($scope, homeDA, user, spotResolved) ->
 
   console.log "Reports Controller"
 
@@ -6,4 +6,4 @@ app.controller "ReportsController", ($scope, homeDA, user) ->
     if data
       $scope.reports = data.reports
 
-  homeDA.get(spot : user.getHome().code, lang : user.getLang(), culture : user.getCulture()).then setMessages
+  homeDA.get(spot : spotResolved, lang : user.getLang(), culture : user.getCulture()).then setMessages

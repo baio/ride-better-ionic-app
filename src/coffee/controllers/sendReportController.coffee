@@ -20,13 +20,13 @@ app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicS
         comment : $scope.data.message
 
       reportsDA.send(user.getHome().code, data).then (res) ->
-        $state.go "tab.home"
+        $state.go "main.home", { id : $scope.$root.currentSpot }
 
   $scope.cancelReport = ->
-    $state.go "tab.home"
+    $state.go "main.home", { id : $scope.$root.currentSpot }
 
   $scope.nextSlide = ->
     $ionicSlideBoxDelegate.next()
 
   $scope.closedReport = ->
-    $state.go "tab.closed"
+    $state.go "main.closed", { id : $scope.$root.currentSpot }

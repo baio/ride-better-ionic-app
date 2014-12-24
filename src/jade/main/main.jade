@@ -1,0 +1,18 @@
+ion-tabs.tabs-striped.tabs-positive.tabs-light
+    ion-tab(icon='icon ion-home' href="#/{{currentSpot}}/main/home")
+        ion-nav-view(name='main-home')
+    ion-tab(icon='icon ion-document' href="#/{{currentSpot}}/main/reports")
+        ion-nav-view(name='main-reports')          
+    ion-tab(icon='icon ion-cloud' href="#/{{currentSpot}}/main/forecast")
+        ion-nav-view(name='main-forecast')          
+    ion-tab(icon='icon ion-stats-bars' href="#/{{currentSpot}}/main/hist")
+        ion-nav-view(name='main-hist')          
+
+      //
+        ion-tab(icon='icon ion-ios-camera' href="#/{{currentSpot}}/main/webcam")
+            ion-nav-view(name='main-webcam')
+        ion-tab(icon='icon ion-ios-heart', ng-href='#/{spot}/main/favs')
+            ion-nav-view(name='tab-favs')
+        ion-tab(icon='icon ion-ios-person', ng-href='#/{spot}/main/user')
+            ion-nav-view(name='tab-user')
+

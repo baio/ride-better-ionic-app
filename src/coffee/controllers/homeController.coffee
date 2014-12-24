@@ -1,6 +1,6 @@
-app.controller "HomeController", ($scope, homeDA, reportsDA, user, $state) ->
+app.controller "HomeController", ($scope, homeDA, reportsDA, user, $state, spotResolved) ->
 
-  console.log "homeController.coffee:3 >>>"
+  console.log "homeController.coffee:3 >>>", $scope.$root.currentSpot
 
   $scope.getBackgroundStyle = (icon) ->
     if !icon
@@ -22,15 +22,10 @@ app.controller "HomeController", ($scope, homeDA, reportsDA, user, $state) ->
       $scope.snowfallHistory = data.snowfallHistory
 
   loadSnapshot = ->
-    home = user.getHome()
-    homeDA.get(spot : home.code, lang : user.getLang(), culture : user.getCulture()).then setSnapshot
+    homeDA.get(spot : spotResolved, lang : user.getLang(), culture : user.getCulture()).then setSnapshot
 
   loadSnapshot()
 
   $scope.sendReport = ->
     user.login().then ->
-      $state.go "tab.report"
-
-  $scope.openInfo = ->
-    $state.go "tab.info"
-
+      $state.go "main.report", {id : spotResolved}
