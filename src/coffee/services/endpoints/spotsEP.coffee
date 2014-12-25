@@ -1,7 +1,9 @@
 app.factory "spotsEP", (_ep) ->
 
+  get : (spot) ->
+    _ep.get "spots/#{spot}"
 
-  get : (term, geo) ->
+  find : (term, geo) ->
     _ep.get "spots", term : term, geo : geo
 
   nearest : (geo) ->

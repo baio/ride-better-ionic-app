@@ -1,4 +1,4 @@
-app.controller "SnowHistController", ($scope, homeDA, user, resources, culture, spotResolved) ->
+app.controller "SnowHistController", ($scope, resources, stateResolved) ->
 
   console.log "snowHistController.coffee:3 >>>"
   
@@ -22,7 +22,7 @@ app.controller "SnowHistController", ($scope, homeDA, user, resources, culture, 
     rows = _rows.map (m) ->
       c : [{v : m.date}, {v : m.cmt}, {v : m.amt}]
 
-    $scope.chart.options.title = resources.str("Snowfall History") + " (" + resources.str(culture.heightU()) + ".)"
+    $scope.chart.options.title = resources.str("Snowfall History") + " (" + resources.str(stateResolved.culture.unitsNames.height) + ".)"
     $scope.chart.options.vAxis = title: resources.str("Days"),  titleTextStyle: {color: 'blue'}
     $scope.chart.data =
       cols : [
@@ -32,13 +32,8 @@ app.controller "SnowHistController", ($scope, homeDA, user, resources, culture, 
       ]
       rows : rows
 
+  setChart stateResolved
 
-  loadSnowHist = ->
-    home = user.getHome()
-    homeDA.get(spot : spotResolved, lang : user.getLang(), culture : user.getCulture())
-    .then setChart
-
-  loadSnowHist()
 
 
   

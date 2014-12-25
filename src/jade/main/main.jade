@@ -1,11 +1,11 @@
 ion-tabs.tabs-striped.tabs-positive.tabs-light
-    ion-tab(icon='icon ion-home' href="#/{{currentSpot}}/main/home")
+    ion-tab(icon='icon ion-home' ng-click="open('home')")
         ion-nav-view(name='main-home')
-    ion-tab(icon='icon ion-document' href="#/{{currentSpot}}/main/reports")
+    ion-tab(icon='icon ion-document' ng-click="open('reports')")
         ion-nav-view(name='main-reports')          
-    ion-tab(icon='icon ion-cloud' href="#/{{currentSpot}}/main/forecast")
+    ion-tab(icon='icon ion-cloud' ng-click="open('forecast')")
         ion-nav-view(name='main-forecast')          
-    ion-tab(icon='icon ion-stats-bars' href="#/{{currentSpot}}/main/hist")
+    ion-tab(icon='icon ion-stats-bars' ng-click="open('hist')")
         ion-nav-view(name='main-hist')          
 
       //

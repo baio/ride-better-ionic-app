@@ -1,4 +1,4 @@
-app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geoLocator,
+app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
                      authio, mapper, amMoment, globalization, notifier, spotsDA, mobileDetect, $ionicConfig) ->
 
   user = {}
@@ -7,8 +7,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
 
   initialize = ->
     setUser defaultUser()
-    $rootScope.culture = culture
-    $rootScope.homeLabel = getHome().label
 
   setUser = (u) ->
     user.profile = u.profile
@@ -16,7 +14,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
       user.settings = u.settings
       putLang user.settings.lang
       putCulture user.settings.culture
-    $rootScope.homeLabel = getHome().label
 
   saveChangesToCache = ->
     cache.put "user", user
@@ -41,6 +38,15 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
   getHome = ->
     user.settings.favs.filter((f) -> f.isHome)[0]
 
+  getUserAsync = ->
+    deferred = $q.defer()
+    if $rootScope.activated
+      deferred.resolve(user)
+    else
+      $rootScope.$on "app.activated", -> 
+        deferred.resolve(user)
+    deferred.promise
+
   getHomeAsync = ->
     deferred = $q.defer()
     if $rootScope.activated
@@ -54,7 +60,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
     authio.logout()
     cache.clean()
     angular.copy defaultUser(), user
-    $rootScope.homeLabel = getHome().label
     putLang user.settings.lang
     putCulture user.settings.culture
     saveChanges()
@@ -101,7 +106,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
 
 
   putCulture = (c) ->
-    culture.setCulture c
     user.settings.culture = c
 
   #
@@ -110,7 +114,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
     for fav in user.settings.favs
       fav.isHome = false
     spot.isHome = true
-    $rootScope.homeLabel = getHome().label
 
   addSpot = (spot) ->
     favs = user.settings.favs
@@ -119,7 +122,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
       favs.push spot
 
   setLang = (lang) ->
-    console.log "user.coffee:122 >>>", lang
     putLang lang.code
     saveChanges()
 
@@ -199,6 +201,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
           promise = $q.when()
 
     promise.finally (res) ->
+      $rootScope.activated = true
+      $rootScope.$broadcast("app.activated")      
       notifier.hideLoading()
 
     promise
@@ -226,7 +230,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, culture, geo
     notifyNative().then ->
       activate()
 
-  getHomeAsync: getHomeAsync
+  getUserAsync: getUserAsync
 
   getHome: getHome
 

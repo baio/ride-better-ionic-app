@@ -3,12 +3,20 @@ app.factory "spotsDA", ($q, spotsEP) ->
 
   inProgress = false
 
-  get : (term, geo) ->
+  get : (id) ->
     if inProgress
       $q.reject(new Error "In Progress")
     else
       inProgress = true
-      spotsEP.get(term, geo)["finally"] ->
+      spotsEP.get(id)["finally"] ->
+        inProgress = false
+
+  find : (term, geo) ->
+    if inProgress
+      $q.reject(new Error "In Progress")
+    else
+      inProgress = true
+      spotsEP.find(term, geo)["finally"] ->
         inProgress = false
 
   nearest : (geo) ->

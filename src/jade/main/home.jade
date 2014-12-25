@@ -1,15 +1,20 @@
-ion-view(ng-attr-title="{{homeLabel}}")
+ion-view(ng-attr-title="{{spot.title}}")
     ion-content.has-header.home-container(ng-class="getBackgroundStyle(snapshot.forecast.icon)")
         .transparent-background.card.list.home-card(ng-if="snapshot.report.summary || snapshot.forecast.summary")
-            .transparent-background.transparent-background-img.height-300.item.item-text-wrap.text-center.text-bold(ui-sref="main.reports({id: currentSpot})", ng-if="snapshot.report.summary")
+            .transparent-background.transparent-background-img.height-300.item.item-text-wrap.text-center.text-bold(
+                    ng-click="open('reports')", ng-if="snapshot.report.summary")
                 span {{snapshot.report.summary}} &nbsp
-            .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(ui-sref="main.forecast({id: currentSpot})", ng-if="snapshot.forecast.summary")
+            .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(
+                    ng-click="open('forecast')", ng-if="snapshot.forecast.summary")
                 | {{snapshot.forecast.summary}}
                 br
-                i.icon.ion-arrow-down-c &nbsp; {{culture.temp(snapshot.forecast.temperatureMin) | round | plus}}&deg;{{culture.tempU()}} &nbsp;
+                i.icon.ion-arrow-down-c &nbsp; {{snapshot.forecast.temperatureMin | round | plus}}&deg;
+                    | {{culture.unitsNames.temp}} &nbsp;
                 | &nbsp;&nbsp;&nbsp;
-                i.icon.ion-arrow-up-c &nbsp; {{culture.temp(snapshot.forecast.temperatureMax) | round | plus}}&deg;{{culture.tempU()}} &nbsp;
-            .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(ui-sref="main.hist({id: currentSpot})", ng-if="snowfallHistory.summary")
+                i.icon.ion-arrow-up-c &nbsp; {{snapshot.forecast.temperatureMax | round | plus}}&deg;
+                    | {{culture.unitsNames.temp}} &nbsp;
+            .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(
+                    ng-click="open('hist')" ng-if="snowfallHistory.summary")
                 i.icon.ion-ios-snowy(style="font-size: 20px; color: blue;")
                 &nbsp; {{snowfallHistory.summary}}
     ion-footer-bar.bar-positive

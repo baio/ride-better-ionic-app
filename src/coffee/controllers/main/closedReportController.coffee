@@ -25,8 +25,8 @@ app.controller "ClosedReportController", ($scope, reportsDA, $state, resources, 
       comment : $scope.data.message
 
     reportsDA.send(user.getHome().code, data).then (res) ->
-      $state.go "main.home", {id : $state.currentSpot}
+      $state.go "tab.home"
 
   $scope.cancelReport = ->
-    $state.go "main.home", {id : $state.currentSpot}
+    $state.go "tab.home"
 

@@ -4,22 +4,26 @@ app = angular.module("ride-better", [
 
   $ionicPlatform.ready ->
     StatusBar.styleDefault() if window.StatusBar
-    user.activate().then ->
-      $rootScope.activated = true
-      $rootScope.$broadcast("app.activated")
+    user.activate()
 )
 .config ($stateProvider) ->
 
   $stateProvider.state("main",
-    url: "/:id/main"
+    url: "/:culture/:id/main"
     abstract: true
     templateUrl: "main/main.html"
+    controller: "MainController"
     resolve:
-      userResolved: (user) ->
-        user.getHomeAsync()
-      spotResolved: ($stateParams, $rootScope) ->        
-        $rootScope.currentSpot = $stateParams.id
-        $stateParams.id
+      stateResolved: ($stateParams, $rootScope, homeDA, cultureFormatter) ->  
+        console.log "app.coffee:18 >>>", $stateParams
+        culture = $stateParams.culture.split("-")     
+        homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1]).then (res) ->
+          res.culture.unitsNames = 
+            temp : cultureFormatter.tempU(res.culture.units)
+            height : cultureFormatter.heightU(res.culture.units)
+            dist : cultureFormatter.distU(res.culture.units)        
+          console.log "app.coffee:23 >>>", res
+          res
   ).state("main.home",
     url: "/home",
     views:
@@ -75,13 +79,13 @@ app = angular.module("ride-better", [
     url: "/favs"
     views:
       "user-favs":
-        templateUrl: "user/user-favs.html"
+        templateUrl: "user/favs.html"
         controller: "FavsController"
   ).state("user.settings",
     url: "/settings"
     views:
-      "tab-user":
-        templateUrl: "user/user-settings.html"
+      "user-settings":
+        templateUrl: "user/settings.html"
         controller: "UserController"
   ).state("resort",
     url: "/:id/resort"
@@ -89,7 +93,6 @@ app = angular.module("ride-better", [
     controller: "ResortController"
     resolve:
       resortResolved: (resortsDA, $stateParams, $rootScope) ->
-        console.log "app.coffee:92 >>>", $stateParams.id
         $rootScope.currentSpot = $stateParams.id
         resortsDA.getInfo($stateParams.id)        
   ).state("resort.main",
@@ -137,13 +140,12 @@ app = angular.module("ride-better", [
         controller: "FaqListController"
   )
 
-app.config ($urlRouterProvider) ->
-  
+app.config ($urlRouterProvider) ->  
   $urlRouterProvider.otherwise ($injector, $location) -> 
     user = $injector.get("user")
-    user.getHomeAsync().then (res) ->
-      console.log "app.coffee:140 >>>", res
-      href = "#{res.code}/main/home"    
+    user.getUserAsync().then (ur) ->
+      home = ur.settings.favs.filter((f) -> f.isHome)[0]
+      href = "#{ur.settings.lang}-#{ur.settings.culture}/#{home.code}/main/home"    
       $location.path href
 
 

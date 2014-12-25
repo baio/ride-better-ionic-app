@@ -6,9 +6,15 @@ ion-content
     ion-item.item-icon-left(nav-clear menu-close ui-sref="resort.main({id : currentSpot})")
       i.icon.ion-information 
       | {{ "Resort" | res }}
+    ion-item.item-icon-left(nav-clear menu-close ui-sref="resort.prices({id : currentSpot})")
+      i.icon.ion-pricetags 
+      | {{ "Prices" | res }}      
     ion-item.item-icon-left(nav-clear  menu-close ui-sref="faq.list({id : currentSpot})")
       i.icon.ion-help
       | {{ "FAQ" | res }}      
-    ion-item.item-icon-left(nav-clear  menu-close ui-sref="user.settings")
+    ion-item.item-icon-left(nav-clear  menu-close ui-sref="faq.list({id : currentSpot})")
+      i.icon.ion-model-s
+      | {{ "Transfer" | res }}            
+    ion-item.item-icon-left(nav-clear  menu-close ui-sref="user.favs")
       i.icon.ion-person
       | {{ "User" | res }}      
