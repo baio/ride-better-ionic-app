@@ -1,5 +1,5 @@
 app = angular.module("ride-better", [
-  "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", 'googlechart'
+  "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", 'n3-line-chart'
 ]).run(($ionicPlatform, $rootScope, user) ->
 
   $ionicPlatform.ready ->

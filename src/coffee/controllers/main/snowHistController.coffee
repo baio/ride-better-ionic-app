@@ -2,35 +2,29 @@ app.controller "SnowHistController", ($scope, resources, stateResolved) ->
 
   console.log "snowHistController.coffee:3 >>>"
   
-  $scope.chart = 
-    type : "BarChart"
-    options :
-      legend:  position: 'top', maxLines: 3 
-      isStacked: true
-      height: 500
-    data : []
+  setChart = (data) ->
 
-  setChart = (data) ->        
-
-    _rows = data.snowfallHistory.items.map (m) ->
+    $scope.data = data.snowfallHistory.items.map (m, i) ->
       cmt : Math.round(m.cumulSnowAmount * 100) / 100 
       amt : Math.round((if m.type == "snow" then m.amount else 0) * 100) / 100
       date : moment.utc(m.date, "X").format("ddd")
+      idx : i
 
-    _rows = _rows.reverse()
+    getLabel = (val) ->
+      if val % 1 == 0
+        $scope.data[val].date
+      else
+        ""
 
-    rows = _rows.map (m) ->
-      c : [{v : m.date}, {v : m.cmt}, {v : m.amt}]
-
-    $scope.chart.options.title = resources.str("Snowfall History") + " (" + resources.str(stateResolved.culture.units.names.height) + ".)"
-    $scope.chart.options.vAxis = title: resources.str("Days"),  titleTextStyle: {color: 'blue'}
-    $scope.chart.data =
-      cols : [
-        {id: "t", label: resources.str("Days"), type: "string"},     
-        {id: "z", label: resources.str("Cumulative"), type: "number"}, 
-        {id: "s", label: resources.str("Fall"), type: "number"},        
+    $scope.options =
+      lineMode: 'cardinal',
+      axes: 
+        x: {key: 'idx', labelFunction: getLabel, type: 'linear', ticks: 7}
+        y: {type: 'linear'},
+      series: [
+        {y: 'cmt', color: '#4682b4', type: 'area', label :  resources.str("Cumulative")},
+        {y: 'amt', color: 'green', type: 'area', label :  resources.str("Fall") + " (" + resources.str(stateResolved.culture.units.names.height) + ".)"}
       ]
-      rows : rows
 
   setChart stateResolved
 
