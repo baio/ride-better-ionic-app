@@ -1,6 +1,9 @@
 app.controller "MainController", ($scope, stateResolved, $state, amMoment) ->
 
   console.log "mainController.coffee:3 >>>"
+  $scope.$root.state = stateResolved
+
+  console.log "mainController.coffee:6 >>>", $scope.$root.state
 
   $scope.spot = stateResolved.spot
   $scope.culture = stateResolved.culture
@@ -8,7 +11,6 @@ app.controller "MainController", ($scope, stateResolved, $state, amMoment) ->
   amMoment.changeLocale stateResolved.culture.lang
 
   $scope.open = (state) ->
-    console.log "mainController.coffee:9 >>>", state, stateResolved
     $state.transitionTo("main." + state, {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
 

@@ -2,6 +2,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
                      authio, mapper, amMoment, globalization, notifier, spotsDA, mobileDetect, $ionicConfig) ->
 
   user = {}
+
   authForm = null
   deferredAuthForm = null
 
@@ -9,11 +10,12 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     setUser defaultUser()
 
   setUser = (u) ->
-    user.profile = u.profile
+    user.profile = u.profile    
     if u.settings
       user.settings = u.settings
       putLang user.settings.lang
       putCulture user.settings.culture
+      user.home = getHome()
 
   saveChangesToCache = ->
     cache.put "user", user
@@ -32,7 +34,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       lang : "en"
       culture : "eu"
       favs : [
-          { code : "1936", label : "Завьялиха (Zavyalikha)", isHome : true }
+          { id : "1936", title : "Завьялиха", isHome : true }
         ]
 
   getHome = ->
@@ -45,15 +47,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     else
       $rootScope.$on "app.activated", -> 
         deferred.resolve(user)
-    deferred.promise
-
-  getHomeAsync = ->
-    deferred = $q.defer()
-    if $rootScope.activated
-      deferred.resolve(getHome())
-    else
-      $rootScope.$on "app.activated", -> 
-        deferred.resolve(getHome())
     deferred.promise
 
   reset = ->
@@ -100,10 +93,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     authForm.hide()
 
   putLang = (lang) ->
-    resources.setLang lang
     user.settings.lang = lang
-    #amMoment.changeLocale lang
-
 
   putCulture = (c) ->
     user.settings.culture = c
@@ -113,13 +103,14 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
   setHome = (spot) ->
     for fav in user.settings.favs
       fav.isHome = false
-    spot.isHome = true
+    spot.isHome = true  
+    user.home = spot
 
   addSpot = (spot) ->
     favs = user.settings.favs
-    fav = favs.filter((f) -> f.code == spot.code)[0]
+    fav = favs.filter((f) -> f.id == spot.id)[0]
     if !fav
-      favs.push spot
+      favs.push spot    
 
   setLang = (lang) ->
     putLang lang.code
@@ -247,7 +238,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     fav = favs.filter((f) -> f.code == spot.code)[0]
     if fav
       favs.splice favs.indexOf(fav), 1
-      if fav.isHome then favs[0].isHome = true
+      if fav.isHome 
+        favs[0].isHome = true
+        user.home = favs[0]
       saveChanges()
 
   setLang: setLang

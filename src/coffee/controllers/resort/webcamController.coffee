@@ -1,4 +1,4 @@
-app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
+app.controller "WebcamController", ($scope, webcamsDA, notifier) ->
 
   console.log "Webcam Controller"
 
@@ -26,9 +26,7 @@ app.controller "WebcamController", ($scope, webcamsDA, user, notifier) ->
     .then setWebcam
     .catch ->
       notifier.message "No more images, try again later."
-
-  if $scope.$root.activated
-    $scope.loadLatest()
-
-  $scope.$on "app.activated", $scope.loadLatest
+  
+  $scope.loadLatest()
+  
 

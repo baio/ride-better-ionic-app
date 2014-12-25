@@ -11,7 +11,7 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
 
   loadSpots = (term) ->
     if (!term and geo) or (term and term.length > 2)
-      spotsDA.get(term, geo).then (res) ->
+      spotsDA.find(term, geo).then (res) ->
         $scope.spotsList = res
     else
       $scope.spotsList = null
@@ -35,7 +35,8 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
   $scope.onSpotTermChanged = loadSpots
 
   $scope.selectSpot = (s) ->
-    st = code : s.code, label : s.label.replace(/<[^>]+>/gm, '')
+    st = id : s.code, title : s.label.replace(/<[^>]+>/gm, '')
+    console.log "favsController.coffee:39 >>>", st
     user.addSpot st
     $scope.spotSelectorModal.hide()
 
@@ -44,12 +45,6 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
 
   $scope.setHome = (s) ->
     user.setHome(s)
-    $scope.$root.currentSpot = s.code
-
-  $scope.openHome = (s) ->
-    console.log ">>>favsController.coffee:46", s
-    user.setHome(s)
-    $state.go "tab.home"
 
   $scope.isHome = user.isHome
 

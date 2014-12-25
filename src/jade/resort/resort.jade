@@ -1,11 +1,11 @@
 ion-tabs.tabs-striped.tabs-energized.tabs-light      
-    ion-tab(icon='icon ion-ios-world-outline' ui-sref="resort.main({id : currentSpot})")
+    ion-tab(icon='icon ion-ios-world-outline' ng-click="open('main')")
         ion-nav-view(name='resort-main')          
-    ion-tab(icon='icon ion-ios-telephone' ui-sref="resort.contacts({id : currentSpot})")
+    ion-tab(icon='icon ion-ios-telephone' ng-click="open('contacts')")
         ion-nav-view(name='resort-contacts')
-    ion-tab(icon='icon ion-camera' ui-sref="resort.webcams({id : currentSpot})")
+    ion-tab(icon='icon ion-camera' ng-click="open('webcams')")
         ion-nav-view(name='resort-webcams')
-    ion-tab(icon='icon ion-map' ui-sref="resort.maps({id : currentSpot})")
+    ion-tab(icon='icon ion-map' ng-click="open('maps')")
         ion-nav-view(name='resort-maps')
     //
         ion-tab(icon='icon ion-pricetags' ui-sref="resort.prices({id : currentSpot})")

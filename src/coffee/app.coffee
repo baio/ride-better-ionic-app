@@ -14,8 +14,7 @@ app = angular.module("ride-better", [
     templateUrl: "main/main.html"
     controller: "MainController"
     resolve:
-      stateResolved: ($stateParams, $rootScope, homeDA) ->  
-        console.log "app.coffee:18 >>>", $stateParams
+      stateResolved: ($stateParams, homeDA) ->  
         culture = $stateParams.culture.split("-")     
         homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1])
   ).state("main.home",
@@ -60,35 +59,19 @@ app = angular.module("ride-better", [
       "main-webcam":
         templateUrl: "main/webcam.html"
         controller: "WebcamController"
-  ).state("user",
-    url: "/user"
-    templateUrl: "user/user.html"
-    abstract: true
-    resolve:
-      home: (resortsDA, user) ->
-        user.getHomeAsync().then (home) ->          
-          resortsDA.getInfo(home.code)          
-  )
-  .state("user.favs",
-    url: "/favs"
-    views:
-      "user-favs":
-        templateUrl: "user/favs.html"
-        controller: "FavsController"
-  ).state("user.settings",
-    url: "/settings"
-    views:
-      "user-settings":
-        templateUrl: "user/settings.html"
-        controller: "UserController"
   ).state("resort",
-    url: "/:id/resort"
+    url: "/:culture/:id/resort"
     templateUrl: "resort/resort.html"
     controller: "ResortController"
     resolve:
-      resortResolved: (resortsDA, $stateParams, $rootScope) ->
-        $rootScope.currentSpot = $stateParams.id
+      resortResolved: (resortsDA, $stateParams) ->
         resortsDA.getInfo($stateParams.id)        
+      stateResolved: ($stateParams) ->
+        culture = $stateParams.culture.split("-")
+        culture : 
+          code : $stateParams.culture
+          lang : culture[0]
+          units : code : culture[1]
   ).state("resort.main",
     url: "/main"
     views:
@@ -104,24 +87,31 @@ app = angular.module("ride-better", [
     views:
       "resort-maps":
         templateUrl: "resort/resort-maps.html"
-  ).state("resort.prices",
-    url: "/prices"
+  ).state("resort.webcams",
+    url: "/webcams"
     views:
-      "resort-prices":
-        templateUrl: "resort/resort-prices.html"
+      "resort-webcams":
+        templateUrl: "resort/resort-webcams.html"
+        controller: "WebcamController"
   ).state("faq",
-    url: "/:id/faq"
+    url: "/:culture/:id/faq"
     templateUrl: "faq/faq.html"
     abstract: true
+    controller: "FaqController"
     resolve:
-      spotResolved: ($stateParams, $rootScope) ->        
-        $rootScope.currentSpot = $stateParams.id
-        $stateParams.id
+      stateResolved: ($stateParams, spotsDA) ->  
+        spotsDA.get($stateParams.id).then (res) ->
+          culture = $stateParams.culture.split("-")
+          spot : res
+          culture : 
+            code : $stateParams.culture
+            lang : culture[0]
+            units : code : culture[1]
   ).state("faq.item",
-    url: "/list/:id"
+    url: "/list/:threadId"
     resolve:
       thread: (boardDA, $stateParams) ->
-        boardDA.getThread($stateParams.id)    
+        boardDA.getThread($stateParams.threadId)    
     views:
       "faq-content":
         templateUrl: "faq/faq-item.html"    
@@ -132,9 +122,33 @@ app = angular.module("ride-better", [
       "faq-content":
         templateUrl: "faq/faq-list.html"    
         controller: "FaqListController"
+  ).state("user",
+    url: "/user"
+    templateUrl: "user/user.html"
+    abstract: true
+    controller : "UserController"
+    resolve:
+      userResolved: (user) ->
+        user.getUserAsync()
+  ).state("user.favs",
+    url: "/favs"
+    views:
+      "user-favs":
+        templateUrl: "user/favs.html"
+        controller: "FavsController"
+  ).state("user.settings",
+    url: "/settings"
+    views:
+      "user-settings":
+        templateUrl: "user/settings.html"
+        controller: "SettingsController"
   )
 
 app.config ($urlRouterProvider) ->  
+
+  $urlRouterProvider.when /.*/, ($stateParams) ->
+    console.log "app.coffee:150 >>>"
+
   $urlRouterProvider.otherwise ($injector, $location) -> 
     user = $injector.get("user")
     user.getUserAsync().then (ur) ->
@@ -166,5 +180,4 @@ app.config ($sceDelegateProvider) ->
   $sceDelegateProvider.resourceUrlWhitelist ["self", "http://ipeye.ru/ipeye_service/api/**"]
 
 app.config ($ionicConfigProvider) ->
-  #$ionicConfigProvider.views.maxCache(5);
   $ionicConfigProvider.backButton.text("")
