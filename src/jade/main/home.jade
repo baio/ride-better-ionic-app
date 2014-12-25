@@ -8,14 +8,15 @@ ion-view(ng-attr-title="{{spot.title}}")
                     ng-click="open('forecast')", ng-if="snapshot.forecast.summary")
                 | {{snapshot.forecast.summary}}
                 br
+                i.icon.ion-thermometer(style="font-size: 25px; color: red;") &nbsp;                     
                 i.icon.ion-arrow-down-c &nbsp; {{snapshot.forecast.temperatureMin | round | plus}}&deg;
-                    | {{culture.unitsNames.temp}} &nbsp;
+                    | {{culture.units.names.temperature}} &nbsp;
                 | &nbsp;&nbsp;&nbsp;
                 i.icon.ion-arrow-up-c &nbsp; {{snapshot.forecast.temperatureMax | round | plus}}&deg;
-                    | {{culture.unitsNames.temp}} &nbsp;
+                    | {{culture.units.names.temperature}} &nbsp;
             .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(
                     ng-click="open('hist')" ng-if="snowfallHistory.summary")
-                i.icon.ion-ios-snowy(style="font-size: 20px; color: blue;")
+                i.icon.ion-ios-snowy(style="font-size: 25px; color: blue;")
                 &nbsp; {{snowfallHistory.summary}}
     ion-footer-bar.bar-positive
         .button-bar

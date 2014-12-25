@@ -14,16 +14,10 @@ app = angular.module("ride-better", [
     templateUrl: "main/main.html"
     controller: "MainController"
     resolve:
-      stateResolved: ($stateParams, $rootScope, homeDA, cultureFormatter) ->  
+      stateResolved: ($stateParams, $rootScope, homeDA) ->  
         console.log "app.coffee:18 >>>", $stateParams
         culture = $stateParams.culture.split("-")     
-        homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1]).then (res) ->
-          res.culture.unitsNames = 
-            temp : cultureFormatter.tempU(res.culture.units)
-            height : cultureFormatter.heightU(res.culture.units)
-            dist : cultureFormatter.distU(res.culture.units)        
-          console.log "app.coffee:23 >>>", res
-          res
+        homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1])
   ).state("main.home",
     url: "/home",
     views:
@@ -145,6 +139,7 @@ app.config ($urlRouterProvider) ->
     user = $injector.get("user")
     user.getUserAsync().then (ur) ->
       home = ur.settings.favs.filter((f) -> f.isHome)[0]
+      home ?= ur.settings.favs[0]
       href = "#{ur.settings.lang}-#{ur.settings.culture}/#{home.code}/main/home"    
       $location.path href
 

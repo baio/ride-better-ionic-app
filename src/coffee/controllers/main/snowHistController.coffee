@@ -22,7 +22,7 @@ app.controller "SnowHistController", ($scope, resources, stateResolved) ->
     rows = _rows.map (m) ->
       c : [{v : m.date}, {v : m.cmt}, {v : m.amt}]
 
-    $scope.chart.options.title = resources.str("Snowfall History") + " (" + resources.str(stateResolved.culture.unitsNames.height) + ".)"
+    $scope.chart.options.title = resources.str("Snowfall History") + " (" + resources.str(stateResolved.culture.units.names.height) + ".)"
     $scope.chart.options.vAxis = title: resources.str("Days"),  titleTextStyle: {color: 'blue'}
     $scope.chart.data =
       cols : [
