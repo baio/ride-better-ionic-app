@@ -1,8 +1,8 @@
-app.controller "ForecastController", ($scope, stateResolved) ->
+app.controller "ForecastController", ($scope, homeResolved) ->
 
   console.log "Forecast Controller"
 
-  $scope.forecast = stateResolved.forecast
+  $scope.forecast = homeResolved.forecast
 
 
 

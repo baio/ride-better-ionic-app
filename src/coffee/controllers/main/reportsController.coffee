@@ -1,7 +1,7 @@
-app.controller "ReportsController", ($scope, stateResolved) ->
+app.controller "ReportsController", ($scope, homeResolved) ->
 
   console.log "Reports Controller"
 
-  $scope.reports = stateResolved.reports
+  $scope.reports = homeResolved.reports
 
 

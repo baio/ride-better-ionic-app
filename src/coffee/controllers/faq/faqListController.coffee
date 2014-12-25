@@ -11,5 +11,4 @@ app.controller "FaqListController", ($scope, $state, board, stateResolved) ->
   $scope.$on '$destroy', -> board.dispose()
 
   $scope.openThread = (threadId) ->
-    console.log "faqListController.coffee:18 >>>", stateResolved, threadId
-    $state.transitionTo("faq.item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
+    $state.transitionTo("root.faq.item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})

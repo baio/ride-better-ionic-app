@@ -1,4 +1,4 @@
-app.controller "SnowHistController", ($scope, resources, stateResolved) ->
+app.controller "SnowHistController", ($scope, resources, homeResolved) ->
 
   console.log "snowHistController.coffee:3 >>>"
   
@@ -23,10 +23,10 @@ app.controller "SnowHistController", ($scope, resources, stateResolved) ->
         y: {type: 'linear'},
       series: [
         {y: 'cmt', color: '#4682b4', type: 'area', label :  resources.str("Cumulative")},
-        {y: 'amt', color: 'green', type: 'area', label :  resources.str("Fall") + " (" + resources.str(stateResolved.culture.units.names.height) + ".)"}
+        {y: 'amt', color: 'green', type: 'area', label :  resources.str("Fall") + " (" + resources.str(homeResolved.culture.units.names.height) + ".)"}
       ]
 
-  setChart stateResolved
+  setChart homeResolved
 
 
 

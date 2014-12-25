@@ -1,5 +1,4 @@
 app.factory "boardDA", (boardEP) ->
-
   get: boardEP.get
   postThread: boardEP.postThread
   putThread: boardEP.putThread

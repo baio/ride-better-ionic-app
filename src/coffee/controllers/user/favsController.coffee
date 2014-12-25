@@ -45,6 +45,8 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
 
   $scope.setHome = (s) ->
     user.setHome(s)
+    $scope.$root.state.spot = s
+    console.log "favsController.coffee:49 >>>", s
 
   $scope.isHome = user.isHome
 

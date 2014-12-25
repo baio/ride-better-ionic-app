@@ -111,6 +111,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     fav = favs.filter((f) -> f.id == spot.id)[0]
     if !fav
       favs.push spot    
+      true
+    else
+      false
 
   setLang = (lang) ->
     putLang lang.code
@@ -124,9 +127,10 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     geoLocator.getPosition()
     .then (geo) ->
       spotsDA.nearest(geo.lat + "," + geo.lon)
-    .then (spot) ->
-      addSpot spot
-      setHome spot
+    .then (res) ->
+      spot = id : res.code, title : res.label
+      if addSpot spot
+        setHome spot
 
   getDefaultLagAndCulture = ->
     globalization.getLangAndCulture().then (r) =>

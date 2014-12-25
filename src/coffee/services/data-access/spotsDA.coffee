@@ -1,28 +1,16 @@
-app.factory "spotsDA", ($q, spotsEP) ->
+app.factory "spotsDA", ($q, spotsEP, cache) ->
 
+  getCacheName = (spot) -> "spot_" + spot
 
-  inProgress = false
-
-  get : (id) ->
-    if inProgress
-      $q.reject(new Error "In Progress")
+  get : (spot) ->
+    cacheName = getCacheName spot
+    cached = cache.get cacheName
+    if cached      
+      $q.when cached
     else
-      inProgress = true
-      spotsEP.get(id)["finally"] ->
-        inProgress = false
+      spotsEP.get(spot).then (res) ->
+        cache.put cacheName, res, 60 * 24 * 2
+        res
 
-  find : (term, geo) ->
-    if inProgress
-      $q.reject(new Error "In Progress")
-    else
-      inProgress = true
-      spotsEP.find(term, geo)["finally"] ->
-        inProgress = false
-
-  nearest : (geo) ->
-    if inProgress
-      $q.reject(new Error "In Progress")
-    else
-      inProgress = true
-      spotsEP.nearest(geo)["finally"] ->
-        inProgress = false
+  find : spotsEP.find
+  nearest : spotsEP.nearest

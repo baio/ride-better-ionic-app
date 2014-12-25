@@ -1,11 +1,11 @@
-ion-view(ng-attr-title="{{spot.title}}")
+ion-view(ng-attr-title="{{state.spot.title}}")
     ion-content.has-header.home-container(ng-class="getBackgroundStyle(snapshot.forecast.icon)")
         .transparent-background.card.list.home-card(ng-if="snapshot.report.summary || snapshot.forecast.summary")
             .transparent-background.transparent-background-img.height-300.item.item-text-wrap.text-center.text-bold(
-                    ng-click="open('reports')", ng-if="snapshot.report.summary")
+                    ng-click="open('main.reports')", ng-if="snapshot.report.summary")
                 span {{snapshot.report.summary}} &nbsp
             .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(
-                    ng-click="open('forecast')", ng-if="snapshot.forecast.summary")
+                    ng-click="open('main.forecast')", ng-if="snapshot.forecast.summary")
                 | {{snapshot.forecast.summary}}
                 br
                 i.icon.ion-thermometer(style="font-size: 25px; color: red;") &nbsp;                     
@@ -15,7 +15,7 @@ ion-view(ng-attr-title="{{spot.title}}")
                 i.icon.ion-arrow-up-c &nbsp; {{snapshot.forecast.temperatureMax | round | plus}}&deg;
                     | {{culture.units.names.temperature}} &nbsp;
             .transparent-background.transparent-background-img.item.item-text-wrap.text-center.text-bold(
-                    ng-click="open('hist')" ng-if="snowfallHistory.summary")
+                    ng-click="open('main.hist')" ng-if="snowfallHistory.summary")
                 i.icon.ion-ios-snowy(style="font-size: 25px; color: blue;")
                 &nbsp; {{snowfallHistory.summary}}
     ion-footer-bar.bar-positive

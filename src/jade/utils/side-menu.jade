@@ -1,18 +1,18 @@
 ion-content
   ion-list
-    ion-item.item-icon-left(nav-clear menu-close ui-sref="main.home({id : state.spot.id, culture : state.culture.code})")
+    ion-item.item-icon-left(nav-clear menu-close ng-click="open('main.home')")
       i.icon.ion-ios-home 
       | {{ "Main" | res }}      
-    ion-item.item-icon-left(nav-clear menu-close ui-sref="resort.main({id : state.spot.id, culture : state.culture.code})")
+    ion-item.item-icon-left(nav-clear menu-close ng-click="open('resort.main')")
       i.icon.ion-information 
       | {{ "Resort" | res }}
-    ion-item.item-icon-left(nav-clear menu-close ui-sref="resort.prices({id : state.spot.id, culture : state.culture.code})")
+    ion-item.item-icon-left(nav-clear menu-close ng-click="open('resort.prices')")
       i.icon.ion-pricetags 
       | {{ "Prices" | res }}      
-    ion-item.item-icon-left(nav-clear  menu-close ui-sref="faq.list({id : state.spot.id, culture : state.culture.code})")
+    ion-item.item-icon-left(nav-clear  menu-close ng-click="open('faq.list')")
       i.icon.ion-help
       | {{ "FAQ" | res }}      
-    ion-item.item-icon-left(nav-clear  menu-close ui-sref="faq.list({id : state.spot.id, culture : state.culture.code})")
+    ion-item.item-icon-left(nav-clear  menu-close ng-click="open('faq.list')")
       i.icon.ion-model-s
       | {{ "Transfer" | res }}            
     ion-item.item-icon-left(nav-clear  menu-close ui-sref="user.favs")

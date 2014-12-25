@@ -7,97 +7,12 @@ app = angular.module("ride-better", [
     user.activate()
 )
 .config ($stateProvider) ->
-
-  $stateProvider.state("main",
-    url: "/:culture/:id/main"
+  _resortResolved = {}
+  $stateProvider.state("root",
+    url : "/:culture/:id"
     abstract: true
-    templateUrl: "main/main.html"
-    controller: "MainController"
-    resolve:
-      stateResolved: ($stateParams, homeDA) ->  
-        culture = $stateParams.culture.split("-")     
-        homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1])
-  ).state("main.home",
-    url: "/home",
-    views:
-      "main-home":
-        templateUrl: "main/home.html"
-        controller: "HomeController"
-  ).state("main.report",
-    url: "/report"
-    views:
-      "main-home":
-        templateUrl: "main/send-report.html"
-        controller: "SendReportController"
-  ).state("main.closed",
-    url: "/closed"
-    views:
-      "main-home":
-        templateUrl: "main/closed-report.html"
-        controller: "ClosedReportController"
-  ).state("main.reports",
-    url: "/reports"
-    views:
-      "main-reports":
-        templateUrl: "main/reports.html"
-        controller: "ReportsController"
-  ).state("main.hist",
-    url: "/hist"
-    views:
-      "main-hist":
-        templateUrl: "main/snow-hist.html"
-        controller: "SnowHistController"
-  ).state("main.forecast",
-    url: "/forecast"
-    views:
-      "main-forecast":
-        templateUrl: "main/forecast.html"
-        controller: "ForecastController"
-  ).state("main.webcam",
-    url: "/webcam"
-    views:
-      "main-webcam":
-        templateUrl: "main/webcam.html"
-        controller: "WebcamController"
-  ).state("resort",
-    url: "/:culture/:id/resort"
-    templateUrl: "resort/resort.html"
-    controller: "ResortController"
-    resolve:
-      resortResolved: (resortsDA, $stateParams) ->
-        resortsDA.getInfo($stateParams.id)        
-      stateResolved: ($stateParams) ->
-        culture = $stateParams.culture.split("-")
-        culture : 
-          code : $stateParams.culture
-          lang : culture[0]
-          units : code : culture[1]
-  ).state("resort.main",
-    url: "/main"
-    views:
-      "resort-main":
-        templateUrl: "resort/resort-main.html"
-  ).state("resort.contacts",
-    url: "/contacts"
-    views:
-      "resort-contacts":
-        templateUrl: "resort/resort-contacts.html"
-  ).state("resort.maps",
-    url: "/maps"
-    views:
-      "resort-maps":
-        templateUrl: "resort/resort-maps.html"
-  ).state("resort.webcams",
-    url: "/webcams"
-    views:
-      "resort-webcams":
-        templateUrl: "resort/resort-webcams.html"
-        controller: "WebcamController"
-  ).state("faq",
-    url: "/:culture/:id/faq"
-    templateUrl: "faq/faq.html"
-    abstract: true
-    controller: "FaqController"
+    controller: "RootController"
+    template: "<ion-nav-view name='root'></ion-nav-view>"
     resolve:
       stateResolved: ($stateParams, spotsDA) ->  
         spotsDA.get($stateParams.id).then (res) ->
@@ -106,8 +21,94 @@ app = angular.module("ride-better", [
           culture : 
             code : $stateParams.culture
             lang : culture[0]
-            units : code : culture[1]
-  ).state("faq.item",
+            units : culture[1]
+  ).state("root.main",
+    url: "/main"
+    abstract: true  
+    resolve:
+      homeResolved: ($stateParams, homeDA) ->  
+        culture = $stateParams.culture.split("-")             
+        homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1])
+    views:
+      root:
+        templateUrl: "main/main.html"
+  ).state("root.main.home",
+    url: "/home",
+    views:
+      "main-home":
+        templateUrl: "main/home.html"
+        controller: "HomeController"
+  ).state("root.main.report",
+    url: "/report"
+    views:
+      "main-home":
+        templateUrl: "main/send-report.html"
+        controller: "SendReportController"
+  ).state("root.main.closed",
+    url: "/closed"
+    views:
+      "main-home":
+        templateUrl: "main/closed-report.html"
+        controller: "ClosedReportController"
+  ).state("root.main.reports",
+    url: "/reports"
+    views:
+      "main-reports":
+        templateUrl: "main/reports.html"
+        controller: "ReportsController"
+  ).state("root.main.hist",
+    url: "/hist"
+    views:
+      "main-hist":
+        templateUrl: "main/snow-hist.html"
+        controller: "SnowHistController"
+  ).state("root.main.forecast",
+    url: "/forecast"
+    views:
+      "main-forecast":
+        templateUrl: "main/forecast.html"
+        controller: "ForecastController"
+  ).state("root.resort",
+    url: "/resort"
+    abstract: true
+    views:
+      root:
+        templateUrl: "resort/resort.html"          
+        controller: "ResortController"
+    resolve:      
+      resortResolved: (resortsDA, $stateParams) ->
+        resortsDA.getInfo($stateParams.id).then (res) ->
+          angular.copy res, _resortResolved
+          _resortResolved
+  ).state("root.resort.main",
+    url: "/main"
+    views:
+      "resort-main":
+        templateUrl: "resort/resort-main.html"
+  ).state("root.resort.contacts",
+    url: "/contacts"
+    views:
+      "resort-contacts":
+        templateUrl: "resort/resort-contacts.html"
+  ).state("root.resort.maps",
+    url: "/maps"
+    views:
+      "resort-maps":
+        templateUrl: "resort/resort-maps.html"
+  ).state("root.resort.webcams",
+    url: "/webcams"
+    views:
+      "resort-webcams":
+        templateUrl: "resort/resort-webcams.html"
+        controller: "WebcamController"
+  ).state("root.faq",
+    url: "/faq"
+    templateUrl: "faq/faq.html"
+    abstract: true
+    views:
+      root:
+        templateUrl: "faq/faq.html"          
+  ).state("root.faq.item",
     url: "/list/:threadId"
     resolve:
       thread: (boardDA, $stateParams) ->
@@ -116,7 +117,7 @@ app = angular.module("ride-better", [
       "faq-content":
         templateUrl: "faq/faq-item.html"    
         controller: "FaqItemController"
-  ).state("faq.list",
+  ).state("root.faq.list",
     url: "/list"
     views:
       "faq-content":
@@ -124,12 +125,19 @@ app = angular.module("ride-better", [
         controller: "FaqListController"
   ).state("user",
     url: "/user"
-    templateUrl: "user/user.html"
     abstract: true
-    controller : "UserController"
+    templateUrl: "user/user.html"
+    controller: "RootController"
     resolve:
       userResolved: (user) ->
         user.getUserAsync()
+      stateResolved: (user) ->  
+        user.getUserAsync().then ->
+          spot : user.getHome()
+          culture : 
+            code : user.getLang() + "-" + user.getCulture()
+            lang : user.getLang()
+            units : user.getCulture()      
   ).state("user.favs",
     url: "/favs"
     views:
@@ -146,15 +154,13 @@ app = angular.module("ride-better", [
 
 app.config ($urlRouterProvider) ->  
 
-  $urlRouterProvider.when /.*/, ($stateParams) ->
-    console.log "app.coffee:150 >>>"
-
   $urlRouterProvider.otherwise ($injector, $location) -> 
     user = $injector.get("user")
     user.getUserAsync().then (ur) ->
+      console.log "app.coffee:158 >>>", ur
       home = ur.settings.favs.filter((f) -> f.isHome)[0]
       home ?= ur.settings.favs[0]
-      href = "#{ur.settings.lang}-#{ur.settings.culture}/#{home.code}/main/home"    
+      href = "#{ur.settings.lang}-#{ur.settings.culture}/#{home.id}/main/home"    
       $location.path href
 
 

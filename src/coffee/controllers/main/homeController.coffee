@@ -1,4 +1,6 @@
-app.controller "HomeController", ($scope, stateResolved) ->
+app.controller "HomeController", ($scope, homeResolved) ->
+
+  console.log "homeController.coffee:3 >>>", homeResolved
 
   $scope.getBackgroundStyle = (icon) ->
     if !icon
@@ -14,8 +16,8 @@ app.controller "HomeController", ($scope, stateResolved) ->
     else
       return "home-container-light-clouds"
 
-  $scope.snapshot = stateResolved.snapshot
-  $scope.snowfallHistory = stateResolved.snowfallHistory
+  $scope.snapshot = homeResolved.snapshot
+  $scope.snowfallHistory = homeResolved.snowfallHistory
 
 
 
