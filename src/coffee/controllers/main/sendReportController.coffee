@@ -1,4 +1,4 @@
-app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicSlideBoxDelegate, notifier, $q) ->
+app.controller "SendReportController", ($scope, reportsDA, $ionicSlideBoxDelegate, notifier, $q) ->
 
   console.log "SendReport Controller"
 
@@ -19,14 +19,14 @@ app.controller "SendReportController", ($scope, reportsDA, user, $state, $ionicS
           crowd : parseInt $scope.data.crowd
         comment : $scope.data.message
 
-      reportsDA.send(user.getHome().code, data).then (res) ->
-        $state.go "main.home", { id : $scope.$root.currentSpot }
+      reportsDA.send($scope.state.spot.id, data).then (res) ->
+        $scope.open "main.home"
 
   $scope.cancelReport = ->
-    $state.go "main.home", { id : $scope.$root.currentSpot }
+    $scope.open "main.home"
 
   $scope.nextSlide = ->
     $ionicSlideBoxDelegate.next()
 
   $scope.closedReport = ->
-    $state.go "main.closed", { id : $scope.$root.currentSpot }
+    $scope.open "main.closed"

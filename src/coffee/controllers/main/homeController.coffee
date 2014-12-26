@@ -19,5 +19,3 @@ app.controller "HomeController", ($scope, homeResolved) ->
   $scope.snapshot = homeResolved.snapshot
   $scope.snowfallHistory = homeResolved.snowfallHistory
 
-
-

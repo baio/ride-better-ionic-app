@@ -45,6 +45,9 @@ app = angular.module("ride-better", [
       "main-home":
         templateUrl: "main/send-report.html"
         controller: "SendReportController"
+        resolve:
+          userResolved: (user) ->  
+            user.login()
   ).state("root.main.closed",
     url: "/closed"
     views:
@@ -185,5 +188,6 @@ app.config ($httpProvider) ->
 app.config ($sceDelegateProvider) ->
   $sceDelegateProvider.resourceUrlWhitelist ["self", "http://ipeye.ru/ipeye_service/api/**"]
 
+
 app.config ($ionicConfigProvider) ->
-  $ionicConfigProvider.backButton.text("")
+  $ionicConfigProvider.backButton.text("Back")
