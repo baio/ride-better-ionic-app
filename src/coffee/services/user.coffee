@@ -15,7 +15,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       user.settings = u.settings
       putLang user.settings.lang
       putCulture user.settings.culture
-      user.home = getHome()
 
   saveChangesToCache = ->
     cache.put "user", user
@@ -98,13 +97,19 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
   putCulture = (c) ->
     user.settings.culture = c
 
+  onHomeChanged = (home) ->
+    $rootScope.$broadcast("user::homeChanged", home)
+
+  onPropertyChanged = ->
+    $rootScope.$broadcast("user::propertyChanged", user)
+
   #
 
   setHome = (spot) ->
     for fav in user.settings.favs
       fav.isHome = false
     spot.isHome = true  
-    user.home = spot
+    onHomeChanged spot
 
   addSpot = (spot) ->
     favs = user.settings.favs
@@ -118,10 +123,12 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
   setLang = (lang) ->
     putLang lang.code
     saveChanges()
+    onPropertyChanged()
 
   setCulture = (c) ->
     putCulture c.code
     saveChanges()
+    onPropertyChanged()
 
   getDefaultNearestSpot = ->
     geoLocator.getPosition()
@@ -244,7 +251,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       favs.splice favs.indexOf(fav), 1
       if fav.isHome 
         favs[0].isHome = true
-        user.home = favs[0]
+        onHomeChanged favs[0]
       saveChanges()
 
   setLang: setLang

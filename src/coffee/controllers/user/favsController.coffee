@@ -36,7 +36,6 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
 
   $scope.selectSpot = (s) ->
     st = id : s.code, title : s.label.replace(/<[^>]+>/gm, '')
-    console.log "favsController.coffee:39 >>>", st
     user.addSpot st
     $scope.spotSelectorModal.hide()
 
@@ -46,7 +45,6 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
   $scope.setHome = (s) ->
     user.setHome(s)
     $scope.$root.state.spot = s
-    console.log "favsController.coffee:49 >>>", s
 
   $scope.isHome = user.isHome
 
@@ -55,6 +53,10 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
 
   $scope.canRemoveFav = ->
     $scope.favs and $scope.favs.length > 1
+
+  $scope.$on "user::homeChanged", (obj, home) ->
+    $scope.$root.state.spot = home
+
 
 
 

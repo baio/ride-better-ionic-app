@@ -17,7 +17,7 @@ app.factory "notifier", ($ionicPopup, resources, $ionicLoading) ->
   showLoading: ->
     $ionicLoading.show
       templateUrl  : "utils/loading.html"
-      noBackdrop : true
+      noBackdrop : false
 
   hideLoading: ->
     $ionicLoading.hide()
@@ -29,6 +29,7 @@ app.factory "notifier", ($ionicPopup, resources, $ionicLoading) ->
       okText : resources.str("Sure")
       cancelText : resources.str("Not Now")
     )
+
 
   confirm: (template, okText, cancelText) ->
     okText ?= "Yes"

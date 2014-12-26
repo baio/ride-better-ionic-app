@@ -32,6 +32,7 @@ app = angular.module("ride-better", [
     views:
       root:
         templateUrl: "main/main.html"
+        controller: "MainController"
   ).state("root.main.home",
     url: "/home",
     views:
@@ -157,7 +158,6 @@ app.config ($urlRouterProvider) ->
   $urlRouterProvider.otherwise ($injector, $location) -> 
     user = $injector.get("user")
     user.getUserAsync().then (ur) ->
-      console.log "app.coffee:158 >>>", ur
       home = ur.settings.favs.filter((f) -> f.isHome)[0]
       home ?= ur.settings.favs[0]
       href = "#{ur.settings.lang}-#{ur.settings.culture}/#{home.id}/main/home"    

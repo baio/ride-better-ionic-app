@@ -1,4 +1,4 @@
-app.controller "SettingsController", ($scope, user, resources) ->
+app.controller "SettingsController", ($scope, user, resources, $window, notifier) ->
 
   console.log "User Controller"
 
@@ -7,6 +7,10 @@ app.controller "SettingsController", ($scope, user, resources) ->
   $scope.isLogined = user.isLogined
   $scope.reset = user.reset
   $scope.homeLabel = user.getHome().label
+  $scope.isPropertyChanged = false
+
+  $scope.reload = ->
+    $window.location.reload(true)
 
   $scope.culturesList = [
     {code : "eu", name : resources.str("Europe")}
@@ -23,6 +27,7 @@ app.controller "SettingsController", ($scope, user, resources) ->
   $scope.setLang = user.setLang
 
   $scope.user = user.user
+  $scope.home = user.getHome()
   $scope.data = {}
 
   updScopeData = ->
@@ -31,3 +36,11 @@ app.controller "SettingsController", ($scope, user, resources) ->
   
   updScopeData()
 
+  $scope.$on "user::propertyChanged", (obj, user) ->
+    if user.settings
+      $scope.isPropertyChanged = true
+      $scope.$root.state.culture = 
+        lang : user.settings.lang
+        units : user.settings.culture
+        code : user.settings.lang + "-" + user.settings.culture
+      notifier.message("New settings will be activated only after reload.")

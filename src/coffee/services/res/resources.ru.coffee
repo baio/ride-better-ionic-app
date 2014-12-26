@@ -93,3 +93,5 @@ app.constant "resources_ru",
   "Edit" : "Изменить"
   "After delete, item couldn't be restored. Delete?" : "После удаления запись не может быть востановлна. Удалить?"
   "Please input some text" : "Пожайлуста введите текст"
+  "New settings will be activated only after reload." : "Новые нсатройки будут активированы только после перезагрузки."
+  "Reload" : "Перегрузить"
