@@ -2,7 +2,7 @@ app.factory "cache", (DSCacheFactory) ->
 
   cache = DSCacheFactory("app-cache")
 
-  _ver = "1"
+  _ver = "2"
   _disbale_cachce = false
 
   get: (name) ->
