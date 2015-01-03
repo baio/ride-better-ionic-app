@@ -1,0 +1,43 @@
+ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
+    ion-content.has-header
+        ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()")
+        ion-list.list
+          div(ng-repeat="thread in board.data.threads") 
+            ion-item.item.item-text-wrap
+              h4
+                  | {{thread.user.name}} &nbsp;
+                  i.ion-ios-clock-outline &nbsp;
+                  | {{thread.created | amCalendar}}              
+              .list.card
+                .item.item-icon-left
+                  i.icon.ion-location 
+                  | {{thread.meta.from}}                                
+                .item.item-icon-left
+                  i.icon.ion-calendar 
+                  | {{thread.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}                                  
+                .item.item-icon-left
+                  i.icon.i.ion-model-s 
+                  | {{thread.meta.transport}}
+                .item.item-icon-left
+                  i.icon.i.ion-card 
+                  | {{thread.meta.price}}
+                a.item.item-icon-left(ng-href="tel:{{thread.meta.phone}}")
+                  i.icon.i.ion-iphone.positive
+                  | {{thread.meta.phone}}
+                .item.item-text-wrap
+                  | {{thread.text}}                                        
+              p {{thread.replies[0].text}}                
+              p
+                a.subdued(ng-click='openThread(thread._id)') 
+                  | {{thread.replies.length}} {{ "Replies" | res }}
+                a.subdued(ng-click="board.openReplyModal(thread, 'create')")
+                  i.icon.ion-chatbox &nbsp; {{ "Reply" | res }}                               
+                a.subdued(ng-click="board.removeThread(thread)" ng-show="board.canEdit(thread)")
+                  i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
+                a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-show="board.canEdit(thread)")
+                  i.icon.ion-edit &nbsp; {{ "Edit" | res }}              
+        ion-infinite-scroll(on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads")
+
+    ion-footer-bar
+        h1.title.positive(ng-click="board.openThreadModal(null, 'create')")
+            i.icon.ion-speakerphone &nbsp; {{'Create' | res}}

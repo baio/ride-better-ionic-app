@@ -126,6 +126,27 @@ app = angular.module("ride-better", [
       "faq-content":
         templateUrl: "faq/faq-list.html"    
         controller: "FaqListController"
+  ).state("root.transfer",
+    url: "/transfer"
+    abstract: true
+    views:
+      root:
+        templateUrl: "transfer/transfer.html"          
+  ).state("root.transfer.item",
+    url: "/list/:threadId"
+    resolve:
+      thread: (boardDA, $stateParams) ->
+        boardDA.getThread($stateParams.threadId)    
+    views:
+      "transfer-content":
+        templateUrl: "transfer/transfer-item.html"    
+        controller: "TransferItemController"
+  ).state("root.transfer.list",
+    url: "/list"
+    views:
+      "transfer-content":
+        templateUrl: "transfer/transfer-list.html"    
+        controller: "TransferListController"
   ).state("root.prices",
     url: "/prices"
     abstract: true
