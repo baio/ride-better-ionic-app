@@ -8,7 +8,7 @@ app.controller "FaqListController", ($scope, $state, board, stateResolved) ->
 
   board.loadMoreThreads()
 
-  $scope.$on '$destroy', -> board.dispose()
+  #$scope.$on '$destroy', -> board.dispose()
 
   $scope.openThread = (threadId) ->
     $state.transitionTo("root.faq.item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})

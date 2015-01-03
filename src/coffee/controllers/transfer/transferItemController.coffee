@@ -1,9 +1,15 @@
-app.controller "TransferItemController", ($scope, board, thread, stateResolved) ->
+app.controller "TransferItemController", ($scope, board, thread, stateResolved, transfer) ->
   
   console.log "transfer Item Controller"
 
   $scope.board = board
 
-  board.init stateResolved.spot.id, $scope, "transfer", thread
+  $scope.data = transfer.scope.data
+  $scope.transportTypesList = transfer.scope.transportTypesList
+  $scope.hoursList = transfer.scope.hoursList
 
-  $scope.$on '$destroy', -> board.dispose()
+
+  board.init stateResolved.spot.id, $scope, "transfer", thread, transfer.opts
+
+
+  #$scope.$on '$destroy', -> board.dispose()

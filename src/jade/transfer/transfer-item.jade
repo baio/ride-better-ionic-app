@@ -2,12 +2,30 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
     ion-content.has-header
         ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(threadId)")
         ion-list.list
-          ion-item.item.item-divider.item-text-wrap
-            h3 
-              | {{board.data.currentThread.user.name}} &nbsp;
-              i.ion-ios-clock-outline &nbsp;
-              | {{board.data.currentThread.created | amCalendar}}
-            h3 {{board.data.currentThread.text}}              
+          ion-item.item
+            .list.card
+              .item.item-divider
+                h4
+                  | {{board.data.currentThread.user.name}} &nbsp;
+                  i.ion-ios-clock-outline &nbsp;
+                  | {{board.data.currentThread.created | amCalendar}}                              
+              .item.item-icon-left
+                i.icon.ion-location 
+                | {{board.data.currentThread.meta.from}}                                
+              .item.item-icon-left
+                i.icon.ion-calendar 
+                | {{board.data.currentThread.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}                                  
+              .item.item-icon-left
+                i.icon.i.ion-model-s 
+                | {{board.data.currentThread.meta.transport}}
+              .item.item-icon-left
+                i.icon.i.ion-card 
+                | {{board.data.currentThread.meta.price}}
+              a.item.item-icon-left(ng-href="tel:{{currentThread.meta.phone}}")
+                i.icon.i.ion-iphone.positive
+                | {{board.data.currentThread.meta.phone}}
+              .item.item-text-wrap
+                | {{board.data.currentThread.text}}                                        
             p
               a.subdued(ng-click="board.removeThread(board.data.currentThread)" ng-show="board.canEdit(board.data.currentThread)")
                 i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
