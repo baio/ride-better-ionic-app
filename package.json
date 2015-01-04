@@ -1,6 +1,6 @@
 {
   "name": "ride-better",
-  "version": "0.0.22",
+  "version": "1.0.1",
   "description": "Ski resorts local reports and forecast",
   "engines": {
     "node": "0.10.x",
