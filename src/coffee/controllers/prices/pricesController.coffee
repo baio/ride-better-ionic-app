@@ -1,7 +1,9 @@
-app.controller "PricesController", ($scope, pricesViewResolved) ->
+app.controller "PricesController", ($scope, pricesViewResolved, $ionicSlideBoxDelegate) ->
 
   console.log "PricesController", pricesViewResolved
 
   $scope.prices = pricesViewResolved
 
-  console.log "pricesController.coffee:7 >>>", pricesViewResolved
+  $scope.$on '$ionicView.enter', ->
+    $timeout (-> $ionicSlideBoxDelegate.update()), 0
+

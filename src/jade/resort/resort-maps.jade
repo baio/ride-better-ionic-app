@@ -1,5 +1,9 @@
 ion-view(ng-attr-title="{{state.spot.title}}")
     ion-content.has-header
-        ion-slide-box(ng-if="resort.maps.length !== 0" does-continue="true")
+        ion-slide-box(does-continue="true" ng-if="resort.maps.length !== 0" id="resort_maps")
             ion-slide.box(ng-repeat="map in resort.maps")
-                img(width="100%" ng-src="{{map.src}}" style="margin-top: 20px")
+              .card
+                .item
+                  img(width="100%" ng-src="{{map.src}}")
+
+                

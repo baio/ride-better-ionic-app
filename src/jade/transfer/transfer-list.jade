@@ -14,7 +14,7 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
                 i.ion-calendar 
                 | {{thread.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}
                 br                        
-                a(ng-href="tel:{{thread.meta.phone}}" ng-if="thread.meta.phone")
+                a.positive(ng-href="tel:{{thread.meta.phone}}" ng-if="thread.meta.phone" style="text-decoration: none")
                   i.ion-iphone 
                   | {{thread.meta.phone}}
                 &nbsp;
