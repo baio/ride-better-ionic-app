@@ -13,16 +13,17 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
                 | {{thread.meta.from}} 
                 i.ion-calendar 
                 | {{thread.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}
-                br
-                a(ng-href="tel:{{thread.meta.phone}}")
+                br                        
+                a(ng-href="tel:{{thread.meta.phone}}" ng-if="thread.meta.phone")
                   i.ion-iphone 
                   | {{thread.meta.phone}}
                 &nbsp;
                 i.ion-model-s 
                 | {{thread.meta.transport}}
-                &nbsp;
-                i.ion-card 
-                | {{thread.meta.price}}
+                span(ng-if="thread.meta.price")
+                  &nbsp;                
+                  i.ion-card 
+                  | {{thread.meta.price}}
                 br  
                 .item-text-wrap {{thread.text}}                                        
               p

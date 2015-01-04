@@ -59,3 +59,5 @@ app.factory "transfer", (resources) ->
         scope.data.phone = item.meta.phone
 
       validate: (data) ->
+        if !scope.data.from
+          return "From town is required"

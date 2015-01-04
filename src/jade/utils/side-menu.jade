@@ -2,19 +2,19 @@ ion-content
   ion-list
     ion-item.item-icon-left(nav-clear menu-close ng-click="open('main.home')")
       i.icon.ion-ios-home 
-      | {{ "Main" | res }}      
+      | {{ resources.str.main }}      
     ion-item.item-icon-left(nav-clear menu-close ng-click="open('resort.main')")
       i.icon.ion-information 
-      | {{ "Resort" | res }}
+      | {{ resources.str.info }}
     ion-item.item-icon-left(nav-clear menu-close ng-click="open('prices.lifts')")
       i.icon.ion-pricetags 
-      | {{ "Prices" | res }}      
+      | {{ resources.str.prices }}      
     ion-item.item-icon-left(nav-clear  menu-close ng-click="open('faq.list')")
       i.icon.ion-help
-      | {{ "FAQ" | res }}      
+      | {{ resources.str.faq }}      
     ion-item.item-icon-left(nav-clear  menu-close ng-click="open('transfer.list')")
       i.icon.ion-model-s
-      | {{ "Transfer" | res }}            
+      | {{ resources.str.transfer }}            
     ion-item.item-icon-left(nav-clear  menu-close ui-sref="user.favs")
       i.icon.ion-person
-      | {{ "User" | res }}      
+      | {{ resources.str.user }}      

@@ -1,11 +1,12 @@
 app.factory "board", (boardDA, user, $ionicModal, notifier) ->
 
-  threadModal = null
-  replyModal = null
-  board = null
-  scope = null
-  spot = null
-  _opts = 
+  _opts = {}
+  _defOpts = 
+    board :
+      threadModal : null
+      replyModal : null
+      boardName : null
+      spot : null
     thread :
       modalTemplate : "modals/sendMsgForm.html"
       map2send: (data) -> 
@@ -43,7 +44,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         data.threads.splice index, 0, res.threads...
 
   loadBoard = (opts, pushIndex) ->
-    boardDA.get({spot : spot, board : board}, opts).then (res) -> 
+    boardDA.get({spot : _opts.board.spot, board : _opts.board.boardName}, opts).then (res) -> 
       setBoard(res, pushIndex)
 
   setThread = (res, index) ->
@@ -66,7 +67,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
 
   openMsgModal = (item, mode, type) ->
     user.login().then ->
-      msgModal = if type == "thread" then threadModal else replyModal
+      msgModal = if type == "thread" then _opts.board.threadModal else _opts.board.replyModal
       msgModal.opts = 
         type : type
         mode: mode
@@ -121,29 +122,32 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       data.threads = []    
 
   getShownModal = ->
-    if threadModal.isShown() then threadModal else replyModal      
+    if _opts.board.threadModal.isShown() then _opts.board.threadModal else _opts.board.replyModal      
   # ----
 
   init: (spt, scope, boardName, currentThread, opts) ->  
+    angular.copy _defOpts, _opts
+    if _opts.board.threadModal
+      @dispose()
     if opts?.thread
       _opts.thread = opts.thread
     if opts?.reply
       _opts.reply = opts.reply
-    spot = spt
-    board = boardName
+    _opts.board.spot = spt
+    _opts.board.boardName = boardName
     resetData()
     if currentThread
       setThread currentThread
     $ionicModal.fromTemplateUrl(_opts.thread.modalTemplate,
       scope : scope
       animation: 'slide-in-up'
-    ).then (modal) ->
-      threadModal = modal
+    ).then (modal1) ->
+      _opts.board.threadModal = modal1
     $ionicModal.fromTemplateUrl(_opts.reply.modalTemplate,
       scope : scope
       animation: 'slide-in-up'
-    ).then (modal) ->
-      replyModal = modal
+    ).then (modal2) ->
+      _opts.board.replyModal = modal2
 
   data : data
 
@@ -176,8 +180,10 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       thread.replies.splice thread.replies.indexOf(reply), 1
 
   dispose: -> 
-    threadModal.remove()
-    replyModal.remove()
+    _opts.board.threadModal.remove()
+    _opts.board.replyModal.remove()
+    _opts.board.threadModal = null
+    _opts.board.replyModal = null
 
   openThreadModal: (item, mode) ->
     openMsgModal item, mode, "thread"
@@ -193,12 +199,12 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
     if err
       notifier.message err
     else
-      home = spot
+      home = _opts.board.spot
       d = modalOpts.map2send data
       promise = null
       if opts.type == "thread"
         if opts.mode == "create"
-          promise = boardDA.postThread({spot : home, board : board}, d).then (res) -> 
+          promise = boardDA.postThread({spot : home, board : _opts.board.boardName}, d).then (res) -> 
             data.threads.splice 0, 0, res
         if opts.mode == "edit"
           promise = boardDA.putThread(opts.item._id, d).then ->
@@ -211,5 +217,6 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       promise?.then -> msgModal.hide()
 
   cancelMsgModal: ->
-    threadModal.hide()
-    replyModal.hide()
+    console.log "board.coffee:217 >>>"
+    _opts.board.threadModal.hide()
+    _opts.board.replyModal.hide()
