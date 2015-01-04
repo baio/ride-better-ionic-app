@@ -93,6 +93,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
 
   putLang = (lang) ->
     user.settings.lang = lang
+    resources.setLang lang
 
   putCulture = (c) ->
     user.settings.culture = c
