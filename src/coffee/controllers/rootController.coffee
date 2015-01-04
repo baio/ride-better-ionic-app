@@ -9,6 +9,3 @@ app.controller "RootController", ($rootScope, stateResolved, $state, amMoment, r
 
   amMoment.changeLocale stateResolved.culture.lang  
   resources.setLang stateResolved.culture.lang
-
-
-

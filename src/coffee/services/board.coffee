@@ -1,9 +1,34 @@
 app.factory "board", (boardDA, user, $ionicModal, notifier) ->
 
-  msgModal = null
-  board = null
-  scope = null
-  spot = null
+  _opts = {}
+  _defOpts = 
+    board :
+      threadModal : null
+      replyModal : null
+      boardName : null
+      spot : null
+    thread :
+      modalTemplate : "modals/sendMsgForm.html"
+      map2send: (data) -> 
+        message : data.newMessage        
+      data2item: (item, data) ->
+        item.text = data.newMessage
+      item2data: (item, data) ->
+        data.newMessage = item.text
+      validate: (data) ->
+        if !data.newMessage
+          "Please input some text"
+    reply: 
+      modalTemplate : "modals/sendMsgForm.html"
+      map2send: (data) -> 
+        message : data.newMessage        
+      data2item: (item, data) ->
+        item.text = data.newMessage
+      item2data: (item, data) ->
+        data.newMessage = item.text
+      validate: (data) ->
+        if !data.newMessage
+          "Please input some text"      
 
   data = 
     currentThread : null
@@ -19,8 +44,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         data.threads.splice index, 0, res.threads...
 
   loadBoard = (opts, pushIndex) ->
-    console.log "board.coffee:22 >>>", spot
-    boardDA.get({spot : spot, board : "faq"}, opts).then (res) -> 
+    boardDA.get({spot : _opts.board.spot, board : _opts.board.boardName}, opts).then (res) -> 
       setBoard(res, pushIndex)
 
   setThread = (res, index) ->
@@ -43,18 +67,16 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
 
   openMsgModal = (item, mode, type) ->
     user.login().then ->
+      msgModal = if type == "thread" then _opts.board.threadModal else _opts.board.replyModal
       msgModal.opts = 
         type : type
         mode: mode
         item: item
       if mode == "edit"
-        data.newMessage = item.text
-      else
-        data.newMessage = ""
+        _opts[type].item2data item, data
       msgModal.show()
 
   loadMoreThreads = ->    
-    console.log "board.coffee:57 >>>", spot
     last = data.threads[data.threads.length - 1]
     if last
       since = moment.utc(last.created, "X").unix()
@@ -98,19 +120,34 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       data.canLoadMoreThreads = false
       data.canLoadMoreReplies = false      
       data.threads = []    
+
+  getShownModal = ->
+    if _opts.board.threadModal.isShown() then _opts.board.threadModal else _opts.board.replyModal      
   # ----
 
-  init: (spt, scope, boardName, currentThread) ->     
-    spot = spt
-    board = boardName
+  init: (spt, scope, boardName, currentThread, opts) ->  
+    angular.copy _defOpts, _opts
+    if _opts.board.threadModal
+      @dispose()
+    if opts?.thread
+      _opts.thread = opts.thread
+    if opts?.reply
+      _opts.reply = opts.reply
+    _opts.board.spot = spt
+    _opts.board.boardName = boardName
     resetData()
     if currentThread
       setThread currentThread
-    $ionicModal.fromTemplateUrl('modals/sendMsgForm.html',
+    $ionicModal.fromTemplateUrl(_opts.thread.modalTemplate,
       scope : scope
       animation: 'slide-in-up'
-    ).then (modal) ->
-      msgModal = modal
+    ).then (modal1) ->
+      _opts.board.threadModal = modal1
+    $ionicModal.fromTemplateUrl(_opts.reply.modalTemplate,
+      scope : scope
+      animation: 'slide-in-up'
+    ).then (modal2) ->
+      _opts.board.replyModal = modal2
 
   data : data
 
@@ -128,9 +165,10 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       if res
         home = user.getHome().code
         boardDA.removeThread(thread._id)
-    .then ->
-      data.threads.splice data.threads.indexOf(thread), 1
-      data.currentThread = null
+    .then (res) ->
+      if res
+        data.threads.splice data.threads.indexOf(thread), 1
+        data.currentThread = null
 
   removeReply : (thread, reply) ->    
     notifier.confirm("After delete, item couldn't be restored. Delete?")
@@ -141,30 +179,36 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
     .then ->
       thread.replies.splice thread.replies.indexOf(reply), 1
 
-  dispose: -> msgModal.remove()
+  dispose: -> 
+    _opts.board.threadModal.remove()
+    _opts.board.replyModal.remove()
+    _opts.board.threadModal = null
+    _opts.board.replyModal = null
 
   openThreadModal: (item, mode) ->
-    console.log "board.coffee:138 >>>", item
     openMsgModal item, mode, "thread"
 
   openReplyModal: (item, mode) ->
     openMsgModal item, mode, "reply"
 
   sendMessage: ->
-    if !data.newMessage
-      notifier.message "Please input some text"
+    msgModal = getShownModal()
+    opts = msgModal.opts
+    modalOpts = _opts[opts.type]
+    err = modalOpts.validate data
+    if err
+      notifier.message err
     else
-      home = user.getHome().code
-      opts = msgModal.opts
-      d = message : data.newMessage
+      home = _opts.board.spot
+      d = modalOpts.map2send data
       promise = null
       if opts.type == "thread"
         if opts.mode == "create"
-          promise = boardDA.postThread({spot : home, board : board}, d).then (res) -> 
+          promise = boardDA.postThread({spot : home, board : _opts.board.boardName}, d).then (res) -> 
             data.threads.splice 0, 0, res
         if opts.mode == "edit"
           promise = boardDA.putThread(opts.item._id, d).then ->
-            opts.item.text = data.newMessage
+            modalOpts.data2item opts.item, d
       else if opts.type == "reply"
         if opts.mode == "create"
           promise = boardDA.postReply(opts.item._id, d).then (res) -> 
@@ -173,4 +217,6 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       promise?.then -> msgModal.hide()
 
   cancelMsgModal: ->
-    msgModal.hide()
+    console.log "board.coffee:217 >>>"
+    _opts.board.threadModal.hide()
+    _opts.board.replyModal.hide()

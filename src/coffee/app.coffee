@@ -107,7 +107,6 @@ app = angular.module("ride-better", [
         controller: "WebcamController"
   ).state("root.faq",
     url: "/faq"
-    templateUrl: "faq/faq.html"
     abstract: true
     views:
       root:
@@ -127,6 +126,73 @@ app = angular.module("ride-better", [
       "faq-content":
         templateUrl: "faq/faq-list.html"    
         controller: "FaqListController"
+  ).state("root.transfer",
+    url: "/transfer"
+    abstract: true
+    views:
+      root:
+        templateUrl: "transfer/transfer.html"          
+  ).state("root.transfer.item",
+    url: "/list/:threadId"
+    resolve:
+      thread: (boardDA, $stateParams) ->
+        boardDA.getThread($stateParams.threadId)    
+    views:
+      "transfer-content":
+        templateUrl: "transfer/transfer-item.html"    
+        controller: "TransferItemController"
+  ).state("root.transfer.list",
+    url: "/list"
+    views:
+      "transfer-content":
+        templateUrl: "transfer/transfer-list.html"    
+        controller: "TransferListController"
+  ).state("root.prices",
+    url: "/prices"
+    abstract: true
+    views:
+      root:
+        templateUrl: "prices/prices.html"             
+    resolve:
+      pricesResolved: (pricesDA, stateResolved) ->
+        pricesDA.get(stateResolved.spot.id)            
+  ).state("root.prices.lifts",
+    url: "/lifts"
+    views:
+      "prices-lifts":
+        templateUrl: "prices/prices-content.html"    
+        controller: "PricesController"     
+        resolve: 
+          pricesViewResolved: (pricesResolved) ->
+            console.log "app.coffee:146 >>>", pricesResolved 
+            pricesResolved.prices.filter (f) -> f.tag == "lift"
+  ).state("root.prices.rent",
+    url: "/rent"
+    views:
+      "prices-rent":
+        templateUrl: "prices/prices-content.html"    
+        controller: "PricesController"     
+    resolve:
+      pricesViewResolved: (pricesResolved) ->
+        pricesResolved.prices.filter (f) -> f.tag == "rent"
+  ).state("root.prices.food",
+    url: "/food"
+    views:
+      "prices-food":
+        templateUrl: "prices/prices-content.html"    
+        controller: "PricesController"     
+    resolve:
+      pricesViewResolved: (pricesResolved) ->
+        pricesResolved.prices.filter (f) -> f.tag == "food"
+  ).state("root.prices.services",
+    url: "/services"
+    views:
+      "prices-services":
+        templateUrl: "prices/prices-content.html"    
+        controller: "PricesController"     
+    resolve:
+      pricesViewResolved: (pricesResolved) ->
+        pricesResolved.prices.filter (f) -> f.tag == "service"
   ).state("user",
     url: "/user"
     abstract: true

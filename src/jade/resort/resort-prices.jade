@@ -1,7 +1,0 @@
-ion-view(ng-attr-title="{{state.spot.title}}")
-    ion-content.has-header
-        ion-slide-box(ng-if="resort.prices.length !== 0" does-continue="true")
-            ion-slide.box(ng-repeat="price in resort.prices")
-                img(width="100%" ng-src="{{price.src}}" style="margin-top: 20px")
-                .row
-                  small {{price.title}}, {{price.created | amCalendar}}                   
