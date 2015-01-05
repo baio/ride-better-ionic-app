@@ -5,5 +5,9 @@ ion-view(ng-attr-title="{{state.spot.title}}")
               .card
                 .item
                   img(width="100%" ng-src="{{map.src}}" open-external="{{map.src}}")
+    ion-footer-bar.bar-positive.bar-clear
+        button.button.button-clear.ion-arrow-left-c(ng-click="moveNext()")
+        | &nbsp;
+        button.button.button-clear.ion-arrow-right-c(ng-click="movePrev()")
 
                 
