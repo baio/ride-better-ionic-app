@@ -143,4 +143,7 @@
     <feature>
         <param name="id" value="org.apache.cordova.globalization" />
     </feature>
+    <feature>
+        <param name="id" value="net.yoik.cordova.plugins.screenorientation" />
+    </feature>
 </widget>

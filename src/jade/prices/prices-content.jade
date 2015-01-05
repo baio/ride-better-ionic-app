@@ -6,7 +6,7 @@ ion-view(ng-attr-title="{{state.spot.title}}")
                 .item.item-divider
                   {{price.title}}
                 .item
-                  img(width="100%" ng-src="{{price.src}}")
+                  img(width="100%" ng-src="{{price.src}}" ng-click="openImg(price)")
                 //
                   .item.item-divider
                     {{price.created |  amCalendar}}

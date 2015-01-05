@@ -9,6 +9,17 @@ dev:
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
       apiUrl : http://ridebetter.info:86/ #//localhost:8002/ #http://ridebetter.info:86/
+dev_gce:
+  server:
+    port : 8005 #port where dev application are running
+  env:
+    platform : browser
+    debug : true
+  client :
+    apiUrl : http://ridebetter.info:85/
+    auth :
+      oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
+      apiUrl : http://ridebetter.info:86/
 debug:
   server:
     port : 8005 #port where dev application are running
