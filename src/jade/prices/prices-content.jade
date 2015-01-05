@@ -4,9 +4,9 @@ ion-view(ng-attr-title="{{state.spot.title}}")
             ion-slide.box(ng-repeat="price in prices")
               .card
                 .item.item-divider.text-center
-                    i.ion-arrow-left-c(ng-click="moveNext()" style="float: left")
+                    i.ion-arrow-left-c(ng-click="movePrev()" style="float: left")
                     | {{price.title}}
-                    i.ion-arrow-right-c(ng-click="movePrev()" style="float: right")
+                    i.ion-arrow-right-c(ng-click="moveNext()" style="float: right")
                 .item
                   img(width="100%" ng-src="{{price.src}}" open-external="{{price.src}}" alt="{{price.title}}")
 

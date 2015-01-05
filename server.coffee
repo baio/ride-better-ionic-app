@@ -14,7 +14,7 @@ app
 .use((req, res, next) ->
   if req.path == "/"
     md = new MobileDetect(req.headers['user-agent'])
-    if !md.mobile()
+    if !md.mobile() && !md.tablet()
       res.redirect("/d")
       return
   next()
