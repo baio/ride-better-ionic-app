@@ -7,7 +7,7 @@ ion-view(ng-attr-title="{{state.spot.title}}")
     ion-content.has-header.has-subheader
       .card
         .item
-          img.webcam-img(ng-src='{{current.meta.src}}' width="100%")
+          img.webcam-img(ng-src='{{current.meta.src}}' open-external="{{current.meta.src}}" width="100%")
   div(ng-if="current.meta.type === 'stream'")
     ion-content.has-header
       .card

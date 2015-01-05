@@ -4,6 +4,6 @@ ion-view(ng-attr-title="{{state.spot.title}}")
             ion-slide.box(ng-repeat="map in resort.maps")
               .card
                 .item
-                  img(width="100%" ng-src="{{map.src}}")
+                  img(width="100%" ng-src="{{map.src}}" open-external="{{map.src}}")
 
                 
