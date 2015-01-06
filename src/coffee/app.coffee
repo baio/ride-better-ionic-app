@@ -267,7 +267,5 @@ app.config ($sceDelegateProvider) ->
 app.config ($ionicConfigProvider) ->
   $ionicConfigProvider.backButton.text("Back")
 
-###
 app.config ($compileProvider)->
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|local):/)
-###

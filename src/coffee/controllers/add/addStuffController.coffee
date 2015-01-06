@@ -23,7 +23,7 @@ app.controller "AddStuffController", ($scope, stateResolved, cameraService, reso
   $scope.$on '$ionicView.enter', resetScope
 
   validate = ->
-    if !$scope.data.photo.file
+    if !$scope.data.photo.url
       return "Please add some photo"
     if !$scope.data.title
       return "Please add some title"
@@ -36,11 +36,17 @@ app.controller "AddStuffController", ($scope, stateResolved, cameraService, reso
       if pic
         $scope.data.photo.file = pic.file
         $scope.data.photo.url = pic.url
-        $scope.data.photo.src = pic.dataUrl
+        $scope.data.photo.src = pic.url
         notifier.hideLoading()
 
   $scope.takePhoto = ->
-    getPhoto()
+    notifier.showLoading()
+    cameraService.takePicture().then (url) ->
+      if url
+        $scope.data.photo.src = url
+        $scope.data.photo.url = url
+    .finally ->
+      notifier.hideLoading()
 
   $scope.selectPhoto = ->
     getPhoto(true)

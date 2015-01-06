@@ -13,7 +13,12 @@ app.factory "cameraService", ($q) ->
   takePicture = (isFromGallery) ->
     pictureSourceType = if isFromGallery then Camera.PictureSourceType.SAVEDPHOTOALBUM else Camera.PictureSourceType.CAMERA
     deferred = $q.defer()
-    navigator.camera.getPicture deferred.resolve, deferred.reject, { destinationType: Camera.DestinationType.FILE_URL, sourceType : pictureSourceType }
+    opts =
+      destinationType: Camera.DestinationType.FILE_URL
+      sourceType : pictureSourceType
+      encodingType : Camera.EncodingType.JPEG
+
+    navigator.camera.getPicture deferred.resolve, deferred.reject, opts
     deferred.promise
 
   readAsDataUrl = (file) ->
@@ -23,6 +28,8 @@ app.factory "cameraService", ($q) ->
     fileReader.onerror = (err) -> deferred.reject err
     fileReader.readAsDataURL file
     deferred.promise
+
+  takePicture: takePicture
 
   getPicture: (isFromGallery) ->
     if window.cordova
