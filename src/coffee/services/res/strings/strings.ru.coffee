@@ -5,3 +5,4 @@ app.constant "strings_ru",
   "faq" : "Вопросы"
   "transfer" : "Добраться"
   "user" : "Пользователь"
+  "add" : "Добавить"

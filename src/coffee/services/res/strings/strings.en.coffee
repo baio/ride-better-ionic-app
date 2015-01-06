@@ -5,3 +5,4 @@ app.constant "strings_en",
   "faq" : "FAQ"
   "transfer" : "Transfer"
   "user" : "User"
+  "add" : "Add Stuff"

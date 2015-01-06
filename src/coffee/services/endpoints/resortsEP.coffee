@@ -12,3 +12,7 @@ app.factory "resortsEP", (_ep) ->
 	getPrices: (spot) ->
 		  	
   		_ep.get "resorts/" + spot + "/prices"
+
+	postPrice: (spot, file, data) ->
+
+		_ep.postFile "resorts/" + spot + "/price", file, data, true

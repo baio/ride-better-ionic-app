@@ -1,4 +1,4 @@
-app.factory "_ep", ($q, $http, webApiConfig, authio, notifier) ->
+app.factory "_ep", ($q, $http, webApiConfig, authio, notifier, fileUploadService) ->
   
   `
     function normalize (str) {
@@ -89,3 +89,22 @@ app.factory "_ep", ($q, $http, webApiConfig, authio, notifier) ->
           notifier.hideLoading()
 
     deferred.promise
+
+  postFile: (path, file, data, useAuth) ->
+
+    inProgress = false
+
+    if inProgress
+      deferred.reject(new Error "In progress")
+    else
+      notifier.showLoading()
+      inProgress = true
+
+    headers = getAuthHeaders() if useAuth
+
+    fileUploadService.upload(webApiConfig.url + path, file, data, headers)
+    .then (res) ->
+      res.data
+    .finally ->
+      inProgress = false
+      notifier.hideLoading()

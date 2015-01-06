@@ -15,3 +15,4 @@ app.factory "resortsDA", (resortsEP, $q, cache) ->
 
   getMaps : resortsEP.getMaps
   getPrices : resortsEP.getPrices
+  postPrice : resortsEP.postPrice

@@ -146,4 +146,13 @@
     <feature>
         <param name="id" value="net.yoik.cordova.plugins.screenorientation" />
     </feature>
+    <feature>
+        <param name="id" value="org.apache.cordova.camera" />
+    </feature>
+    <feature>
+        <param name="id" value="org.apache.cordova.file-transfer" />
+    </feature>
+    <feature>
+        <param name="id" value="org.apache.cordova.file" />
+    </feature>
 </widget>
