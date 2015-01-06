@@ -17,6 +17,7 @@ app.factory "cameraService", ($q) ->
       destinationType: Camera.DestinationType.FILE_URL
       sourceType : pictureSourceType
       encodingType : Camera.EncodingType.JPEG
+      quality : 10
 
     navigator.camera.getPicture deferred.resolve, deferred.reject, opts
     deferred.promise
