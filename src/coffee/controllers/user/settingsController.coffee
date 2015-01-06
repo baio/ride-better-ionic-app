@@ -5,9 +5,11 @@ app.controller "SettingsController", ($scope, user, resources, $window, notifier
   $scope.login = user.login
   $scope.logout = user.logout
   $scope.isLogined = user.isLogined
-  $scope.reset = user.reset
   $scope.homeLabel = user.getHome().label
   $scope.isPropertyChanged = false
+  $scope.reset = ->
+    user.reset()
+    $scope.reload()
 
   $scope.reload = ->
     $window.location.reload(true)

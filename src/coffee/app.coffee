@@ -1,5 +1,5 @@
 app = angular.module("ride-better", [
-  "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", 'n3-line-chart'
+  "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", 'n3-line-chart', "angularFileUpload"
 ]).run(($ionicPlatform, $rootScope, user) ->
 
   $ionicPlatform.ready ->
@@ -22,6 +22,15 @@ app = angular.module("ride-better", [
             code : $stateParams.culture
             lang : culture[0]
             units : culture[1]
+  ).state("root.add",
+    url: "/add"
+    views:
+      root:
+        templateUrl: "add/addStuff.html"
+        controller: "AddStuffController"
+        resolve:
+          userResolved: (user) ->
+            user.login()
   ).state("root.main",
     url: "/main"
     abstract: true  
@@ -257,3 +266,8 @@ app.config ($sceDelegateProvider) ->
 
 app.config ($ionicConfigProvider) ->
   $ionicConfigProvider.backButton.text("Back")
+
+###
+app.config ($compileProvider)->
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|local):/)
+###

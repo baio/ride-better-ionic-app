@@ -1,15 +1,15 @@
 ion-view(ng-attr-title="{{state.spot.title}}")
-    ion-content.has-header      
+    ion-content.has-header
         ion-slide-box(ng-if="prices.length !== 0" does-continue="true")
             ion-slide.box(ng-repeat="price in prices")
               .card
-                .item.item-divider
-                  {{price.title}}
+                .item.item-divider.text-center
+                    i.ion-arrow-left-c(ng-click="movePrev()" style="float: left")
+                    | {{price.title}}
+                    i.ion-arrow-right-c(ng-click="moveNext()" style="float: right")
                 .item
-                  img(width="100%" ng-src="{{price.src}}")
-                //
-                  .item.item-divider
-                    {{price.created |  amCalendar}}
+                  img(width="100%" ng-src="{{price.src}}" open-external="{{price.src}}" alt="{{price.title}}")
+
 
 
 

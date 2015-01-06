@@ -1,4 +1,4 @@
-app.controller "PricesController", ($scope, pricesViewResolved, $ionicSlideBoxDelegate) ->
+app.controller "PricesController", ($scope, pricesViewResolved, $ionicSlideBoxDelegate, $timeout, $window) ->
 
   console.log "PricesController", pricesViewResolved
 
@@ -7,3 +7,8 @@ app.controller "PricesController", ($scope, pricesViewResolved, $ionicSlideBoxDe
   $scope.$on '$ionicView.enter', ->
     $timeout (-> $ionicSlideBoxDelegate.update()), 0
 
+  $scope.moveNext = ->
+    $ionicSlideBoxDelegate.next()
+
+  $scope.movePrev = ->
+    $ionicSlideBoxDelegate.previous()

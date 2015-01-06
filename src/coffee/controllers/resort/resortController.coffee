@@ -6,3 +6,9 @@ app.controller "ResortController", ($scope, $timeout, resortResolved, $ionicSlid
 
   $scope.$on '$ionicView.enter', ->
     $timeout (-> $ionicSlideBoxDelegate.update()), 0
+
+  $scope.moveNext = ->
+    $ionicSlideBoxDelegate.next()
+
+  $scope.movePrev = ->
+    $ionicSlideBoxDelegate.previous()
