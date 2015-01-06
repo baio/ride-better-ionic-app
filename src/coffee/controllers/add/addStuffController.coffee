@@ -9,12 +9,18 @@ app.controller "AddStuffController", ($scope, stateResolved, cameraService, reso
     {code : "service", name : resources.str("Service Prices")}
   ]
 
-  $scope.data =
-    photo :
-      file : null
-      src : null
-    title : null
-    tag : $scope.tagsList[0]
+  resetScope = ->
+    $scope.data =
+      photo :
+        file : null
+        src : null
+        url : null
+      title : null
+      tag : $scope.tagsList[0]
+
+  resetScope()
+
+  $scope.$on '$ionicView.enter', resetScope
 
   validate = ->
     if !$scope.data.photo.file
@@ -32,11 +38,14 @@ app.controller "AddStuffController", ($scope, stateResolved, cameraService, reso
     if err
       notifier.message err
     else
+      #cordova required url to file, instead of file
+      file = if window.cordova then $scope.data.photo.url else $scope.data.photo.file
       data = title : $scope.data.title, tag : $scope.data.tag.code
-      resortsDA.postPrice(stateResolved.spot.id, $scope.data.photo.file, data).then ->
-        console.log "success !!!"
+      resortsDA.postPrice(stateResolved.spot.id, file, data).then ->
+        resetScope()
+        notifier.message "Success"
       , (err) ->
-        console.log "fail !!!"
+        notifier.message "Fail"
 
   $scope.getPhoto = ->
     cameraService.getPicture().then (pic) ->
@@ -44,6 +53,7 @@ app.controller "AddStuffController", ($scope, stateResolved, cameraService, reso
         console.log "getPhoto"
         console.log pic.dataUrl
         $scope.data.photo.file = pic.file
+        $scope.data.photo.url = pic.url
         $scope.data.photo.src = pic.dataUrl
 
   $scope.attachPhoto = (files) ->

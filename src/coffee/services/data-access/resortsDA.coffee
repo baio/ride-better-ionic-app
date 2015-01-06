@@ -9,7 +9,6 @@ app.factory "resortsDA", (resortsEP, $q, cache) ->
       $q.when cached
     else
       resortsEP.getInfo(spot).then (res) ->
-        console.log "resortsDA.coffee:13 >>>", cacheName
         cache.put cacheName, res, 60 * 3
         res
 
