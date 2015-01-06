@@ -1,6 +1,6 @@
-app.controller "AddStuffController", ($scope, stateResolved, cameraService, resources, notifier, resortsDA) ->
+app.controller "AddStuffController", ($scope, stateResolved, cameraService, resources, notifier, resortsDA, $state) ->
 
-  console.log "Add Stuff Controller !"
+  console.log "Add Stuff Controller"
 
   $scope.tagsList = [
     {code : "lift", name : resources.str("Lift Prices")}
@@ -30,8 +30,24 @@ app.controller "AddStuffController", ($scope, stateResolved, cameraService, reso
     if !$scope.data.tag
       return "Please choose some tag"
 
+  getPhoto = (isFromGallery) ->
+    notifier.showLoading()
+    cameraService.getPicture(isFromGallery).then (pic) ->
+      if pic
+        $scope.data.photo.file = pic.file
+        $scope.data.photo.url = pic.url
+        $scope.data.photo.src = pic.dataUrl
+        notifier.hideLoading()
+
+  $scope.takePhoto = ->
+    getPhoto()
+
+  $scope.selectPhoto = ->
+    getPhoto(true)
+
   $scope.cancel = ->
     console.log "cancel"
+    $state.transitionTo("root.main.home", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
   $scope.send = ->
     err = validate()
@@ -47,14 +63,6 @@ app.controller "AddStuffController", ($scope, stateResolved, cameraService, reso
       , (err) ->
         notifier.message "Fail"
 
-  $scope.getPhoto = ->
-    cameraService.getPicture().then (pic) ->
-      if pic
-        console.log "getPhoto"
-        console.log pic.dataUrl
-        $scope.data.photo.file = pic.file
-        $scope.data.photo.url = pic.url
-        $scope.data.photo.src = pic.dataUrl
 
   $scope.attachPhoto = (files) ->
     if files.length

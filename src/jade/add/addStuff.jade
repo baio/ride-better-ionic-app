@@ -1,11 +1,18 @@
 ion-view(ng-attr-title="{{state.spot.title}}")
     ion-content.has-header
-        button.button.button-royal(ng-click="getPhoto()" ng-file-select accept="image/*" ng-file-change="attachPhoto(attachedFile)" ng-model="attachedFile" type="file")
-            i.icon.ion-image &nbsp; Attach photo
-        img(ng-src="{{data.photo.src}}" heigth="70px" width="50px" style="margin-left: 30px; margin-top: 5px;")
+        if env.platform == 'cordova'
+            .button-bar
+                button.button.button-balanced(ng-click="takePhoto()")
+                    i.icon.ion-camera &nbsp; {{"Take photo" | res}}
+                button.button.button-royal(ng-click="selectPhoto()")
+                    i.icon.ion-images &nbsp; {{"Attach photo" | res}}
+        if env.platform == 'browser'
+            button.button.button-royal(ng-file-select accept="image/*" ng-file-change="attachPhoto(attachedFile)" ng-model="attachedFile" type="file")
+                i.icon.ion-image &nbsp; {{"Attach photo" | res}}
         .list
-            label.item.item-input.item-floating-label
-                span.input-label {{'Title' | res}}
+            label.item
+                img(ng-src="{{data.photo.src}}" height="200px")
+            label.item.item-input
                 input(type="text" ng-model="data.title" placeholder="{{'Title' | res}}")
             label.item.item-input.item-select
                 .input-label {{'Tag' | res}}
