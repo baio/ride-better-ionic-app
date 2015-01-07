@@ -12,3 +12,12 @@ app.controller "ResortController", ($scope, $timeout, resortResolved, $ionicSlid
 
   $scope.movePrev = ->
     $ionicSlideBoxDelegate.previous()
+
+  $scope.getContactHref = (contact) ->
+    prefix = null
+    if contact.type == "phone"
+      prefix = "tel:"
+    else if contact.type == "email"
+      prefix = "mailto:"
+
+    if prefix then prefix + contact.val else contact.val

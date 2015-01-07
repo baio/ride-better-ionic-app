@@ -3,13 +3,9 @@
 app.filter "contact", ($sce) ->
   (contact) ->
     icon = "ion-social-rss-outline"
-    prefix = ""
-    target = "target='_blank'"
     switch contact.type
       when "phone"
-        prefix = "tel:"
         icon = "ion-android-call"
-        target = ""
       when "site"
         icon = "ion-earth"
       when "vk"
@@ -27,4 +23,4 @@ app.filter "contact", ($sce) ->
       when "email"
         icon = "ion-email"
 
-    "<a href='#{prefix}#{contact.val}' class='calm'><i class='icon #{icon}'></a>"
+    "<i class='calm icon #{icon}'>"

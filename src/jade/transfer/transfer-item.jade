@@ -12,7 +12,7 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
               .item.item-icon-left
                 i.icon.ion-location 
                 | {{board.data.currentThread.meta.from}}                                
-              .item.item-icon-left
+              .item.item-icon-left.item-text-wrap
                 i.icon.ion-calendar 
                 | {{board.data.currentThread.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}                                  
               .item.item-icon-left

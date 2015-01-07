@@ -7,6 +7,7 @@ app.directive "openExternal", ->
 
   link: (scope, elem, attrs) ->
     elem.bind 'click', ->
+      if !scope.openExternal then return
       if window.cordova
         ref = window.open(scope.openExternal, "_blank")
         ref.addEventListener("loadstop", ->

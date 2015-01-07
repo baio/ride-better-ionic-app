@@ -4,12 +4,12 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
         ion-list.list
           div(ng-repeat="thread in board.data.threads") 
             ion-item.item.item-text-wrap
-              h3
+              h3(ng-click='openThread(thread._id)')
                   | {{thread.user.name}} &nbsp;
                   i.ion-ios-clock-outline &nbsp;
                   | {{thread.created | amCalendar}}
-              h3 {{thread.text}}              
-              p {{thread.replies[0].text}}                
+              h3(ng-click='openThread(thread._id)') {{thread.text}}
+              p(ng-click='openThread(thread._id)') {{thread.replies[0].text}}
               p
                 a.subdued(ng-click='openThread(thread._id)') 
                   | {{thread.replies.length}} {{ "Replies" | res }}
