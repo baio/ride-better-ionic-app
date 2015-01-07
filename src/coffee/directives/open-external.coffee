@@ -9,10 +9,10 @@ app.directive "openExternal", ->
     elem.bind 'click', ->
       if !scope.openExternal then return
       if window.cordova
-        ref = window.open(scope.openExternal, "_blank")
+        ref = window.open(scope.openExternal, "_blank”, “location=no,EnableViewPortScale=yes,presentationstyle=pagesheet")
         ref.addEventListener("loadstop", ->
-          screen.unlockOrientation()
-        )
+ 	        screen.unlockOrientation()
+	      )
         ref.addEventListener("exit", ->
           screen.lockOrientation("portrait")
         )
