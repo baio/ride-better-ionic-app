@@ -10,8 +10,7 @@ ion-view(ng-attr-title="{{state.spot.title}}")
                 .item
                   img(width="100%" ng-src="{{price.src}}" open-external="{{price.src}}" alt="{{price.title}}")
                 .item.item-divider(ng-if="price.href")
-                    a(ng-href="{{price.href}}" target="_blank")
-                        div(style="width:100%")
-                            i.ion-ios-browsers-outline
+                    div(style="width:100%" open-system="{{price.href}}")
+                        i.ion-ios-browsers-outline
 
 
