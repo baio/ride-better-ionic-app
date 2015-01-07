@@ -2,7 +2,29 @@
 
 app.filter "contact", ($sce) ->
   (contact) ->
-    if contact.type == "phone"
-    	"<a href='tel:#{contact.val}' class='calm'><i class='icon ion-ios-telephone-outline'></a>"
-    else
-    	"<a target='_blank' href='#{contact.val}' class='calm'><i class='icon ion-social-rss-outline'></a>"
+    icon = "ion-social-rss-outline"
+    prefix = ""
+    target = "target='_blank'"
+    switch contact.type
+      when "phone"
+        prefix = "tel:"
+        icon = "ion-ios-telephone-outline"
+        target = ""
+      when "site"
+        icon = "ion-earth"
+      when "vk"
+        icon = "ion-happy-outline"
+      when "facebook"
+        icon = "ion-social-facebook-outline"
+      when "instagram"
+        icon = "ion-social-facebook-outline"
+      when "facebook"
+        icon = "ion-social-instagram-outline"
+      when "facebook"
+        icon = "ion-social-instagram-outline"
+      when "skype"
+        icon = "ion-social-skype-outline"
+      when "email"
+        icon = "ion-email"
+
+    "<a href='#{prefix}#{contact.val}' class='calm'><i class='icon #{icon}'></a>"

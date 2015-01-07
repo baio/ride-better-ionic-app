@@ -4,3 +4,6 @@ ion-view(ng-attr-title="{{state.spot.title}}")
             .item.item-icon-right(ng-repeat="contact in resort.contacts")
                 | {{contact.val}}
                 span(ng-bind-html="contact | contact")
+                p(ng-if="contact.comment")
+                    | {{contact.comment}}
+
