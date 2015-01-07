@@ -15,5 +15,4 @@ ion-view(ng-attr-title="{{state.spot.title}}")
           div.webcam-stream-container(style="width: 100%; text-align: center")
             iframe.webcam-stream(src="{{current.meta.src}}" height="300" width="330"  frameborder="0" seamless="seamless")
   ion-footer-bar.bar-positive(ng-show="list")
-    .item.item-input
-      select(ng-options="cam.title for cam in list" ng-model="currentItem" ng-change="loadLatest()" style="border: none")
+    select.item-select(ng-options="cam.title for cam in list" ng-model="currentItem" ng-change="loadLatest()")

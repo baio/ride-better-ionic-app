@@ -8,7 +8,7 @@ app.filter "contact", ($sce) ->
     switch contact.type
       when "phone"
         prefix = "tel:"
-        icon = "ion-ios-telephone-outline"
+        icon = "ion-android-call"
         target = ""
       when "site"
         icon = "ion-earth"
