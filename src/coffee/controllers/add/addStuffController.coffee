@@ -1,4 +1,4 @@
-app.controller "AddStuffController", ($scope, stateResolved, cameraService, resources, notifier, resortsDA, $state) ->
+app.controller "AddStuffController", ($scope, stateResolved, imageService, resources, notifier, resortsDA, $state) ->
 
   console.log "Add Stuff Controller"
 
@@ -32,21 +32,15 @@ app.controller "AddStuffController", ($scope, stateResolved, cameraService, reso
 
   getPhoto = (isFromGallery) ->
     notifier.showLoading()
-    cameraService.getPicture(isFromGallery).then (pic) ->
-      if pic
-        $scope.data.photo.file = pic.file
-        $scope.data.photo.url = pic.url
-        $scope.data.photo.src = pic.url
-        notifier.hideLoading()
-
-  $scope.takePhoto = ->
-    notifier.showLoading()
-    cameraService.takePicture().then (url) ->
+    imageService.takePicture(isFromGallery).then (url) ->
       if url
         $scope.data.photo.src = url
         $scope.data.photo.url = url
     .finally ->
-      notifier.hideLoading()
+        notifier.hideLoading()
+
+  $scope.takePhoto = ->
+    getPhoto(false)
 
   $scope.selectPhoto = ->
     getPhoto(true)
@@ -72,7 +66,7 @@ app.controller "AddStuffController", ($scope, stateResolved, cameraService, reso
 
   $scope.attachPhoto = (files) ->
     if files.length
-      cameraService.getPictureFromFile(files[0]).then (pic) ->
+      imageService.getPictureFromFile(files[0]).then (pic) ->
         console.log pic
         $scope.data.photo.file = pic.file
         $scope.data.photo.src = pic.dataUrl

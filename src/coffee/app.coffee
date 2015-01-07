@@ -268,4 +268,4 @@ app.config ($ionicConfigProvider) ->
   $ionicConfigProvider.backButton.text("Back")
 
 app.config ($compileProvider)->
-  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|local|data):/)
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|local|data|content):/)
