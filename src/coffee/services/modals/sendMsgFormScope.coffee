@@ -47,10 +47,16 @@ app.service "sendMsgFormScope", (resources, imageService, notifier) ->
         scope.data.photo.file = pic.file
         scope.data.photo.src = pic.dataUrl
 
+  scope.removePhoto = (files) ->
+    scope.data.photo = 
+      file : null
+      url : null
+      src : null
+    
   scope.getSendThreadData = ->
     data = 
       message : scope.data.message
-      img : scope.data.photo     
+      img : scope.data.photo
     if scope.data.priority and scope.data.priority.code != "normal"
       data.meta =
         priority : scope.data.priority.code

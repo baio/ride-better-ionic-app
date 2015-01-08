@@ -1,18 +1,25 @@
 app.factory "boardDA", (boardEP) ->
 
-  postThread: (opts, data) ->
+  saveThread = (method, opts, data) ->    
     if !data.img.file and !data.img.url
       data = angular.copy data
+      imgSrc = data.img.src
       delete data.img
-      boardEP.postThread opts, data
+      data.img = imgSrc
+      boardEP[method + "Thread"] opts, data
     else      
       file = if data.img.url then data.img.url else data.img.file
       data = angular.copy data
       delete data.img      
-      boardEP.postThreadImg opts, file, data
+      boardEP[method + "ThreadImg"] opts, file, data
+
+  postThread: (opts, data) ->
+    saveThread "post", opts, data
+
+  putThread: (opts, data) ->
+    saveThread "put", opts, data
 
   get: boardEP.get  
-  putThread: boardEP.putThread
   removeThread: boardEP.removeThread
   getThread: boardEP.getThread
   postReply: boardEP.postReply

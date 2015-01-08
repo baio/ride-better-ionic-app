@@ -12,6 +12,9 @@ app.factory "boardEP", (_ep) ->
   putThread: (threadId, data) ->
     _ep.put "spots/boards/threads/#{threadId}", data, true
 
+  putThreadImg: (threadId, file, data) ->
+    _ep.putFile "spots/boards/threads/#{threadId}/img", file, data, true
+
   removeThread: (threadId) ->
     _ep.remove "spots/boards/threads/#{threadId}", true
 

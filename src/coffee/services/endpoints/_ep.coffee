@@ -39,6 +39,25 @@ app.factory "_ep", ($q, $http, webApiConfig, authio, notifier, fileUploadService
 
     deferred.promise
 
+  saveFile = (method, path, file, data, useAuth) ->
+
+    inProgress = false
+
+    if inProgress
+      deferred.reject(new Error "In progress")
+    else
+      notifier.showLoading()
+      inProgress = true
+
+    headers = getAuthHeaders() if useAuth
+
+    fileUploadService.upload(webApiConfig.url + path, file, data, headers, method)
+    .then (res) ->
+      res.data
+    .finally ->
+      inProgress = false
+      notifier.hideLoading()    
+
 
   get : (path, qs) ->
 
@@ -91,20 +110,7 @@ app.factory "_ep", ($q, $http, webApiConfig, authio, notifier, fileUploadService
     deferred.promise
 
   postFile: (path, file, data, useAuth) ->
+    saveFile "post", path, file, data, useAuth
 
-    inProgress = false
-
-    if inProgress
-      deferred.reject(new Error "In progress")
-    else
-      notifier.showLoading()
-      inProgress = true
-
-    headers = getAuthHeaders() if useAuth
-
-    fileUploadService.upload(webApiConfig.url + path, file, data, headers)
-    .then (res) ->
-      res.data
-    .finally ->
-      inProgress = false
-      notifier.hideLoading()
+  putFile: (path, file, data, useAuth) ->
+    saveFile "put", path, file, data, useAuth
