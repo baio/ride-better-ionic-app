@@ -9,26 +9,16 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       spot : null
     thread :
       modalTemplate : "modals/sendSimpleMsgForm.html"
-      map2send: (data) -> 
-        message : data.newMessage        
-      data2item: (item, data) ->
-        item.text = data.newMessage
-      item2data: (item, data) ->
-        data.newMessage = item.text
-      validate: (data) ->
-        if !data.newMessage
-          "Please input some text"
+      map2send: -> 
+      item2scope: (item) ->
+      validate: ->
+      reset: ->  
     reply: 
       modalTemplate : "modals/sendSimpleMsgForm.html"
-      map2send: (data) -> 
-        message : data.newMessage        
-      data2item: (item, data) ->
-        item.text = data.newMessage
-      item2data: (item, data) ->
-        data.newMessage = item.text
-      validate: (data) ->
-        if !data.newMessage
-          "Please input some text"      
+      map2send: -> 
+      item2scope: (item) ->
+      validate: ->
+      reset: ->  
 
   data = 
     currentThread : null
@@ -73,7 +63,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         mode: mode
         item: item
       if mode == "edit"
-        _opts[type].item2data item, data
+        _opts[type].item2scope item
       msgModal.show()
 
   loadMoreThreads = ->    
@@ -125,7 +115,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
     if _opts.board.threadModal.isShown() then _opts.board.threadModal else _opts.board.replyModal      
   # ----
 
-  init: (spt, scope, boardName, currentThread, opts) ->  
+  init: (scope, spt, boardName, currentThread, opts) ->  
     angular.copy _defOpts, _opts
     if _opts.board.threadModal
       @dispose()
@@ -206,15 +196,14 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         if opts.mode == "create"
           promise = boardDA.postThread({spot : home, board : _opts.board.boardName}, d).then (res) -> 
             data.threads.splice 0, 0, res
-            modalOpts.reset?()
+            modalOpts.reset()
         if opts.mode == "edit"
-          promise = boardDA.putThread(opts.item._id, d).then ->
-            modalOpts.data2item opts.item, d
+          promise = boardDA.putThread(opts.item._id, d).then (res) ->
+            data.threads.splice data.threads.indexOf(opts.item), 1, res
       else if opts.type == "reply"
         if opts.mode == "create"
           promise = boardDA.postReply(opts.item._id, d).then (res) -> 
             opts.item.replies.splice 0, 0, res
-        data.newMessage = ""
       promise?.then -> msgModal.hide()
 
   cancelMsgModal: ->

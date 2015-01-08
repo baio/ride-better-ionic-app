@@ -1,15 +1,17 @@
 app.service "sendMsgFormScope", (resources, imageService, notifier) ->
 
   scope =
-    priority : null
+    data : 
+      message : null
+      priority : null
+      photo :
+        src : null
+        url : null
+        dataUrl : null
     prioritiesList : [
       {code : "important", name : resources.str("Important")}
       {code : "normal", name : resources.str("Normal")}
     ]
-    photo :
-      src : null
-      url : null
-      dataUrl : null
 
   getPhoto = (isFromGallery) ->
     notifier.showLoading()
@@ -21,16 +23,17 @@ app.service "sendMsgFormScope", (resources, imageService, notifier) ->
         notifier.hideLoading()
 
   scope.validate = ->
-    if !scope.message
+    if !scope.data.message
       return "Please add some message"
 
   scope.reset = ->
-    scope.photo =
-        file : null
+    scope.data =
+      message : null
+      priority : null
+      photo :
         src : null
         url : null
-    scope.message = null
-    scope.priority = null
+        dataUrl : null
 
   scope.takePhoto = ->
     getPhoto(false)
@@ -41,16 +44,16 @@ app.service "sendMsgFormScope", (resources, imageService, notifier) ->
   scope.attachPhoto = (files) ->
     if files.length
       imageService.getPictureFromFile(files[0]).then (pic) ->
-        scope.photo.file = pic.file
-        scope.photo.src = pic.dataUrl
+        scope.data.photo.file = pic.file
+        scope.data.photo.src = pic.dataUrl
 
   scope.getSendThreadData = ->
     data = 
-      message : scope.message
-      img : scope.photo     
-    if scope.priority and scope.priority.code != "normal"
+      message : scope.data.message
+      img : scope.data.photo     
+    if scope.data.priority and scope.data.priority.code != "normal"
       data.meta =
-        priority : scope.priority.code
+        priority : scope.data.priority.code
     data
 
   scope : scope

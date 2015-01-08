@@ -1,11 +1,12 @@
-app.controller "MessagesListController", ($scope, $state, board, stateResolved, messages, sendMsgFormScope) ->
+app.controller "MessagesListController", ($scope, $state, board, stateResolved, messages) ->
 
   console.log "Messages List Controller"
 
   $scope.board = board
-  $scope.formData = sendMsgFormScope.scope
+  $scope.msgForm = messages.opts.thread.scope
+  $scope.simpleMsgForm = messages.opts.reply.scope
 
-  board.init stateResolved.spot.id, $scope, "message", null, messages.opts
+  board.init $scope, stateResolved.spot.id, "message", null, messages.opts
 
   board.loadMoreThreads()  
 
