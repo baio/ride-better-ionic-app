@@ -1,10 +1,13 @@
-app.controller "FaqListController", ($scope, $state, board, stateResolved) ->
+app.controller "FaqListController", ($scope, $state, board, stateResolved, faq) ->
 
   console.log "Faq List Controller"
 
   $scope.board = board
-  
-  board.init stateResolved.spot.id, $scope, "faq"
+  $scope.msgForm = faq.opts.thread.scope
+  $scope.simpleMsgForm = faq.opts.reply.scope
+
+  board.init $scope, stateResolved.spot.id, "faq", null, faq.opts
+
 
   board.loadMoreThreads()  
 

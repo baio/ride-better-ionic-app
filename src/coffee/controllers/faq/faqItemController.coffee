@@ -1,9 +1,9 @@
-app.controller "FaqItemController", ($scope, board, thread, stateResolved) ->
+app.controller "FaqItemController", ($scope, board, thread, stateResolved, faq) ->
   
   console.log "Faq Item Controller"
 
   $scope.board = board
+  $scope.msgForm = faq.opts.thread.scope
+  $scope.simpleMsgForm = faq.opts.reply.scope
 
-  board.init stateResolved.spot.id, $scope, "faq", thread
-
-  $scope.$on '$destroy', -> board.dispose()
+  board.init $scope, stateResolved.spot.id, "faq", thread, faq.opts

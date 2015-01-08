@@ -1,11 +1,12 @@
 app.factory "boardDA", (boardEP) ->
 
   saveThread = (method, opts, data) ->    
-    if !data.img.file and !data.img.url
+    if !data.img or (!data.img.file and !data.img.url)
       data = angular.copy data
-      imgSrc = data.img.src
-      delete data.img
-      data.img = imgSrc
+      if data.img
+        imgSrc = data.img.src 
+        delete data.img
+        data.img = imgSrc
       boardEP[method + "Thread"] opts, data
     else      
       file = if data.img.url then data.img.url else data.img.file
