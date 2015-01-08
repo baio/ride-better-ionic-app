@@ -1,0 +1,11 @@
+ion-modal-view
+    .bar.bar-header
+        h3 {{'Message' | res}}
+    ion-content.has-header
+        .list
+            label.item.item-input
+                textarea(placeholder="{{'Add Message' | res}}", ng-model="board.data.newMessage", style="height: 120px; margin-right: -10px")
+        .button-bar
+            a.button.button-stable(ng-click="board.cancelMsgModal()") {{'Cancel' | res}}
+            a.button.button-stable(ng-click="board.sendMessage()") {{'Send' | res}}
+

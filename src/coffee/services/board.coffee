@@ -8,7 +8,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       boardName : null
       spot : null
     thread :
-      modalTemplate : "modals/sendMsgForm.html"
+      modalTemplate : "modals/sendSimpleMsgForm.html"
       map2send: (data) -> 
         message : data.newMessage        
       data2item: (item, data) ->
@@ -19,7 +19,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         if !data.newMessage
           "Please input some text"
     reply: 
-      modalTemplate : "modals/sendMsgForm.html"
+      modalTemplate : "modals/sendSimpleMsgForm.html"
       map2send: (data) -> 
         message : data.newMessage        
       data2item: (item, data) ->
@@ -206,6 +206,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         if opts.mode == "create"
           promise = boardDA.postThread({spot : home, board : _opts.board.boardName}, d).then (res) -> 
             data.threads.splice 0, 0, res
+            modalOpts.reset?()
         if opts.mode == "edit"
           promise = boardDA.putThread(opts.item._id, d).then ->
             modalOpts.data2item opts.item, d
@@ -217,6 +218,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       promise?.then -> msgModal.hide()
 
   cancelMsgModal: ->
-    console.log "board.coffee:217 >>>"
+    _opts.thread.reset?()
+    _opts.reply.reset?()
     _opts.board.threadModal.hide()
     _opts.board.replyModal.hide()

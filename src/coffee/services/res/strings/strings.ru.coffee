@@ -6,3 +6,4 @@ app.constant "strings_ru",
   "transfer" : "Добраться"
   "user" : "Пользователь"
   "add" : "Добавить"
+  "messages" : "Cообщения"

@@ -3,8 +3,24 @@ ion-modal-view
         h3 {{'Message' | res}}
     ion-content.has-header
         .list
+            label.item.item-input.item-select
+                .input-label
+                  | Priority 
+                select(ng-options="priority.name for priority in formData.prioritiesList" ng-model="formData.priority")                
             label.item.item-input
-                textarea(placeholder="{{'Add Message' | res}}", ng-model="board.data.newMessage", style="height: 120px; margin-right: -10px")
+                textarea(placeholder="{{'Add Message' | res}}", ng-model="formData.message", style="height: 120px; margin-right: -10px")
+            .item(ng-if="formData.photo.src")
+              img(ng-src="{{formData.photo.src}}" height="200px")                                      
+            label.item
+              if env.platform == 'cordova'
+                  .button-bar
+                      button.button.button-balanced(ng-click="formData.takePhoto()")
+                          i.icon.ion-camera &nbsp; {{"Take photo" | res}}
+                      button.button.button-royal(ng-click="formData.selectPhoto()")
+                          i.icon.ion-images &nbsp; {{"Attach photo" | res}}
+              if env.platform == 'browser'
+                  button.button.button-royal(ng-file-select accept="image/*" ng-file-change="formData.attachPhoto(attachedFile)" ng-model="attachedFile" type="file")
+                      i.icon.ion-image &nbsp; {{"Attach photo" | res}}
         .button-bar
             a.button.button-stable(ng-click="board.cancelMsgModal()") {{'Cancel' | res}}
             a.button.button-stable(ng-click="board.sendMessage()") {{'Send' | res}}

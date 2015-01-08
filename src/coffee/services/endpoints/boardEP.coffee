@@ -6,6 +6,9 @@ app.factory "boardEP", (_ep) ->
   postThread: (opts, data) ->
     _ep.post "spots/#{opts.spot}/boards/#{opts.board}/threads", data, true
 
+  postThreadImg: (opts, file, data) ->
+    _ep.postFile "spots/#{opts.spot}/boards/#{opts.board}/threads/img", file, data, true
+
   putThread: (threadId, data) ->
     _ep.put "spots/boards/threads/#{threadId}", data, true
 

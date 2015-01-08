@@ -124,4 +124,4 @@ app.constant "resources_ru",
   "Tag" : "Таг"
   "Attach photo" : "Выбрать фото"
   "Take photo" : "Снять фото"
-
+  "Messages" : "Cообщения"

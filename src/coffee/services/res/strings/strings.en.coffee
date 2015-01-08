@@ -6,3 +6,4 @@ app.constant "strings_en",
   "transfer" : "Transfer"
   "user" : "User"
   "add" : "Add Stuff"
+  "messages" : "Messages"

@@ -14,7 +14,7 @@ app = angular.module("ride-better", [
     controller: "RootController"
     template: "<ion-nav-view name='root'></ion-nav-view>"
     resolve:
-      stateResolved: ($stateParams, spotsDA) ->  
+      stateResolved: ($stateParams, spotsDA, $q) ->  
         spotsDA.get($stateParams.id).then (res) ->
           culture = $stateParams.culture.split("-")
           spot : res
@@ -22,6 +22,9 @@ app = angular.module("ride-better", [
             code : $stateParams.culture
             lang : culture[0]
             units : culture[1]
+        , (err) ->
+          console.log "Failure, can't get spot"
+          $q.when("Failure, can't get spot")
   ).state("root.add",
     url: "/add"
     views:
@@ -114,6 +117,27 @@ app = angular.module("ride-better", [
       "resort-webcams":
         templateUrl: "resort/resort-webcams.html"
         controller: "WebcamController"
+  ).state("root.messages",
+    url: "/messages"
+    abstract: true
+    views:
+      root:
+        templateUrl: "messages/messages.html"          
+  ).state("root.messages.item",
+    url: "/list/:threadId"
+    resolve:
+      thread: (boardDA, $stateParams) ->
+        boardDA.getThread($stateParams.threadId)    
+    views:
+      "messages-content":
+        templateUrl: "messages/messages-item.html"    
+        controller: "MessagesItemController"
+  ).state("root.messages.list",
+    url: "/list"
+    views:
+      "messages-content":
+        templateUrl: "messages/messages-list.html"    
+        controller: "MessagesListController"
   ).state("root.faq",
     url: "/faq"
     abstract: true
