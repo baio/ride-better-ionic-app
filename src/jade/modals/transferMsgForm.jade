@@ -7,24 +7,24 @@ ion-modal-view
           .item.item-input
             span.input-label(ng-hide="transferMsgForm.from.$error.required") {{ 'From town' | res }}
             span.input-label.alert(ng-show="transferMsgForm.from.$error.required") {{ 'From town' | res }}
-            input(placeholder="{{'From' | res}}" ng-model="data.from" type="text" name="from" required)                    
+            input(placeholder="{{'From' | res}}" ng-model="transferForm.data.from" type="text" name="from" required)                    
           .item.item-input
             span.input-label {{ 'Date' | res }}
-            input(placeholder="{{'Date' | res}}" ng-model="data.date" type="date")          
+            input(placeholder="{{'Date' | res}}" ng-model="transferForm.data.date" type="date")          
           .item.item-input.item-select
             span.input-label {{ 'Hours' | res }}
-            select(ng-options="hour.label for hour in hoursList", ng-model="data.time")                
+            select(ng-options="hour.label for hour in transferForm.hoursList", ng-model="transferForm.data.time")                
           .item.item-input.item-select
             span.input-label {{ 'Transport Type' | res }}
-            select(ng-options="transport.name for transport in transportTypesList", ng-model="data.transport")                
+            select(ng-options="transport.name for transport in transferForm.transportTypesList", ng-model="transferForm.data.transport")                
           .item.item-input
             span.input-label {{ 'Price' | res }}
-            input(placeholder="{{'Price' | res}}" ng-model="data.price" type="number")          
+            input(placeholder="{{'Price' | res}}" ng-model="transferForm.data.price" type="number")          
           .item.item-input
             span.input-label {{ 'Phone number' | res }}
-            input(placeholder="{{'Phone' | res}}" ng-model="data.phone" type="tel")                        
+            input(placeholder="{{'Phone' | res}}" ng-model="transferForm.data.phone" type="tel")                        
           .item.item-input
-            textarea(placeholder="{{'Add Message' | res}}" ng-model="data.message", style="height: 120px; margin-right: -10px")
+            textarea(placeholder="{{'Add Message' | res}}" ng-model="transferForm.data.message", style="height: 120px; margin-right: -10px")
         .button-bar
             a.button.button-stable(ng-click="board.cancelMsgModal()") {{'Cancel' | res}}
             a.button.button-stable(ng-click="board.sendMessage()") {{'Send' | res}}

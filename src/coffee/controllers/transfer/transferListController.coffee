@@ -3,14 +3,12 @@ app.controller "TransferListController", ($scope, $state, board, stateResolved, 
   console.log "Transfer List Controller"
 
   $scope.board = board
+  $scope.transferForm = transfer.opts.thread.scope
+  $scope.simpleMsgForm = transfer.opts.reply.scope
 
-  $scope.data = transfer.scope.data
-  $scope.transportTypesList = transfer.scope.transportTypesList
-  $scope.hoursList = transfer.scope.hoursList
+  board.init $scope, stateResolved.spot.id, "transfer", null, transfer.opts
 
-  board.init stateResolved.spot.id, $scope, "transfer", null, transfer.opts
-
-  board.loadMoreThreads()
+  board.loadMoreThreads()  
 
   $scope.openThread = (threadId) ->
     $state.transitionTo("root.transfer.item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
