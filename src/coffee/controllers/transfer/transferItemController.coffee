@@ -7,7 +7,7 @@ app.controller "TransferItemController", ($scope, board, thread, stateResolved, 
   $scope.simpleMsgForm = transfer.opts.reply.scope
 
   transfer.opts.thread.moveToList = ->
-    $state.transitionTo("root.transfer.list", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
+    $state.transitionTo("root.msg.transfer", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
   board.init $scope, stateResolved.spot.id, "transfer", thread, transfer.opts
 

@@ -1,7 +1,9 @@
 app.factory "boardEP", (_ep) ->
 
   get: (opts, prms) ->
-    _ep.get "spots/#{opts.spot}/boards/#{opts.board}", prms
+    url = "spots/#{opts.spot}/boards"
+    url += "/#{opts.board}" if opts.board
+    _ep.get url, prms
 
   postThread: (opts, data) ->
     _ep.post "spots/#{opts.spot}/boards/#{opts.board}/threads", data, true

@@ -162,8 +162,9 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       if res
         home = user.getHome().code
         boardDA.removeReply(reply._id)
-    .then ->
-      thread.replies.splice thread.replies.indexOf(reply), 1
+    .then (res) ->
+      if res
+        thread.replies.splice thread.replies.indexOf(reply), 1
 
   dispose: -> 
     _opts.board.threadModal.remove()

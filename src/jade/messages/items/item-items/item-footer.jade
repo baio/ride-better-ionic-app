@@ -1,0 +1,5 @@
+p
+  a.subdued(ng-click="board.removeThread(board.data.currentThread)" ng-show="board.canEdit(board.data.currentThread)")
+    i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
+  a.subdued(ng-click="board.openThreadModal(board.data.currentThread, 'edit')" ng-show="board.canEdit(board.data.currentThread)")
+    i.icon.ion-edit &nbsp; {{ "Edit" | res }}                            

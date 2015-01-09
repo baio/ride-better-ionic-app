@@ -1,0 +1,5 @@
+ion-item.item.item-text-wrap
+  include item-header
+  h3(ng-click='openThread(thread._id)') {{thread.data.text}}
+  p(ng-click='openThread(thread._id)') {{thread.replies[0].data.text}}
+  include item-footer

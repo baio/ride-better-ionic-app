@@ -7,6 +7,6 @@ app.controller "ReportsItemController", ($scope, board, thread, stateResolved, r
   $scope.simpleMsgForm = report.opts.reply.scope
 
   report.opts.thread.moveToList = ->
-    $state.transitionTo("root.reports.list", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
+    $state.transitionTo("root.msg.reports", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
   board.init $scope, stateResolved.spot.id, "report", thread, report.opts
