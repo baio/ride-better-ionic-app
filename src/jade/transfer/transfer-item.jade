@@ -11,21 +11,21 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
                   | {{board.data.currentThread.created | amCalendar}}                              
               .item.item-icon-left
                 i.icon.ion-location 
-                | {{board.data.currentThread.meta.from}}                                
+                | {{board.data.currentThread.data.meta.from}}                                
               .item.item-icon-left.item-text-wrap
                 i.icon.ion-calendar 
-                | {{board.data.currentThread.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}                                  
+                | {{board.data.currentThread.data.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}                                  
               .item.item-icon-left
                 i.icon.i.ion-model-s 
-                | {{board.data.currentThread.meta.transport}}
-              .item.item-icon-left(ng-if="board.data.currentThread.meta.price")
+                | {{board.data.currentThread.data.meta.transport}}
+              .item.item-icon-left(ng-if="board.data.currentThread.data.meta.price")
                 i.icon.i.ion-card 
-                | {{board.data.currentThread.meta.price}}
-              a.item.item-icon-left(ng-href="tel:{{currentThread.meta.phone}}" ng-if="board.data.currentThread.meta.phone")
+                | {{board.data.currentThread.data.meta.price}}
+              a.item.item-icon-left(ng-href="tel:{{currentThread.data.meta.phone}}" ng-if="board.data.currentThread.data.meta.phone")
                 i.icon.i.ion-iphone.positive
-                | {{board.data.currentThread.meta.phone}}
-              .item.item-text-wrap(ng-if="board.data.currentThread.text")
-                | {{board.data.currentThread.text}}                                        
+                | {{board.data.currentThread.data.meta.phone}}
+              .item.item-text-wrap(ng-if="board.data.currentThread.data.text")
+                | {{board.data.currentThread.data.text}}                                        
             p
               a.subdued(ng-click="board.removeThread(board.data.currentThread)" ng-show="board.canEdit(board.data.currentThread)")
                 i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
@@ -36,10 +36,12 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
                   | {{reply.user.name}} &nbsp;
                   i.ion-ios-clock-outline &nbsp;
                   | {{reply.created | amCalendar}}
-              h3 {{reply.text}}              
+              h3 {{reply.data.text}}              
               p
                 a.subdued(ng-click="board.removeReply(board.data.currentThread, reply)" ng-show="board.canEdit(reply)")
                   i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}
+                a.subdued(ng-click="board.openReplyModal(reply, 'edit')" ng-show="board.canEdit(reply)")
+                  i.icon.ion-edit &nbsp; {{ "Edit" | res }}                                                                
         ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")
 
     ion-footer-bar

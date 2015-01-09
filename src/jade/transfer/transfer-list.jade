@@ -10,22 +10,22 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
                   | {{thread.created | amCalendar}}              
               h2(ng-click='openThread(thread._id)')
                 i.ion-location 
-                | {{thread.meta.from}} 
+                | {{thread.data.meta.from}} 
                 i.ion-calendar 
-                | {{thread.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}
+                | {{thread.data.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}
                 br                        
-                a.positive(ng-href="tel:{{thread.meta.phone}}" ng-if="thread.meta.phone" style="text-decoration: none")
+                a.positive(ng-href="tel:{{thread.data.meta.phone}}" ng-if="thread.data.meta.phone" style="text-decoration: none")
                   i.ion-iphone 
-                  | {{thread.meta.phone}}
+                  | {{thread.data.meta.phone}}
                 &nbsp;
                 i.ion-model-s 
-                | {{thread.meta.transport}}
-                span(ng-if="thread.meta.price")
+                | {{thread.data.meta.transport}}
+                span(ng-if="thread.data.meta.price")
                   &nbsp;                
                   i.ion-card 
-                  | {{thread.meta.price}}
+                  | {{thread.data.meta.price}}
                 br  
-                .item-text-wrap {{thread.text}}                                        
+                .item-text-wrap {{thread.data.text}}                                        
               p
                 a.subdued(ng-click='openThread(thread._id)') 
                   | {{thread.replies.length}} {{ "Replies" | res }}

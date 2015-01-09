@@ -13,13 +13,13 @@ app.factory "transfer", (resources, transferFormScope, sendSimpleMsgFormScope) -
       
       item2scope: (item) ->
         scope = transferFormScope.scope
-        scope.data.message = item.text
-        scope.data.from = item.meta.from
-        scope.data.date = moment(item.meta.date, "X").startOf("d").toDate()
-        scope.data.time = scope.hoursList[moment(item.meta.date, "X").hours() - 1]
-        scope.data.transport = scope.transportTypesList.filter((f) -> f.code == item.meta.transport)[0]
-        scope.data.price = item.meta.price
-        scope.data.phone = item.meta.phone
+        scope.data.message = item.data.text
+        scope.data.from = item.data.meta.from
+        scope.data.date = moment(item.data.meta.date, "X").startOf("d").toDate()
+        scope.data.time = scope.hoursList[moment(item.data.meta.date, "X").hours() - 1]
+        scope.data.transport = scope.transportTypesList.filter((f) -> f.code == item.data.meta.transport)[0]
+        scope.data.price = item.data.meta.price
+        scope.data.phone = item.data.meta.phone
 
       validate: (data) ->
         transferFormScope.scope.validate()
@@ -37,7 +37,7 @@ app.factory "transfer", (resources, transferFormScope, sendSimpleMsgFormScope) -
         sendSimpleMsgFormScope.scope.getSendThreadData()
       
       item2scope: (item, data) ->
-        angular.copy item, data
+        sendSimpleMsgFormScope.scope.data.message = item.data.text
 
       validate: (data) ->
         sendSimpleMsgFormScope.scope.validate()
