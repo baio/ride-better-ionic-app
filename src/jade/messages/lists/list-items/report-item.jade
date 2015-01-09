@@ -1,5 +1,5 @@
-ion-item.item.item-text-wrap
-  include item-header
+extends ./_item-layout.jade
+
+block item-layout-content
   h3(ng-click='openThread(thread._id)') {{thread.data.meta.summary}}
   p(ng-click='openThread(thread._id)') {{thread.data.text}}
-  include item-footer

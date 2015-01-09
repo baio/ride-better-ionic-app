@@ -1,5 +1,6 @@
-ion-item.item
-  include item-header
+extends ./_item-layout.jade
+
+block item-layout-content
   .list.card
     .item.item-divider
       h4
@@ -23,5 +24,3 @@ ion-item.item
       | {{board.data.currentThread.data.meta.phone}}
     .item.item-text-wrap(ng-if="board.data.currentThread.data.text")
       | {{board.data.currentThread.data.text}}                                        
-  include item-footer
-include replies
