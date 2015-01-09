@@ -24,6 +24,9 @@ app.factory "boardEP", (_ep) ->
   postReply: (threadId, data) ->
     _ep.post "spots/boards/threads/#{threadId}/replies", data, true
 
+  putReply: (replyId, data) ->
+    _ep.put "spots/boards/threads/replies/#{replyId}", data, true
+
   removeReply: (replyId, data) ->
     _ep.remove "spots/boards/threads/replies/#{replyId}", true
 

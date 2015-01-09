@@ -126,8 +126,10 @@ app = angular.module("ride-better", [
   ).state("root.messages.item",
     url: "/list/:threadId"
     resolve:
-      thread: (boardDA, $stateParams) ->
-        boardDA.getThread($stateParams.threadId)    
+      thread: (boardDA, $stateParams, $q) ->
+        boardDA.getThread($stateParams.threadId).then null, ->
+          console.log "Message not found"
+          $q.when()          
     views:
       "messages-content":
         templateUrl: "messages/messages-item.html"    

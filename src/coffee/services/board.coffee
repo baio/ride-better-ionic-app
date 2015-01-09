@@ -13,6 +13,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       item2scope: (item) ->
       validate: ->
       reset: ->  
+      moveToList: ->  
     reply: 
       modalTemplate : "modals/sendSimpleMsgForm.html"
       map2send: -> 
@@ -27,6 +28,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
     threads : []
 
   setBoard = (res, index) ->
+    data.currentThread = null
     data.threads.splice index, 0, res...
 
   loadBoard = (opts, pushIndex) ->
@@ -35,14 +37,8 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
 
   setThread = (res, index) ->
     if res
-      thread = res.thread
-      thread.replies = []      
-      if index is undefined
-        thread.replies.push res.replies...
-      else
-        thread.replies.splice index, 0, res.replies...
-      data.threads = [thread]
-      data.currentThread = thread
+      data.threads = [res]
+      data.currentThread = res
 
   loadThread = (id, opts, pushIndex) ->
     home = user.getHome()
@@ -153,8 +149,11 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         boardDA.removeThread(thread._id)
     .then (res) ->
       if res
+        isMoveBack = data.currentThread
         data.threads.splice data.threads.indexOf(thread), 1
         data.currentThread = null
+        if isMoveBack
+          _opts.thread.moveToList?()
 
   removeReply : (thread, reply) ->    
     notifier.confirm("After delete, item couldn't be restored. Delete?")
@@ -193,13 +192,20 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
           promise = boardDA.postThread({spot : home, board : _opts.board.boardName}, d).then (res) -> 
             data.threads.splice 0, 0, res
             modalOpts.reset()
-        if opts.mode == "edit"
+        else if opts.mode == "edit"
           promise = boardDA.putThread(opts.item._id, d).then (res) ->
             data.threads.splice data.threads.indexOf(opts.item), 1, res
+            if data.currentThread
+              data.currentThread.data = res.data
       else if opts.type == "reply"
         if opts.mode == "create"
           promise = boardDA.postReply(opts.item._id, d).then (res) -> 
             opts.item.replies.splice 0, 0, res
+        else if opts.mode == "edit"
+          promise = boardDA.putReply(opts.item._id, d).then (res) -> 
+            opts.item.data = res.data
+      _opts.thread.reset?()
+      _opts.reply.reset?()
       promise?.then -> msgModal.hide()
 
   cancelMsgModal: ->

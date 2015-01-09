@@ -27,5 +27,6 @@ app.factory "boardDA", (boardEP) ->
   removeThread: boardEP.removeThread
   getThread: boardEP.getThread
   postReply: boardEP.postReply
+  putReply: boardEP.putReply
   removeReply: boardEP.removeReply
 
