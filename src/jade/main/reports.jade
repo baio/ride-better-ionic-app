@@ -1,12 +1,23 @@
-ion-view(ng-attr-title="{{state.spot.title}}")
+ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
     ion-content.has-header
-        .list
-            .item.item-text-wrap(ng-repeat="report in reports")
-                h3
-                    | {{report.user.name}} &nbsp;
-                    i.icon.ion-ios-clock-outline &nbsp;
-                    | {{report.time | amCalendar}}
-                | {{report.summary}}
-                br
-                small {{report.comment}}
+        ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()")
+        ion-list.list
+          div(ng-repeat="thread in board.data.threads") 
+            ion-item.item.item-text-wrap
+              h3(ng-click='openThread(thread._id)')
+                  | {{thread.user.name}} &nbsp;
+                  i.ion-ios-clock-outline &nbsp;
+                  | {{thread.created | amCalendar}}
+              p(ng-click='openThread(thread._id)') {{thread.data.meta.summary}}   
+              h3(ng-click='openThread(thread._id)') {{thread.data.text}}
+              p
+                a.subdued(ng-click='openThread(thread._id)') 
+                  | {{thread.replies.length}} {{ "Replies" | res }}
+                a.subdued(ng-click="board.openReplyModal(thread, 'create')")
+                  i.icon.ion-chatbox &nbsp; {{ "Reply" | res }}                               
+                a.subdued(ng-click="board.removeThread(thread)" ng-show="board.canEdit(thread)")
+                  i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
+                a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-show="board.canEdit(thread)")
+                  i.icon.ion-edit &nbsp; {{ "Edit" | res }}              
+        ion-infinite-scroll(on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads")
 

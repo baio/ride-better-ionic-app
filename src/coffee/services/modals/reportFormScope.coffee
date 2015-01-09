@@ -1,9 +1,9 @@
-app.service "sendSimpleMsgFormScope", (resources) ->
+app.service "reportFormScope", (resources) ->
 
   scope =
     data :
       message : null
-      meta : undefined
+      meta : null
 
   scope.validate = ->
     if !scope.data.message
@@ -11,7 +11,7 @@ app.service "sendSimpleMsgFormScope", (resources) ->
 
   scope.reset = ->
     scope.data.message = null
-    scope.data.meta = undefined
+    scope.data.meta = null
 
   scope.getSendThreadData = ->
     message : scope.data.message

@@ -1,6 +1,6 @@
-app.controller "ReportsController", ($scope, board, stateResolved, report) ->
+app.controller "ReportsListController", ($scope, $state, board, stateResolved, report) ->
 
-  console.log "Reports Controller"
+  console.log "Reports List Controller"
 
   $scope.board = board
   $scope.msgForm = report.opts.thread.scope
@@ -12,3 +12,4 @@ app.controller "ReportsController", ($scope, board, stateResolved, report) ->
 
   $scope.openThread = (threadId) ->
     $state.transitionTo("root.reports.item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
+

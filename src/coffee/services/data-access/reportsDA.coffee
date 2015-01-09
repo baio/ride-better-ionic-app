@@ -4,3 +4,6 @@ app.factory "reportsDA", (reportsEP, homeDA) ->
     reportsEP.send(spot, data).then (res) ->
       homeDA.resetNext()
       res
+
+  get : (spot, opts) ->
+    reportsEP.get(spot, opts)

@@ -1,4 +1,4 @@
-app.controller "SendReportController", ($scope, reportsDA, $ionicSlideBoxDelegate, notifier, $q) ->
+app.controller "SendReportController", ($scope, boardDA, $ionicSlideBoxDelegate, notifier, $q, stateResolved) ->
 
   console.log "SendReport Controller"
 
@@ -13,13 +13,14 @@ app.controller "SendReportController", ($scope, reportsDA, $ionicSlideBoxDelegat
       $q.when()
     else
       data =
-        conditions :
-          tracks : parseInt $scope.data.tracks
-          snowing : parseInt $scope.data.snowing
-          crowd : parseInt $scope.data.crowd
-        comment : $scope.data.message
+        meta :
+          conditions :
+            tracks : parseInt $scope.data.tracks
+            snowing : parseInt $scope.data.snowing
+            crowd : parseInt $scope.data.crowd
+        message : $scope.data.message
 
-      reportsDA.send($scope.state.spot.id, data).then (res) ->
+      boardDA.postThread({spot : stateResolved.spot.id, board : "report"}, data).then (res) ->
         $scope.open "main.home"
 
   $scope.cancelReport = ->

@@ -6,7 +6,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       threadModal : null
       replyModal : null
       boardName : null
-      spot : null
+      spot : null      
     thread :
       modalTemplate : "modals/sendSimpleMsgForm.html"
       map2send: -> 
