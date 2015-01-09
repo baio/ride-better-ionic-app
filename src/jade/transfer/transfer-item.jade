@@ -1,7 +1,7 @@
 ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
     ion-content.has-header
         ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(threadId)")
-        ion-list.list
+        ion-list.list(ng-if="board.data.currentThread")
           ion-item.item
             .list.card
               .item.item-divider

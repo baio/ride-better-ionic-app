@@ -149,8 +149,10 @@ app = angular.module("ride-better", [
   ).state("root.faq.item",
     url: "/list/:threadId"
     resolve:
-      thread: (boardDA, $stateParams) ->
-        boardDA.getThread($stateParams.threadId)    
+      thread: (boardDA, $stateParams, $q) ->
+        boardDA.getThread($stateParams.threadId).then null, ->
+          console.log "Message not found"
+          $q.when()              
     views:
       "faq-content":
         templateUrl: "faq/faq-item.html"    
@@ -170,8 +172,10 @@ app = angular.module("ride-better", [
   ).state("root.transfer.item",
     url: "/list/:threadId"
     resolve:
-      thread: (boardDA, $stateParams) ->
-        boardDA.getThread($stateParams.threadId)    
+      thread: (boardDA, $stateParams, $q) ->
+        boardDA.getThread($stateParams.threadId).then null, ->
+          console.log "Message not found"
+          $q.when()              
     views:
       "transfer-content":
         templateUrl: "transfer/transfer-item.html"    

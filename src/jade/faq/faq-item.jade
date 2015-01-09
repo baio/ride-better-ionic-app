@@ -1,13 +1,13 @@
 ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
     ion-content.has-header
         ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(threadId)")
-        ion-list.list
+        ion-list.list(ng-if="board.data.currentThread")
           ion-item.item.item-divider.item-text-wrap
             h3 
               | {{board.data.currentThread.user.name}} &nbsp;
               i.ion-ios-clock-outline &nbsp;
               | {{board.data.currentThread.created | amCalendar}}
-            h3 {{board.data.currentThread.text}}              
+            h3 {{board.data.currentThread.data.text}}              
             p
               a.subdued(ng-click="board.removeThread(board.data.currentThread)" ng-show="board.canEdit(board.data.currentThread)")
                 i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
@@ -18,10 +18,12 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
                   | {{reply.user.name}} &nbsp;
                   i.ion-ios-clock-outline &nbsp;
                   | {{reply.created | amCalendar}}
-              h3 {{reply.text}}              
+              h3 {{reply.data.text}}              
               p
                 a.subdued(ng-click="board.removeReply(board.data.currentThread, reply)" ng-show="board.canEdit(reply)")
                   i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}
+                a.subdued(ng-click="board.openReplyModal(reply, 'edit')" ng-show="board.canEdit(reply)")
+                  i.icon.ion-edit &nbsp; {{ "Edit" | res }}                                                                
         ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")
 
     ion-footer-bar

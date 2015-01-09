@@ -12,10 +12,10 @@ app.factory "faq", (resources, sendSimpleMsgFormScope) ->
       map2send: -> 
         sendSimpleMsgFormScope.scope.getSendThreadData()
       
-      item2scope: (item, data) ->
-        angular.copy item, data
+      item2scope: (item) ->
+        sendSimpleMsgFormScope.scope.data.message = item.data.text
 
-      validate: (data) ->
+      validate: ->
         sendSimpleMsgFormScope.scope.validate()
 
       reset: ->
@@ -30,10 +30,10 @@ app.factory "faq", (resources, sendSimpleMsgFormScope) ->
       map2send: -> 
         sendSimpleMsgFormScope.scope.getSendThreadData()
       
-      item2scope: (item, data) ->
-        angular.copy item, data
+      item2scope: (item) ->
+        sendSimpleMsgFormScope.scope.data.message = item.data.text
 
-      validate: (data) ->
+      validate: ->
         sendSimpleMsgFormScope.scope.validate()
 
       reset: ->

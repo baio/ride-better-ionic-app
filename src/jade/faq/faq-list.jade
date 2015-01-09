@@ -8,8 +8,8 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
                   | {{thread.user.name}} &nbsp;
                   i.ion-ios-clock-outline &nbsp;
                   | {{thread.created | amCalendar}}
-              h3(ng-click='openThread(thread._id)') {{thread.text}}
-              p(ng-click='openThread(thread._id)') {{thread.replies[0].text}}
+              h3(ng-click='openThread(thread._id)') {{thread.data.text}}
+              p(ng-click='openThread(thread._id)') {{thread.replies[0].data.text}}
               p
                 a.subdued(ng-click='openThread(thread._id)') 
                   | {{thread.replies.length}} {{ "Replies" | res }}

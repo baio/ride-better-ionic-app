@@ -6,8 +6,10 @@ app.controller "FaqListController", ($scope, $state, board, stateResolved, faq) 
   $scope.msgForm = faq.opts.thread.scope
   $scope.simpleMsgForm = faq.opts.reply.scope
 
-  board.init $scope, stateResolved.spot.id, "faq", null, faq.opts
+  faq.opts.thread.moveToList = ->
+    $state.transitionTo("root.faq.list", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
+  board.init $scope, stateResolved.spot.id, "faq", null, faq.opts
 
   board.loadMoreThreads()  
 

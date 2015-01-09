@@ -89,13 +89,14 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       data.canLoadMoreReplies = false
 
   pullMoreReplies = (threadId) ->
-    thread = getThread threadId
-    if thread      
-      first = thread.replies[0]
-      if first
-        till = moment.utc(first.message.created, "X").unix()
+    if threadId
+      thread = getThread threadId
+      if thread      
+        first = thread.replies[0]
+        if first
+          till = moment.utc(first.message.created, "X").unix()
 
-    loadThread(threadId, till : till, 0)
+      loadThread(threadId, till : till, 0)
 
   resetData = ->
       data.currentThread = null
