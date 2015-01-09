@@ -5,6 +5,5 @@ p
     i.icon.ion-chatbox &nbsp; {{ "Reply" | res }}                               
   a.subdued(ng-click="board.removeThread(thread)" ng-show="board.canEdit(thread)")
     i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
-  //
-    a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-show="board.canEdit(thread)")
-      i.icon.ion-edit &nbsp; {{ "Edit" | res }}              
+  a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-show="board.canEdit(thread)")
+    i.icon.ion-edit &nbsp; {{ "Edit" | res }}              
