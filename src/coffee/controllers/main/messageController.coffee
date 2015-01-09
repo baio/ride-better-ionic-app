@@ -16,8 +16,6 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
     thd.tags.indexOf(type) != -1
 
   $scope.isThreadOfType = isThreadOfType
-
-  console.log "messageController.coffee:20 >>>", thread
   
   boardOpts =  
     if isThreadOfType(thread, "faq")
