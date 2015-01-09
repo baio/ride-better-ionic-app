@@ -1,6 +1,6 @@
 app.controller "MessagesItemController", ($scope, board, thread, stateResolved, messages, $state) ->
   
-  console.log "Messages Item Controller"
+  console.log "MessagesItem Controller"
 
   $scope.board = board
   $scope.msgForm = messages.opts.thread.scope

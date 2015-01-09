@@ -66,6 +66,17 @@ app = angular.module("ride-better", [
       "main-home":
         templateUrl: "main/closed-report.html"
         controller: "ClosedReportController"
+  ).state("root.main.messages-item",
+    url: "/messages/:threadId"
+    views:
+      "main-messages":
+        templateUrl: "main/message.html"
+        controller: "MessageController"
+    resolve:
+      thread: (boardDA, $stateParams, $q) ->
+        boardDA.getThread($stateParams.threadId).then null, ->
+          console.log "Message not found"
+          $q.when()                  
   ).state("root.main.messages",
     url: "/messages"
     views:
