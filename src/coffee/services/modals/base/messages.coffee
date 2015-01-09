@@ -13,11 +13,11 @@ app.factory "messages", (resources, sendMsgFormScope, sendSimpleMsgFormScope) ->
         sendMsgFormScope.scope.getSendThreadData()
       
       item2scope: (item) ->
-        sendMsgFormScope.scope.data.message = item.text
-        if item.meta?.priority
-          sendMsgFormScope.scope.data.priority = sendMsgFormScope.scope.prioritiesList.filter((f) -> f.code == item.meta.priority)[0]
-        if item.img 
-          sendMsgFormScope.scope.data.photo.src = item.img
+        sendMsgFormScope.scope.data.message = item.data.text
+        if item.data.meta?.priority
+          sendMsgFormScope.scope.data.priority = sendMsgFormScope.scope.prioritiesList.filter((f) -> f.code == item.data.meta.priority)[0]
+        if item.data.img 
+          sendMsgFormScope.scope.data.photo.src = item.data.img
 
       validate: (data) ->
         sendMsgFormScope.scope.validate()

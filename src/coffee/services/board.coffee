@@ -27,11 +27,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
     threads : []
 
   setBoard = (res, index) ->
-    if res
-      if index is undefined
-        data.threads.push res.threads...
-      else
-        data.threads.splice index, 0, res.threads...
+    data.threads.splice index, 0, res...
 
   loadBoard = (opts, pushIndex) ->
     boardDA.get({spot : _opts.board.spot, board : _opts.board.boardName}, opts).then (res) -> 
