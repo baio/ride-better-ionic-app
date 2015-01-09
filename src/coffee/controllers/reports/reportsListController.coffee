@@ -11,5 +11,5 @@ app.controller "ReportsListController", ($scope, $state, board, stateResolved, r
   board.loadMoreThreads()  
 
   $scope.openThread = (threadId) ->
-    $state.transitionTo("root.reports.item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
+    $state.transitionTo("root.msg.reports-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
 

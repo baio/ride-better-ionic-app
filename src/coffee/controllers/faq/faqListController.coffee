@@ -11,6 +11,6 @@ app.controller "FaqListController", ($scope, $state, board, stateResolved, faq) 
   board.loadMoreThreads()  
 
   $scope.openThread = (threadId) ->
-    $state.transitionTo("root.faq.item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
+    $state.transitionTo("root.msg.faq-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
 
 

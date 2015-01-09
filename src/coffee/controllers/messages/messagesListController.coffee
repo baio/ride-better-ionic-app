@@ -11,5 +11,5 @@ app.controller "MessagesListController", ($scope, $state, board, stateResolved, 
   board.loadMoreThreads()  
 
   $scope.openThread = (threadId) ->
-    $state.transitionTo("root.messages.item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
+    $state.transitionTo("root.msg.messages-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
 

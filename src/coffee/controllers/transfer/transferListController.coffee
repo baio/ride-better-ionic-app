@@ -11,4 +11,4 @@ app.controller "TransferListController", ($scope, $state, board, stateResolved, 
   board.loadMoreThreads()  
 
   $scope.openThread = (threadId) ->
-    $state.transitionTo("root.transfer.item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
+    $state.transitionTo("root.msg.transfer-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
