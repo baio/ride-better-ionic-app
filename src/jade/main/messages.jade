@@ -1,4 +1,4 @@
-ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
+ion-view(ng-attr-title="Messages" cache-view="false")
     ion-content.has-header
         ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()")
         ion-list.list
@@ -23,4 +23,4 @@ ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
 
     ion-footer-bar
         h1.title.positive(ng-click="board.openThreadModal(null, 'create')")
-            i.icon.ion-speakerphone &nbsp; {{'Ask Question' | res}}
+            i.icon.ion-speakerphone &nbsp; Send Message

@@ -66,12 +66,12 @@ app = angular.module("ride-better", [
       "main-home":
         templateUrl: "main/closed-report.html"
         controller: "ClosedReportController"
-  ).state("root.main.reports",
-    url: "/reports"
+  ).state("root.main.messages",
+    url: "/messages"
     views:
-      "main-reports":
-        templateUrl: "main/reports.html"
-        controller: "ReportsController"
+      "main-messages":
+        templateUrl: "main/messages.html"
+        controller: "MessagesController"
   ).state("root.main.hist",
     url: "/hist"
     views:
