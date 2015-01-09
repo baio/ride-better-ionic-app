@@ -10,6 +10,10 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, mess
 
   board.loadMoreThreads()  
 
+  $scope.isThreadOfType = (thread, type) ->
+    console.log "messagesController.coffee:14 >>>"
+    thread.tags.indexOf(type) != -1
+
   $scope.openThread = (threadId) ->
     #$state.transitionTo("root.msg.messages-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
 

@@ -1,5 +1,7 @@
 extends ./_item-layout.jade
 
 block item-layout-content
-  h3(ng-click='openThread(thread._id)') {{thread.data.meta.summary}}
+  h3(ng-click='openThread(thread._id)') 
+    i.ion-flag &nbsp;    
+    | {{thread.data.meta.summary}}
   p(ng-click='openThread(thread._id)') {{thread.data.text}}

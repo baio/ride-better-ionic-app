@@ -1,26 +1,11 @@
-ion-view(ng-attr-title="Messages" cache-view="false")
-    ion-content.has-header
-        ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()")
-        ion-list.list
-          div(ng-repeat="thread in board.data.threads") 
-            ion-item.item.item-text-wrap
-              h3(ng-click='openThread(thread._id)')
-                  | {{thread.user.name}} &nbsp;
-                  i.ion-ios-clock-outline &nbsp;
-                  | {{thread.created | amCalendar}}
-              h3(ng-click='openThread(thread._id)') {{thread.data.text}}
-              p(ng-click='openThread(thread._id)') {{thread.replies[0].data.text}}
-              p
-                a.subdued(ng-click='openThread(thread._id)') 
-                  | {{thread.replies.length}} {{ "Replies" | res }}
-                a.subdued(ng-click="board.openReplyModal(thread, 'create')")
-                  i.icon.ion-chatbox &nbsp; {{ "Reply" | res }}                               
-                a.subdued(ng-click="board.removeThread(thread)" ng-show="board.canEdit(thread)")
-                  i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
-                a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-show="board.canEdit(thread)")
-                  i.icon.ion-edit &nbsp; {{ "Edit" | res }}              
-        ion-infinite-scroll(on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads")
+extends ../messages/lists/_layout-list.jade
 
-    ion-footer-bar
-        h1.title.positive(ng-click="board.openThreadModal(null, 'create')")
-            i.icon.ion-speakerphone &nbsp; Send Message
+block msg-content
+  div(ng-if="isThreadOfType(thread, 'faq')")
+    include ../messages/lists/list-items/faq-item
+  div(ng-if="isThreadOfType(thread, 'message')")
+    include ../messages/lists/list-items/message-item
+  div(ng-if="isThreadOfType(thread, 'transfer')")
+    include ../messages/lists/list-items/transfer-item
+  div(ng-if="isThreadOfType(thread, 'report')")
+    include ../messages/lists/list-items/report-item

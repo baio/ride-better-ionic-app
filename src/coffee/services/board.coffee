@@ -70,7 +70,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
   pullMoreThreads = ->
     first = data.threads[0]
     if first
-      till = moment.utc(first.message.created, "X").unix()
+      till = moment.utc(first.created, "X").unix()
     loadBoard(till : till, 0)
 
   getThread = (threadId) ->
