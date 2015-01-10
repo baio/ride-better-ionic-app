@@ -9,7 +9,6 @@ app.controller "TransferItemController", ($scope, board, thread, stateResolved, 
   transfer.opts.thread.moveToList = ->
     $state.transitionTo("root.msg.transfer", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
-  board.init $scope, stateResolved.spot.id, "transfer", thread, transfer.opts
-
-
-
+  $scope.$on "$ionicView.enter", ->  
+    console.log "transferItemController.coffee:13 >>>", "$ionicView.enter"
+    board.init $scope, stateResolved.spot.id, "transfer", thread, transfer.opts

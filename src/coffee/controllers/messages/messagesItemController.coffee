@@ -9,4 +9,6 @@ app.controller "MessagesItemController", ($scope, board, thread, stateResolved, 
   messages.opts.thread.moveToList = ->
     $state.transitionTo("root.msg.messages", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
-  board.init $scope, stateResolved.spot.id, "message", thread, messages.opts
+  $scope.$on "$ionicView.enter", ->  
+    console.log "messagesItemController.coffee:13 >>>", "$ionicView.enter"
+    board.init $scope, stateResolved.spot.id, "message", thread, messages.opts

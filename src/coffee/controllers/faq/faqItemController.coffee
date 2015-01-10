@@ -9,4 +9,6 @@ app.controller "FaqItemController", ($scope, board, thread, stateResolved, faq, 
   faq.opts.thread.moveToList = ->
     $state.transitionTo("root.msg.faq", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
-  board.init $scope, stateResolved.spot.id, "faq", thread, faq.opts
+  $scope.$on "$ionicView.enter", ->  
+    console.log "faqItemController.coffee:13 >>>", "$ionicView.enter"
+    board.init $scope, stateResolved.spot.id, "faq", thread, faq.opts
