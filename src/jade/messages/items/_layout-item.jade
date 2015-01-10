@@ -1,6 +1,6 @@
 ion-view(ng-attr-title="{{state.spot.title}}" cache-view="false")
     ion-content.has-header
-        ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(threadId)")
+        ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")
         ion-list.list(ng-if="board.data.currentThread")
           block msg-item-content 
         ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")

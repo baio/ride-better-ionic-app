@@ -20,8 +20,8 @@ app.factory "boardEP", (_ep) ->
   removeThread: (threadId) ->
     _ep.remove "spots/boards/threads/#{threadId}", true
 
-  getThread: (threadId) ->
-    _ep.get "spots/boards/threads/#{threadId}"
+  getThread: (threadId, opts) ->
+    _ep.get "spots/boards/threads/#{threadId}", opts
 
   postReply: (threadId, data) ->
     _ep.post "spots/boards/threads/#{threadId}/replies", data, true

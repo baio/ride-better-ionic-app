@@ -101,28 +101,24 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
   getThread = (threadId) ->
     data.threads.filter((f) -> f._id == threadId)[0]
 
-  loadMoreReplies = (threadId) ->    
-    thread = getThread threadId
-    if thread
-      last = thread.replies[thread.replies.length - 1]
-      if last
-        since = moment.utc(last.created, "X").unix()
-
-    loadThread(threadId, since : since).then (res) ->
+  loadMoreReplies = (thread) ->    
+    last = thread.replies[thread.replies.length - 1]
+    if last
+      since = moment.utc(last.created, "X").unix()
+    loadThread(thread._id, since : since).then (res) ->
       data.canLoadMoreReplies = res.length >= 25
       $rootScope.$broadcast "scroll.infiniteScrollComplete"
     .catch ->
       data.canLoadMoreReplies = false
 
-  pullMoreReplies = (threadId) ->
-    if threadId
-      thread = getThread threadId
-      if thread      
-        first = thread.replies[0]
-        if first
-          till = moment.utc(first.message.created, "X").unix()
-      loadThread(threadId, till : till, 0).finally ->
-        $rootScope.$broadcast 'scroll.refreshComplete'
+  pullMoreReplies = (thread) ->
+    first = thread.replies[0]
+    console.log "board.coffee:116 >>>", first
+    if first
+      till = moment.utc(first.created, "X").unix()
+    loadThread(thread._id, till : till, 0).finally ->
+      console.log "board.coffee:125 >>>"
+      $rootScope.$broadcast "scroll.refreshComplete"
 
   resetData = ->
       data.currentThread = null
