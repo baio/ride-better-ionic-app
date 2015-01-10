@@ -17,6 +17,16 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
   $scope.reportForm = baseMessages.opts.thread.scope.reportForm
   $scope.simpleMsgForm = baseMessages.opts.thread.scope.simpleMsgForm
 
+  $scope.filter = "current"
+
+  baseMessages.opts.thread.getLoadSpot = ->
+    if $scope.filter == "current"
+      stateResolved.spot.id
+    else if $scope.filter == "favs"      
+      user.user.settings.favs.map((m) -> m.id).join("-") 
+    else if $scope.filter == "all"
+      "-"
+
   board.init $scope, stateResolved.spot.id, null, null, baseMessages.opts
 
   board.loadMoreThreads()  
@@ -43,3 +53,11 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
       board.openThreadModal(thread, "create")
     _addMsgModal.hide()
 
+  $scope.setActiveFilter = (filter) ->
+    if filter != $scope.filter
+      $scope.filter = filter
+      board.clean()
+      board.loadMoreThreads()  
+
+  $scope.isActiveFilter = (filter) ->
+    $scope.filter == filter

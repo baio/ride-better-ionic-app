@@ -247,7 +247,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
 
   removeSpot: (spot) ->
     favs = user.settings.favs
-    fav = favs.filter((f) -> f.code == spot.code)[0]
+    fav = favs.filter((f) -> f.id == spot.code)[0]
     if fav
       favs.splice favs.indexOf(fav), 1
       if fav.isHome 

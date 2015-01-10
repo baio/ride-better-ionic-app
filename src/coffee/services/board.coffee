@@ -14,6 +14,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
       validate: ->
       reset: ->  
       moveToList: ->  
+      getLoadSpot: null        
       getCreateBoardName: null
     reply: 
       modalTemplate : "modals/sendSimpleMsgForm.html"
@@ -32,8 +33,10 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     data.currentThread = null
     data.threads.splice index, 0, res...
 
+
   loadBoard = (opts, pushIndex) ->
-    boardDA.get({spot : _opts.board.spot, board : _opts.board.boardName}, opts).then (res) -> 
+    spot = if _opts.thread.getLoadSpot then _opts.thread.getLoadSpot() else _opts.board.spot
+    boardDA.get({spot : spot, board : _opts.board.boardName}, opts).then (res) -> 
       setBoard(res, pushIndex)
 
   setThread = (res, index) ->
@@ -138,7 +141,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     if opts?.thread
       _opts.thread = opts.thread
     if opts?.reply
-      _opts.reply = opts.reply
+      _opts.reply = opts.reply      
     _opts.board.spot = spt
     _opts.board.boardName = boardName
     resetData()
@@ -167,6 +170,10 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
   loadMoreReplies : loadMoreReplies
   pullMoreThreads : pullMoreThreads
   pullMoreReplies : pullMoreReplies
+
+  clean: ->
+    resetData()
+
 
   canEdit : (item) ->
     user.isUser item.user
@@ -216,6 +223,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
       notifier.message err
     else
       home = _opts.board.spot
+      console.log "board.coffee:226 >>>", home
       d = modalOpts.map2send(opts.item)
       promise = null
       if opts.type == "thread"

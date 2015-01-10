@@ -11,11 +11,11 @@ block item-layout-content
     .item.item-icon-left
       i.icon.i.ion-model-s 
       | {{board.data.currentThread.data.meta.transport}}
-    .item.item-icon-left(ng-if="board.data.currentThread.data.meta.price")
+    .item.item-icon-left(ng-if="::board.data.currentThread.data.meta.price")
       i.icon.i.ion-card 
       | {{board.data.currentThread.data.meta.price}}
-    a.item.item-icon-left(ng-href="tel:{{currentThread.data.meta.phone}}" ng-if="board.data.currentThread.data.meta.phone")
-      i.icon.i.ion-iphone.positive
+    a.item.item-icon-left(ng-href="tel:{{currentThread.data.meta.phone}}" ng-if="::board.data.currentThread.data.meta.phone")
+      i.icon.i.ion-android-call.positive
       | {{board.data.currentThread.data.meta.phone}}
-    .item.item-text-wrap(ng-if="board.data.currentThread.data.text")
+    .item.item-text-wrap(ng-if="::board.data.currentThread.data.text")
       | {{board.data.currentThread.data.text}}                                        

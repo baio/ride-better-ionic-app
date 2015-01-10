@@ -2,11 +2,11 @@ extends ./_item-layout.jade
 
 block item-layout-content
   h2(ng-click='openThread(thread._id)')
+    i.ion-model-s.royal &nbsp;
+    | {{thread.data.meta.transport}}    
     i.ion-location &nbsp;
     | {{thread.data.meta.from}}     
-    i.ion-model-s &nbsp;
-    | {{thread.data.meta.transport}}
-    span(ng-if="thread.data.meta.price")
+    span(ng-if="::thread.data.meta.price")
       &nbsp;                
       i.ion-card 
       | {{thread.data.meta.price}}
@@ -14,8 +14,7 @@ block item-layout-content
     i.ion-calendar 
     | {{thread.data.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}
     br                            
-    a.positive(ng-href="tel:{{thread.data.meta.phone}}" ng-if="thread.data.meta.phone" style="text-decoration: none")
-      i.ion-iphone 
+    a.positive(ng-href="tel:{{thread.data.meta.phone}}" ng-if="::thread.data.meta.phone" style="text-decoration: none")
+      i.ion-android-call 
       | {{thread.data.meta.phone}}
-    &nbsp;
     p.item-text-wrap {{thread.data.text}}                                        
