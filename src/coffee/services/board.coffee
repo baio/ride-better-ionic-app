@@ -1,4 +1,4 @@
-app.factory "board", (boardDA, user, $ionicModal, notifier) ->
+app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
 
   _opts = {}
   _defOpts = 
@@ -74,7 +74,6 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         _opts[type].item2scope item
       else if mode == "create"
         if type == "thread" and _opts.thread.getCreateBoardName
-          console.log "board.coffee:77 >>>", item
           msgModal.opts.boardName = _opts.thread.getCreateBoardName(item)
       msgModal.show()
 
@@ -83,7 +82,8 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
     if last
       since = moment.utc(last.created, "X").unix()
     loadBoard(since : since).then (res) ->
-      data.canLoadMoreThreads = res.hasMore
+      data.canLoadMoreThreads = res.length >= 25
+      $rootScope.$broadcast "scroll.infiniteScrollComplete"
     .catch ->
       data.canLoadMoreThreads = false
 
@@ -91,7 +91,9 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
     first = data.threads[0]
     if first
       till = moment.utc(first.created, "X").unix()
-    loadBoard(till : till, 0)
+    loadBoard(till : till, 0).finally ->
+      $rootScope.$broadcast "scroll.refreshComplete"
+      
 
   getThread = (threadId) ->
     data.threads.filter((f) -> f._id == threadId)[0]
@@ -104,7 +106,8 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         since = moment.utc(last.created, "X").unix()
 
     loadThread(threadId, since : since).then (res) ->
-      data.canLoadMoreReplies = res.hasMore
+      data.canLoadMoreReplies = res.length >= 25
+      $rootScope.$broadcast "scroll.infiniteScrollComplete"
     .catch ->
       data.canLoadMoreReplies = false
 
@@ -115,8 +118,8 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         first = thread.replies[0]
         if first
           till = moment.utc(first.message.created, "X").unix()
-
-      loadThread(threadId, till : till, 0)
+      loadThread(threadId, till : till, 0).finally ->
+        $rootScope.$broadcast 'scroll.refreshComplete'
 
   resetData = ->
       data.currentThread = null
