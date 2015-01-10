@@ -2,3 +2,7 @@ extends ./_layout-list.jade
 
 block msg-content
   include list-items/transfer-item
+
+block msg-create-button
+  h1.title.positive(ng-click="board.openThreadModal(null, 'create')")
+      i.icon.ion-speakerphone &nbsp; {{'Ask Question' | res}}

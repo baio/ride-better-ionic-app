@@ -9,3 +9,7 @@ block msg-content
     include ../messages/lists/list-items/transfer-item
   div(ng-if="isThreadOfType(thread, 'report')")
     include ../messages/lists/list-items/report-item
+
+block msg-create-button
+  h1.title.positive(ng-click="openAddMsgSelector()")
+      i.icon.ion-chatbox-working &nbsp; {{'Add Message' | res}}

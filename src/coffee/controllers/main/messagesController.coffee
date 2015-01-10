@@ -1,6 +1,14 @@
-app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages) ->
+app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal) ->
 
   console.log "Messages Controller"
+
+  _addMsgModal = null
+
+  $ionicModal.fromTemplateUrl("modals/addMsgSelector.html",
+    scope : $scope
+    animation: 'slide-in-up'
+  ).then (res) ->
+    _addMsgModal = res
 
   $scope.board = board
   $scope.msgForm = baseMessages.opts.thread.scope.msgForm
@@ -17,4 +25,21 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
 
   $scope.openThread = (threadId) ->
     $state.transitionTo("root.main.messages-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
+
+  $scope.openAddMsgSelector = ->
+    console.log "messagesController.coffee:30 >>>"
+    _addMsgModal.show()
+
+  $scope.cancelAddMsgSelector = ->
+    _addMsgModal.hide()
+
+  $scope.$on '$destroy', ->
+    _addMsgModal.remove()
+
+  $scope.createThreadModal = (thread) ->
+    if thread == "report"
+      $state.transitionTo("root.main.report", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
+    else
+      board.openThreadModal(thread, "create")
+    _addMsgModal.hide()
 

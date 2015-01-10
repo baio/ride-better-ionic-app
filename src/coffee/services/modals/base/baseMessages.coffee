@@ -1,9 +1,12 @@
 app.factory "baseMessages", (messages, faq, report, transfer) ->
 
   isThreadOfType = (thread, type) ->
-    thread.tags.indexOf(type) != -1
+    if typeof thread == "string"
+      return thread == type
+    else
+      thread.tags.indexOf(type) != -1
 
-  getBase = (thread) ->
+  getBase = (thread) ->    
     if isThreadOfType(thread, "faq")
       return faq
     else if isThreadOfType(thread, "message")
@@ -13,9 +16,21 @@ app.factory "baseMessages", (messages, faq, report, transfer) ->
     else if isThreadOfType(thread, "report")
       return report
 
+  getBaseBoardName = (thread) ->    
+    if isThreadOfType(thread, "faq")
+      return "faq"
+    else if isThreadOfType(thread, "message")
+      return "message"
+    else if isThreadOfType(thread, "transfer")
+      return "transfer"
+    else if isThreadOfType(thread, "report")
+      return "report"
+
   opts :
 
     thread :   
+
+      getCreateBoardName: getBaseBoardName
 
       scope :
         isThreadOfType : isThreadOfType

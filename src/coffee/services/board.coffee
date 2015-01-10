@@ -14,6 +14,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       validate: ->
       reset: ->  
       moveToList: ->  
+      getCreateBoardName: null
     reply: 
       modalTemplate : "modals/sendSimpleMsgForm.html"
       map2send: -> 
@@ -68,8 +69,13 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
         type : type
         mode: mode
         item: item
+        boardName: _opts.board.boardName
       if mode == "edit"
         _opts[type].item2scope item
+      else if mode == "create"
+        if type == "thread" and _opts.thread.getCreateBoardName
+          console.log "board.coffee:77 >>>", item
+          msgModal.opts.boardName = _opts.thread.getCreateBoardName(item)
       msgModal.show()
 
   loadMoreThreads = ->    
@@ -211,9 +217,9 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       promise = null
       if opts.type == "thread"
         if opts.mode == "create"
-          promise = boardDA.postThread({spot : home, board : modalOpts.boardName(opts.item)}, d).then (res) -> 
+          promise = boardDA.postThread({spot : home, board : opts.boardName}, d).then (res) -> 
             data.threads.splice 0, 0, res
-            modalOpts.reset()
+            modalOpts.reset(opts.item)
         else if opts.mode == "edit"
           promise = boardDA.putThread(opts.item._id, d).then (res) ->
             data.threads.splice data.threads.indexOf(opts.item), 1, res

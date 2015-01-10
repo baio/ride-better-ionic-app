@@ -1,0 +1,17 @@
+ion-modal-view
+   .bar.bar-header.item-input-inset
+      h1.title {{"Choose message" | res}}
+   ion-content.has-header
+      a.button.button-block.button-positive(ng-click="createThreadModal('message')") 
+        i.icon.ion-speakerphone &nbsp;
+        | Message
+      a.button.button-block.button-energized(ng-click="createThreadModal('report')") 
+        i.icon.ion-flag &nbsp;
+        | Report
+      a.button.button-block.button-royal(ng-click="createThreadModal('transfer')")
+        i.icon.ion-model-s &nbsp;
+        | Transfer        
+      a.button.button-block.button-calm(ng-click="createThreadModal('faq')") 
+        i.icon.ion-help &nbsp;
+        | Question
+      a.button.button-block.button-stable(ng-click="cancelAddMsgSelector()") Cancel
