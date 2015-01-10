@@ -1,4 +1,4 @@
-app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal) ->
+app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user) ->
 
   console.log "Messages Controller"
 
@@ -27,8 +27,8 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     $state.transitionTo("root.main.messages-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
 
   $scope.openAddMsgSelector = ->
-    console.log "messagesController.coffee:30 >>>"
-    _addMsgModal.show()
+    user.login().then ->
+      _addMsgModal.show()
 
   $scope.cancelAddMsgSelector = ->
     _addMsgModal.hide()
