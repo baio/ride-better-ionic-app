@@ -6,7 +6,8 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
       threadModal : null
       replyModal : null
       boardName : null
-      spot : null      
+      spot : null     
+      culture : null 
     thread :
       modalTemplate : "modals/sendSimpleMsgForm.html"
       map2send: -> 
@@ -36,6 +37,9 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
 
   loadBoard = (opts, pushIndex) ->
     spot = if _opts.thread.getLoadSpot then _opts.thread.getLoadSpot() else _opts.board.spot
+    opts ?= {}
+    opts.culture = _opts.board.culture
+    console.log "board.coffee:42 >>>", opts
     boardDA.get({spot : spot, board : _opts.board.boardName}, opts).then (res) -> 
       setBoard(res, pushIndex)
 
@@ -45,6 +49,8 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
       data.currentThread = res
 
   loadThread = (id, opts, pushIndex) ->
+    opts ?= {}
+    opts.culture = _opts.board.culture
     boardDA.getThread(id, opts).then (res) ->
       setThread(res, pushIndex)
 
@@ -129,7 +135,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     if _opts.board.threadModal?.isShown() then _opts.board.threadModal else _opts.board.replyModal      
   # ----
 
-  init: (scope, spt, boardName, currentThread, opts) ->  
+  init: (prms, scope, currentThread, opts) ->      
     angular.copy _defOpts, _opts
     if _opts.board.threadModal
       @dispose()
@@ -137,8 +143,9 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
       _opts.thread = opts.thread
     if opts?.reply
       _opts.reply = opts.reply      
-    _opts.board.spot = spt
-    _opts.board.boardName = boardName
+    _opts.board.spot = prms.spot
+    _opts.board.boardName = prms.board
+    _opts.board.culture = prms.culture
     resetData()
     if currentThread
       setThread currentThread

@@ -11,6 +11,6 @@ app.controller "ReportsListController", ($scope, $state, board, stateResolved, r
 
   $scope.$on "$ionicView.enter", ->
     console.log "reportsListController.coffee:17 >>>", "$ionicView.enter"
-    board.init $scope, stateResolved.spot.id, "report", null, report.opts
+    board.init {spot : stateResolved.spot.id, board : "report", culture : stateResolved.culture.code}, $scope, null, report.opts
     board.clean()
     board.loadMoreThreads()  

@@ -11,4 +11,4 @@ app.controller "ReportsItemController", ($scope, board, thread, stateResolved, r
 
   $scope.$on "$ionicView.enter", ->  
     console.log "reportsItemController.coffee:13 >>>", "$ionicView.enter"
-    board.init $scope, stateResolved.spot.id, "report", thread, report.opts
+    board.init {spot : stateResolved.spot.id, board : "report", culture : stateResolved.culture.code}, $scope, thread, report.opts

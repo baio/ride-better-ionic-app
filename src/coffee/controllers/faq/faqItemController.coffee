@@ -11,4 +11,4 @@ app.controller "FaqItemController", ($scope, board, thread, stateResolved, faq, 
 
   $scope.$on "$ionicView.enter", ->  
     console.log "faqItemController.coffee:13 >>>", "$ionicView.enter"
-    board.init $scope, stateResolved.spot.id, "faq", thread, faq.opts
+    board.init {spot : stateResolved.spot.id, board : "faq", culture : stateResolved.culture.code}, $scope, thread, faq.opts

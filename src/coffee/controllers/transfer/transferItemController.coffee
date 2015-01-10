@@ -11,4 +11,4 @@ app.controller "TransferItemController", ($scope, board, thread, stateResolved, 
 
   $scope.$on "$ionicView.enter", ->  
     console.log "transferItemController.coffee:13 >>>", "$ionicView.enter"
-    board.init $scope, stateResolved.spot.id, "transfer", thread, transfer.opts
+    board.init {spot : stateResolved.spot.id, board : "transfer", culture : stateResolved.culture.code}, $scope, thread, transfer.opts

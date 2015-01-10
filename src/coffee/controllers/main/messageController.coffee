@@ -35,4 +35,4 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
         name : "report"
         opts : report.opts
 
-    board.init $scope, stateResolved.spot.id, boardOpts.name, thread, boardOpts.opts
+    board.init {spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code}, $scope, thread, boardOpts.opts

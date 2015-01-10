@@ -11,4 +11,4 @@ app.controller "MessagesItemController", ($scope, board, thread, stateResolved, 
 
   $scope.$on "$ionicView.enter", ->  
     console.log "messagesItemController.coffee:13 >>>", "$ionicView.enter"
-    board.init $scope, stateResolved.spot.id, "message", thread, messages.opts
+    board.init {spot : stateResolved.spot.id, board : "message", culture : stateResolved.culture.code}, $scope, thread, messages.opts

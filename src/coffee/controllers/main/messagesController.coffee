@@ -27,12 +27,6 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     else if $scope.filter == "all"
       "-"
 
-  $scope.$on "$ionicView.enter", ->
-    console.log "messagesController.coffee:31 >>>", "$ionicView.enter"
-    board.init $scope, stateResolved.spot.id, null, null, baseMessages.opts
-    board.clean()
-    board.loadMoreThreads()  
-
   $scope.isThreadOfType = baseMessages.opts.thread.scope.isThreadOfType
 
   $scope.openThread = (threadId) ->
@@ -63,3 +57,9 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
 
   $scope.isActiveFilter = (filter) ->
     $scope.filter == filter
+
+  $scope.$on "$ionicView.enter", ->
+    console.log "messagesController.coffee:62 >>>", "$ionicView.enter"
+    board.init {spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code}, $scope, null, baseMessages.opts
+    board.clean()
+    board.loadMoreThreads()  

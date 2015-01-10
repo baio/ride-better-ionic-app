@@ -11,6 +11,6 @@ app.controller "TransferListController", ($scope, $state, board, stateResolved, 
 
   $scope.$on "$ionicView.enter", ->
     console.log "transferListController.coffee:16 >>>", "$ionicView.enter"
-    board.init $scope, stateResolved.spot.id, "transfer", null, transfer.opts
+    board.init {spot : stateResolved.spot.id, board : "transfer", culture : stateResolved.culture.code}, $scope, null, transfer.opts
     board.clean()
     board.loadMoreThreads()      

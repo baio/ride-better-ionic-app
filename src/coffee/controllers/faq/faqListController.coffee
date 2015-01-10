@@ -11,6 +11,6 @@ app.controller "FaqListController", ($scope, $state, board, stateResolved, faq) 
 
   $scope.$on "$ionicView.enter", ->
     console.log "faqListController.coffee:13 >>>", "$ionicView.enter"
-    board.init $scope, stateResolved.spot.id, "faq", null, faq.opts
+    board.init {spot : stateResolved.spot.id, board : "faq", culture : stateResolved.culture.code}, $scope, null, faq.opts
     board.clean()
     board.loadMoreThreads()  

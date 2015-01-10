@@ -11,6 +11,6 @@ app.controller "MessagesListController", ($scope, $state, board, stateResolved, 
 
   $scope.$on "$ionicView.enter", ->
     console.log "messagesListController.coffee:17 >>>", "$ionicView.enter"
-    board.init $scope, stateResolved.spot.id, "message", null, messages.opts
+    board.init {spot : stateResolved.spot.id, board : "message", culture : stateResolved.culture.code}, $scope, null, messages.opts
     board.clean()
     board.loadMoreThreads()  
