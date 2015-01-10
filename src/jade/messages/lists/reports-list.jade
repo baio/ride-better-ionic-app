@@ -6,3 +6,6 @@ block msg-content
 block msg-create-button
   h1.title.energized(ng-click="open('main.report')")
       i.icon.ion-flag &nbsp; {{'Add report' | res}}
+
+block vars      
+  - var PAGE_TITLE = 'Reports - {{state.spot.title}}'

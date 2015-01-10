@@ -6,3 +6,6 @@ block msg-content
 block msg-create-button
   h1.title.calm(ng-click="board.openThreadModal(null, 'create')")
       i.icon.ion-help &nbsp; {{'Ask Question' | res}}
+
+block vars      
+  - var PAGE_TITLE = 'Faq - {{state.spot.title}}'
