@@ -6,7 +6,7 @@ app.factory "baseMessages", (messages, faq, report, transfer) ->
     else
       thread.tags.indexOf(type) != -1
 
-  getBase = (thread) ->    
+  getBase = (thread) ->        
     if isThreadOfType(thread, "faq")
       return faq
     else if isThreadOfType(thread, "message")

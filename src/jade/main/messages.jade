@@ -1,13 +1,13 @@
 extends ../messages/lists/_layout-list.jade
 
 block msg-content
-  div(ng-if="isThreadOfType(thread, 'faq')")
+  div(ng-if="::(isThreadOfType(thread, 'faq'))")
     include ../messages/lists/list-items/faq-item
-  div(ng-if="isThreadOfType(thread, 'message')")
+  div(ng-if="::(isThreadOfType(thread, 'message'))")
     include ../messages/lists/list-items/message-item
-  div(ng-if="isThreadOfType(thread, 'transfer')")
+  div(ng-if="::(isThreadOfType(thread, 'transfer'))")
     include ../messages/lists/list-items/transfer-item
-  div(ng-if="isThreadOfType(thread, 'report')")
+  div(ng-if="::(isThreadOfType(thread, 'report'))")
     include ../messages/lists/list-items/report-item
 
 block msg-create-button

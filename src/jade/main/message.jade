@@ -1,11 +1,11 @@
 extends ../messages/items/_layout-item.jade
 
 block msg-item-content
-  div(ng-if="isThreadOfType(board.data.currentThread, 'faq')")
+  div(ng-if="::(isThreadOfType(board.data.currentThread, 'faq'))")
     include ../messages/items/item-items/faq-item
-  div(ng-if="isThreadOfType(board.data.currentThread, 'message')")
+  div(ng-if="::(isThreadOfType(board.data.currentThread, 'message'))")
     include ../messages/items/item-items/message-item
-  div(ng-if="isThreadOfType(board.data.currentThread, 'report')")
+  div(ng-if="::(isThreadOfType(board.data.currentThread, 'report'))")
     include ../messages/items/item-items/report-item
-  div(ng-if="isThreadOfType(board.data.currentThread, 'transfer')")
+  div(ng-if="::(isThreadOfType(board.data.currentThread, 'transfer'))")
     include ../messages/items/item-items/transfer-item

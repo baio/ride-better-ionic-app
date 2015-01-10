@@ -125,7 +125,7 @@ app.factory "board", (boardDA, user, $ionicModal, notifier) ->
       data.threads = []    
 
   getShownModal = ->
-    if _opts.board.threadModal.isShown() then _opts.board.threadModal else _opts.board.replyModal      
+    if _opts.board.threadModal?.isShown() then _opts.board.threadModal else _opts.board.replyModal      
   # ----
 
   init: (scope, spt, boardName, currentThread, opts) ->  
