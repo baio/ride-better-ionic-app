@@ -41,11 +41,10 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
 
   setThread = (res, index) ->
     if res
-      data.threads = [res]
+      #data.threads = [res]
       data.currentThread = res
 
   loadThread = (id, opts, pushIndex) ->
-    home = user.getHome()
     boardDA.getThread(id, opts).then (res) ->
       setThread(res, pushIndex)
 
@@ -124,7 +123,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
       data.currentThread = null
       data.canLoadMoreThreads = false
       data.canLoadMoreReplies = false      
-      data.threads = []    
+      #data.threads = []    
 
   getShownModal = ->
     if _opts.board.threadModal?.isShown() then _opts.board.threadModal else _opts.board.replyModal      
@@ -169,7 +168,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
 
   clean: ->
     resetData()
-
+    data.threads = []
 
   canEdit : (item) ->
     user.isUser item.user
@@ -219,7 +218,6 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
       notifier.message err
     else
       home = _opts.board.spot
-      console.log "board.coffee:226 >>>", home
       d = modalOpts.map2send(opts.item)
       promise = null
       if opts.type == "thread"

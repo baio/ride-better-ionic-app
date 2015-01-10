@@ -16,19 +16,23 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
     thd.tags.indexOf(type) != -1
 
   $scope.isThreadOfType = isThreadOfType
-  
-  boardOpts =  
-    if isThreadOfType(thread, "faq")
-      name : "faq"
-      opts : faq.opts
-    else if isThreadOfType(thread, "message")
-      name : "message"
-      opts : messages.opts
-    else if isThreadOfType(thread, "transfer")
-      name : "transfer"
-      opts : transfer.opts
-    else if isThreadOfType(thread, "report")
-      name : "report"
-      opts : report.opts
 
-  board.init $scope, stateResolved.spot.id, boardOpts.name, thread, boardOpts.opts
+  $scope.$on "$ionicView.enter", ->
+  
+    console.log "messageController.coffee:22 >>>", "$ionicView.enter"
+  
+    boardOpts =  
+      if isThreadOfType(thread, "faq")
+        name : "faq"
+        opts : faq.opts
+      else if isThreadOfType(thread, "message")
+        name : "message"
+        opts : messages.opts
+      else if isThreadOfType(thread, "transfer")
+        name : "transfer"
+        opts : transfer.opts
+      else if isThreadOfType(thread, "report")
+        name : "report"
+        opts : report.opts
+
+    board.init $scope, stateResolved.spot.id, boardOpts.name, thread, boardOpts.opts
