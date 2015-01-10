@@ -1,4 +1,4 @@
-ion-view(ng-attr-title="{{state.spot.title}}")
+ion-view(ng-attr-title="{{ 'Message' | res }}")
     ion-content.has-header
         ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")
         ion-list.list(ng-if="board.data.currentThread")

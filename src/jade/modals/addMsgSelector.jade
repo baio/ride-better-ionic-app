@@ -4,14 +4,14 @@ ion-modal-view
    ion-content.has-header
       a.button.button-block.button-positive(ng-click="createThreadModal('message')") 
         i.icon.ion-speakerphone &nbsp;
-        | Message
+        | {{ "Message" | res }}
       a.button.button-block.button-energized(ng-click="createThreadModal('report')") 
         i.icon.ion-flag &nbsp;
-        | Report
+        | {{ "Report" | res }}
       a.button.button-block.button-royal(ng-click="createThreadModal('transfer')")
         i.icon.ion-model-s &nbsp;
-        | Transfer        
+        | {{ "Transfer" | res }}        
       a.button.button-block.button-calm(ng-click="createThreadModal('faq')") 
         i.icon.ion-help &nbsp;
-        | Question
-      a.button.button-block.button-stable(ng-click="cancelAddMsgSelector()") Cancel
+        | {{ "Question" | res }}
+      a.button.button-block.button-stable(ng-click="cancelAddMsgSelector()") {{ "Cancel" | res }}

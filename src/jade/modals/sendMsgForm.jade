@@ -5,7 +5,7 @@ ion-modal-view
         .list
             label.item.item-input.item-select
                 .input-label
-                  | Priority 
+                  | {{ 'Priority' | res }}
                 select(ng-options="priority.name for priority in msgForm.prioritiesList" ng-model="msgForm.data.priority")                
             label.item.item-input
                 textarea(placeholder="{{'Add Message' | res}}", ng-model="msgForm.data.message", style="height: 120px; margin-right: -10px")

@@ -1,4 +1,4 @@
-ion-view(ng-attr-title="Forecast - {{state.spot.title}}")
+ion-view(ng-attr-title="{{'Forecast' | res}} - {{state.spot.title}}")
     ion-content.has-header
         .list
             .item.item-text-wrap(ng-repeat="item in forecast")

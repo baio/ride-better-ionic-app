@@ -3,9 +3,9 @@ extends ../messages/lists/_layout-list.jade
 block msg-list-subheader
   ion-header-bar.bar.bar-subheader
     .button-bar
-      a.button(ng-class="{'button-positive' : isActiveFilter('current')}" ng-click="setActiveFilter('current')") Current
-      a.button(ng-class="{'button-positive' : isActiveFilter('favs')}" ng-click="setActiveFilter('favs')") Favorites
-      a.button(ng-class="{'button-positive' : isActiveFilter('all')}" ng-click="setActiveFilter('all')") All
+      a.button(ng-class="{'button-positive' : isActiveFilter('current')}" ng-click="setActiveFilter('current')") {{ "Current" | res }}
+      a.button(ng-class="{'button-positive' : isActiveFilter('favs')}" ng-click="setActiveFilter('favs')") {{ "Favorites" | res }}
+      a.button(ng-class="{'button-positive' : isActiveFilter('all')}" ng-click="setActiveFilter('all')") {{ "All" | res }}
 
 block msg-content
   div(ng-if="::(isThreadOfType(thread, 'faq'))")
@@ -22,4 +22,4 @@ block msg-create-button
       i.icon.ion-chatbox-working &nbsp; {{'Add Message' | res}}
 
 block vars      
-  - var PAGE_TITLE = 'Messages'
+  - var PAGE_TITLE = "{{'Messages' | res}}"
