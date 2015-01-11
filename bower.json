@@ -9,8 +9,6 @@
     "angular-moment": "~0.8.2",
     "angular-google-chart": "~0.0.11",
     "mobile-detect": "hgoebl/mobile-detect.js#~0.4.3",
-    "n3-line-chart": "~1.1.4",
-    "d3": "~3.5.2",
     "ng-file-upload-shim": "~2.0.5"
   },
   "resolutions": {
@@ -47,14 +45,6 @@
     },
     "mobile-detect": {
       "main": "mobile-detect.min.js",
-      "dependencies": null
-    },
-    "n3-line-chart": {
-      "main": "dist/line-chart.min.js",
-      "dependencies": null
-    },
-    "d3": {
-      "main": "d3.min.js",
       "dependencies": null
     },
     "ng-file-upload-shim": {
