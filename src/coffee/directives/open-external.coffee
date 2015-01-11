@@ -8,7 +8,6 @@ app.directive "openExternal", ->
   link: (scope, elem, attrs) ->
     elem.bind 'click', ->
       if !scope.openExternal then return
-      scope.openExternal = "zzz-thumb.gif"
       src = scope.openExternal.replace /-thumb\./, "."      
       if window.cordova
         ref = window.open(src, "_blank”, “location=no,EnableViewPortScale=yes,presentationstyle=pagesheet")

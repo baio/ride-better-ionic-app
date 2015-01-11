@@ -1,6 +1,6 @@
 ion-modal-view
     .bar.bar-header
-        h3 {{'Add Message' | res}} - {{state.spot.title}}
+        h3 {{'Add Message' | res}}
     ion-content.has-header
         .list
             label.item.item-input.item-select
@@ -12,20 +12,20 @@ ion-modal-view
             .item(ng-if="msgForm.data.photo.src")
               img(ng-src="{{msgForm.data.photo.src}}" height="200px")                                      
             label.item
-              if env.platform == 'cordova'
-                .button-bar
-                  button.button.button-balanced(ng-click="msgForm.takePhoto()")
+        .button-bar
+            if env.platform == 'cordova'
+                button.button.button-balanced(ng-click="msgForm.takePhoto()")
                     i.icon.ion-camera &nbsp; {{"Take photo" | res}}
-                  button.button.button-royal(ng-click="msgForm.selectPhoto()")
+                button.button.button-royal(ng-click="msgForm.selectPhoto()")
                     i.icon.ion-images &nbsp; {{"Attach photo" | res}}
-                  button.button.button-assertive(ng-click="msgForm.removePhoto()" ng-show="msgForm.data.photo.src")    
-                    i.icon.ion-trash-a &nbsp; {{"Remove photo" | res}}                                              
-              if env.platform == 'browser'
-                .button-bar
-                  button.button.button-royal(ng-file-select accept="image/*" ng-file-change="msgForm.attachPhoto(attachedFile)" ng-model="attachedFile" type="file")
+                button.button.button-assertive(ng-click="msgForm.removePhoto()" ng-if="msgForm.data.photo.src")
+                    i.icon.ion-trash-a &nbsp; {{"Remove photo" | res}}
+            if env.platform == 'browser'
+                button.button.button-royal(ng-file-select accept="image/*" ng-file-change="msgForm.attachPhoto(attachedFile)" ng-model="attachedFile" type="file")
                     i.icon.ion-image &nbsp; {{"Attach photo" | res}}
-                  button.button.button-assertive(ng-click="msgForm.removePhoto()" ng-show="msgForm.data.photo.src")
-                    i.icon.ion-trash-a &nbsp; {{"Remove photo" | res}}                      
+                button.button.button-assertive(ng-click="msgForm.removePhoto()" ng-if="msgForm.data.photo.src")
+                    i.icon.ion-trash-a &nbsp; {{"Remove photo" | res}}
+        br
         .button-bar
             a.button.button-stable(ng-click="board.cancelMsgModal()") {{'Cancel' | res}}
             a.button.button-stable(ng-click="board.sendMessage()") {{'Send' | res}}

@@ -9,7 +9,7 @@ app.factory "imageService", ($q, cordovaCamera) ->
     deferred.promise
 
   takePicture: (isFromGallery) ->
-    console.log "Alert: getPictureFile intended to be used in cordova apps"
+    console.log "Alert: takePicture intended to be used in cordova apps"
     cordovaCamera.takePicture isFromGallery
 
   getPictureFile: (isFromGallery) ->

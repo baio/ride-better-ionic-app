@@ -17,8 +17,8 @@ app.service "sendMsgFormScope", (resources, imageService, notifier) ->
     notifier.showLoading()
     imageService.takePicture(isFromGallery).then (url) ->
       if url
-        scope.photo.src = url
-        scope.photo.url = url
+        scope.data.photo.src = url
+        scope.data.photo.url = url
     .finally ->
         notifier.hideLoading()
 

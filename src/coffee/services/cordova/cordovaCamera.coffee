@@ -11,6 +11,7 @@ app.factory "cordovaCamera", ($q) ->
     deferred.promise
 
   takePicture = (isFromGallery) ->
+    console.log isFromGallery
     pictureSourceType = if isFromGallery then Camera.PictureSourceType.PHOTOLIBRARY else Camera.PictureSourceType.CAMERA
     deferred = $q.defer()
     opts =
@@ -18,7 +19,6 @@ app.factory "cordovaCamera", ($q) ->
       sourceType : pictureSourceType
       encodingType : Camera.EncodingType.JPEG
       quality : 50
-
     navigator.camera.getPicture deferred.resolve, deferred.reject, opts
     deferred.promise
 
