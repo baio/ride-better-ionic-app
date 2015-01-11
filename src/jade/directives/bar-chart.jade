@@ -1,0 +1,10 @@
+.wrap
+  .barGraph
+    ul.graph
+      span(ng-repeat="item in items")
+        h4.graph-legend.dark(style="margin: 0") {{item.label}}
+        span.graph-barBack
+          li.graph-bar(ng-style="item.style")
+          //span.graph-legend {{item.label}}
+              
+

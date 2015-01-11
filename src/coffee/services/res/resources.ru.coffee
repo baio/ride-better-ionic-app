@@ -130,7 +130,7 @@ app.constant "resources_ru",
   "Favorites" : "Избранные"
   "All" : "Все"
   "Forecast" : "Погода"
-  "Snowfall" : "Осадки"
+  "Snowfall" : "Cнегопад"
   "Transfer" : "Поездка"
   "Question" : "Вопрос"
   "Choose message" : "Выберите сообщение"
@@ -144,3 +144,4 @@ app.constant "resources_ru",
   "Webcams" : "Вебкамеры"
   "Maps" : "Карты"
   "Prices" : "Цены"
+  "Total for past days / for the day" : "Суммарно предыдущие дни / за день"

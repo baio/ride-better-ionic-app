@@ -1,3 +1,4 @@
 ion-view(ng-attr-title="{{'Snowfall' | res}} - {{state.spot.title}}" cache-view="false")
-    ion-content.has-header        
-        linechart(options="options" data="data")        
+  ion-content.has-header
+    p.dark(style="margin: 0 10px 0px;") {{legend | res}}    
+    bar-chart(chart-data="data")    

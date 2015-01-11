@@ -1,5 +1,5 @@
 app = angular.module("ride-better", [
-  "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", 'n3-line-chart', "angularFileUpload"
+  "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", "angularFileUpload"
 ]).run(($ionicPlatform, $rootScope, user) ->
 
   $ionicPlatform.ready ->
