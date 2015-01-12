@@ -1,4 +1,4 @@
-app.factory "boardDA", (boardEP, $q) ->
+app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter) ->
 
   _latestBoard = null
 
@@ -6,11 +6,16 @@ app.factory "boardDA", (boardEP, $q) ->
     if text?.length > 300 then text[0..299] + "..." else text
 
   mapReply = (reply) ->
-    reply.data.shortText = trimText(reply.data.text) if reply.data.text
+    reply.formatted =
+      shortText : if reply.data.text then trimText(reply.data.text) 
+      createdStr : amCalendarFilter(reply.created)
     reply
 
   mapThread = (thread) ->
-    thread.data.shortText = trimText(thread.data.text)
+    thread.formatted = 
+      shortText : trimText(thread.data.text)
+      createdStr : amCalendarFilter(thread.created)
+      metaDateStrLong : if thread.data.meta?.date then amDateFormatFilter(thread.data.meta.date, 'dddd, MMMM Do YYYY, HH:00')
     for reply in thread.replies
       mapReply(reply)
     thread

@@ -2,4 +2,4 @@ h4.positive {{::thread.spot.title}}
 h3(ng-click='openThread(thread._id)')    
   | {{::thread.user.name}} &nbsp;
   i.ion-ios-clock-outline &nbsp;
-  | {{::thread.created | amCalendar}}
+  | {{::thread.formatted.createdStr}}

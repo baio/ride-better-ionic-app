@@ -12,9 +12,9 @@ block item-layout-content
     | {{::thread.data.meta.price}}
     br        
     i.ion-calendar 
-    | {{::thread.data.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}
+    | {{::thread.formatted.metaDateStrLong}}
     br                            
     a.positive(ng-href="tel:{{::thread.data.meta.phone}}" ng-if="::thread.data.meta.phone" style="text-decoration: none")
       i.ion-android-call 
       | {{::thread.data.meta.phone}}
-  h4.dark {{::thread.data.shortText}}                                        
+  h4.dark {{::thread.formatted.shortText}}                                        
