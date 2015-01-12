@@ -9,7 +9,7 @@ app.controller "SendReportController", ($scope, boardDA, $ionicSlideBoxDelegate,
 
   $scope.sendReport = ->
     if !$scope.data.tracks and !$scope.data.snowing and !$scope.data.crowd and !$scope.data.message
-      notifier.message "Please input some data to send"
+      notifier.message "data_required"
       $q.when()
     else
       data =

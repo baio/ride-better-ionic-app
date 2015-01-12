@@ -5,14 +5,14 @@ app.factory "notifier", ($ionicPopup, resources, $ionicLoading) ->
     if window.plugins?.toast
       window.plugins.toast.showLongTop(resources.str(msg))
     else
-      $ionicPopup.alert  title : resources.str("Alert"), template : resources.str(msg)
+      $ionicPopup.alert  title : resources.str("alert"), template : resources.str(msg)
 
 
   error : (msg) ->
     if window.plugins?.toast
       window.plugins.toast.showLongTop(msg)
     else
-      $ionicPopup.alert  title : resources.str("Error"), template : resources.str(msg)
+      $ionicPopup.alert  title : resources.str("error"), template : resources.str(msg)
 
   showLoading: ->
     $ionicLoading.show
@@ -24,18 +24,18 @@ app.factory "notifier", ($ionicPopup, resources, $ionicLoading) ->
 
   notifyNative: (os) ->
     $ionicPopup.confirm(
-      title : resources.str("Alert")
-      template : resources.str("Would you like to install native app?")
-      okText : resources.str("Sure")
-      cancelText : resources.str("Not Now")
+      title : resources.str("alert")
+      template : resources.str("install_native_q")
+      okText : resources.str("sure")
+      cancelText : resources.str("not_now")
     )
 
 
   confirm: (template, okText, cancelText) ->
-    okText ?= "Yes"
-    cancelText ?= "No"
+    okText ?= "yes"
+    cancelText ?= "no"
     $ionicPopup.confirm(
-      title : resources.str("Alert")
+      title : resources.str("alert")
       template : resources.str(template)
       okText : resources.str(okText)
       cancelText : resources.str(cancelText)

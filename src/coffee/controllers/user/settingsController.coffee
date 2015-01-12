@@ -15,14 +15,14 @@ app.controller "SettingsController", ($scope, user, resources, $window, notifier
     $window.location.reload(true)
 
   $scope.culturesList = [
-    {code : "eu", name : resources.str("Europe")}
-    {code : "uk", name : resources.str("United Kingdom")}
-    {code : "us", name : resources.str("United States")}
+    {code : "eu", name : resources.str("europe")}
+    {code : "uk", name : resources.str("united_kingdom")}
+    {code : "us", name : resources.str("united_states")}
   ]
 
   $scope.langsList = [
-    {code : "en", name : resources.str("English")}
-    {code : "ru", name : resources.str("Russian")}
+    {code : "en", name : resources.str("english")}
+    {code : "ru", name : resources.str("russian")}
   ]
 
   $scope.setCulture = user.setCulture
@@ -45,4 +45,4 @@ app.controller "SettingsController", ($scope, user, resources, $window, notifier
         lang : user.settings.lang
         units : user.settings.culture
         code : user.settings.lang + "-" + user.settings.culture
-      notifier.message("New settings will be activated only after reload.")
+      notifier.message("new_settings_reload")

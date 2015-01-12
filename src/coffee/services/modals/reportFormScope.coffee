@@ -1,4 +1,4 @@
-app.service "reportFormScope", (resources) ->
+app.service "reportFormScope", ->
 
   scope =
     data :
@@ -7,7 +7,7 @@ app.service "reportFormScope", (resources) ->
 
   scope.validate = ->
     if !scope.data.message
-      return "Please add some message"
+      return "message_required"
 
   scope.reset = ->
     scope.data.message = null

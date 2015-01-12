@@ -23,13 +23,13 @@ app.controller "WebcamController", ($scope, webcamsDA, notifier) ->
     console.log "wtf"
     webcamsDA.prev(spot : "1936", index : getIndex(), time : $scope.current.meta.created)
     .then setWebcam
-    .catch -> notifier.message "No more images, try again later."
+    .catch -> notifier.message "no_more_images"
 
   $scope.loadNext = ->
     webcamsDA.next(spot : "1936", index : getIndex(), time : $scope.current.meta.created)
     .then setWebcam
     .catch ->
-      notifier.message "No more images, try again later."
+      notifier.message "no_more_images"
 
   $scope.loadLatest()
 

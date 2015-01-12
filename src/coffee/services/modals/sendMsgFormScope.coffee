@@ -9,8 +9,8 @@ app.service "sendMsgFormScope", (resources, imageService, notifier) ->
         url : null
         dataUrl : null
     prioritiesList : [
-      {code : "important", name : resources.str("Important")}
-      {code : "normal", name : resources.str("Normal")}
+      {code : "important", name : resources.str("important")}
+      {code : "normal", name : resources.str("normal")}
     ]
 
   getPhoto = (isFromGallery) ->
@@ -24,7 +24,7 @@ app.service "sendMsgFormScope", (resources, imageService, notifier) ->
 
   scope.validate = ->
     if !scope.data.message
-      return "Please add some message"
+      return "message_required"
 
   scope.reset = ->
     scope.data =

@@ -1,24 +1,17 @@
-app.factory "resources", (resources_ru, $rootScope, strings_ru, strings_en) ->
+app.factory "resources", ($rootScope, strings_ru, strings_en) ->
 
   $rootScope.resources = 
     str : {}
 
   angular.copy strings_en, $rootScope.resources.str
 
-  langs =
-    ru : resources_ru
-
   _lang = "en"
 
-  str : (txt) ->
-    lang = langs[_lang]
-    if lang
-      lang[txt]
-    else
-      txt
+  str: (str) ->
+    $rootScope.resources.str[str]
 
   setLang : (lang) -> 
-    _lang = lang
+    _lang = _lang
     switch lang
       when "en"
         angular.copy strings_en, $rootScope.resources.str

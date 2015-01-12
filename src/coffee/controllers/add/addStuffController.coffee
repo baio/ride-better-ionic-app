@@ -3,10 +3,10 @@ app.controller "AddStuffController", ($scope, stateResolved, imageService, resou
   console.log "Add Stuff Controller"
 
   $scope.tagsList = [
-    {code : "lift", name : resources.str("Lift Prices")}
-    {code : "rent", name : resources.str("Rent Prices")}
-    {code : "food", name : resources.str("Food Prices")}
-    {code : "service", name : resources.str("Service Prices")}
+    {code : "lift", name : resources.str("lift_prices")}
+    {code : "rent", name : resources.str("rent_prices")}
+    {code : "food", name : resources.str("food_prices")}
+    {code : "service", name : resources.str("rent_prices")}
   ]
 
   resetScope = ->
@@ -24,11 +24,11 @@ app.controller "AddStuffController", ($scope, stateResolved, imageService, resou
 
   validate = ->
     if !$scope.data.photo.url and !$scope.data.photo.file
-      return "Please add some photo"
+      return "photo_required"
     if !$scope.data.title
-      return "Please add some title"
+      return "title_required"
     if !$scope.data.tag
-      return "Please choose some tag"
+      return "tag_required"
 
   getPhoto = (isFromGallery) ->
     notifier.showLoading()
@@ -46,7 +46,6 @@ app.controller "AddStuffController", ($scope, stateResolved, imageService, resou
     getPhoto(true)
 
   $scope.cancel = ->
-    console.log "cancel"
     $state.transitionTo("root.main.home", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
   $scope.send = ->
@@ -59,14 +58,13 @@ app.controller "AddStuffController", ($scope, stateResolved, imageService, resou
       data = title : $scope.data.title, tag : $scope.data.tag.code
       resortsDA.postPrice(stateResolved.spot.id, file, data).then ->
         resetScope()
-        notifier.message "Success"
+        notifier.message "success"
       , (err) ->
-        notifier.message "Fail"
+        notifier.message "fail"
 
 
   $scope.attachPhoto = (files) ->
     if files.length
       imageService.getPictureFromFile(files[0]).then (pic) ->
-        console.log pic
         $scope.data.photo.file = pic.file
         $scope.data.photo.src = pic.dataUrl

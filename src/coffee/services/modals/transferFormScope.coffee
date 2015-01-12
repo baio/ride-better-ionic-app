@@ -10,9 +10,9 @@ app.service "transferFormScope", (resources) ->
       price : null
       phone : null
     transportTypesList : [
-      {code : "car", name : resources.str("Car")}
-      {code : "micro", name : resources.str("Micro Bus")}
-      {code : "bus", name : resources.str("Bus")}
+      {code : "car", name : resources.str("car")}
+      {code : "micro", name : resources.str("micro_bus")}
+      {code : "bus", name : resources.str("bus")}
     ]
     hoursList : [1..24].map (m) -> val : m, label : m.toString() 
 
@@ -21,7 +21,7 @@ app.service "transferFormScope", (resources) ->
 
   scope.validate = ->
     if !scope.data.from
-      return "From town is required"
+      return "from_town_required"
 
   scope.reset = ->
     scope.data =
