@@ -11,7 +11,10 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
 
   loadSpots = (term) ->
     if (!term and geo) or (term and term.length > 2)
-      spotsDA.find(term, geo).then (res) ->
+      culture = 
+        lang : user.user.settings.lang
+        units : user.user.settings.culture
+      spotsDA.find(term, geo, culture).then (res) ->
         $scope.spotsList = res
     else
       $scope.spotsList = null

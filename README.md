@@ -1,6 +1,8 @@
 Ionic App Base
 =====================
 
+!!! Is Lang and Culture must be setup on rootRoute ???? since resources.str - is compromise to not use filters !!!
+
 ```
  gcloud compute firewall-rules create http-port-80 --allow=tcp:80 --target-tags k8s-ride-better-managed-node
   "scripts": {

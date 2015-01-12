@@ -8,6 +8,6 @@ ion-modal-view
             | {{::resources.str.cancel}}
     ion-content.has-header
         ul.list
-            li.item.item-text-wrap(ng-repeat="spot in ::spotsList", on-tap="selectSpot(spot)")
+            li.item.item-text-wrap(ng-repeat="spot in spotsList", on-tap="selectSpot(spot)")
                 span.text-hlt(ng-bind-html="::spot.label")
-                span.item-note(ng-if="spot.dist") {{::culture.dist(spot.dist)}} {{::culture.distU() | res}}
+                span.item-note(ng-if="spot.dist") {{::spot.formatted.dist}} {{::spot.formatted.distU}}
