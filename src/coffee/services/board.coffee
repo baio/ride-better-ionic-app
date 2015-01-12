@@ -183,7 +183,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     user.isUser item.user
 
   removeThread : (thread) ->    
-    notifier.confirm("After delete, item couldn't be restored. Delete?")
+    notifier.confirm("confirm_delete")
     .then (res) ->
       if res
         home = user.getHome().code
@@ -197,7 +197,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
           _opts.thread.moveToList?()
 
   removeReply : (thread, reply) ->    
-    notifier.confirm("After delete, item couldn't be restored. Delete?")
+    notifier.confirm("confirm_delete")
     .then (res) ->
       if res
         home = user.getHome().code

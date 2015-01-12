@@ -165,3 +165,4 @@ app.constant "strings_en",
   "rent_prices" : "Rent Prices"
   "food_prices" : "Food Prices"  
   "rent_prices" : "Service Prices"  
+  "confirm_delete" : "After delete, item couldn't be restored. Delete?"

@@ -4,5 +4,5 @@ block item-layout-content
   h3(ng-click='openThread(thread._id)') 
     i.ion-help-circled.calm &nbsp; 
     | {{::thread.formatted.shortText}}
-  h4.dark(ng-click='openThread(thread._id)') {{::thread.replies[0].formatted.shortText}}
+  h4.dark(ng-click='openThread(thread._id)') {{thread.replies[0].formatted.shortText}}
 

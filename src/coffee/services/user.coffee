@@ -165,7 +165,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     cachedUser = getCahchedUser()
     if cachedUser
       setUser cachedUser
-    notifier.message "User not logined"
+    notifier.message "user_not_logined"
 
   activate = ->
     

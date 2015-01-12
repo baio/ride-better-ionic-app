@@ -3,7 +3,7 @@ p
     | {{thread.replies.length}} {{::resources.str.replies}}
   a.subdued(ng-click="board.openReplyModal(thread, 'create')")
     i.icon.ion-chatbox &nbsp; {{::resources.str.reply}}                               
-  a.subdued(ng-click="board.removeThread(thread)" ng-if="::board.canEdit(thread)")
+  a.subdued(ng-click="board.removeThread(thread)" ng-if="board.canEdit(thread)")
     i.icon.ion-trash-b &nbsp; {{::resources.str.remove}}               
-  a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-if="::board.canEdit(thread)")
+  a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-if="board.canEdit(thread)")
     i.icon.ion-edit &nbsp; {{::resources.str.edit}}              
