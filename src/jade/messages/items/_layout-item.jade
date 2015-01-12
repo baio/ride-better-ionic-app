@@ -1,9 +1,9 @@
 ion-view(ng-attr-title="{{::resources.str.message}}")
     ion-content.has-header
         ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")
-        ion-list.list(ng-if="::board.data.currentThread")
+        ion-list.list(ng-if="board.data.currentThread")
           block msg-item-content 
-        ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="::board.data.canLoadMoreReplies")
+        ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")
 
     ion-footer-bar
         h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")

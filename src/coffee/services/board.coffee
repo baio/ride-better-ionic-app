@@ -32,13 +32,14 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
 
   setBoard = (res, index) ->
     data.currentThread = null
+    index = data.threads.length if index == -1
     data.threads.splice index, 0, res...
     data.canLoadMoreThreads = res.length >= 25
 
   loadBoard = (opts, pushIndex) ->
     spot = if _opts.thread.getLoadSpot then _opts.thread.getLoadSpot() else _opts.board.spot
     opts ?= {}
-    opts.culture = _opts.board.culture
+    opts.culture = _opts.board.culture    
     boardDA.get({spot : spot, board : _opts.board.boardName}, opts).then (res) -> 
       setBoard(res, pushIndex)
     .catch ->
@@ -92,7 +93,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     last = data.threads[data.threads.length - 1]
     if last
       since = moment.utc(last.created, "X").unix()
-    loadBoard(since : since)
+    loadBoard(since : since, -1)
     .finally ->
       $rootScope.$broadcast "scroll.infiniteScrollComplete"
 

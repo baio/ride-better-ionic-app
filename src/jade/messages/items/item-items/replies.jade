@@ -1,11 +1,11 @@
-ion-item.item.item-text-wrap(ng-repeat="reply in ::board.data.currentThread.replies") 
+ion-item.item.item-text-wrap(ng-repeat="reply in board.data.currentThread.replies") 
     h3
         | {{::reply.user.name}} &nbsp;
         i.ion-ios-clock-outline &nbsp;
         | {{::reply.created | amCalendar}}
-    p.long-read.item-text-wrap {{::reply.data.text}}              
+    p.long-read.item-text-wrap {{reply.data.text}}              
     p
-      a.subdued(ng-click="board.removeReply(board.data.currentThread, reply)" ng-if="::board.canEdit(reply)")
+      a.subdued(ng-click="board.removeReply(board.data.currentThread, reply)" ng-if="board.canEdit(reply)")
         i.icon.ion-trash-b &nbsp; {{ ::resources.str.remove }}
       a.subdued(ng-click="board.openReplyModal(reply, 'edit')" ng-show="board.canEdit(reply)")
         i.icon.ion-edit &nbsp; {{ ::resources.str.edit }}
