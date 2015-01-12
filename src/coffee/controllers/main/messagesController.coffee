@@ -1,4 +1,4 @@
-app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user) ->
+app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user, $ionicScrollDelegate) ->
 
   console.log "Messages Controller"
 
@@ -53,7 +53,8 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     if filter != $scope.filter
       $scope.filter = filter
       board.clean()
-      board.loadMoreThreads()  
+      board.loadMoreThreads().then ->
+        $ionicScrollDelegate.scrollTop(false)
 
   $scope.isActiveFilter = (filter) ->
     $scope.filter == filter
