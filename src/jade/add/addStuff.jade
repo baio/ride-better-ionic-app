@@ -1,4 +1,4 @@
-ion-view(ng-attr-title="Add Price - {{state.spot.title}}")
+ion-view(ng-attr-title="{{::resources.str.add_price}} - {{::state.spot.title}}")
     ion-content.has-header
         if env.platform == 'cordova'
             .button-bar
@@ -8,15 +8,15 @@ ion-view(ng-attr-title="Add Price - {{state.spot.title}}")
                     i.icon.ion-images &nbsp; {{"Attach photo" | res}}
         if env.platform == 'browser'
             button.button.button-royal(ng-file-select accept="image/*" ng-file-change="attachPhoto(attachedFile)" ng-model="attachedFile" type="file")
-                i.icon.ion-image &nbsp; {{"Attach photo" | res}}
+                i.icon.ion-image &nbsp; {{::resources.str.attach_photo}}
         .list
             label.item
                 img(ng-src="{{data.photo.src}}" height="200px")
             label.item.item-input
                 input(type="text" ng-model="data.title" placeholder="{{'Title' | res}}")
             label.item.item-input.item-select
-                .input-label {{'Tag' | res}}
+                .input-label {{::resources.str.tag}}
                 select(ng-options="tag.name for tag in tagsList", ng-model="data.tag")
         .button-bar
-            a.button.button-stable(ng-click="cancel()") {{'Cancel' | res}}
-            a.button.button-stable(ng-click="send()") {{'Send' | res}}
+            a.button.button-stable(ng-click="cancel()") {{::resources.str.cancel}}
+            a.button.button-stable(ng-click="send()") {{::resources.str.send}}

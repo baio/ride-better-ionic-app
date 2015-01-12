@@ -3,18 +3,18 @@ extends ./_item-layout.jade
 block item-layout-content
   h2(ng-click='openThread(thread._id)')
     i.ion-model-s.royal &nbsp;
-    | {{thread.data.meta.transport}}    
+    | {{::thread.data.meta.transport}}    
     i.ion-location &nbsp;
-    | {{thread.data.meta.from}}     
+    | {{::thread.data.meta.from}}     
     span(ng-if="::thread.data.meta.price")
-      &nbsp;                
-      i.ion-card 
-      | {{thread.data.meta.price}}
-    br      
+    | &nbsp;                
+    i.ion-card 
+    | {{::thread.data.meta.price}}
+    br        
     i.ion-calendar 
-    | {{thread.data.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}
+    | {{::thread.data.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}
     br                            
-    a.positive(ng-href="tel:{{thread.data.meta.phone}}" ng-if="::thread.data.meta.phone" style="text-decoration: none")
+    a.positive(ng-href="tel:{{::thread.data.meta.phone}}" ng-if="::thread.data.meta.phone" style="text-decoration: none")
       i.ion-android-call 
-      | {{thread.data.meta.phone}}
-  h4.dark {{thread.data.shortText}}                                        
+      | {{::thread.data.meta.phone}}
+  h4.dark {{::thread.data.shortText}}                                        

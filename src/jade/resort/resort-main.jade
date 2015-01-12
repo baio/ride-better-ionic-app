@@ -1,17 +1,17 @@
-ion-view(ng-attr-title="{{state.spot.title}}")
+ion-view(ng-attr-title="{{::state.spot.title}}")
     ion-content.has-header
         .row
             .col
-                img(ng-src="{{resort.header}}" width="100%", height="200px")
-        .row(ng-if="resort.geo")
-            .col(ng-bind-html="resort.geo | geo")                
+                img(ng-src="{{::resort.header}}" width="100%", height="200px")
+        .row(ng-if="::resort.geo")
+            .col(ng-bind-html="::resort.geo | geo")                
         .row
             .col
-                | {{resort.description}}
+                | {{::resort.description}}
         .row
             .col
                 ul
-                    li(ng-repeat="txt in resort.proscons.pros") {{txt}}.
+                    li(ng-repeat="txt in ::resort.proscons.pros") {{::txt}}.
             .col
                 ul
-                    li(ng-repeat="txt in resort.proscons.cons") {{txt}}.
+                    li(ng-repeat="txt in ::resort.proscons.cons") {{::txt}}.

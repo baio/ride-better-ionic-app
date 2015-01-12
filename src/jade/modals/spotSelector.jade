@@ -2,12 +2,12 @@ ion-modal-view
     .bar.bar-header.item-input-inset
         label.item-input-wrapper
             i.icon.ion-ios-search.placeholder-icon
-            input(type='search', placeholder="{{'Search' | res}}", ng-model="spotTerm" ng-model-options="{debounce:1000}"
+            input(type='search', placeholder="{{::resources.str.search}}", ng-model="spotTerm" ng-model-options="{debounce:1000}"
                 ng-change="onSpotTermChanged(spotTerm)")
         button.button.button-clear(ng-click="closeSpotSelectorModal()")
-            | {{"Cancel" | res}}
+            | {{::resources.str.cancel}}
     ion-content.has-header
         ul.list
-            li.item.item-text-wrap(ng-repeat="spot in spotsList", on-tap="selectSpot(spot)")
-                span.text-hlt(ng-bind-html="spot.label")
-                span.item-note(ng-if="spot.dist") {{culture.dist(spot.dist)}} {{culture.distU() | res}}
+            li.item.item-text-wrap(ng-repeat="spot in ::spotsList", on-tap="selectSpot(spot)")
+                span.text-hlt(ng-bind-html="::spot.label")
+                span.item-note(ng-if="spot.dist") {{::culture.dist(spot.dist)}} {{::culture.distU() | res}}

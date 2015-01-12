@@ -1,9 +1,9 @@
 p
   a.subdued(ng-click='openThread(thread._id)') 
-    | {{thread.replies.length}} {{ "Replies" | res }}
+    | {{thread.replies.length}} {{::resources.str.replies}}
   a.subdued(ng-click="board.openReplyModal(thread, 'create')")
-    i.icon.ion-chatbox &nbsp; {{ "Reply" | res }}                               
-  a.subdued(ng-click="board.removeThread(thread)" ng-show="board.canEdit(thread)")
-    i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}               
-  a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-show="board.canEdit(thread)")
-    i.icon.ion-edit &nbsp; {{ "Edit" | res }}              
+    i.icon.ion-chatbox &nbsp; {{::resources.str.reply}}                               
+  a.subdued(ng-click="board.removeThread(thread)" ng-if="::board.canEdit(thread)")
+    i.icon.ion-trash-b &nbsp; {{::resources.str.remove}}               
+  a.subdued(ng-click="board.openThreadModal(thread, 'edit')" ng-if="::board.canEdit(thread)")
+    i.icon.ion-edit &nbsp; {{::resources.str.edit}}              

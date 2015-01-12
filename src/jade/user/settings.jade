@@ -1,19 +1,19 @@
-ion-view(title="{{'My Info' | res}}")
+ion-view(title="{{::resources.str.profile}}")
     ion-content.has-header
         .list
-            label.item.item-input.item-stacked-label(ng-show="user.profile.name")
-                span.input-label {{"Name" | res}}
+            label.item.item-input.item-stacked-label(ng-if="::user.profile.name")
+                span.input-label {{::resources.str.name}}
                 input(type='text', ng-model="user.profile.name", disabled)
             label.item.item-input.item-stacked-label
-                span.input-label {{"Home" | res}}
+                span.input-label {{::resources.str.home}}
                 input(type='text', ng-model="state.spot.title", disabled)
             label.item.item-input.item-select
-                span.input-label {{"Language" | res}}
-                    select(ng-options="lang.name for lang in langsList", ng-model="data.lang", ng-change="setLang(data.lang)")
+                span.input-label {{::resources.str.language}}
+                    select(ng-options="lang.name for lang in ::langsList", ng-model="data.lang", ng-change="setLang(data.lang)")
             label.item.item-input.item-select
-                span.input-label {{"Units" | res}}
-                    select(ng-options="culture.name for culture in culturesList", ng-model="data.culture", ng-change="setCulture(data.culture)")
-            button.button.button-full.button-balanced(ng-click="reload()" ng-show="isPropertyChanged") {{"Reload" | res}}                        
-            button.button.button-full.button-energized(ng-click="reset()") {{"Reset" | res}}
-            button.button.button-full.button-positive(ng-click="login()", ng-show="!isLogined()") {{"Login" | res}}
-            button.button.button-full.button-assertive(ng-click="logout()", ng-show="isLogined()") {{"Logout" | res}}
+                span.input-label {{::resources.str.units}}
+                    select(ng-options="culture.name for culture in ::culturesList", ng-model="data.culture", ng-change="setCulture(data.culture)")
+            button.button.button-full.button-balanced(ng-click="reload()" ng-show="isPropertyChanged") {{::resources.str.reload}}
+            button.button.button-full.button-energized(ng-click="reset()") {{::resources.str.reset}}
+            button.button.button-full.button-positive(ng-click="login()", ng-show="!isLogined()") {{::resources.str.login}}
+            button.button.button-full.button-assertive(ng-click="logout()", ng-show="isLogined()") {{::resources.str.logout}}

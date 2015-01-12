@@ -1,31 +1,31 @@
 ion-modal-view
     .bar.bar-header
-        h3 {{'Create transfer' | res}}
+        h3 {{::resources.str.create_transfer}}
     ion-content.has-header
       form(name="transferMsgForm" novalidate)
         .list
           .item.item-input
-            span.input-label(ng-hide="transferMsgForm.from.$error.required") {{ 'From town' | res }}
-            span.input-label.alert(ng-show="transferMsgForm.from.$error.required") {{ 'From town' | res }}
-            input(placeholder="{{'From' | res}}" ng-model="transferForm.data.from" type="text" name="from" required)                    
+            span.input-label(ng-hide="transferMsgForm.from.$error.required") {{::resources.str.from_town}}
+            span.input-label.alert(ng-show="transferMsgForm.from.$error.required") {{::resources.str.from}}
+            input(placeholder="{{::resources.str.from}}" ng-model="transferForm.data.from" type="text" name="from" required)                    
           .item.item-input
-            span.input-label {{ 'Date' | res }}
-            input(placeholder="{{'Date' | res}}" ng-model="transferForm.data.date" type="date")          
+            span.input-label {{::resources.str.date}}
+            input(placeholder="{{::resources.str.date}}" ng-model="transferForm.data.date" type="date")          
           .item.item-input.item-select
-            span.input-label {{ 'Hours' | res }}
-            select(ng-options="hour.label for hour in transferForm.hoursList", ng-model="transferForm.data.time")                
+            span.input-label {{::resources.str.hours}}
+            select(ng-options="hour.label for hour in ::transferForm.hoursList", ng-model="transferForm.data.time")                
           .item.item-input.item-select
-            span.input-label {{ 'Transport Type' | res }}
-            select(ng-options="transport.name for transport in transferForm.transportTypesList", ng-model="transferForm.data.transport")                
+            span.input-label {{::resources.str.transport_type}}
+            select(ng-options="transport.name for transport in ::transferForm.transportTypesList", ng-model="transferForm.data.transport")                
           .item.item-input
-            span.input-label {{ 'Price' | res }}
-            input(placeholder="{{'Price' | res}}" ng-model="transferForm.data.price" type="number")          
+            span.input-label {{::resources.str.price}}
+            input(placeholder="{{::resources.str.price}}" ng-model="transferForm.data.price" type="number")          
           .item.item-input
-            span.input-label {{ 'Phone number' | res }}
-            input(placeholder="{{'Phone' | res}}" ng-model="transferForm.data.phone" type="tel")                        
+            span.input-label {{::resources.str.phone_number}}
+            input(placeholder="{{::resources.str.phone_number}}" ng-model="transferForm.data.phone" type="tel")                        
           .item.item-input
-            textarea(placeholder="{{'Add Message' | res}}" ng-model="transferForm.data.message", style="height: 120px; margin-right: -10px")
+            textarea(placeholder="{{::resources.str.add_message}}" ng-model="transferForm.data.message", style="height: 120px; margin-right: -10px")
         .button-bar
-            a.button.button-stable(ng-click="board.cancelMsgModal()") {{'Cancel' | res}}
-            a.button.button-stable(ng-click="board.sendMessage()") {{'Send' | res}}
+            a.button.button-stable(ng-click="board.cancelMsgModal()") {{::resources.str.cancel}}
+            a.button.button-stable(ng-click="board.sendMessage()") {{::resources.str.send}}
 

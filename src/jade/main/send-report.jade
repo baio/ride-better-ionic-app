@@ -1,8 +1,8 @@
-ion-view(ng-attr-title="Report - {{state.spot.title}}" cache-view="false")
+ion-view(ng-attr-title="{{::resources.str.report}} - {{::state.spot.title}}" cache-view="false")
     ion-content.has-header
         ion-slide-box
             ion-slide
-                h3 {{'Powder on pistes ?' | res}}
+                h3 {{::resources.str.powder_q}}
                 .list
                     //
                         label.item.text-center.assertive(ng-click="closedReport()")
@@ -11,89 +11,89 @@ ion-view(ng-attr-title="Report - {{state.spot.title}}" cache-view="false")
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="4")
                         .item-content
-                            | {{'lots of powder' | res}}
+                            | {{::resources.str.lots_of_powder}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="3")
                         .item-content
-                            | {{'much powder' | res}}
+                            | {{::resources.str.much_powder}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="2")
                         .item-content
-                            | {{'enough powder' | res}}
+                            | {{::resources.str.enough_powder}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="1")
                         .item-content(ng-click="nextSlide()")
-                            | {{'not enough powder' | res}}
+                            | {{::resources.str.not_enough_powder}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='tracks', ng-model="data.tracks", value="0")
                         .item-content
-                            | {{'very little powder' | res}}
+                            | {{::resources.str.very_little_powder}}
                         i.radio-icon.ion-checkmark
             ion-slide
-                h3 {{'Snowing ?' | res}}
+                h3 {{::resources.str.snowing_q}}
                 .list
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='snowing', ng-model="data.snowing", value="4")
                         .item-content
-                            | {{'lots of snow fell' | res}}
+                            | {{::resources.str.lots_snow}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='snowing', ng-model="data.snowing", value="3")
                         .item-content
-                            | {{'much snow fell' | res}}
+                            | {{::resources.str.much_snow}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='snowing', ng-model="data.snowing", value="2")
                         .item-content
-                            | {{'dropped enough snow' | res}}
+                            | {{::resources.str.enough_snow}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='snowing', ng-model="data.snowing", value="1")
                         .item-content
-                            | {{'not much snow fell' | res}}
+                            | {{::resources.str.not_much_snow}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='snowing', ng-model="data.snowing", value="0")
                         .item-content
-                            | {{'snow does not fall out' | res}}
+                            | {{::resources.str.snow_not_fall' | res}}
                         i.radio-icon.ion-checkmark
             ion-slide
-                h3 {{'Crowd ?' | res}}
+                h3 {{::resources.str.crowd_q}}
                 .list
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='crowd', ng-model="data.crowd", value="4")
                         .item-content
-                            | {{'too many people' | res}}
+                            | {{::resources.str.too_many_people}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='crowd', ng-model="data.crowd", value="3")
                         .item-content
-                            | {{'many people' | res}}
+                            | {{::resources.str.many_people}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='crowd', ng-model="data.crowd", value="2")
                         .item-content
-                            | {{'enough people' | res}}
+                            | {{::resources.str.enough_people}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='crowd', ng-model="data.crowd", value="1")
                         .item-content
-                            | {{'few people' | res}}
+                            | {{::resources.str.few_people}}
                         i.radio-icon.ion-checkmark
                     label.item.item-radio(ng-click="nextSlide()")
                         input(type='radio', name='crowd', ng-model="data.crowd", value="0")
                         .item-content
-                            | {{'very few people' | res}}
+                            | {{::resources.str.very_few_people}}
                         i.radio-icon.ion-checkmark
             ion-slide
-                h3 {{'Complete' | res}}
+                h3 {{::resources.str.complete}}
                 .list
                     label.item.item-input
-                        textarea(placeholder="{{'Add Message' | res}}", ng-model="data.message", style="height: 120px; margin-right: -10px")
+                        textarea(placeholder="{{::resources.str.add_message}}", ng-model="data.message", style="height: 120px; margin-right: -10px")
                 .button-bar
-                    a.button.button-stable(ng-click="cancelReport()") {{'Cancel' | res}}
-                    a.button.button-stable(ng-click="sendReport()") {{'Send' | res}}
+                    a.button.button-stable(ng-click="cancelReport()") {{::resources.str.cancel}}
+                    a.button.button-stable(ng-click="sendReport()") {{::resources.str.send}}

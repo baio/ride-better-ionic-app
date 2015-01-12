@@ -1,9 +1,9 @@
-ion-view(ng-attr-title="{{'Contacts' | res}} - {{state.spot.title}}")
+ion-view(ng-attr-title="{{::resources.str.contacts}} - {{::state.spot.title}}")
     ion-content.has-header
         .list
-            .item.item-icon-right(ng-repeat="contact in resort.contacts" open-system="{{getContactHref(contact)}}")
-                .positive {{contact.val}}
-                span(ng-bind-html="contact | contact")
-                p(ng-if="contact.comment")
-                    | {{contact.comment}}
+            .item.item-icon-right(ng-repeat="contact in ::resort.contacts" open-system="{{::getContactHref(contact)}}")
+                .positive {{::contact.val}}
+                span(ng-bind-html="::contact | contact")
+                p(ng-if="::contact.comment")
+                    | {{::contact.comment}}
 

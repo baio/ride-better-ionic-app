@@ -2,5 +2,5 @@ extends ./_item-layout.jade
 
 block item-layout-content
   .item-text-wrap
-    h3 {{board.data.currentThread.data.meta.summary}}
-    p.long-read.item-text-wrap {{board.data.currentThread.data.text}}              
+    h3 {{::board.data.currentThread.data.meta.summary}}
+    p.long-read.item-text-wrap {{::board.data.currentThread.data.text}}              

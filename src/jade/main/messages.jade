@@ -3,23 +3,23 @@ extends ../messages/lists/_layout-list.jade
 block msg-list-subheader
   ion-header-bar.bar.bar-subheader
     .button-bar
-      a.button(ng-class="{'button-positive' : isActiveFilter('current')}" ng-click="setActiveFilter('current')") {{ "Current" | res }}
-      a.button(ng-class="{'button-positive' : isActiveFilter('favs')}" ng-click="setActiveFilter('favs')") {{ "Favorites" | res }}
-      a.button(ng-class="{'button-positive' : isActiveFilter('all')}" ng-click="setActiveFilter('all')") {{ "All" | res }}
+      a.button(ng-class="{'button-positive' : isActiveFilter('current')}" ng-click="setActiveFilter('current')") {{::resources.str.current}}
+      a.button(ng-class="{'button-positive' : isActiveFilter('favs')}" ng-click="setActiveFilter('favs')") {{::resources.str.favorites}}
+      a.button(ng-class="{'button-positive' : isActiveFilter('all')}" ng-click="setActiveFilter('all')") {{::resources.str.all}}
 
 block msg-content
-  div(ng-if="::(isThreadOfType(thread, 'faq'))")
+  div(ng-if="::isThreadOfType(thread, 'faq')")
     include ../messages/lists/list-items/faq-item
-  div(ng-if="::(isThreadOfType(thread, 'message'))")
+  div(ng-if="::isThreadOfType(thread, 'message')")
     include ../messages/lists/list-items/message-item
-  div(ng-if="::(isThreadOfType(thread, 'transfer'))")
+  div(ng-if="::isThreadOfType(thread, 'transfer')")
     include ../messages/lists/list-items/transfer-item
-  div(ng-if="::(isThreadOfType(thread, 'report'))")
+  div(ng-if="::isThreadOfType(thread, 'report')")
     include ../messages/lists/list-items/report-item
 
 block msg-create-button
   h1.title.positive(ng-click="openAddMsgSelector()")
-      i.icon.ion-chatbox-working &nbsp; {{'Add Message' | res}}
+      i.icon.ion-chatbox-working &nbsp; {{::resources.str.add_message}}
 
 block vars      
-  - var PAGE_TITLE = "{{'Messages' | res}}"
+  - var PAGE_TITLE = "{{::resources.str.messages}}"

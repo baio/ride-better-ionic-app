@@ -1,7 +1,7 @@
-ion-view(ng-attr-title="{{'Snowfall' | res}} - {{state.spot.title}}" cache-view="false")
+ion-view(ng-attr-title="{{::resources.str.snowfall}} - {{::state.spot.title}}")
   ion-content.has-header
     p.padding-left
-      span.stable(style="background-color: #387ef5;") &nbsp; {{ "For the day" | res }} &nbsp;
+      span.stable(style="background-color: #387ef5;") &nbsp; {{::resources.str.for_day}} &nbsp;
       | &nbsp;
-      span.dark(style="background-color: lightblue") &nbsp; {{ "Total for the past days" | res }} &nbsp; 
+      span.dark(style="background-color: lightblue") &nbsp; {{::resources.str.total_past}} &nbsp; 
       bar-chart(chart-data="data")    

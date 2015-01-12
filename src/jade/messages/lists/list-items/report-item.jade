@@ -3,5 +3,5 @@ extends ./_item-layout.jade
 block item-layout-content
   h3(ng-click='openThread(thread._id)') 
     i.ion-flag.energized &nbsp;    
-    | {{thread.data.meta.summary}}
-  h4.dark(ng-click='openThread(thread._id)') {{thread.data.text.shortText}}
+    | {{::thread.data.meta.summary}}
+  h4.dark(ng-click='openThread(thread._id)') {{::thread.data.text.shortText}}
