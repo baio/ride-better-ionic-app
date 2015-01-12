@@ -33,26 +33,30 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
   setBoard = (res, index) ->
     data.currentThread = null
     data.threads.splice index, 0, res...
-
+    data.canLoadMoreThreads = res.length >= 25
 
   loadBoard = (opts, pushIndex) ->
     spot = if _opts.thread.getLoadSpot then _opts.thread.getLoadSpot() else _opts.board.spot
     opts ?= {}
     opts.culture = _opts.board.culture
-    console.log "board.coffee:42 >>>", opts
     boardDA.get({spot : spot, board : _opts.board.boardName}, opts).then (res) -> 
       setBoard(res, pushIndex)
+    .catch ->
+      data.canLoadMoreThreads = true
+
 
   setThread = (res, index) ->
     if res
-      #data.threads = [res]
       data.currentThread = res
+    data.canLoadMoreReplies = false
 
   loadThread = (id, opts, pushIndex) ->
     opts ?= {}
     opts.culture = _opts.board.culture
     boardDA.getThread(id, opts).then (res) ->
       setThread(res, pushIndex)
+    .catch ->
+      data.canLoadMoreReplies = true
 
   # --- Send Message Form ---
 
@@ -89,11 +93,9 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     last = data.threads[data.threads.length - 1]
     if last
       since = moment.utc(last.created, "X").unix()
-    loadBoard(since : since).then (res) ->
-      data.canLoadMoreThreads = res.length >= 25
+    loadBoard(since : since)
+    .finally ->
       $rootScope.$broadcast "scroll.infiniteScrollComplete"
-    .catch ->
-      data.canLoadMoreThreads = false
 
   pullMoreThreads = ->
     first = data.threads[0]

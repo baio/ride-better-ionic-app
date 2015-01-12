@@ -145,3 +145,4 @@ app.constant "resources_ru",
   "Maps" : "Карты"
   "Prices" : "Цены"
   "Total for past days / for the day" : "Суммарно предыдущие дни / за день"
+  "Remove Photo" : "Удалить фото"
