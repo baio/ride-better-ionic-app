@@ -146,3 +146,5 @@ app.constant "resources_ru",
   "Prices" : "Цены"
   "Total for past days / for the day" : "Суммарно предыдущие дни / за день"
   "Remove Photo" : "Удалить фото"
+  "Total for the past days" : "Cуммарно предыдущие дни"
+  "For the day" : "За День"

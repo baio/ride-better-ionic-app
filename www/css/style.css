@@ -140,3 +140,9 @@ ion-slide h3:first-child
 {
     border-bottom: 0px;
 }
+
+.long-read 
+{
+    white-space: pre-wrap!important; 
+    color: black!important;
+}

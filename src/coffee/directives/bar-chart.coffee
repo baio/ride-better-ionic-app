@@ -8,11 +8,9 @@ app.directive "barChart", ->
   templateUrl: "charts/bar-chart.html"    
 
   controller: ($scope, $element) ->
-    console.log "bar-chart.coffee:14 >>>", $scope.chartData
 
     items = $scope.chartData.items
     max = Math.max items.map((i) -> i.cmt)...
-    console.log "bar-chart.coffee:15 >>>", max
     items = items.map (m) ->
       cmt = (m.cmt / max) * 100
       amt = (m.amt / max) * 100            
@@ -23,10 +21,7 @@ app.directive "barChart", ->
       cmtp : 100 - (amt / cmt) * 100
 
 
-    console.log "bar-chart.coffee:21 >>>", items
-
     $scope.items = items.map (m) ->
       label : m.label
-      style : { width: "#{m.cmt}%", background : "-webkit-linear-gradient(left, lightblue, lightblue #{m.cmtp}%, #387ef5 #{m.cmtp}%, #387ef5)" }
+      style : { width: "#{m.cmt}%", background : "-webkit-linear-gradient(left, #387ef5, #387ef5 #{m.amtp}%, lightblue #{m.amtp}%, lightblue)" }
 
-    console.log "bar-chart.coffee:31 >>>", $scope.items

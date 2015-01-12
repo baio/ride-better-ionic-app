@@ -3,7 +3,7 @@ ion-item.item.item-text-wrap(ng-repeat="reply in board.data.currentThread.replie
         | {{reply.user.name}} &nbsp;
         i.ion-ios-clock-outline &nbsp;
         | {{reply.created | amCalendar}}
-    h3 {{reply.data.text}}              
+    p.long-read.item-text-wrap {{reply.data.text}}              
     p
       a.subdued(ng-click="board.removeReply(board.data.currentThread, reply)" ng-show="board.canEdit(reply)")
         i.icon.ion-trash-b &nbsp; {{ "Remove" | res }}

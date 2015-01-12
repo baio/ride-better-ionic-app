@@ -37,7 +37,8 @@ app.controller "SnowHistController", ($scope, resources, homeResolved, stateReso
         cmt : cmt
         amt : amt
         label : moment.utc(m.date, "X").format("ddd DD MMM") + 
-          " - #{Math.round(cultureFormatter.height(cmt, units))} / #{Math.round(cultureFormatter.height(amt, units))} #{resources.str(cultureFormatter.heightU(units))}."
+          """ - #{Math.round(cultureFormatter.height(amt, units))} #{resources.str(cultureFormatter.heightU(units))}. -
+          #{Math.round(cultureFormatter.height(cmt, units))} #{resources.str(cultureFormatter.heightU(units))}."""
 
     data.items.reverse()
 
@@ -45,7 +46,7 @@ app.controller "SnowHistController", ($scope, resources, homeResolved, stateReso
 
     $scope.data = data
 
-  $scope.legend = "Total for past days / for the day"
+  $scope.legend = "For the day / Total for past days"
 
   setChart homeResolved
 

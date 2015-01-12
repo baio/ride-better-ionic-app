@@ -30,8 +30,18 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     canLoadMoreReplies : false
     threads : []
 
+  trimText = (text) ->
+    if text?.length > 300 then text[0..299] + "..." else text
+
+  mapThread = (thread) ->
+    thread.data.shortText = trimText(thread.data.text)
+    for reply in thread.replies
+      reply.data.shortText = trimText(reply.data.text)
+    thread
+
   setBoard = (res, index) ->
     data.currentThread = null
+    res = res.map mapThread      
     data.threads.splice index, 0, res...
     data.canLoadMoreThreads = res.length >= 25
 
@@ -42,12 +52,11 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     boardDA.get({spot : spot, board : _opts.board.boardName}, opts).then (res) -> 
       setBoard(res, pushIndex)
     .catch ->
-      data.canLoadMoreThreads = true
-
+      data.canLoadMoreThreads = false
 
   setThread = (res, index) ->
     if res
-      data.currentThread = res
+      data.currentThread = mapThread res
     data.canLoadMoreReplies = false
 
   loadThread = (id, opts, pushIndex) ->
