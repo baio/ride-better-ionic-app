@@ -1,4 +1,4 @@
-app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter) ->
+app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, boardCache) ->
 
   _latestBoard = null
 
@@ -44,22 +44,20 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter) ->
     promise.then mapThread
 
   postThread: (opts, data) ->
-    saveThread "post", opts, data
+    saveThread("post", opts, data)
 
   putThread: (opts, data) ->
     saveThread "put", opts, data
 
   get: (prms, opts) ->
-    if _latestBoard      
-      filterStr = getFilterStr prms, opts
-      if _latestBoard.filter == filterStr
-        return $q.when _latestBoard.res
+    filterStr = getFilterStr prms, opts
+    cached = boardCache.get filterStr
+    if cached
+      return $q.when cached
     boardEP.get(prms, opts).then (res) ->
       if res.length
         res = res.map mapThread      
-        _latestBoard = 
-          filter : getFilterStr prms, opts
-          res : res
+        boardCache.put filterStr, res
       res
 
   getThread: (id, opts) ->
@@ -69,7 +67,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter) ->
         return $q.when thread
     boardEP.getThread(id, opts).then mapThread      
 
-  removeThread: boardEP.removeThread  
+  removeThread: boardEP.removeThread
   removeReply: boardEP.removeReply
 
   postReply: (threadId, data) -> boardEP.postReply(threadId, data).then mapReply

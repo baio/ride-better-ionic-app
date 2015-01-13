@@ -193,6 +193,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
         isMoveBack = data.currentThread
         data.threads.splice data.threads.indexOf(thread), 1
         data.currentThread = null
+        $rootScope.$broadcast "::board.thread.remove", thread : thread
         if isMoveBack
           _opts.thread.moveToList?()
 
@@ -233,7 +234,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
         if opts.mode == "create"
           promise = boardDA.postThread({spot : home, board : opts.boardName}, d).then (res) -> 
             data.threads.splice 0, 0, res
-            modalOpts.reset(opts.item)
+            $rootScope.$broadcast "::board.thread.add", thread : res
         else if opts.mode == "edit"
           promise = boardDA.putThread(opts.item._id, d).then (res) ->
             data.threads.splice data.threads.indexOf(opts.item), 1, res
