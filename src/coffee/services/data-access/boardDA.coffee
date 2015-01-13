@@ -1,7 +1,5 @@
 app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, boardCache) ->
 
-  _latestBoard = null
-
   trimText = (text) ->
     if text?.length > 300 then text[0..299] + "..." else text
 
@@ -61,10 +59,9 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
       res
 
   getThread: (id, opts) ->
-    if !opts and _latestBoard
-      thread = _latestBoard.res.filter((f) -> f._id == id)[0]
-      if thread
-        return $q.when thread
+    thread = boardCache.getThread id
+    if thread
+      return $q.when thread
     boardEP.getThread(id, opts).then mapThread      
 
   removeThread: boardEP.removeThread

@@ -1,0 +1,39 @@
+ion-modal-view
+    .bar.bar-header
+        h3 {{::resources.str.filter_message}}
+    ion-content.has-header
+      span.input-label.padding-left Show resorts      
+      .button-bar
+        a.button.button-positive.button-small(ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('current')}" ng-click="filterMsgsForm.setActiveFilter('current')") {{::resources.str.current}}
+        a.button.button-positive.button-small(ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('favs')}" ng-click="filterMsgsForm.setActiveFilter('favs')") {{::resources.str.favorites}}
+        a.button.button-positive.button-small(ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('all')}" ng-click="filterMsgsForm.setActiveFilter('all')") {{::resources.str.all}}
+      ul.list
+          li.item.item-toggle
+              | Messages
+              label.toggle.toggle-positive
+                input(type='checkbox' ng-model="filterMsgsForm.data.messages")
+                .track
+                  .handle        
+          li.item.item-toggle
+              | Reports
+              label.toggle.toggle-positive
+                input(type='checkbox' ng-model="filterMsgsForm.data.reports")
+                .track
+                  .handle        
+          li.item.item-toggle
+              | Trsansfers
+              label.toggle.toggle-positive
+                input(type='checkbox' ng-model="filterMsgsForm.data.transfers")
+                .track
+                  .handle        
+          li.item.item-toggle
+              | FAQ
+              label.toggle.toggle-positive
+                input(type='checkbox' ng-model="filterMsgsForm.data.faq")
+                .track
+                  .handle        
+
+      .button-bar
+          a.button.button-stable(ng-click="board.cancelFilterModal()") {{::resources.str.cancel}}
+          a.button.button-stable(ng-click="board.filter()") {{::resources.str.ok}}
+

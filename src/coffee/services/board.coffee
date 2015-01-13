@@ -1,5 +1,6 @@
-app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
+app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMsgsFormScope, $q, $ionicScrollDelegate) ->
 
+  _filterModal = null
   _opts = {}
   _defOpts = 
     board :
@@ -36,11 +37,43 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     data.threads.splice index, 0, res...
     data.canLoadMoreThreads = res.length >= 25
 
+  getFilter = (spot) ->
+    d = filterMsgsFormScope.scope.data
+    filterSpotsPromise = switch d.spots 
+      when "current"
+        $q.when spot
+      when "favs"      
+        user.getUserAsync().then (ur) ->
+          ur.settings.favs.map((m) -> m.id).join("-") 
+      when "all"
+        $q.when "-"    
+    boards = []
+    if d.messages
+      boards.push "message"
+    if d.faq
+      boards.push "faq"
+    if d.reports
+      boards.push "report"
+    if d.transfers
+      boards.push "transfer"
+
+    filterBoards = if boards.length == 4 then undefined else boards.join "-"
+
+    filterSpotsPromise.then (filterSpots) ->
+      spot : filterSpots
+      board : filterBoards
+
   loadBoard = (opts, pushIndex) ->
     spot = if _opts.thread.getLoadSpot then _opts.thread.getLoadSpot() else _opts.board.spot
-    opts ?= {}
-    opts.culture = _opts.board.culture    
-    boardDA.get({spot : spot, board : _opts.board.boardName}, opts).then (res) -> 
+    board = _opts.board.boardName
+    getFilter(spot)
+    .then (filter) ->     
+      console.log "board.coffee:67 >>>", filter
+      opts ?= {}
+      opts.culture = _opts.board.culture    
+      boardDA.get(filter, opts)
+    .then (res) -> 
+      console.log "board.coffee:76 >>>", res
       setBoard(res, pushIndex)
     .catch ->
       data.canLoadMoreThreads = false
@@ -135,6 +168,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
 
   getShownModal = ->
     if _opts.board.threadModal?.isShown() then _opts.board.threadModal else _opts.board.replyModal      
+
   # ----
 
   init: (prms, scope, currentThread, opts) ->      
@@ -167,8 +201,14 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
       animation: 'slide-in-up'
     ).then (modal2) ->
       _opts.board.replyModal = modal2
+    $ionicModal.fromTemplateUrl("modals/filterMsgsForm.html",
+          scope : scope
+          animation: 'slide-in-up'
+        ).then (modal3) ->
+          _filterModal = modal3
 
   data : data
+  filterMsgsFormScope : filterMsgsFormScope.scope
 
   loadMoreThreads : loadMoreThreads
   loadMoreReplies : loadMoreReplies
@@ -210,8 +250,10 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
   dispose: -> 
     _opts.board.threadModal.remove()
     _opts.board.replyModal.remove()
+    _filterModal.remove()
     _opts.board.threadModal = null
     _opts.board.replyModal = null
+    _filterModal = null
 
   openThreadModal: (item, mode, modalOpts) ->
     openMsgModal item, mode, "thread"
@@ -256,4 +298,16 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     modalOpts = _opts[opts.type]    
     modalOpts.reset?(opts.item)
     msgModal.hide()
+
+  openFilterModal: ->
+    _filterModal.show()
+
+  cancelFilterModal: ->
+    _filterModal.hide()
+
+  filter: ->    
+    @clean()
+    loadBoard().then ->
+      $ionicScrollDelegate.scrollTop false
+    _filterModal.hide()
 

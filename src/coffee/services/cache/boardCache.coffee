@@ -21,5 +21,7 @@ app.factory "boardCache", ($rootScope) ->
     if _latestBoard?.filter == filter
       _latestBoard.res
 
-
+  getThread: (id) ->
+    if _latestBoard
+      _latestBoard.res.filter((f) -> f._id == id)[0]
 

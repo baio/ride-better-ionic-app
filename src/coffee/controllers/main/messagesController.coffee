@@ -1,4 +1,4 @@
-app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user, $ionicScrollDelegate) ->
+app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user) ->
 
   console.log "Messages Controller"
 
@@ -11,23 +11,13 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     _addMsgModal = res
 
   $scope.board = board
+  $scope.filterMsgsForm = board.filterMsgsFormScope
   $scope.msgForm = baseMessages.opts.thread.scope.msgForm
   $scope.faqMsgForm = baseMessages.opts.thread.scope.faqMsgForm
   $scope.transferForm = baseMessages.opts.thread.scope.transferForm
   $scope.reportForm = baseMessages.opts.thread.scope.reportForm
   $scope.simpleMsgForm = baseMessages.opts.thread.scope.simpleMsgForm
 
-  $scope.filter = "current"
-
-  baseMessages.opts.thread.getLoadSpot = ->
-    if $scope.filter == "current"
-      stateResolved.spot.id
-    else if $scope.filter == "favs"      
-      user.user.settings.favs.map((m) -> m.id).join("-") 
-    else if $scope.filter == "all"
-      "-"
-
-  $scope.isThreadOfType = baseMessages.opts.thread.scope.isThreadOfType
 
   $scope.openThread = (threadId) ->
     $state.transitionTo("root.main.messages-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
@@ -48,16 +38,6 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     else
       board.openThreadModal(thread, "create")
     _addMsgModal.hide()
-
-  $scope.setActiveFilter = (filter) ->
-    if filter != $scope.filter
-      $scope.filter = filter
-      board.clean()
-      board.loadMoreThreads().then ->
-        $ionicScrollDelegate.scrollTop(false)
-
-  $scope.isActiveFilter = (filter) ->
-    $scope.filter == filter
 
   $scope.$on "$ionicView.enter", ->
     console.log "messagesController.coffee:62 >>>", "$ionicView.enter"

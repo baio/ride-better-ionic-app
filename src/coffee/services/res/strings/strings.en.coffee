@@ -166,3 +166,5 @@ app.constant "strings_en",
   "food_prices" : "Food Prices"  
   "rent_prices" : "Service Prices"  
   "confirm_delete" : "After delete, item couldn't be restored. Delete?"
+  "filter_message" : "Filter messages"
+  "ok" : "OK"

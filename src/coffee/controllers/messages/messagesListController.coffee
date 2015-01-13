@@ -14,3 +14,4 @@ app.controller "MessagesListController", ($scope, $state, board, stateResolved, 
     board.init {spot : stateResolved.spot.id, board : "message", culture : stateResolved.culture.code}, $scope, null, messages.opts
     board.clean()
     board.loadMoreThreads()  
+
