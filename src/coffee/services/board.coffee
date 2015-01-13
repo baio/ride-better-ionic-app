@@ -180,7 +180,6 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier) ->
     data.threads = []
 
   canEdit : (item) ->
-    console.log "board.coffee:183 >>>"
     user.isUser item.user
 
   removeThread : (thread) ->    

@@ -1,4 +1,4 @@
-app.directive "threadListItem", ($compile, $templateCache) ->
+app.directive "threadItem", ($compile, $templateCache) ->
 
   isThreadOfType = (thread, type) ->
     if typeof thread == "string"
@@ -17,19 +17,21 @@ app.directive "threadListItem", ($compile, $templateCache) ->
       return "report"
 
   getTemplate = (type) ->
-    $templateCache.get "messages/#{type}-list-item.html"
+    type = "reports" if type == "report"
+    type = "messages" if type == "message"
+    $templateCache.get "messages/#{type}-item.html"
     
   restrict: 'E'
 
   scope: true
 
-  compile: (scope, element) ->
+  compile: ($scope, element) ->
       
-    linker = (scope, element, attributes) ->
+    linker = (scope, element, attributes) ->      
 
-      console.log "thread-list-item.coffee:30 >>>" 
+      type = getThreadType(scope.board.data.currentThread)
 
-      type = getThreadType(scope.thread)
+      console.log "thread-item.coffee:30 >>>", type
 
       element.html(getTemplate(type))
 
