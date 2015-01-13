@@ -15,6 +15,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       user.settings = u.settings
       putLang user.settings.lang
       putCulture user.settings.culture
+      putMsgsFilter user.settings.msgsFilter
 
   saveChangesToCache = ->
     cache.put "user", user
@@ -35,6 +36,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       favs : [
           { id : "1936", title : "Завьялиха", isHome : true }
         ]
+      msgsFilter :
+        spots : "all" 
+        boards : "message,report,faq,transfer"
 
   getHome = ->
     user.settings.favs.filter((f) -> f.isHome)[0]
@@ -98,6 +102,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
   putCulture = (c) ->
     user.settings.culture = c
 
+  putMsgsFilter = (filter) ->
+    user.settings.msgsFilter = filter
+
   onHomeChanged = (home) ->
     $rootScope.$broadcast("user::homeChanged", home)
 
@@ -128,6 +135,11 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
 
   setCulture = (c) ->
     putCulture c.code
+    saveChanges()
+    onPropertyChanged()
+
+  setMsgsFilter = (filter) ->
+    putMsgsFilter filter
     saveChanges()
     onPropertyChanged()
 
@@ -256,6 +268,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       saveChanges()
 
   setLang: setLang
+
+  setMsgsFilter : setMsgsFilter
 
   getLang: ->
     user.settings.lang

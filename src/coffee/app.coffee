@@ -83,6 +83,9 @@ app = angular.module("ride-better", [
       "main-messages":
         templateUrl: "main/messages.html"
         controller: "MessagesController"
+    resolve:
+      userResolved: (user) ->  
+        user.getUserAsync()
   ).state("root.main.hist",
     url: "/hist"
     views:

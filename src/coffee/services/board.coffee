@@ -307,7 +307,13 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
 
   filter: ->    
     @clean()
-    loadBoard().then ->
-      $ionicScrollDelegate.scrollTop false
     _filterModal.hide()
+    .then ->
+      loadBoard()
+    .then ->
+      user.setMsgsFilter filterMsgsFormScope.serialize()
+      $ionicScrollDelegate.scrollTop false
+
+  restoreFilter: (data) ->
+    filterMsgsFormScope.deserialize(data)
 

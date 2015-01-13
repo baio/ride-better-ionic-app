@@ -1,4 +1,4 @@
-app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user) ->
+app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user, userResolved) ->
 
   console.log "Messages Controller"
 
@@ -10,7 +10,10 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
   ).then (res) ->
     _addMsgModal = res
 
+  console.log "messagesController.coffee:13 >>>", stateResolved.spot
+
   $scope.board = board
+  $scope.spotTitle = stateResolved.spot.title
   $scope.filterMsgsForm = board.filterMsgsFormScope
   $scope.msgForm = baseMessages.opts.thread.scope.msgForm
   $scope.faqMsgForm = baseMessages.opts.thread.scope.faqMsgForm
@@ -18,6 +21,9 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
   $scope.reportForm = baseMessages.opts.thread.scope.reportForm
   $scope.simpleMsgForm = baseMessages.opts.thread.scope.simpleMsgForm
 
+  console.log "messagesController.coffee:24 >>>", userResolved
+  if userResolved.settings?.msgsFilter
+    board.restoreFilter userResolved.settings.msgsFilter
 
   $scope.openThread = (threadId) ->
     $state.transitionTo("root.main.messages-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})

@@ -168,3 +168,4 @@ app.constant "strings_en",
   "confirm_delete" : "After delete, item couldn't be restored. Delete?"
   "filter_message" : "Filter messages"
   "ok" : "OK"
+  "show_messages_for" : "Show messages for"
