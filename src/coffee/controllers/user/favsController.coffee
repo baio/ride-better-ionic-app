@@ -52,7 +52,7 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
   $scope.isHome = user.isHome
 
   $scope.canAddFav = ->
-    $scope.favs and $scope.favs.length < 5
+    $scope.favs and $scope.favs.length < 10
 
   $scope.canRemoveFav = ->
     $scope.favs and $scope.favs.length > 1

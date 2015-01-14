@@ -35,6 +35,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       culture : "eu"
       favs : [
           { id : "1936", title : "Завьялиха", isHome : true }
+          { id : "28", title : "Whistler Blackcomb (Garibaldi Lift Co.)" }
         ]
       msgsFilter :
         spots : "all" 
@@ -148,9 +149,11 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     .then (geo) ->
       spotsDA.nearest(geo.lat + "," + geo.lon)
     .then (res) ->
-      spot = id : res.code, title : res.label
-      if addSpot spot
-        setHome spot
+      spots = res.map (m) -> id : m.code, title : m.label
+      console.log "user.coffee:153 >>>", spots
+      for spot in spots
+        addSpot spot
+      res
 
   getDefaultLagAndCulture = ->
     globalization.getLangAndCulture().then (r) =>
@@ -188,6 +191,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       console.log ">>>user.coffee:146", "This is first launch"
       setFisrtLaunchComplete()
       promise = $q.all([getDefaultNearestSpot(), getDefaultLagAndCulture()]).then ->
+        if user.settings.lang == "en"
+          user.settings.favs[0].isHome = false
+          user.settings.favs[1].isHome = true        
         saveChangesToCache()
     else
       if !authio.isLogined() and user.profile
