@@ -1,4 +1,4 @@
-app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, boardCache) ->
+app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, boardCache, $rootScope) ->
 
   trimText = (text) ->
     if text?.length > 300 then text[0..299] + "..." else text
@@ -42,7 +42,9 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
     promise.then mapThread
 
   postThread: (opts, data) ->
-    saveThread("post", opts, data)
+    saveThread("post", opts, data).then (res) ->
+      $rootScope.$broadcast "::board.thread.add", thread : res
+      res
 
   putThread: (opts, data) ->
     saveThread "put", opts, data
@@ -64,7 +66,11 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
       return $q.when thread
     boardEP.getThread(id, opts).then mapThread      
 
-  removeThread: boardEP.removeThread
+  removeThread: (thread) -> 
+    boardEP.removeThread(thread._id).then (res) ->
+      $rootScope.$broadcast "::board.thread.remove", thread : thread
+      res      
+
   removeReply: boardEP.removeReply
 
   postReply: (threadId, data) -> boardEP.postReply(threadId, data).then mapReply

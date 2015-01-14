@@ -27,6 +27,7 @@ app = angular.module("ride-better", [
               lang : culture[0]
               units : culture[1]
           angular.copy res, _stateResolved    
+          _stateResolved
         , (err) ->
           console.log "Failure, can't get spot"
           $q.when("Failure, can't get spot")
