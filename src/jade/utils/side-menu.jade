@@ -3,16 +3,17 @@ ion-content
     ion-item.item-icon-left(nav-clear menu-close ng-click="open('main.home')")
       i.icon.ion-home
       | {{ ::resources.str.main }}      
-    ion-item.item-icon-left(nav-clear menu-close ng-click="open('msg.messages')")
-      i.icon.ion-chatboxes
-      | {{ ::resources.str.messages }}            
+    //
+      ion-item.item-icon-left(nav-clear menu-close ng-click="open('msg.messages')")
+        i.icon.ion-chatboxes
+        | {{ ::resources.str.messages }}            
     ion-item.item-icon-left(nav-clear menu-close ng-click="open('resort.main')")
       i.icon.ion-information 
       | {{ ::resources.str.info }}
     ion-item.item-icon-left(nav-clear menu-close ng-click="open('prices.lifts')")
       i.icon.ion-pricetags 
       | {{ ::resources.str.prices }}      
-    ion-item.item-icon-left(nav-clear  menu-close ui-sref="user.favs")
+    ion-item.item-icon-left(nav-clear  menu-close ui-sref="user.settings")
       i.icon.ion-person
       | {{ ::resources.str.user }}      
     ion-item.item-icon-left(nav-clear menu-close ng-click="open('add')")

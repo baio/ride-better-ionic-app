@@ -8,6 +8,8 @@ app = angular.module("ride-better", [
 )
 .config ($stateProvider) ->
   _resortResolved = {}
+  _stateResolved = {}
+  _homeResolved = {}
   $stateProvider.state("root",
     url : "/:culture/:id"
     abstract: true
@@ -15,13 +17,16 @@ app = angular.module("ride-better", [
     template: "<ion-nav-view name='root'></ion-nav-view>"
     resolve:
       stateResolved: ($stateParams, spotsDA, $q) ->  
+        console.log "app.coffee:18 >>>" 
         spotsDA.get($stateParams.id).then (res) ->
           culture = $stateParams.culture.split("-")
-          spot : res
-          culture : 
-            code : $stateParams.culture
-            lang : culture[0]
-            units : culture[1]
+          res = 
+            spot : res
+            culture : 
+              code : $stateParams.culture
+              lang : culture[0]
+              units : culture[1]
+          angular.copy res, _stateResolved    
         , (err) ->
           console.log "Failure, can't get spot"
           $q.when("Failure, can't get spot")
@@ -40,7 +45,8 @@ app = angular.module("ride-better", [
     resolve:
       homeResolved: ($stateParams, homeDA) ->  
         culture = $stateParams.culture.split("-")             
-        homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1])
+        homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1]).then (res) ->
+          angular.copy res, _homeResolved
     views:
       root:
         templateUrl: "main/main.html"
@@ -98,6 +104,15 @@ app = angular.module("ride-better", [
       "main-forecast":
         templateUrl: "main/forecast.html"
         controller: "ForecastController"
+  ).state("root.main.favs",
+    url: "/favs"
+    views:
+      "main-favs":
+        templateUrl: "user/favs.html"
+        controller: "FavsController"
+    resolve:
+      userResolved: (user) ->
+        user.getUserAsync()        
   ).state("root.resort",
     url: "/resort"
     abstract: true

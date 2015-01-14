@@ -68,12 +68,10 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     board = _opts.board.boardName
     getFilter(spot)
     .then (filter) ->     
-      console.log "board.coffee:67 >>>", filter
       opts ?= {}
       opts.culture = _opts.board.culture    
       boardDA.get(filter, opts)
     .then (res) -> 
-      console.log "board.coffee:76 >>>", res
       setBoard(res, pushIndex)
     .catch ->
       data.canLoadMoreThreads = false

@@ -1,4 +1,4 @@
-app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocator, user) ->
+app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocator, user, $rootScope, $ionicHistory) ->
 
   console.log "Favs Controller"
 
@@ -56,6 +56,9 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
 
   $scope.canRemoveFav = ->
     $scope.favs and $scope.favs.length > 1
+
+  $scope.openHome = (fav) ->
+    $state.go("root.main.home", {id : fav.id, culture : $rootScope.state.culture.code}, {reload : true, notify : true, location : true})
 
   $scope.$on "user::homeChanged", (obj, home) ->
     $scope.$root.state.spot = home

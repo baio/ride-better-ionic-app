@@ -1,7 +1,7 @@
 app.controller "HomeController", ($scope, homeResolved) ->
 
-  console.log "homeController.coffee:3 >>>", homeResolved
-
+  console.log "homeController.coffee:3 >>>"
+   
   $scope.getBackgroundStyle = (icon) ->
     if !icon
       return null
@@ -18,4 +18,3 @@ app.controller "HomeController", ($scope, homeResolved) ->
 
   $scope.snapshot = homeResolved.snapshot
   $scope.snowfallHistory = homeResolved.snowfallHistory
-
