@@ -1,7 +1,12 @@
-ion-view(ng-attr-title="{{::resources.str.snowfall}} - {{::state.spot.title}}")
-  ion-content.has-header
-    p.padding-left
+ion-view(ng-attr-title="{{::resources.str.snowfall}} - {{isChartOfType('spot') ? state.spot.title : resources.str.favorites}}")
+  ion-content.has-header    
+    .button-bar
+      a.button.button-positive.button-small(ng-class="{'button-outline': !isChartOfType('spot')}" ng-click="setChartType('spot')") {{::state.spot.title}}
+      a.button.button-positive.button-small(ng-class="{'button-outline': !isChartOfType('favs')}" ng-click="setChartType('favs')") {{::resources.str.favorites}}
+    .padding-top.text-center(ng-if="isChartOfType('spot')")
       span.stable(style="background-color: #387ef5;") &nbsp; {{::resources.str.for_day}} &nbsp;
       | &nbsp;
       span.dark(style="background-color: lightblue") &nbsp; {{::resources.str.total_past}} &nbsp; 
-      bar-chart(chart-data="data")    
+    .padding-top.text-center(ng-if="isChartOfType('favs')")
+      span.dark &nbsp; {{::resources.str.snofall_hist_favs}} &nbsp;       
+    bar-chart(chart-data="chartData")    

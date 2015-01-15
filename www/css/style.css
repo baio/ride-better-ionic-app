@@ -153,3 +153,9 @@ ion-slide h3:first-child
   /*overflow: hidden;*/
   text-overflow: ellipsis;
 }
+
+.trim-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

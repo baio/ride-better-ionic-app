@@ -169,3 +169,4 @@ app.constant "strings_en",
   "filter_message" : "Filter messages"
   "ok" : "OK"
   "show_messages_for" : "Show messages for"
+  "snofall_hist_favs" : "Snowfall for past week"

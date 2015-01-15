@@ -99,6 +99,9 @@ app = angular.module("ride-better", [
       "main-hist":
         templateUrl: "main/snow-hist.html"
         controller: "SnowHistController"
+    resolve:
+      userResolved: (user) ->  
+        user.getUserAsync()        
   ).state("root.main.forecast",
     url: "/forecast"
     views:

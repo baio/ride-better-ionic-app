@@ -168,3 +168,4 @@ app.constant "strings_ru",
   "filter_message" : "Фильтровать сообщения"
   "ok" : "OK"
   "show_messages_for" : "Показывать сообщения для"
+  "snofall_hist_favs" : "Количество выпавшего снега за неделю"
