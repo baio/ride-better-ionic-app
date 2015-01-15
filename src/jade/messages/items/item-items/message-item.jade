@@ -4,4 +4,4 @@ block item-layout-content
   p.long-read.item-text-wrap {{board.data.currentThread.data.text}}              
   p(ng-if="board.data.currentThread.data.img")
     img(ng-src="{{board.data.currentThread.data.img}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;" 
-      open-external="{{board.data.currentThread.data.img}}")
+      open-external="{{board.data.currentThread.formatted.thumb}}")

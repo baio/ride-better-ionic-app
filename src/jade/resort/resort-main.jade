@@ -2,7 +2,7 @@ ion-view(ng-attr-title="{{::state.spot.title}}")
     ion-content.has-header
         .row
             .col
-                img(ng-src="{{::resort.header}}" width="100%", height="200px")
+                img(ng-src="{{::resort.headerThumb}}" width="100%", height="200px")
         .row(ng-if="::resort.geo")
             .col(ng-bind-html="::resort.geo | geo")                
         .row
