@@ -2,8 +2,13 @@ app.factory "homeCache", ($rootScope, cache) ->
 
   getCacheName = -> "home-latest"
 
-  $rootScope.$on "::user::propertyChanged", ->
+  console.log "homeCache.coffee:5 >>>" 
+
+  $rootScope.$on "user::propertyChanged", (e, prms) ->
+    console.log "homeCache.coffee:6 >>>"
     cache.rm getCacheName()
+
+  console.log "homeCache.coffee:11 >>>"
 
   $rootScope.$on "::board.thread.add", (e, prms) ->
     console.log "homeCache.coffee:9 >>>", prms

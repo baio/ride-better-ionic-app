@@ -39,6 +39,7 @@ app.controller "SettingsController", ($scope, user, resources, $window, notifier
   updScopeData()
 
   $scope.$on "user::propertyChanged", (obj, user) ->
+    console.log "settingsController.coffee:42 >>>" 
     if user.settings
       $scope.isPropertyChanged = true
       $scope.$root.state.culture = 

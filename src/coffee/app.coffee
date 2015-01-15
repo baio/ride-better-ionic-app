@@ -1,6 +1,6 @@
 app = angular.module("ride-better", [
   "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", "angularFileUpload"
-]).run(($ionicPlatform, $rootScope, user) ->
+]).run(($ionicPlatform, $rootScope, user, cacheManager) ->
 
   $ionicPlatform.ready ->
     StatusBar.styleDefault() if window.StatusBar
@@ -17,7 +17,6 @@ app = angular.module("ride-better", [
     template: "<ion-nav-view name='root'></ion-nav-view>"
     resolve:
       stateResolved: ($stateParams, spotsDA, $q) ->  
-        console.log "app.coffee:18 >>>" 
         spotsDA.get($stateParams.id).then (res) ->
           culture = $stateParams.culture.split("-")
           res = 
@@ -27,6 +26,7 @@ app = angular.module("ride-better", [
               lang : culture[0]
               units : culture[1]
           angular.copy res, _stateResolved    
+          console.log "app.coffee:29 >>>", _stateResolved 
           _stateResolved
         , (err) ->
           console.log "Failure, can't get spot"
