@@ -1,6 +1,7 @@
 ion-modal-view
     .bar.bar-header
-        h3 {{::resources.str.create_transfer}}
+        h3 {{::resources.str.create_transfer}} 
+          small &nbsp; {{::state.spot.title}} 
     ion-content.has-header
       form(name="transferMsgForm" novalidate)
         .list
