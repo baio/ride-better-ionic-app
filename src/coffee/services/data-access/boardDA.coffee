@@ -12,6 +12,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
       createdStr : amCalendarFilter(reply.created)
     reply
 
+
   mapThread = (thread) ->
     thread.formatted = 
       shortText : trimText(thread.data.text)
@@ -23,6 +24,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
         title : resources.str(thread.data.meta.type) + " - " + resources.str(thread.data.meta.transport)
     for reply in thread.replies
       mapReply(reply)
+
     thread
 
   getFilterStr = (prms, opts) ->
@@ -82,5 +84,23 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
 
   postReply: (threadId, data) -> boardEP.postReply(threadId, data).then mapReply
   putReply: (threadId, data) -> boardEP.putReply(threadId, data).then mapReply
+
+  requestTransfer: (thread) -> 
+    boardEP.requestTransfer(thread._id).then (res) ->
+      thread.requests ?= []
+      thread.requests.push res
+      mapThread thread
+
+  unrequestTransfer: (thread) -> 
+    boardEP.unrequestTransfer(thread._id).then (res) ->
+      thread.requests ?= []
+      ix = thread.requests.indexOf thread.requests.filter((f) -> f.user.key == res.user.key)[0]
+      if ix != -1
+        thread.requests.splice ix, 1
+      mapThread thread
+
+  acceptTransferRequest: (threadId, userRequestId, f) ->
+    boardEP.acceptTransferRequest(threadId, userRequestId, f)
+
 
 

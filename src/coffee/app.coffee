@@ -84,6 +84,17 @@ app = angular.module("ride-better", [
         boardDA.getThread($stateParams.threadId).then null, ->
           console.log "Message not found"
           $q.when()                  
+  ).state("root.main.messages-item-requests",
+    url: "/messages/:threadId/requests"
+    views:
+      "main-messages":
+        templateUrl: "messages/transfer-requests.html"
+        controller: "TransferRequestsController"
+    resolve:
+      thread: (boardDA, $stateParams, $q) ->
+        boardDA.getThread($stateParams.threadId).then null, ->
+          console.log "Message not found"
+          $q.when()                          
   ).state("root.main.messages",
     url: "/messages"
     views:

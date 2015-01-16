@@ -17,7 +17,6 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
 
   $scope.isThreadOfType = isThreadOfType
 
-  
   initBoard = ->
     boardOpts =  
       if isThreadOfType(thread, "faq")
@@ -37,8 +36,5 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
 
   initBoard()
 
-  ###    
-  $scope.$on "$ionicView.enter", ->  
-    console.log "messageController.coffee:22 >>>", "$ionicView.enter"
-    initBoard()
-  ###
+  $scope.openTransferRequests = (thread) ->
+    $state.transitionTo("root.main.messages-item-requests", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : thread._id})

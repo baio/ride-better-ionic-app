@@ -1,4 +1,5 @@
 p
+  block footer-bar-button
   a.subdued(ng-click='openThread(thread._id)') 
     | {{thread.replies.length}} {{::resources.str.replies}}
   a.subdued(ng-click="board.openReplyModal(thread, 'create')")

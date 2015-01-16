@@ -32,3 +32,11 @@ app.factory "boardEP", (_ep) ->
   removeReply: (replyId, data) ->
     _ep.remove "spots/boards/threads/replies/#{replyId}", true
 
+  requestTransfer: (threadId) ->
+    _ep.post "transfers/#{threadId}/request", null, true
+
+  unrequestTransfer: (threadId) ->
+    _ep.remove "transfers/#{threadId}/request", true
+
+  acceptTransferRequest: (threadId, requestUserKey, f) ->
+    _ep.put "transfers/#{threadId}/requests/#{requestUserKey}/#{if f then "accept" else "reject"}", null, true

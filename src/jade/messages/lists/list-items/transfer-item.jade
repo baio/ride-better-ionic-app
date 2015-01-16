@@ -19,4 +19,15 @@ block item-layout-content
     a.positive(ng-href="tel:{{::thread.data.meta.phone}}" ng-if="::thread.data.meta.phone" style="text-decoration: none")
       i.ion-android-call 
       | {{::thread.data.meta.phone}}
-  h4.dark {{::thread.formatted.shortText}}                                        
+  h4.dark {{::thread.formatted.shortText}}       
+    
+block footer-bar-button
+  span(ng-switch="thread.formatted.transfer.requestStatus")
+    a.subdued.dark(ng-click='board.requestTransfer(thread)' ng-switch-when="none") 
+      i.icon.ion-checkmark-round &nbsp; Request &nbsp;
+    a.subdued.calm(ng-click='board.unrequestTransfer(thread)' ng-switch-when="requested") 
+      i.icon.ion-checkmark-round &nbsp; Requested    
+    a.subdued.positive(ng-click='board.unrequestTransfer(thread)' ng-switch-when="accepted") 
+      i.icon.ion-checkmark-round.positive &nbsp; Accepted
+    a.assertive.subdued(ng-click='board.unrequestTransfer(thread)' ng-switch-when="rejected") 
+      i.icon.ion-checkmark-round &nbsp; Rejected            

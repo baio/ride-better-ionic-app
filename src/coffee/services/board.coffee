@@ -220,6 +220,9 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
   canEdit : (item) ->
     user.isUser item.user
 
+  canEdit : (item) ->
+    user.isUser item.user
+
   removeThread : (thread) ->    
     notifier.confirm("confirm_delete")
     .then (res) ->
@@ -312,4 +315,22 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
 
   restoreFilter: (data) ->
     filterMsgsFormScope.deserialize(data)
+
+  requestTransfer : (thread) ->
+    boardDA.requestTransfer thread
+
+  unrequestTransfer : (thread) ->
+    boardDA.unrequestTransfer thread    
+
+  userRequestStatus : (thread) ->
+    if thread.requests
+      userRequest = thread.requests.filter((f) -> f.user.key == user.getKey())[0]
+      if userRequest
+        if userRequest.accepted == true
+          return "accepted"
+        else if userRequest.accepted == false
+          return "rejected"
+        else
+          return "requested"      
+    return "none"
 
