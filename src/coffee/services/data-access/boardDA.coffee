@@ -1,4 +1,4 @@
-app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, boardCache, $rootScope, resources) ->
+app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, boardCache, $rootScope, resources, user) ->
 
   trimText = (text) ->
     if text?.length > 300 then text[0..299] + "..." else text
@@ -12,6 +12,16 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
       createdStr : amCalendarFilter(reply.created)
     reply
 
+  userRequestStatus = (thread) ->
+    if thread.requests
+      userRequest = thread.requests.filter((f) -> f.user.key == user.getKey())[0]
+      if userRequest
+        if userRequest.accepted == true
+          return "accepted"
+        else if userRequest.accepted == false
+          return "rejected"
+        else
+          return "requested"      
 
   mapThread = (thread) ->
     thread.formatted = 
@@ -22,6 +32,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
     if thread.tags.indexOf("transfer") != -1
       thread.formatted.transfer =
         title : resources.str(thread.data.meta.type) + " - " + resources.str(thread.data.meta.transport)
+        requestStatus : userRequestStatus thread
     for reply in thread.replies
       mapReply(reply)
 

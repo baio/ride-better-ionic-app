@@ -1,4 +1,4 @@
-app.controller "MessageController", ($scope, $state, board, thread, stateResolved, messages, faq, report, transfer) ->
+app.controller "MessageController", ($scope, $state, board, thread, stateResolved, messages, faq, report, transfer, $ionicModal) ->
 
   console.log "MessageItem Controller"
 
@@ -36,5 +36,20 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
 
   initBoard()
 
+  _requestsModal = null
+
+  $ionicModal.fromTemplateUrl("modals/transferRequestsForm.html",
+    scope : $scope
+    animation: 'slide-in-up'
+  ).then (res) ->
+    _requestsModal = res
+
   $scope.openTransferRequests = (thread) ->
-    $state.transitionTo("root.main.messages-item-requests", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : thread._id})
+    console.log "messageController.coffee:48 >>>" 
+    _requestsModal.show()
+
+  $scope.closeTransferRequests = (thread) ->
+    _requestsModal.hide()
+
+  $scope.$on '$destroy', ->
+    _requestsModal.remove()

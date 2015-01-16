@@ -317,10 +317,18 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     filterMsgsFormScope.deserialize(data)
 
   requestTransfer : (thread) ->
-    boardDA.requestTransfer thread
+    user.login().then ->
+      boardDA.requestTransfer thread
 
   unrequestTransfer : (thread) ->
-    boardDA.unrequestTransfer thread    
+    notifier.confirm("unrequest_transfer")
+    .then (f) ->
+      if !f 
+        $q.reject()
+      else
+        user.login()
+    .then ->
+      boardDA.unrequestTransfer thread    
 
   userRequestStatus : (thread) ->
     if thread.requests
@@ -334,3 +342,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
           return "requested"      
     return "none"
 
+  switchAccepted : (thread, request) ->
+    f = !request.accepted
+    boardDA.acceptTransferRequest(thread._id, request.user.key, f).then ->
+      request.accepted = f

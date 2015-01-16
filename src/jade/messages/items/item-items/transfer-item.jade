@@ -21,13 +21,14 @@ block item-layout-content
       | {{board.data.currentThread.data.text}}                                        
 
 block footer-bar-button
-  span(ng-switch="board.userRequestStatus(board.data.currentThread)")
-    a.subdued(ng-click='board.requestTransfer(board.data.currentThread)' ng-switch-when="none") 
-      i.icon.ion-checkmark-round &nbsp; Request &nbsp; 
-    a.subdued.calm(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="requested") 
-      i.icon.ion-checkmark-circled &nbsp; Requested &nbsp;   
-    a.subdued.balanced(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="accepted") 
-      i.icon.ion-checkmark-circled.positive &nbsp; Accepted &nbsp;
-    a.assertive.subdued(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="rejected") 
-      i.icon.ion-checkmark-circled &nbsp; Rejected &nbsp;            
-  i.icon.ion-person-stalker(ng-click='openTransferRequests(board.data.currentThread)') &nbsp; Already go {{board.data.currentThread.requests.length}} &nbsp; 
+  span(ng-if="board.data.currentThread.data.meta.type != 'taxi'")
+    span(ng-switch="board.userRequestStatus(board.data.currentThread)")
+      a.subdued(ng-click='board.requestTransfer(board.data.currentThread)' ng-switch-when="none") 
+        i.icon.ion-checkmark-round &nbsp; {{::resources.str.request}} &nbsp; 
+      a.subdued.balanced(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="requested") 
+        i.icon.ion-checkmark-circled &nbsp; {{::resources.str.requested}} &nbsp;   
+      a.subdued.positive(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="accepted") 
+        i.icon.ion-checkmark-circled.positive &nbsp; {{::resources.str.accepted}} &nbsp;
+      a.assertive.subdued(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="rejected") 
+        i.icon.ion-close-round &nbsp; {{::resources.str.rejected}} &nbsp;            
+    i.icon.ion-person-stalker(ng-click='openTransferRequests(board.data.currentThread)') &nbsp; {{::resources.str.already_go}} {{board.data.currentThread.requests.length}} &nbsp; 
