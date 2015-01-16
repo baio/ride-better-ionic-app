@@ -170,3 +170,7 @@ app.constant "strings_en",
   "ok" : "OK"
   "show_messages_for" : "Show messages for"
   "snofall_hist_favs" : "Snowfall for past week"
+  "private" : "Private"
+  "regular" : "Regular"
+  "taxi" : "Taxi"
+  "transfer_type" : "Transfer type"

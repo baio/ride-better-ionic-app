@@ -169,3 +169,7 @@ app.constant "strings_ru",
   "ok" : "OK"
   "show_messages_for" : "Показывать сообщения для"
   "snofall_hist_favs" : "Количество выпавшего снега за неделю"
+  "private" : "Частный"
+  "regular" : "Регулярный"
+  "taxi" : "Такси"  
+  "transfer_type" : "Тип трансфера"

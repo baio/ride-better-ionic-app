@@ -5,14 +5,17 @@ ion-modal-view
     ion-content.has-header
       form(name="transferMsgForm" novalidate)
         .list
+          .item.item-input.item-select
+            span.input-label {{::resources.str.transfer_type}}
+            select(ng-options="type.name for type in ::transferForm.typesList" ng-model="transferForm.data.type")                          
           .item.item-input
             span.input-label(ng-hide="transferMsgForm.from.$error.required") {{::resources.str.from_town}}
             span.input-label.alert(ng-show="transferMsgForm.from.$error.required") {{::resources.str.from}}
             input(placeholder="{{::resources.str.from}}" ng-model="transferForm.data.from" type="text" name="from" required)                    
-          .item.item-input
+          .item.item-input(ng-if="transferForm.data.type.code != 'taxi'")
             span.input-label {{::resources.str.date}}
             input(placeholder="{{::resources.str.date}}" ng-model="transferForm.data.date" type="date")          
-          .item.item-input.item-select
+          .item.item-input.item-select(ng-if="transferForm.data.type.code != 'taxi'")
             span.input-label {{::resources.str.hours}}
             select(ng-options="hour.label for hour in ::transferForm.hoursList", ng-model="transferForm.data.time")                
           .item.item-input.item-select

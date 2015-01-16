@@ -1,4 +1,4 @@
-app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, boardCache, $rootScope) ->
+app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, boardCache, $rootScope, resources) ->
 
   trimText = (text) ->
     if text?.length > 300 then text[0..299] + "..." else text
@@ -18,6 +18,9 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
       createdStr : amCalendarFilter(thread.created)
       metaDateStrLong : if thread.data.meta?.date then amDateFormatFilter(thread.data.meta.date, 'dddd, MMMM Do YYYY, HH:00')
       thumb : if thread.data.img then getThumb thread.data.img
+    if thread.tags.indexOf("transfer") != -1
+      thread.formatted.transfer =
+        title : resources.str(thread.data.meta.type) + " - " + resources.str(thread.data.meta.transport)
     for reply in thread.replies
       mapReply(reply)
     thread

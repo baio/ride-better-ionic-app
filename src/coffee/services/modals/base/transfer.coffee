@@ -15,8 +15,10 @@ app.factory "transfer", (resources, transferFormScope, sendSimpleMsgFormScope) -
         scope = transferFormScope.scope
         scope.data.message = item.data.text
         scope.data.from = item.data.meta.from
-        scope.data.date = moment(item.data.meta.date, "X").startOf("d").toDate()
-        scope.data.time = scope.hoursList[moment(item.data.meta.date, "X").hours() - 1]
+        if item.data.meta.date
+          scope.data.date = moment(item.data.meta.date, "X").startOf("d").toDate()
+          scope.data.time = scope.hoursList[moment(item.data.meta.date, "X").hours() - 1]
+        scope.data.type = scope.typesList.filter((f) -> f.code == item.data.meta.type)[0]
         scope.data.transport = scope.transportTypesList.filter((f) -> f.code == item.data.meta.transport)[0]
         scope.data.price = item.data.meta.price
         scope.data.phone = item.data.meta.phone
