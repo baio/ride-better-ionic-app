@@ -305,6 +305,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     _filterModal.hide()
 
   filter: ->    
+    console.log "board.coffee:308 >>>"
     @clean()
     _filterModal.hide()
     .then ->

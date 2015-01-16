@@ -13,9 +13,10 @@ app.factory "boardCache", ($rootScope) ->
     _latestBoard?.res.splice _latestBoard.res.indexOf(thread), 1
 
   put: (filter, res) ->
-    _latestBoard = 
-      filter : filter
-      res : res
+    if res.length 
+      _latestBoard = 
+        filter : filter
+        res : res
 
   get: (filter) ->
     if _latestBoard?.filter == filter

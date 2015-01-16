@@ -27,7 +27,7 @@ app.directive "threadListItem", ($compile, $templateCache) ->
       
     linker = (scope, element, attributes) ->
 
-      console.log "thread-list-item.coffee:30 >>>" 
+      # console.log "thread-list-item.coffee:30 >>>" 
 
       type = getThreadType(scope.thread)
 

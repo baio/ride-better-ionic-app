@@ -75,9 +75,8 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
     if cached
       return $q.when cached
     boardEP.get(prms, opts).then (res) ->
-      if res.length
-        res = res.map mapThread      
-        boardCache.put filterStr, res
+      res = res.map mapThread      
+      boardCache.put filterStr, res
       res
 
   getThread: (id, opts) ->

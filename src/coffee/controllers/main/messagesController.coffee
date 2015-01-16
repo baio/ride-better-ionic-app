@@ -45,8 +45,16 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
       board.openThreadModal(thread, "create")
     _addMsgModal.hide()
 
+  loadThreads = ->
+    board.clean()
+    board.loadMoreThreads()  
+
+
+  _firstEnter = true
+
   $scope.$on "$ionicView.enter", ->
     console.log "messagesController.coffee:62 >>>", "$ionicView.enter"
     board.init {spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code}, $scope, null, baseMessages.opts
-    board.clean()
-    board.loadMoreThreads()  
+    if _firstEnter
+      loadThreads()
+      _firstEnter = false
