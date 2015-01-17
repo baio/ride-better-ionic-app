@@ -19,8 +19,7 @@ app.factory "resources", ($rootScope, strings_ru, strings_en) ->
         angular.copy strings_ru, $rootScope.resources.str
 
   getKnownLang : (lang) ->
-    lg = langs[lang]
-    if lg
+    if lang == "ru"
       return lang
     else
       "en"
