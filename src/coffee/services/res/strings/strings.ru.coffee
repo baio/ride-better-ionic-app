@@ -9,7 +9,7 @@ app.constant "strings_ru",
   "messages" : "Cообщения"
   "send" : "Отправить"
   "cancel" : "Отменить"
-  "add_message" : "Добаить сообщение"
+  "add_message" : "Добавить сообщение"
   "add_new" : "Добавить новое"
   "snow" : "Снег"
   "min" : "Мин"
