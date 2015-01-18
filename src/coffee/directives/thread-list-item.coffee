@@ -1,4 +1,4 @@
-app.directive "threadListItem", ($compile, $templateCache, boardThreadType) ->
+app.directive "threadListItem", ($compile, boardThreadType) ->
 
   getTemplate = (type) ->
     $templateCache.get "messages/#{type}-list-item.html"
@@ -9,7 +9,7 @@ app.directive "threadListItem", ($compile, $templateCache, boardThreadType) ->
         
   link:  (scope, element, attributes) ->
 
-    scope.$watch "thread", (val) ->  
+    scope.$watch "thread", (val) -> 
       template = boardThreadType.getThreadTemplate(val)
       element.html(template)
       $compile(element.contents())(scope)    

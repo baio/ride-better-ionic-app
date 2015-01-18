@@ -1,4 +1,4 @@
-app.directive "threadItem", ($compile, $templateCache) ->
+app.directive "threadItem", ($compile, boardThreadType) ->
 
   isThreadOfType = (thread, type) ->
     if typeof thread == "string"
@@ -24,17 +24,15 @@ app.directive "threadItem", ($compile, $templateCache) ->
   restrict: 'E'
 
   scope: true
-
-  compile: ($scope, element) ->
       
-    linker = (scope, element, attributes) ->      
+  link = (scope, element, attributes) ->      
 
-      type = getThreadType(scope.board.data.currentThread)
+    scope.$watch "board.data.currentThread", (val) -> 
+      if val
+        template = boardThreadType.getThreadItemTemplate(val)
+        element.html(template)
+        $compile(element.contents())(scope)    
 
-      element.html(getTemplate(type))
 
-      $compile(element.contents())(scope)    
-
-    linker
 
 

@@ -18,3 +18,9 @@ app.factory "boardThreadType", ($templateCache) ->
 
   getThreadTemplate: (thread) ->
     $templateCache.get "messages/#{@getThreadType(thread)}-list-item.html"
+
+  getThreadItemTemplate: (thread) ->
+    type = @getThreadType thread
+    type = "reports" if type == "report"
+    type = "messages" if type == "message"
+    $templateCache.get "messages/#{type}-item.html"

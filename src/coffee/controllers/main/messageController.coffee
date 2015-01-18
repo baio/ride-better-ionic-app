@@ -52,4 +52,5 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
     _requestsModal.hide()
 
   $scope.$on '$destroy', ->
+    console.log "messageController.coffee:55 >>>" 
     _requestsModal.remove()

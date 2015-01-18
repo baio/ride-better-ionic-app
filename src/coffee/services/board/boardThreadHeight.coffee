@@ -14,7 +14,7 @@ app.factory "boardThreadHeight", (boardThreadType, $interpolate) ->
 
   getImageHeigth = (thread, contentWidth) ->
     if thread.data.img      
-      regex = /^.*-(\d{1,3}x\d{1,3})\.(gif|jpg|png)$/g
+      regex = /^.*-(\d{1,4}x\d{1,4})\.(gif|jpg|png)$/g
       match = regex.exec thread.data.img
       if match
         dim = match[1]

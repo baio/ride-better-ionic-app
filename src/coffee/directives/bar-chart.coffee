@@ -17,8 +17,10 @@ app.directive "barChart", ->
 
     $scope.$watch "chartData.items", (newVal, oldVal) ->
 
-      if newVal and newVal != oldVal
-  
+
+      console.log "bar-chart.coffee:21 >>>" 
+      if newVal and JSON.stringify(newVal) != JSON.stringify(oldVal)
+        console.log "bar-chart.coffee:23 >>>" 
         items = newVal
         max = Math.max items.map((i) -> i.cmt)...
         items = items.map (m) ->

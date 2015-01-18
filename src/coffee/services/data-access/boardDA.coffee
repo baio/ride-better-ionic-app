@@ -10,6 +10,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
     reply.formatted =
       shortText : if reply.data.text then trimText(reply.data.text) 
       createdStr : amCalendarFilter(reply.created)
+      canEdit : user.isUser reply.user
     reply
 
   userRequestStatus = (thread) ->
@@ -29,6 +30,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
       createdStr : amCalendarFilter(thread.created)
       metaDateStrLong : if thread.data.meta?.date then amDateFormatFilter(thread.data.meta.date, 'dddd, MMMM Do YYYY, HH:00')
       thumb : if thread.data.img then getThumb thread.data.img
+      canEdit : user.isUser thread.user
     if thread.tags.indexOf("transfer") != -1
       thread.formatted.transfer =
         title : resources.str(thread.data.meta.type) + " - " + resources.str(thread.data.meta.transport)

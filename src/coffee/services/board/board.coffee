@@ -35,7 +35,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     data.currentThread = null
     index = data.threads.length if index == -1
     data.threads.splice index, 0, res...
-    data.canLoadMoreThreads = res.length >= 25
+    data.canLoadMoreThreads = res.length >= 50
 
   getFilter = (spot) ->
     d = filterMsgsFormScope.scope.data
@@ -217,12 +217,6 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     resetData()
     data.threads = []
 
-  canEdit : (item) ->
-    user.isUser item.user
-
-  canEdit : (item) ->
-    user.isUser item.user
-
   removeThread : (thread) ->    
     notifier.confirm("confirm_delete")
     .then (res) ->
@@ -311,6 +305,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     .then ->
       loadBoard()
     .then ->
+      console.log "board.coffee:314 >>>" 
       user.setMsgsFilter filterMsgsFormScope.serialize()
       $ionicScrollDelegate.scrollTop false
 

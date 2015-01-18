@@ -348,3 +348,4 @@ app.config ($ionicConfigProvider) ->
 
 app.config ($compileProvider)->
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|local|data|content):/)
+

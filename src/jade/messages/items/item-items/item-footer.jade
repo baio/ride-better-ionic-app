@@ -1,6 +1,6 @@
-p
+p(ng-if="::board.data.currentThread.formatted.canEdit")
   block footer-bar-button
-  a.subdued(ng-click="board.removeThread(board.data.currentThread)" ng-if="board.canEdit(board.data.currentThread)")
+  a.subdued(ng-click="board.removeThread(board.data.currentThread)")
     i.icon.ion-trash-b &nbsp; {{::resources.str.remove}}               
-  a.subdued(ng-click="board.openThreadModal(board.data.currentThread, 'edit')" ng-if="board.canEdit(board.data.currentThread)")
+  a.subdued(ng-click="board.openThreadModal(board.data.currentThread, 'edit')")
     i.icon.ion-edit &nbsp; {{::resources.str.edit}}                            

@@ -4,6 +4,5 @@ block item-layout-content
   h3(ng-click='openThread(thread._id)') 
     i.ion-speakerphone.positive &nbsp;
     | {{::thread.formatted.shortText}}
-  p(ng-if="::thread.data.img" ng-click='openThread(thread._id)')  
-    img(ng-src="{{::thread.formatted.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;")
-  h4.dark(ng-click='openThread(thread._id)') {{thread.replies[0].formatted.shortText}}
+  img(ng-src="{{::thread.formatted.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;" ng-click='openThread(thread._id)')
+  //h4.dark {{thread.replies[0].formatted.shortText}}
