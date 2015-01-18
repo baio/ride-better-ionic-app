@@ -31,8 +31,6 @@ app.directive "threadItem", ($compile, $templateCache) ->
 
       type = getThreadType(scope.board.data.currentThread)
 
-      console.log "thread-item.coffee:30 >>>", type
-
       element.html(getTemplate(type))
 
       $compile(element.contents())(scope)    

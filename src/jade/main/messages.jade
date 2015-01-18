@@ -6,13 +6,6 @@ block msg-list-subheader
     button.button(ng-click="board.openFilterModal()")
       i.icon.ion-funnel
 
-  //        
-    ion-header-bar.bar.bar-subheader
-      .button-bar
-        a.button(ng-class="{'button-positive' : isActiveFilter('current')}" ng-click="setActiveFilter('current')") {{::resources.str.current}}
-        a.button(ng-class="{'button-positive' : isActiveFilter('favs')}" ng-click="setActiveFilter('favs')") {{::resources.str.favorites}}
-        a.button(ng-class="{'button-positive' : isActiveFilter('all')}" ng-click="setActiveFilter('all')") {{::resources.str.all}}
-
 block msg-content
   thread-list-item
 

@@ -1,4 +1,4 @@
-app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user, userResolved) ->
+app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user, userResolved, boardThreadHeight) ->
 
   console.log "Messages Controller"
 
@@ -20,6 +20,9 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
   $scope.transferForm = baseMessages.opts.thread.scope.transferForm
   $scope.reportForm = baseMessages.opts.thread.scope.reportForm
   $scope.simpleMsgForm = baseMessages.opts.thread.scope.simpleMsgForm
+
+  $scope.data = 
+    containerElement : null
 
   console.log "messagesController.coffee:24 >>>", userResolved
   if userResolved.settings?.msgsFilter
@@ -58,3 +61,6 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     if _firstEnter
       loadThreads()
       _firstEnter = false
+
+  $scope.getThreadHeight = (thread) ->
+    boardThreadHeight.getHeight thread, $scope.data.containerElement

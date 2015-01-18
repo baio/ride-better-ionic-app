@@ -8,15 +8,15 @@ block item-layout-content
     i.ion-location.positive &nbsp;
     | {{::thread.data.meta.from}}     
     br
-    span(ng-if="::thread.data.meta.price")
+    span
       i.ion-card 
       | {{::thread.data.meta.price}}
       br        
-    span(ng-if="::thread.data.meta.date")      
+    span
       i.ion-calendar 
       | {{::thread.formatted.metaDateStrLong}}
       br                            
-    a.positive(ng-href="tel:{{::thread.data.meta.phone}}" ng-if="::thread.data.meta.phone" style="text-decoration: none")
+    a.positive(ng-href="tel:{{::thread.data.meta.phone}}" style="text-decoration: none")
       i.ion-android-call 
       | {{::thread.data.meta.phone}}
   h4.dark(ng-click='openThread(thread._id)') {{::thread.formatted.shortText}}       

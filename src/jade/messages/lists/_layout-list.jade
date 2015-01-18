@@ -6,10 +6,14 @@ ion-view(ng-attr-title="#{PAGE_TITLE}")
 
   ion-content.has-header
       ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" refreshing-icon="ion-loading-d")
-      ion-list.list
-        div(ng-repeat="thread in board.data.threads track by thread._id") 
+      .list(collection-repeat-container-element="data.containerElement")
+        .item.item-text-wrap(collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'"
+            collection-item-height="getThreadHeight(thread)" style="width: 101%")
           block msg-content
-      ion-infinite-scroll(on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads")
+        //
+          div(ng-repeat="thread in board.data.threads track by thread._id") 
+            block msg-content
+        ion-infinite-scroll(on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads")
 
   ion-footer-bar
     block msg-create-button
