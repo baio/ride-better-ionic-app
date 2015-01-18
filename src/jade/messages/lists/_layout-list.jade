@@ -7,7 +7,7 @@ ion-view(ng-attr-title="#{PAGE_TITLE}")
   ion-content.has-header
       ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" refreshing-icon="ion-loading-d")
       ion-list.list
-        div(ng-repeat="thread in board.data.threads") 
+        div(ng-repeat="thread in board.data.threads track by thread._id") 
           block msg-content
       ion-infinite-scroll(on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads")
 

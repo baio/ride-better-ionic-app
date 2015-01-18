@@ -23,18 +23,19 @@ app.directive "threadListItem", ($compile, $templateCache) ->
 
   scope: true
 
-  compile: (scope, element) ->
-      
-    linker = (scope, element, attributes) ->
 
-      # console.log "thread-list-item.coffee:30 >>>" 
+        
+  link:  (scope, element, attributes) ->
 
-      type = getThreadType(scope.thread)
+    type = getThreadType(scope.thread)
 
-      element.html(getTemplate(type))
+    ###
+    exp = $interpolate(getTemplate(type))
+    compiled = exp(scope)
+    element.html(compiled)
+    ###
 
-      $compile(element.contents())(scope)    
-
-    linker
+    element.html(getTemplate(type))
+    $compile(element.contents())(scope)    
 
 
