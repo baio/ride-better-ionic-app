@@ -1,4 +1,4 @@
-app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMsgsFormScope, $q, $ionicScrollDelegate, $state) ->
+app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMsgsFormScope, $q, $ionicScrollDelegate) ->
 
   _filterModal = null
   _opts = {}
@@ -342,6 +342,3 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     f = !request.accepted
     boardDA.acceptTransferRequest(thread._id, request.user.key, f).then ->
       request.accepted = f
-
-  openReplies: (thread) ->
-    $state.transitionTo("messages-item-replies", {threadId : thread._id})

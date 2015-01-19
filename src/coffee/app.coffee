@@ -67,23 +67,28 @@ app = angular.module("ride-better", [
         resolve:
           userResolved: (user) ->  
             user.login()
-  ).state("root.main.closed",
-    url: "/closed"
-    views:
-      "main-home":
-        templateUrl: "main/closed-report.html"
-        controller: "ClosedReportController"
   ).state("root.main.messages-item",
     url: "/messages/:threadId"
+    abstract : true
     views:
-      "main-messages":
-        templateUrl: "main/message.html"
+      "main-messages": 
+        template: "<ion-nav-view name='main-messages-item'></ion-nav-view>"
         controller: "MessageController"
     resolve:
       thread: (boardDA, $stateParams, $q) ->
         boardDA.getThread($stateParams.threadId).then null, ->
           console.log "Message not found"
           $q.when()                  
+  ).state("root.main.messages-item.content",
+    url: "/content"
+    views:
+      "main-messages-item":
+        templateUrl: "main/message.html"        
+  ).state("root.main.messages-item.replies",
+    url: "/replies"
+    views:
+      "main-messages-item":
+        templateUrl: "messages/messgae-replies.html"
   ).state("root.main.messages",
     url: "/messages"
     views:
@@ -223,7 +228,9 @@ app = angular.module("ride-better", [
       "user-settings":
         templateUrl: "user/settings.html"
         controller: "SettingsController"
-  ).state("messages-item-replies",
+  )
+  ###
+  .state("root.messages-item-replies",
     url: "/messages/:threadId/replies"
     templateUrl: "messages/messgae-replies.html"
     controller: "RepliesController"
@@ -233,6 +240,7 @@ app = angular.module("ride-better", [
           console.log "Message not found"
           $q.when()                          
   )
+  ###
 
 app.config ($urlRouterProvider) ->  
 

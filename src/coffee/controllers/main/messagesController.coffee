@@ -29,7 +29,7 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     board.restoreFilter userResolved.settings.msgsFilter
 
   $scope.openThread = (threadId) ->
-    $state.transitionTo("root.main.messages-item", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
+    $state.transitionTo("root.main.messages-item.content", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
 
   $scope.openAddMsgSelector = ->
     user.login().then ->

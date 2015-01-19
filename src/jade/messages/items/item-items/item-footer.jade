@@ -1,6 +1,6 @@
 p
   block footer-bar-button
-  a.subdued(ng-click="board.openReplies(board.data.currentThread)")
+  a.subdued(ng-click="openReplies(board.data.currentThread)")
     | {{board.data.currentThread.replies.length}} #{resources.str.replies}
   span(ng-if="::board.data.currentThread.formatted.canEdit")
     a.subdued(ng-click="board.removeThread(board.data.currentThread)")
