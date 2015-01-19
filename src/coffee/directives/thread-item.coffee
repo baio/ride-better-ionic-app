@@ -1,4 +1,4 @@
-app.directive "threadItem", ($compile, boardThreadType) ->
+app.directive "threadItem", ($compile, boardThreadType, $timeout) ->
 
   isThreadOfType = (thread, type) ->
     if typeof thread == "string"
@@ -27,11 +27,22 @@ app.directive "threadItem", ($compile, boardThreadType) ->
       
   link = (scope, element, attributes) ->      
 
+    console.log "thread-item.coffee:30 >>>" 
+    template = boardThreadType.getThreadItemTemplate(scope.board.data.currentThread)
+    element.html(template)
+    $compile(element.contents())(scope)    
+
+    ###
+    TODO : buttons oh header not redrawn here !!! why ?
     scope.$watch "board.data.currentThread", (val) -> 
+      console.log "thread-item.coffee:37 >>>", val
       if val
         template = boardThreadType.getThreadItemTemplate(val)
         element.html(template)
         $compile(element.contents())(scope)    
+    ###        
+    
+    
 
 
 
