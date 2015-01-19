@@ -17,6 +17,7 @@ coffee = require "gulp-coffee"
 jade = require "gulp-jade"
 lr = require "tiny-lr"
 zip = require "gulp-zip"
+resources_str_ru = require("./resources/ru/strings_ru.json")
 
 mainBowerFiles = require "main-bower-files"
 
@@ -59,26 +60,22 @@ gulp.task "default", ["dev-server"]
 gulp.task "jade", ["jade.d", "jade.m"]
 
 gulp.task "jade.m", ->
-
+  locals = 
+    env : config.env
+    resources : str : resources_str_ru
   gulp.src("./src/jade/index.jade")
   .pipe(plumber())
-  .pipe(jade(pretty : true, locals : env : config.env))
-  .pipe(concat("index.html"))
-  .pipe(gulp.dest("./www"))
-
-
-gulp.task "jade.m", ->
-
-  gulp.src("./src/jade/index.jade")
-  .pipe(plumber())
-  .pipe(jade(pretty : true, locals : env : config.env))
+  .pipe(jade(pretty : true, locals : locals))
   .pipe(concat("index.html"))
   .pipe(gulp.dest("./www"))
 
 gulp.task "jade.d", ->
+  locals =
+    env : config.env
+    resources : str : resources_str_ru
   gulp.src("./src/jade/index.d.jade")
   .pipe(plumber())
-  .pipe(jade(pretty : true, locals : env : config.env))
+  .pipe(jade(pretty : true, locals : locals))
   .pipe(concat("index.d.html"))
   .pipe(gulp.dest("./www"))
 
