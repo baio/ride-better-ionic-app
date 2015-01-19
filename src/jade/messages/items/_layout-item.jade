@@ -1,4 +1,4 @@
-ion-view(ng-attr-title="{{::resources.str.message}}")
+ion-view(ng-attr-title="{{::resources.str.message}}"  cache-view="false")
     ion-content.has-header
         ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")
         ion-list.list(ng-if="board.data.currentThread")

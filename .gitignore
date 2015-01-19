@@ -27,7 +27,7 @@ www/lib
 www/js
 src/coffee/configs
 
-!www/fixes/*.js
+!www/fix/**/*.js
 
 
 app.config.coffee

@@ -16,6 +16,6 @@ ion-modal-view
           a.assertive.subdued(ng-if="request.accepted == false") 
             i.icon.ion-close-round &nbsp; {{::resources.str.rejected}} &nbsp;            
         button.button(ng-click="board.switchAccepted(board.data.currentThread, request)"
-          ng-if="board.canEdit(board.data.currentThread)"
+          ng-if="::board.data.currentThread.formatted.canEdit"
           ng-class="{positive : request.accepted, assertive : (request.accepted == false)}")
           i.icon.ion-checkmark-round

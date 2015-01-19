@@ -4,7 +4,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
     if text?.length > 300 then text[0..299] + "..." else text
 
   getThumb = (img) ->
-    return "http://wit.wurfl.io/w_350/#{img}"
+    return img #"//wit.wurfl.io/w_350/#{img}"
 
   mapReply = (reply) ->
     reply.formatted =

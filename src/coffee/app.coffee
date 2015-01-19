@@ -5,7 +5,6 @@ app = angular.module("ride-better", [
   $ionicPlatform.ready ->
     StatusBar.styleDefault() if window.StatusBar
     user.activate()
-    screen.lockOrientation('portrait')
 )
 .config ($stateProvider) ->
   _resortResolved = {}
