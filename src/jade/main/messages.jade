@@ -11,7 +11,7 @@ block msg-content
 
 block msg-create-button
   h1.title.positive(ng-click="openAddMsgSelector()")
-      i.icon.ion-chatbox-working &nbsp; {{::resources.str.add_message}}
+      i.icon.ion-chatbox-working &nbsp; #{resources.str.add_message}
 
 block vars      
-  - var PAGE_TITLE = "{{::resources.str.messages}}"
+  - var PAGE_TITLE = resources.str.messages

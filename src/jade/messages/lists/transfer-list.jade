@@ -5,7 +5,7 @@ block msg-content
 
 block msg-create-button
   h1.title.royal(ng-click="board.openThreadModal(null, 'create')")
-      i.icon.ion-model-s &nbsp; {{::resources.str.add_transfer}}
+      i.icon.ion-model-s &nbsp; #{resources.str.add_transfer}
 
 block vars      
-  - var PAGE_TITLE = "{{::resources.str.transfer}} - {{::state.spot.title}}"
+  - var PAGE_TITLE = "#{resources.str.transfer}} - {{::state.spot.title}"

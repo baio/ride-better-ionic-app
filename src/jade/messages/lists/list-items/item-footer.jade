@@ -2,11 +2,11 @@ p
   //block footer-bar-button
   //    
     a.subdued(ng-click='openThread(thread._id)') 
-      | {{thread.replies.length}} {{::resources.str.replies}}
+      | {{thread.replies.length}} #{resources.str.replies}
   a.subdued(ng-click="board.openReplyModal(thread, 'create')")
-    i.icon.ion-chatbox &nbsp; {{::resources.str.reply}}
+    i.icon.ion-chatbox &nbsp; #{resources.str.reply}
   span(ng-if="::thread.formatted.canEdit")                               
     a.subdued(ng-click="board.removeThread(thread)")
-      i.icon.ion-trash-b &nbsp; {{::resources.str.remove}}               
+      i.icon.ion-trash-b &nbsp; #{resources.str.remove}               
     a.subdued(ng-click="board.openThreadModal(thread, 'edit')")
-      i.icon.ion-edit &nbsp; {{::resources.str.edit}}              
+      i.icon.ion-edit &nbsp; #{resources.str.edit}              

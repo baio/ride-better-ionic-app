@@ -1,12 +1,12 @@
 ion-modal-view
     .bar.bar-header
-        h3 {{::resources.str.add_message}}
+        h3 #{resources.str.add_message}
           small &nbsp; {{::state.spot.title}}         
     ion-content.has-header
         .list
             label.item.item-input
-                textarea(placeholder="{{::resources.str.add_message}}", ng-model="simpleMsgForm.data.message", style="height: 120px; margin-right: -10px")
+                textarea(placeholder="#{resources.str.add_message}", ng-model="simpleMsgForm.data.message", style="height: 120px; margin-right: -10px")
         .button-bar
-            a.button.button-stable(ng-click="board.cancelMsgModal()") {{::resources.str.cancel}}
-            a.button.button-stable(ng-click="board.sendMessage()") {{::resources.str.send}}
+            a.button.button-stable(ng-click="board.cancelMsgModal()") #{resources.str.cancel}
+            a.button.button-stable(ng-click="board.sendMessage()") #{resources.str.send}
 

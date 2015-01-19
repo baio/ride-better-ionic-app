@@ -1,22 +1,22 @@
-ion-view(ng-attr-title="{{::resources.str.add_price}} - {{::state.spot.title}}")
+ion-view(ng-attr-title="#{resources.str.add_price} - {{::state.spot.title}}")
     ion-content.has-header
         if env.platform == 'cordova'
             .button-bar
                 button.button.button-balanced(ng-click="takePhoto()")
-                    i.icon.ion-camera &nbsp; {{::resources.str.take_photo}}
+                    i.icon.ion-camera &nbsp; #{resources.str.take_photo}
                 button.button.button-royal(ng-click="selectPhoto()")
-                    i.icon.ion-images &nbsp; {{::resources.str.attach_photo}}
+                    i.icon.ion-images &nbsp; #{resources.str.attach_photo}
         if env.platform == 'browser'
             button.button.button-royal(ng-file-select accept="image/*" ng-file-change="attachPhoto(attachedFile)" ng-model="attachedFile" type="file")
-                i.icon.ion-image &nbsp; {{::resources.str.attach_photo}}
+                i.icon.ion-image &nbsp; #{resources.str.attach_photo}
         .list
             label.item
                 img(ng-src="{{data.photo.src}}" height="200px")
             label.item.item-input
-                input(type="text" ng-model="data.title" placeholder="{{::resources.str.title}}")
+                input(type="text" ng-model="data.title" placeholder="#{resources.str.title}")
             label.item.item-input.item-select
-                .input-label {{::resources.str.tag}}
+                .input-label #{resources.str.tag}
                 select(ng-options="tag.name for tag in ::tagsList", ng-model="data.tag")
         .button-bar
-            a.button.button-stable(ng-click="cancel()") {{::resources.str.cancel}}
-            a.button.button-stable(ng-click="send()") {{::resources.str.send}}
+            a.button.button-stable(ng-click="cancel()") #{resources.str.cancel}
+            a.button.button-stable(ng-click="send()") #{resources.str.send}

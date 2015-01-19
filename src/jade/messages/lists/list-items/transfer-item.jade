@@ -24,8 +24,8 @@ block item-layout-content
 block footer-bar-button
   span(ng-switch="::thread.formatted.transfer.requestStatus" ng-if="::thread.data.meta.type != 'taxi'")
     a.subdued.calm(ng-switch-when="requested") 
-      i.icon.ion-checkmark-round &nbsp; {{::resources.str.requested}}
+      i.icon.ion-checkmark-round &nbsp; #{resources.str.requested}
     a.subdued.positive(ng-switch-when="accepted") 
-      i.icon.ion-checkmark-round.positive &nbsp; {{::resources.str.accepted}}
+      i.icon.ion-checkmark-round.positive &nbsp; #{resources.str.accepted}
     a.assertive.subdued(ng-switch-when="rejected") 
-      i.icon.ion-close-round &nbsp; {{::resources.str.rejected}}
+      i.icon.ion-close-round &nbsp; #{resources.str.rejected}

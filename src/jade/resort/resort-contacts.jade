@@ -1,4 +1,4 @@
-ion-view(ng-attr-title="{{::resources.str.contacts}} - {{::state.spot.title}}")
+ion-view(ng-attr-title="#{resources.str.contacts} - {{::state.spot.title}}")
     ion-content.has-header
         .list
             .item.item-icon-right(ng-repeat="contact in ::resort.contacts" open-system="{{::getContactHref(contact)}}")

@@ -5,7 +5,7 @@ block msg-content
 
 block msg-create-button
   h1.title.positive(ng-click="board.openThreadModal(null, 'create')")
-      i.icon.ion-speakerphone &nbsp; {{::resources.str.add_message}}
+      i.icon.ion-speakerphone &nbsp; #{resources.str.add_message}
 
 block vars      
-  - var PAGE_TITLE = "{{::resources.str.messages}} - {{::state.spot.title}}"
+  - var PAGE_TITLE = "#{resources.str.messages}} - {{::state.spot.title}"

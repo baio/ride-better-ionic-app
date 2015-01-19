@@ -1,17 +1,17 @@
 ion-modal-view
    .bar.bar-header.item-input-inset
-      h1.title {{::resources.str.choose_message}}
+      h1.title #{resources.str.choose_message}
    ion-content.has-header
       a.button.button-block.button-positive(ng-click="createThreadModal('message')") 
         i.icon.ion-speakerphone &nbsp;
-        | {{::resources.str.message}}
+        | #{resources.str.message}
       a.button.button-block.button-energized(ng-click="createThreadModal('report')") 
         i.icon.ion-flag &nbsp;
-        | {{::resources.str.report}}
+        | #{resources.str.report}
       a.button.button-block.button-royal(ng-click="createThreadModal('transfer')")
         i.icon.ion-model-s &nbsp;
-        | {{::resources.str.transfer}}        
+        | #{resources.str.transfer}        
       a.button.button-block.button-calm(ng-click="createThreadModal('faq')") 
         i.icon.ion-help &nbsp;
-        | {{::resources.str.question}}
-      a.button.button-block.button-stable(ng-click="cancelAddMsgSelector()") {{::resources.str.cancel}}
+        | #{resources.str.question}
+      a.button.button-block.button-stable(ng-click="cancelAddMsgSelector()") #{resources.str.cancel}

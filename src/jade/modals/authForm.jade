@@ -1,7 +1,7 @@
 ion-modal-view
    .bar.bar-header.item-input-inset
-      h1.title {{::resources.str.authorization}}
+      h1.title #{resources.str.authorization}
    ion-content.has-header
       a.button.button-block.button-stable(ng-click="authorizeProvider('facebook')") Facebook
       a.button.button-block.button-stable(ng-click="authorizeProvider('vk')") VKontakte
-      a.button.button-block.button-assertive(ng-click="hideAuthForm()") {{::resources.str.cancel}}
+      a.button.button-block.button-assertive(ng-click="hideAuthForm()") #{resources.str.cancel}

@@ -1,7 +1,8 @@
 app.factory "resortsDA", (resortsEP, $q, cache) ->
 
   getThumb = (img) ->
-    return if img then "http://wit.wurfl.io/w_350/#{img}" else img
+    return img
+    #return if img then "http://wit.wurfl.io/w_350/#{img}" else img
 
   getCacheName = (spot) -> "resort_" + spot
 

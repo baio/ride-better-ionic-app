@@ -1,4 +1,4 @@
-ion-view(ng-attr-title="{{::resources.str.maps}} - {{::state.spot.title}}")
+ion-view(ng-attr-title="#{resources.str.maps} - {{::state.spot.title}}")
     ion-content.has-header
         ion-slide-box(does-continue="true" ng-if="::resort.maps.length !== 0" id="resort_maps")
             ion-slide.box(ng-repeat="map in ::resort.maps")

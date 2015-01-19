@@ -1,4 +1,4 @@
-ion-view(ng-attr-title="{{::resources.str.prices}} - {{::state.spot.title}}")
+ion-view(ng-attr-title="#{resources.str.prices} - {{::state.spot.title}}")
     ion-content.has-header
         ion-slide-box(ng-if="::prices.length !== 0" does-continue="true")
             ion-slide.box(ng-repeat="price in ::prices")

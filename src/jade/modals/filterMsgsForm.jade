@@ -1,42 +1,42 @@
 ion-modal-view
     .bar.bar-header
-      h4.text-center {{::resources.str.show_messages_for}}
+      h4.text-center #{resources.str.show_messages_for}
     ion-content.has-header
       .button-bar
         a.button.button-positive.button-small(ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('current')}" ng-click="filterMsgsForm.setActiveFilter('current')") {{::spotTitle}}
-        a.button.button-positive.button-small(ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('favs')}" ng-click="filterMsgsForm.setActiveFilter('favs')") {{::resources.str.favorites}}
-        a.button.button-positive.button-small(ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('all')}" ng-click="filterMsgsForm.setActiveFilter('all')") {{::resources.str.all}}
+        a.button.button-positive.button-small(ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('favs')}" ng-click="filterMsgsForm.setActiveFilter('favs')") #{resources.str.favorites}
+        a.button.button-positive.button-small(ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('all')}" ng-click="filterMsgsForm.setActiveFilter('all')") #{resources.str.all}
       ul.list
           li.item.item-toggle
             i.icon.ion-speakerphone.positive &nbsp;
-            | {{::resources.str.message}}
+            | #{resources.str.message}
             label.toggle.toggle-positive
               input(type='checkbox' ng-model="filterMsgsForm.data.messages")
               .track
                 .handle        
           li.item.item-toggle
             i.icon.ion-flag.energized &nbsp; 
-            | {{::resources.str.report}}
+            | #{resources.str.report}
             label.toggle.toggle-positive
               input(type='checkbox' ng-model="filterMsgsForm.data.reports")
               .track
                 .handle        
           li.item.item-toggle
             i.icon.ion-model-s.royal &nbsp; 
-            | {{::resources.str.transfer}}        
+            | #{resources.str.transfer}        
             label.toggle.toggle-positive
               input(type='checkbox' ng-model="filterMsgsForm.data.transfers")
               .track
                 .handle        
           li.item.item-toggle
             i.icon.ion-help.calm &nbsp; 
-            | {{::resources.str.question}}
+            | #{resources.str.question}
             label.toggle.toggle-positive
               input(type='checkbox' ng-model="filterMsgsForm.data.faq")
               .track
                 .handle        
 
       .button-bar
-          a.button.button-stable(ng-click="board.cancelFilterModal()") {{::resources.str.cancel}}
-          a.button.button-stable(ng-click="board.filter()") {{::resources.str.ok}}
+          a.button.button-stable(ng-click="board.cancelFilterModal()") #{resources.str.cancel}
+          a.button.button-stable(ng-click="board.filter()") #{resources.str.ok}
 
