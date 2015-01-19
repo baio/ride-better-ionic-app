@@ -1,0 +1,4 @@
+.list(collection-repeat-container-element="data.containerElement")
+    .item.item-text-wrap(collection-repeat="reply in board.data.currentThread.replies track by reply._id" collection-item-width="'100%'"
+              collection-item-height="getReplyHeight(reply)" style="width: 101%") 
+        include reply-item

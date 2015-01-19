@@ -1,4 +1,4 @@
-app.controller "MessageController", ($scope, $state, board, thread, stateResolved, messages, faq, report, transfer, $ionicModal) ->
+app.controller "MessageController", ($scope, $state, board, thread, stateResolved, messages, faq, report, transfer, $ionicModal, boardThreadHeight) ->
 
   console.log "MessageItem Controller"
 
@@ -8,6 +8,8 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
   $scope.transferForm = transfer.opts.thread.scope
   $scope.reportForm = report.opts.thread.scope
   $scope.simpleMsgForm = messages.opts.reply.scope
+  $scope.data = containerElement : null
+
 
   messages.opts.thread.moveToList = ->
     $state.transitionTo("root.main.messages", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
@@ -54,3 +56,6 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
   $scope.$on '$destroy', ->
     console.log "messageController.coffee:55 >>>" 
     _requestsModal.remove()
+
+  $scope.getReplyHeight = (reply) ->
+    boardThreadHeight.getReplyHeight reply, $scope.data.containerElement

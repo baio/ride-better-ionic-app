@@ -52,7 +52,6 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     board.clean()
     board.loadMoreThreads()  
 
-
   _firstEnter = true
 
   $scope.$on "$ionicView.enter", ->
@@ -64,3 +63,8 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
 
   $scope.getThreadHeight = (thread) ->
     boardThreadHeight.getHeight thread, $scope.data.containerElement
+
+  $scope.$on '$destroy', ->
+    console.log "messageController.coffee:55 >>>" 
+    board.dispose()
+

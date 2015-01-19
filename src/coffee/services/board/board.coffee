@@ -1,4 +1,4 @@
-app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMsgsFormScope, $q, $ionicScrollDelegate) ->
+app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMsgsFormScope, $q, $ionicScrollDelegate, $state) ->
 
   _filterModal = null
   _opts = {}
@@ -171,8 +171,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
 
   init: (prms, scope, currentThread, opts) ->      
     angular.copy _defOpts, _opts
-    if _opts.board.threadModal
-      @dispose()
+    @dispose()
     if opts?.thread
       _opts.thread = opts.thread
     if opts?.reply
@@ -242,12 +241,13 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
         thread.replies.splice thread.replies.indexOf(reply), 1
 
   dispose: -> 
-    _opts.board.threadModal.remove()
-    _opts.board.replyModal.remove()
-    _filterModal.remove()
-    _opts.board.threadModal = null
-    _opts.board.replyModal = null
-    _filterModal = null
+    if _opts.board.threadModal
+      _opts.board.threadModal.remove()
+      _opts.board.replyModal.remove()
+      _filterModal.remove()
+      _opts.board.threadModal = null
+      _opts.board.replyModal = null
+      _filterModal = null
 
   openThreadModal: (item, mode, modalOpts) ->
     openMsgModal item, mode, "thread"
@@ -342,3 +342,6 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     f = !request.accepted
     boardDA.acceptTransferRequest(thread._id, request.user.key, f).then ->
       request.accepted = f
+
+  openReplies: (thread) ->
+    $state.transitionTo("messages-item-replies", {threadId : thread._id})
