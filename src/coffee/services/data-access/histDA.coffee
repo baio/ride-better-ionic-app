@@ -1,10 +1,10 @@
 app.factory "histDA", (histEP, snowHistCache, $q) ->
 
-  getSnowfall : (spot) ->
+  getSnowfall : (spot, favs) ->
     cached = snowHistCache.get spot
     if cached 
       return $q.when cached
-    histEP.getSnowfall(spot).then (res) ->
-      snowHistCache.put spot, res
-      res
+    histEP.getSnowfall(favs).then (res) ->
+      snowHistCache.put favs, res
+      snowHistCache.get spot
 
