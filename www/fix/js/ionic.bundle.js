@@ -48655,8 +48655,10 @@ function($collectionRepeatManager, $collectionDataSource, $parse) {
 
       var requiresRerender;
       function rerenderOnResize() {
+        /*
         rerender(listExprParsed($scope));
         requiresRerender = (!scrollViewContent.clientWidth && !scrollViewContent.clientHeight);
+        */
       }
 
       function viewEnter() {
@@ -48674,8 +48676,8 @@ function($collectionRepeatManager, $collectionDataSource, $parse) {
       
       var deregisterViewListener;
       if (navViewCtrl) {
-        deregisterViewListenerEnter = navViewCtrl.scope.$on('$ionicView.afterEnter', viewEnter);
-        deregisterViewListenerLeave = navViewCtrl.scope.$on('$ionicView.afterLeave', viewLeave);
+        //deregisterViewListenerEnter = navViewCtrl.scope.$on('$ionicView.afterEnter', viewEnter);
+        //deregisterViewListenerLeave = navViewCtrl.scope.$on('$ionicView.afterLeave', viewLeave);
       }
 
       $scope.$on('$destroy', function() {
