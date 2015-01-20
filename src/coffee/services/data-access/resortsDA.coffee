@@ -2,16 +2,16 @@ app.factory "resortsDA", (resortsEP, $q, cache) ->
 
   getImg = (img) ->
     thumb : img
-    orig : img.replace(/thumbnail-/, ":original-")
+    orig : img?.replace(/thumbnail-/, ":original-")
 
   getCacheName = (spot) -> "resort_" + spot
 
   mapInfo = (info) ->
     info.headerImg = getImg info.header
     for price in info.prices
-      price.img = getImg price
+      price.img = getImg price.src
     for map in info.maps
-      map.img = getImg map
+      map.img = getImg map.src
 
     info
 
