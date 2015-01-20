@@ -2,11 +2,10 @@ app.directive "collectionRepeatContainerElement", ($interpolate, boardThreadType
     
   restrict: 'A'
 
-  scope: 
-    collectionRepeatContainerElement : "="
+  scope: false
 
   link: (scope, element, attributes) ->      
     console.log "collection-repeat-container-element.coffee:9 >>>" 
-    scope.collectionRepeatContainerElement = element
+    scope.data.containerElement = element
 
 

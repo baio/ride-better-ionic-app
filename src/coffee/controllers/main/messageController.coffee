@@ -54,9 +54,12 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
     _requestsModal.remove()
 
   $scope.openReplies = (thread) ->
-    console.log "messageController.coffee:57 >>>" 
     prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code
     $state.go("root.main.messages-item.replies", prms)
+
+  $scope.openTransferRequests = (thread) ->
+    prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code
+    $state.go("root.main.messages-item.requests", prms)
 
   $scope.getReplyHeight = (reply) ->
     boardThreadHeight.getReplyHeight reply, $scope.data.containerElement

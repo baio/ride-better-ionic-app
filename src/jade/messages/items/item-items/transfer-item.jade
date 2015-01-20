@@ -17,8 +17,8 @@ block item-layout-content
     a.item.item-icon-left(ng-href="tel:{{currentThread.data.meta.phone}}" ng-if="board.data.currentThread.data.meta.phone")
       i.icon.i.ion-android-call.positive
       | {{board.data.currentThread.data.meta.phone}}
-    .item.long-read.item-text-wrap(ng-if="board.data.currentThread.data.text")
-      | {{board.data.currentThread.data.text}}                                        
+  .long-read.item-text-wrap(ng-if="board.data.currentThread.data.text")
+    | {{board.data.currentThread.data.text}}                                        
 
 block footer-bar-button
   span(ng-if="board.data.currentThread.data.meta.type != 'taxi'")
@@ -31,4 +31,5 @@ block footer-bar-button
         i.icon.ion-checkmark-circled.positive &nbsp; #{resources.str.accepted} &nbsp;
       a.assertive.subdued(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="rejected") 
         i.icon.ion-close-round &nbsp; #{resources.str.rejected} &nbsp;            
-    i.icon.ion-person-stalker(ng-click='openTransferRequests(board.data.currentThread)') &nbsp; #{resources.str.already_go} {{board.data.currentThread.requests.length}} &nbsp; 
+    i.icon.ion-person-stalker(ng-click='openTransferRequests(board.data.currentThread)') &nbsp; #{resources.str.already_go} 
+      | {{board.data.currentThread.requests.length}} &nbsp; 
