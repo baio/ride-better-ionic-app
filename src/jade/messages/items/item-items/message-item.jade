@@ -2,6 +2,6 @@ extends ./_item-layout.jade
 
 block item-layout-content  
   p(ng-if="board.data.currentThread.data.img")
-    img(ng-src="{{board.data.currentThread.data.img}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;" 
-      open-external="{{board.data.currentThread.formatted.thumb}}")
+    img(ng-src="{{board.data.currentThread.formatted.img.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;" 
+      open-external="{{board.data.currentThread.formatted.img.orig}}")
   p.long-read.item-text-wrap {{board.data.currentThread.data.text}}                  
