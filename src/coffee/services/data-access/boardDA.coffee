@@ -1,47 +1,5 @@
-app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, boardCache, $rootScope, resources, user) ->
+app.factory "boardDA", (boardEP, $q, boardCache, $rootScope, threadMapper) ->
 
-  trimText = (text) ->
-    if text?.length > 300 then text[0..299] + "..." else text
-
-  getImg = (thread) ->
-    img = thread.data.img
-    if img
-      thumb : if thread.tmpImg then thread.tmpImg else img
-      orig : img.replace(/thumbnail-/, "original-")
-
-  mapReply = (reply) ->
-    reply.formatted =
-      shortText : if reply.data.text then trimText(reply.data.text) 
-      createdStr : amCalendarFilter(reply.created)
-      canEdit : user.isUser reply.user
-    reply
-
-  userRequestStatus = (thread) ->
-    if thread.requests
-      userRequest = thread.requests.filter((f) -> f.user.key == user.getKey())[0]
-      if userRequest
-        if userRequest.accepted == true
-          return "accepted"
-        else if userRequest.accepted == false
-          return "rejected"
-        else
-          return "requested"      
-
-  mapThread = (thread) ->
-    thread.formatted = 
-      shortText : trimText(thread.data.text)
-      createdStr : amCalendarFilter(thread.created)
-      metaDateStrLong : if thread.data.meta?.date then amDateFormatFilter(thread.data.meta.date, 'dddd, MMMM Do YYYY, HH:00')
-      img : getImg(thread)
-      canEdit : user.isUser thread.user
-    if thread.tags.indexOf("transfer") != -1
-      thread.formatted.transfer =
-        title : resources.str(thread.data.meta.type) + " - " + resources.str(thread.data.meta.transport)
-        requestStatus : userRequestStatus thread
-    for reply in thread.replies
-      mapReply(reply)
-
-    thread
 
   getFilterStr = (prms, opts) ->
     filter = filter :
@@ -64,7 +22,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
       data = angular.copy data
       delete data.img      
       promise = boardEP[method + "ThreadImg"] opts, file, data
-    promise.then mapThread
+    promise.then threadMapper.mapThread
 
   postThread: (opts, data) ->
     saveThread("post", opts, data).then (res) ->
@@ -80,7 +38,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
     if cached
       return $q.when cached
     boardEP.get(prms, opts).then (res) ->
-      res = res.map mapThread      
+      res = res.map threadMapper.mapThread      
       boardCache.put filterStr, res
       res
 
@@ -88,7 +46,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
     thread = boardCache.getThread id
     if thread
       return $q.when thread
-    boardEP.getThread(id, opts).then mapThread      
+    boardEP.getThread(id, opts).then threadMapper.mapThread      
 
   removeThread: (thread) -> 
     boardEP.removeThread(thread._id).then (res) ->
@@ -97,14 +55,14 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
 
   removeReply: boardEP.removeReply
 
-  postReply: (threadId, data) -> boardEP.postReply(threadId, data).then mapReply
-  putReply: (threadId, data) -> boardEP.putReply(threadId, data).then mapReply
+  postReply: (threadId, data) -> boardEP.postReply(threadId, data).then threadMapper.mapReply
+  putReply: (threadId, data) -> boardEP.putReply(threadId, data).then threadMapper.mapReply
 
   requestTransfer: (thread) -> 
     boardEP.requestTransfer(thread._id).then (res) ->
       thread.requests ?= []
       thread.requests.push res
-      mapThread thread
+      threadMapper.mapThread thread
 
   unrequestTransfer: (thread) -> 
     boardEP.unrequestTransfer(thread._id).then (res) ->
@@ -112,7 +70,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
       ix = thread.requests.indexOf thread.requests.filter((f) -> f.user.key == res.user.key)[0]
       if ix != -1
         thread.requests.splice ix, 1
-      mapThread thread
+      threadMapper.mapThread thread
 
   acceptTransferRequest: (threadId, userRequestId, f) ->
     boardEP.acceptTransferRequest(threadId, userRequestId, f)

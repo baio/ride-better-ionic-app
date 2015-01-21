@@ -16,11 +16,8 @@ app.controller "HomeController", ($scope, homeResolved, stateResolved, $state) -
     else
       return "home-container-light-clouds"
 
-  $scope.snapshot = homeResolved.snapshot
-  $scope.snowfallHistory = homeResolved.snowfallHistory
-
   $scope.openImportant = ->
-    $state.transitionTo("root.main.messages", {id : stateResolved.spot.id, culture : stateResolved.culture.code, filter : "board=message,priority=important"})
+    $state.transitionTo("root.main.home-important", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
 
   $scope.openReports = ->
-    $state.transitionTo("root.main.messages", {id : stateResolved.spot.id, culture : stateResolved.culture.code, filter : "board=report"})
+    $state.transitionTo("root.main.home-reports", {id : stateResolved.spot.id, culture : stateResolved.culture.code})

@@ -1,0 +1,5 @@
+ion-view(ng-attr-title="#{resources.str.messages}")
+  ion-content.has-header
+    .list
+      .item.item-text-wrap(ng-repeat="thread in ::latestImportant")
+        include ../messages/lists/list-items/message-item

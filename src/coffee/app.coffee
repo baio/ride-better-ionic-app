@@ -50,7 +50,7 @@ app = angular.module("ride-better", [
             user.login()
   ).state("root.main",
     url: "/main"
-    abstract: true  
+    abstract: true      
     resolve:
       homeResolved: ($stateParams, homeDA, $q) ->  
         culture = $stateParams.culture.split("-")             
@@ -59,7 +59,7 @@ app = angular.module("ride-better", [
         , (err) ->
           console.log "Failure, can't get spot"
           $q.when("Failure, can't get spot")          
-    views:
+    views:      
       root:
         templateUrl: "main/main.html"
         controller: "MainController"
@@ -69,6 +69,16 @@ app = angular.module("ride-better", [
       "main-home":
         templateUrl: "main/home.html"
         controller: "HomeController"
+  ).state("root.main.home-reports",
+    url: "/home/reports"
+    views:
+      "main-home":
+        templateUrl: "main/home/reports.html"
+  ).state("root.main.home-important",
+    url: "/home/important"
+    views:
+      "main-home":
+        templateUrl: "main/home/important.html"
   ).state("root.main.report",
     url: "/report"
     views:
@@ -106,7 +116,7 @@ app = angular.module("ride-better", [
       "main-messages-item":
         templateUrl: "messages/transfer-requests.html"
   ).state("root.main.messages",
-    url: "/messages?filter"
+    url: "/messages"
     views:
       "main-messages":
         templateUrl: "main/messages.html"
@@ -114,9 +124,6 @@ app = angular.module("ride-better", [
     resolve:
       userResolved: (user) ->  
         user.getUserAsync()
-      filterResolved: ($stateParams) ->  
-        _filterResolved.filter = $stateParams.filter
-        _filterResolved
   ).state("root.main.hist",
     url: "/hist"
     views:

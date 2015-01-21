@@ -1,6 +1,4 @@
-__firstLoad = true
-
-app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user, userResolved, boardThreadHeight, filterResolved) ->
+app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user, userResolved, boardThreadHeight) ->
 
   console.log "Messages Controller"
 
@@ -54,21 +52,14 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     board.clean()
     board.loadMoreThreads()  
 
-  getStaticFilter = ->
-    if filterResolved.filter
-      obj = 
-        spot : stateResolved.spot.id
-      for spt in filterResolved.filter.split(",")
-        kv = spt.split("=")
-        obj[kv[0]] = kv[1]
-      obj
-
+  __firstLoad = true
+  
   $scope.$on "$ionicView.enter", ->
     console.log "messagesController.coffee:62 >>>", "$ionicView.enter", __firstLoad
-    board.init {spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code, filter : getStaticFilter}, $scope, null, baseMessages.opts    
-    if __firstLoad or filterResolved.filter
+    board.init {spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code}, $scope, null, baseMessages.opts    
+    if __firstLoad
       loadThreads()
-      __firstLoad = !!filterResolved.filter
+      __firstLoad = false
 
   $scope.getThreadHeight = (thread) ->
     boardThreadHeight.getHeight thread, $scope.data.containerElement
