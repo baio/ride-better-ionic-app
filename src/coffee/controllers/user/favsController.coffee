@@ -1,4 +1,4 @@
-app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocator, user, $rootScope, $ionicHistory) ->
+app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocator, user, $rootScope) ->
 
   console.log "Favs Controller"
 
@@ -48,6 +48,7 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
   $scope.setHome = (s) ->
     user.setHome(s)
     $scope.$root.state.spot = s
+    $state.go($state.current, {id : s.id, culture : $rootScope.state.culture.code}, {reload : true, notify : false, location : true})
 
   $scope.isHome = user.isHome
 
@@ -58,8 +59,8 @@ app.controller "FavsController", ($scope, $ionicModal, spotsDA, $state, geoLocat
     $scope.favs and $scope.favs.length > 1
 
   $scope.openHome = (fav) ->
-    $state.transitionTo("root.main.home", {id : fav.id, culture : $rootScope.state.culture.code})
-    #$state.go("root.main.home", {id : fav.id, culture : $rootScope.state.culture.code}, {reload : false, notify : false, location : false})
+    #$state.transitionTo("root.main.home", {id : fav.id, culture : $rootScope.state.culture.code})
+    $state.go("root.main.home", {id : fav.id, culture : $rootScope.state.culture.code}, {reload : true, notify : true, location : true})
 
   $scope.$on "user::homeChanged", (obj, home) ->
     $scope.$root.state.spot = home
