@@ -6,8 +6,8 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
   getImg = (thread) ->
     img = thread.data.img
     if img
-      thumb : if thread.tempImg then thread.tempImg else img
-      orig : img.replace(/thumbnail-/, ":original-")
+      thumb : if thread.tmpImg then thread.tmpImg else img
+      orig : img.replace(/thumbnail-/, "original-")
 
   mapReply = (reply) ->
     reply.formatted =
@@ -32,7 +32,7 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
       shortText : trimText(thread.data.text)
       createdStr : amCalendarFilter(thread.created)
       metaDateStrLong : if thread.data.meta?.date then amDateFormatFilter(thread.data.meta.date, 'dddd, MMMM Do YYYY, HH:00')
-      img : getImg(thread.data.img)
+      img : getImg(thread)
       canEdit : user.isUser thread.user
     if thread.tags.indexOf("transfer") != -1
       thread.formatted.transfer =

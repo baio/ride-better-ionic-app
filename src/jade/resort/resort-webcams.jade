@@ -1,12 +1,11 @@
 ion-view(ng-attr-title="#{resources.str.webcams} - {{::state.spot.title}}")
     ion-content.has-header
-      .card
-        .item
-          div(ng-if="current.meta.type === 'img'")
-            img.webcam-img(ng-src='{{current.meta.src}}' open-external="{{::current.meta.src}}" width="100%")
-          div(ng-if="current.meta.type === 'stream'")
-            div.webcam-stream-container(style="width: 100%; text-align: center")
-              iframe.webcam-stream(src="{{current.meta.src}}" height="300" width="330"  frameborder="0" seamless="seamless")
+      .padding-top
+      div(ng-if="current.meta.type === 'img'")
+        img.webcam-img(ng-src='{{current.meta.src}}' open-external="{{::current.meta.src}}" width="100%")
+      div(ng-if="current.meta.type === 'stream'")
+        div.webcam-stream-container(style="width: 100%; text-align: center")
+          iframe.webcam-stream(src="{{current.meta.src}}" height="300" width="330"  frameborder="0" seamless="seamless")
       .list(style="height:50px" ng-if="list")
         .item.item-input.item-select(style="height:50px")
           select(ng-options="cam.title for cam in list" ng-model="data.currentItem" ng-change="loadLatest()")

@@ -1,16 +1,10 @@
 ion-view(ng-attr-title="#{resources.str.prices} - {{::state.spot.title}}")
     ion-content.has-header
-        ion-slide-box(ng-if="::prices.length !== 0" does-continue="true")
+        ion-slide-box(ng-if="::prices.length !== 0" does-continue="true" show-pager="false")            
             ion-slide.box(ng-repeat="price in ::prices")
-              .card
-                .item.item-divider.text-center
-                    i.ion-arrow-left-c(ng-click="movePrev()" style="float: left")
-                    | {{::price.title}}
-                    i.ion-arrow-right-c(ng-click="moveNext()" style="float: right")
-                .item
-                  img(width="100%" ng-src="{{::price.img.thumb}}" open-external="{{::price.img.orig}}" alt="{{::price.title}}")
-                .item.item-divider(ng-if="::price.href")
-                    div(style="width:100%" open-system="{{::price.href}}")
-                        i.ion-ios-browsers-outline
-
-
+                p.text-center {{::price.title}}
+                img(width="100%" ng-src="{{::price.img.thumb}}" open-external="{{::price.img.orig}}" alt="{{::price.title}}")
+    ion-footer-bar.bar-positive.bar-clear
+        button.button.button-clear.ion-arrow-left-c(ng-click="movePrev()")
+        | &nbsp;
+        button.button.button-clear.ion-arrow-right-c(ng-click="moveNext()")

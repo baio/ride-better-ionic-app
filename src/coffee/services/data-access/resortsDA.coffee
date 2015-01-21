@@ -2,7 +2,7 @@ app.factory "resortsDA", (resortsEP, $q, cache) ->
 
   getImg = (img) ->
     thumb : img
-    orig : img?.replace(/thumbnail-/, ":original-")
+    orig : img?.replace(/thumbnail-/, "original-")
 
   getCacheName = (spot) -> "resort_" + spot
 

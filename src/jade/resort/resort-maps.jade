@@ -1,10 +1,9 @@
 ion-view(ng-attr-title="#{resources.str.maps} - {{::state.spot.title}}")
     ion-content.has-header
-        ion-slide-box(does-continue="true" ng-if="::resort.maps.length !== 0" id="resort_maps")
+        .padding-top
+        ion-slide-box(does-continue="true" show-pager="false" ng-if="::resort.maps.length !== 0" id="resort_maps")
             ion-slide.box(ng-repeat="map in ::resort.maps")
-              .card
-                .item
-                  img(width="100%" ng-src="{{::map.img.thumb}}" open-external="{{::map.img.orig}}")
+                img(width="100%" ng-src="{{::map.img.thumb}}" open-external="{{::map.img.orig}}")
     ion-footer-bar.bar-positive.bar-clear
         button.button.button-clear.ion-arrow-left-c(ng-click="movePrev()")
         | &nbsp;
