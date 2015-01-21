@@ -45,10 +45,13 @@ app = angular.module("ride-better", [
     url: "/main"
     abstract: true  
     resolve:
-      homeResolved: ($stateParams, homeDA) ->  
+      homeResolved: ($stateParams, homeDA, $q) ->  
         culture = $stateParams.culture.split("-")             
         homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1]).then (res) ->
           angular.copy res, _homeResolved
+        , (err) ->
+          console.log "Failure, can't get spot"
+          $q.when("Failure, can't get spot")          
     views:
       root:
         templateUrl: "main/main.html"

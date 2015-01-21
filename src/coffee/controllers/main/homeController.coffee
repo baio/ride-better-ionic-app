@@ -19,5 +19,8 @@ app.controller "HomeController", ($scope, homeResolved, stateResolved, $state) -
   $scope.snapshot = homeResolved.snapshot
   $scope.snowfallHistory = homeResolved.snowfallHistory
 
+  $scope.openImportant = ->
+    $state.transitionTo("root.main.messages", {id : stateResolved.spot.id, culture : stateResolved.culture.code, filter : "board=message,priority=important"})
+
   $scope.openReports = ->
     $state.transitionTo("root.main.messages", {id : stateResolved.spot.id, culture : stateResolved.culture.code, filter : "board=report"})

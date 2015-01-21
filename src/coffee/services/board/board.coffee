@@ -74,6 +74,8 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     .then (filter) ->     
       opts ?= {}
       opts.culture = _opts.board.culture    
+      opts.priority = filter.priority
+      delete filter.priority
       boardDA.get(filter, opts)
     .then (res) -> 
       setBoard(res, pushIndex)

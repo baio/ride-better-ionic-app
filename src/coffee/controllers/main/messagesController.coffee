@@ -69,7 +69,6 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     if __firstLoad or filterResolved.filter
       loadThreads()
       __firstLoad = !!filterResolved.filter
-      console.log "messagesController.coffee:72 >>>", __firstLoad
 
   $scope.getThreadHeight = (thread) ->
     boardThreadHeight.getHeight thread, $scope.data.containerElement
