@@ -1,4 +1,4 @@
-app.controller "HomeController", ($scope, homeResolved) ->
+app.controller "HomeController", ($scope, homeResolved, stateResolved, $state) ->
 
   console.log "homeController.coffee:3 >>>"
    
@@ -18,3 +18,6 @@ app.controller "HomeController", ($scope, homeResolved) ->
 
   $scope.snapshot = homeResolved.snapshot
   $scope.snowfallHistory = homeResolved.snowfallHistory
+
+  $scope.openReports = ->
+    $state.transitionTo("root.main.messages", {id : stateResolved.spot.id, culture : stateResolved.culture.code, filter : "board=report"})

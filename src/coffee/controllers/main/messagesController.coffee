@@ -1,9 +1,11 @@
-app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user, userResolved, boardThreadHeight) ->
+__firstLoad = true
+
+app.controller "MessagesController", ($scope, $state, board, stateResolved, baseMessages, $ionicModal, user, userResolved, boardThreadHeight, filterResolved) ->
 
   console.log "Messages Controller"
 
   _addMsgModal = null
-
+  
   $ionicModal.fromTemplateUrl("modals/addMsgSelector.html",
     scope : $scope
     animation: 'slide-in-up'
@@ -52,14 +54,22 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     board.clean()
     board.loadMoreThreads()  
 
-  _firstEnter = true
+  getStaticFilter = ->
+    if filterResolved.filter
+      obj = 
+        spot : stateResolved.spot.id
+      for spt in filterResolved.filter.split(",")
+        kv = spt.split("=")
+        obj[kv[0]] = kv[1]
+      obj
 
   $scope.$on "$ionicView.enter", ->
-    console.log "messagesController.coffee:62 >>>", "$ionicView.enter"
-    board.init {spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code}, $scope, null, baseMessages.opts
-    if _firstEnter
+    console.log "messagesController.coffee:62 >>>", "$ionicView.enter", __firstLoad
+    board.init {spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code, filter : getStaticFilter}, $scope, null, baseMessages.opts    
+    if __firstLoad or filterResolved.filter
       loadThreads()
-      _firstEnter = false
+      __firstLoad = !!filterResolved.filter
+      console.log "messagesController.coffee:72 >>>", __firstLoad
 
   $scope.getThreadHeight = (thread) ->
     boardThreadHeight.getHeight thread, $scope.data.containerElement

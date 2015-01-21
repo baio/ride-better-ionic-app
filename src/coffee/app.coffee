@@ -10,6 +10,7 @@ app = angular.module("ride-better", [
   _resortResolved = {}
   _stateResolved = {}
   _homeResolved = {}
+  _filterResolved = filter : null
   $stateProvider.state("root",
     url : "/:culture/:id"
     abstract: true
@@ -95,7 +96,7 @@ app = angular.module("ride-better", [
       "main-messages-item":
         templateUrl: "messages/transfer-requests.html"
   ).state("root.main.messages",
-    url: "/messages"
+    url: "/messages?filter"
     views:
       "main-messages":
         templateUrl: "main/messages.html"
@@ -103,6 +104,9 @@ app = angular.module("ride-better", [
     resolve:
       userResolved: (user) ->  
         user.getUserAsync()
+      filterResolved: ($stateParams) ->  
+        _filterResolved.filter = $stateParams.filter
+        _filterResolved
   ).state("root.main.hist",
     url: "/hist"
     views:

@@ -9,6 +9,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       boardName : null
       spot : null     
       culture : null 
+      filter : null
     thread :
       modalTemplate : "modals/sendSimpleMsgForm.html"
       map2send: -> 
@@ -37,7 +38,11 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     data.threads.splice index, 0, res...
     data.canLoadMoreThreads = res.length >= 50
 
-  getFilter = (spot) ->
+  getFilter = (spot) ->    
+    if _opts.board.filter
+      filter = _opts.board.filter()
+      if filter then return $q.when filter
+
     d = filterMsgsFormScope.scope.data
     filterSpotsPromise = switch d.spots 
       when "current"
@@ -46,7 +51,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
         user.getUserAsync().then (ur) ->
           ur.settings.favs.map((m) -> m.id).join("-") 
       when "all"
-        $q.when "-"    
+        $q.when "-"              
     boards = []
     if d.messages
       boards.push "message"
@@ -56,12 +61,11 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       boards.push "report"
     if d.transfers
       boards.push "transfer"
-
     filterBoards = if boards.length == 4 then undefined else boards.join "-"
 
-    filterSpotsPromise.then (filterSpots) ->
+    filterSpotsPromise.then (filterSpots) ->      
       spot : filterSpots
-      board : filterBoards
+      board : filterBoards        
 
   loadBoard = (opts, pushIndex) ->
     spot = if _opts.thread.getLoadSpot then _opts.thread.getLoadSpot() else _opts.board.spot
@@ -179,6 +183,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     _opts.board.spot = prms.spot
     _opts.board.boardName = prms.board
     _opts.board.culture = prms.culture
+    _opts.board.filter = prms.filter
     resetData()
     if currentThread
       setThread currentThread
