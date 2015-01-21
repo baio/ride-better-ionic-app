@@ -3,9 +3,11 @@ app.factory "boardDA", (boardEP, $q, amCalendarFilter, amDateFormatFilter, board
   trimText = (text) ->
     if text?.length > 300 then text[0..299] + "..." else text
 
-  getImg = (img) ->
-    thumb : img
-    orig : img?.replace(/thumbnail-/, ":original-")
+  getImg = (thread) ->
+    img = thread.data.img
+    if img
+      thumb : if thread.tempImg then thread.tempImg else img
+      orig : img.replace(/thumbnail-/, ":original-")
 
   mapReply = (reply) ->
     reply.formatted =
