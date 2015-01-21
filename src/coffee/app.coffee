@@ -1,10 +1,18 @@
 app = angular.module("ride-better", [
   "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", "angularFileUpload"
-]).run(($ionicPlatform, $rootScope, user, cacheManager) ->
+]).run( ($ionicPlatform, $rootScope, user, cacheManager) ->
+
+  #initailize compiled and localized view on start - to restrict 'localization bindings'
+  lang = user.getLangFromCache()
+  lang ?= "ru"
+  rm_lang = if lang == "ru" then "en" else "ru"
+  angular.element(document.getElementById("body_#{rm_lang}")).remove()
 
   $ionicPlatform.ready ->
     StatusBar.styleDefault() if window.StatusBar
-    user.activate()
+    user.activate().then ->
+      if user.getLang() != lang
+        location.reload()
 )
 .config ($stateProvider) ->
   _resortResolved = {}
@@ -27,7 +35,6 @@ app = angular.module("ride-better", [
               lang : culture[0]
               units : culture[1]
           angular.copy res, _stateResolved    
-          console.log "app.coffee:29 >>>", _stateResolved 
           _stateResolved
         , (err) ->
           console.log "Failure, can't get spot"

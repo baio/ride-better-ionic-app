@@ -35,8 +35,6 @@ app.service "transferFormScope", (resources) ->
       message : null
       from : null
       date : new Date()
-      time : null
-      transport : null
       price : null
       phone : null
       time : scope.hoursList[11]

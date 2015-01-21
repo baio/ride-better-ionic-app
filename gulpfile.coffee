@@ -18,6 +18,7 @@ jade = require "gulp-jade"
 lr = require "tiny-lr"
 zip = require "gulp-zip"
 resources_str_ru = require("./resources/ru/strings_ru.json")
+resources_str_en = require("./resources/en/strings_en.json")
 
 mainBowerFiles = require "main-bower-files"
 
@@ -62,7 +63,9 @@ gulp.task "jade", ["jade.d", "jade.m"]
 gulp.task "jade.m", ->
   locals = 
     env : config.env
-    resources : str : resources_str_ru
+    i18n : 
+      ru : resources : str : resources_str_ru
+      en : resources : str : resources_str_en
   gulp.src("./src/jade/index.jade")
   .pipe(plumber())
   .pipe(jade(pretty : true, locals : locals))
@@ -72,7 +75,9 @@ gulp.task "jade.m", ->
 gulp.task "jade.d", ->
   locals =
     env : config.env
-    resources : str : resources_str_ru
+    i18n : 
+      ru : resources : str : resources_str_ru
+      en : resources : str : resources_str_en
   gulp.src("./src/jade/index.d.jade")
   .pipe(plumber())
   .pipe(jade(pretty : true, locals : locals))

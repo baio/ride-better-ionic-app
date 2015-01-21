@@ -310,4 +310,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
   isUser: (ur) -> 
     ur.key == @getKey()
 
+  getLangFromCache : ->
+    getCahchedUser()?.settings?.lang
+
+
 
