@@ -1,0 +1,10 @@
+ion-view(ng-attr-title="#{resources.str.replies}")
+
+  ion-content.has-header
+    ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)" refreshing-icon="ion-loading-d")
+    include replies
+    ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies" distance="1%")
+
+  ion-footer-bar
+    h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+        i.icon.ion-chatboxes &nbsp; #{resources.str.reply}

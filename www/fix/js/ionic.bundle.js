@@ -48662,7 +48662,7 @@ function($collectionRepeatManager, $collectionDataSource, $parse) {
       }
 
       function viewEnter() {
-        ionic.on('resize', rerenderOnResize, window);
+        //ionic.on('resize', rerenderOnResize, window);
         if (requiresRerender) {
           rerenderOnResize();
         }
@@ -48672,7 +48672,7 @@ function($collectionRepeatManager, $collectionDataSource, $parse) {
         ionic.off('resize', rerenderOnResize, window);
       }
 
-      scrollCtrl.$element.on('scroll.resize', rerenderOnResize);
+      //scrollCtrl.$element.on('scroll.resize', rerenderOnResize);
       
       var deregisterViewListener;
       if (navViewCtrl) {
@@ -48684,9 +48684,9 @@ function($collectionRepeatManager, $collectionDataSource, $parse) {
         console.log("$destroy");
         collectionRepeatManager.destroy();
         dataSource.destroy();
-        ionic.off('resize', rerenderOnResize, window);
-        (deregisterViewListenerEnter || angular.noop)();
-        (deregisterViewListenerLeave || angular.noop)();
+        //ionic.off('resize', rerenderOnResize, window);
+        //(deregisterViewListenerEnter || angular.noop)();
+        //(deregisterViewListenerLeave || angular.noop)();
       });
     }
   };

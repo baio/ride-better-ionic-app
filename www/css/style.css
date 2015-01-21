@@ -159,3 +159,8 @@ ion-slide h3:first-child
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.item-cr
+{
+    border-top-width: 0px;
+}

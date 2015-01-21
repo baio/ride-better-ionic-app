@@ -1,6 +1,9 @@
-p(ng-if="::board.data.currentThread.formatted.canEdit")
+p
   block footer-bar-button
-  a.subdued(ng-click="board.removeThread(board.data.currentThread)")
-    i.icon.ion-trash-b &nbsp; #{resources.str.remove}               
-  a.subdued(ng-click="board.openThreadModal(board.data.currentThread, 'edit')")
-    i.icon.ion-edit &nbsp; #{resources.str.edit}                            
+  a.subdued(ng-click="openReplies(board.data.currentThread)")
+    | {{board.data.currentThread.replies.length}} #{resources.str.replies}
+  span(ng-if="::board.data.currentThread.formatted.canEdit")
+    a.subdued(ng-click="board.removeThread(board.data.currentThread)")
+      i.icon.ion-trash-b &nbsp; #{resources.str.remove}               
+    a.subdued(ng-click="board.openThreadModal(board.data.currentThread, 'edit')")
+      i.icon.ion-edit &nbsp; #{resources.str.edit}                            

@@ -8,7 +8,7 @@ app.directive "openExternal", ->
   link: (scope, elem, attrs) ->
     elem.bind 'click', ->
       if !scope.openExternal then return
-      src = scope.openExternal.replace /-thumb\./, "."      
+      src = scope.openExternal
       if window.cordova
         ref = window.open(src, "_blank”, “location=no,EnableViewPortScale=yes,presentationstyle=pagesheet")
         ref.addEventListener("loadstop", ->

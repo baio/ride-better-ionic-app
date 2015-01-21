@@ -1,17 +1,17 @@
 app.factory "resortsDA", (resortsEP, $q, cache) ->
 
-  getThumb = (img) ->
-    return img
-    #return if img then "http://wit.wurfl.io/w_350/#{img}" else img
+  getImg = (img) ->
+    thumb : img
+    orig : img?.replace(/thumbnail-/, ":original-")
 
   getCacheName = (spot) -> "resort_" + spot
 
   mapInfo = (info) ->
-    info.headerThumb = getThumb info.header
+    info.headerImg = getImg info.header
     for price in info.prices
-      price.thumb = getThumb price.src
+      price.img = getImg price.src
     for map in info.maps
-      map.thumb = getThumb map.src
+      map.img = getImg map.src
 
     info
 

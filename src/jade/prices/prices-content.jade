@@ -8,7 +8,7 @@ ion-view(ng-attr-title="#{resources.str.prices} - {{::state.spot.title}}")
                     | {{::price.title}}
                     i.ion-arrow-right-c(ng-click="moveNext()" style="float: right")
                 .item
-                  img(width="100%" ng-src="{{::price.thumb}}" open-external="{{::price.src}}" alt="{{::price.title}}")
+                  img(width="100%" ng-src="{{::price.img.thumb}}" open-external="{{::price.img.orig}}" alt="{{::price.title}}")
                 .item.item-divider(ng-if="::price.href")
                     div(style="width:100%" open-system="{{::price.href}}")
                         i.ion-ios-browsers-outline

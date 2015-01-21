@@ -67,34 +67,33 @@ app = angular.module("ride-better", [
         resolve:
           userResolved: (user) ->  
             user.login()
-  ).state("root.main.closed",
-    url: "/closed"
-    views:
-      "main-home":
-        templateUrl: "main/closed-report.html"
-        controller: "ClosedReportController"
   ).state("root.main.messages-item",
     url: "/messages/:threadId"
+    abstract : true
     views:
-      "main-messages":
-        templateUrl: "main/message.html"
+      "main-messages": 
+        template: "<ion-nav-view name='main-messages-item' style='background-color: white'></ion-nav-view>"
         controller: "MessageController"
     resolve:
       thread: (boardDA, $stateParams, $q) ->
         boardDA.getThread($stateParams.threadId).then null, ->
           console.log "Message not found"
           $q.when()                  
-  ).state("root.main.messages-item-requests",
-    url: "/messages/:threadId/requests"
+  ).state("root.main.messages-item.content",
+    url: "/content"
     views:
-      "main-messages":
+      "main-messages-item":
+        templateUrl: "main/message.html"        
+  ).state("root.main.messages-item.replies",
+    url: "/replies"
+    views:
+      "main-messages-item":
+        templateUrl: "messages/messgae-replies.html"
+  ).state("root.main.messages-item.requests",
+    url: "/requests"
+    views:
+      "main-messages-item":
         templateUrl: "messages/transfer-requests.html"
-        controller: "TransferRequestsController"
-    resolve:
-      thread: (boardDA, $stateParams, $q) ->
-        boardDA.getThread($stateParams.threadId).then null, ->
-          console.log "Message not found"
-          $q.when()                          
   ).state("root.main.messages",
     url: "/messages"
     views:
@@ -161,80 +160,6 @@ app = angular.module("ride-better", [
       "resort-webcams":
         templateUrl: "resort/resort-webcams.html"
         controller: "WebcamController"
-  ).state("root.msg",
-    url: "/msg"
-    abstract: true
-    views:
-      root:
-        templateUrl: "messages/messages.html"          
-  ).state("root.msg.messages-item",
-    url: "/messages/:threadId"
-    resolve:
-      thread: (boardDA, $stateParams, $q) ->
-        boardDA.getThread($stateParams.threadId).then null, ->
-          console.log "Message not found"
-          $q.when()          
-    views:
-      "msg-messages":
-        templateUrl: "messages/messages-item.html"    
-        controller: "MessagesItemController"
-  ).state("root.msg.messages",
-    url: "/messages"
-    views:
-      "msg-messages":
-        templateUrl: "messages/messages-list.html"    
-        controller: "MessagesListController"
-  ).state("root.msg.reports-item",
-    url: "/reports/:threadId"
-    resolve:
-      thread: (boardDA, $stateParams, $q) ->
-        boardDA.getThread($stateParams.threadId).then null, ->
-          console.log "Message not found"
-          $q.when()          
-    views:
-      "msg-reports":
-        templateUrl: "messages/reports-item.html"    
-        controller: "ReportsItemController"
-  ).state("root.msg.reports",
-    url: "/reports"
-    views:
-      "msg-reports":
-        templateUrl: "messages/reports-list.html"    
-        controller: "ReportsListController"
-  ).state("root.msg.faq-item",
-    url: "/faq/:threadId"
-    resolve:
-      thread: (boardDA, $stateParams, $q) ->
-        boardDA.getThread($stateParams.threadId).then null, ->
-          console.log "Message not found"
-          $q.when()              
-    views:
-      "msg-faq":
-        templateUrl: "messages/faq-item.html"    
-        controller: "FaqItemController"
-  ).state("root.msg.faq",
-    url: "/faq"
-    views:
-      "msg-faq":
-        templateUrl: "messages/faq-list.html"    
-        controller: "FaqListController"
-  ).state("root.msg.transfer-item",
-    url: "/transfer/:threadId"
-    resolve:
-      thread: (boardDA, $stateParams, $q) ->
-        boardDA.getThread($stateParams.threadId).then null, ->
-          console.log "Message not found"
-          $q.when()              
-    views:
-      "msg-transfer":
-        templateUrl: "messages/transfer-item.html"    
-        controller: "TransferItemController"
-  ).state("root.msg.transfer",
-    url: "/transfer"
-    views:
-      "msg-transfer":
-        templateUrl: "messages/transfer-list.html"    
-        controller: "TransferListController"
   ).state("root.prices",
     url: "/prices"
     abstract: true
@@ -309,6 +234,18 @@ app = angular.module("ride-better", [
         templateUrl: "user/settings.html"
         controller: "SettingsController"
   )
+  ###
+  .state("root.messages-item-replies",
+    url: "/messages/:threadId/replies"
+    templateUrl: "messages/messgae-replies.html"
+    controller: "RepliesController"
+    resolve:
+      thread: (boardDA, $stateParams, $q) ->
+        boardDA.getThread($stateParams.threadId).then null, ->
+          console.log "Message not found"
+          $q.when()                          
+  )
+  ###
 
 app.config ($urlRouterProvider) ->  
 

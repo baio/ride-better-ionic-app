@@ -1,16 +1,20 @@
 app.factory "boardThreadHeight", (boardThreadType, $interpolate) ->
 
-  getThreadContentDim = (thread, containerElement) ->
-    template = boardThreadType.getThreadTemplate(thread)
+
+  calcDim = (template, scope, containerElement) ->
     exp = $interpolate(template)
-    html = exp(thread : thread)
-    html = "<div class='item item-text-wrap' style='width: 100%; position: absolute; -webkit-transform: translate3d(-2000px, -2000px, 0)'>" + html + "</div>"
+    html = exp(scope)
+    html = "<div class='item item-text-wrap' style='width: 100%; position: absolute;'>" + html + "</div>"
     newElement = angular.element(html)
+    newElement.css(ionic.CSS.TRANSFORM, 'translate3d(-2000px,-2000px,0)')
     containerElement.append(newElement)      
     offsetHeight = newElement[0].offsetHeight
     offsetWidth = newElement[0].children[0].offsetWidth
     newElement.remove()
     width : offsetWidth, height : offsetHeight
+
+  getThreadContentDim = (thread, containerElement) ->
+    calcDim boardThreadType.getThreadTemplate(thread), {thread : thread}, containerElement
 
   getImageHeigth = (thread, contentWidth) ->
     if thread.data.img      
@@ -26,7 +30,7 @@ app.factory "boardThreadHeight", (boardThreadType, $interpolate) ->
         return h
       else
         return 300
-    return 0
+    return 0  
 
   getMessageHeigth = (thread, containerElement) ->
     contentDim = getThreadContentDim thread, containerElement
@@ -54,3 +58,5 @@ app.factory "boardThreadHeight", (boardThreadType, $interpolate) ->
     thread.__meta.listItemHeight = height  
     height
 
+  getReplyHeight: (reply, containerElement) ->
+    calcDim(boardThreadType.getReplyTemplate(), {reply : reply}, containerElement).height

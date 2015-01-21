@@ -24,3 +24,7 @@ app.factory "boardThreadType", ($templateCache) ->
     type = "reports" if type == "report"
     type = "messages" if type == "message"
     $templateCache.get "messages/#{type}-item.html"
+
+  getReplyTemplate: ->
+    $templateCache.get "messages/reply-item.html"
+

@@ -1,0 +1,12 @@
+extends ../messages/lists/_layout-list.jade
+
+block msg-content
+  ../messages/items/item-items/reply-item
+
+block msg-create-button
+  ion-footer-bar
+      h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+          i.icon.ion-chatboxes &nbsp; #{resources.str.reply}
+
+block vars      
+  - var PAGE_TITLE = resources.str.replies

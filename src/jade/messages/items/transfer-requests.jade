@@ -1,0 +1,17 @@
+ion-view(ng-attr-title="#{resources.str.tranfer_requests}")
+  ion-content.has-header
+    ul.list
+      li.item.item-avatar.item-button-right(ng-repeat="request in board.data.currentThread.requests")
+        img(ng-src="{{::request.user.avatar}}")
+        | {{::request.user.name}}
+        p
+          a.subdued.balanced(ng-if="request.accepted == undefined") 
+            i.icon.ion-checkmark-circled &nbsp; #{resources.str.requested} &nbsp;   
+          a.subdued.positive(ng-if="request.accepted == true") 
+            i.icon.ion-checkmark-circled.positive &nbsp; #{resources.str.accepted} &nbsp;
+          a.assertive.subdued(ng-if="request.accepted == false") 
+            i.icon.ion-close-round &nbsp; #{resources.str.rejected} &nbsp;            
+        button.button(ng-click="board.switchAccepted(board.data.currentThread, request)"
+          ng-if="::board.data.currentThread.formatted.canEdit"
+          ng-class="{positive : request.accepted, assertive : (request.accepted == false)}")
+          i.icon.ion-checkmark-round
