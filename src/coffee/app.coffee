@@ -9,7 +9,7 @@ app = angular.module("ride-better", [
   angular.element(document.getElementById("body_#{rm_lang}")).remove()
 
   $ionicPlatform.ready ->
-    screen.lockOrientation("portrait") if window.screen	
+    screen.lockOrientation("portrait") if window.screen and window.screen.lockOrientation 	
     StatusBar.styleDefault() if window.StatusBar
     user.activate().then ->
       if user.getLang() != lang
