@@ -180,5 +180,6 @@
   "rejected": "Отменен",
   "accepted": "Подтвержден",
   "already_go": "Уже едут",
-  "unrequest_transfer": "На самом деле не хочешь ехать ?"
+  "unrequest_transfer": "На самом деле не хочешь ехать ?",
+  "feels_like" : "чувствутеся как"
 }

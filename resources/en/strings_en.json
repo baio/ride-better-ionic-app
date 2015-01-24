@@ -181,5 +181,6 @@
   "rejected": "Rejected",
   "accepted": "Accepted",
   "already_go": "Already Go",
-  "unrequest_transfer": "Are you seriosuly refuse to take this transfer ?"
+  "unrequest_transfer": "Are you seriosuly refuse to take this transfer ?",
+  "feels_like" : "feels like"
 }

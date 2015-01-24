@@ -142,6 +142,15 @@ app = angular.module("ride-better", [
       "main-forecast":
         templateUrl: "main/forecast.html"
         controller: "ForecastController"
+  ).state("root.main.forecast-hourly",
+    url: "/forecast-hourly/:index"
+    views:
+      "main-forecast":
+        templateUrl: "main/forecast-hourly.html"
+        controller: "ForecastHourlyController"
+    resolve:
+      indexResolved: (boardDA, $stateParams, $q) ->
+        $stateParams.index
   ).state("root.main.favs",
     url: "/favs"
     views:

@@ -10,7 +10,6 @@ app.factory "homeDA", (homeEP, homeCache, $q, threadMapper) ->
     home.latestImportant ?= []
     home.reports.map threadMapper.mapThread
     home.latestImportant.map threadMapper.mapThread
-    console.log "homeDA.coffee:13 >>>", home
     home
 
   get : (opts) ->

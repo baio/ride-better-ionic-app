@@ -1,12 +1,12 @@
 ion-view(ng-attr-title="#{resources.str.forecast} - {{::state.spot.title}}")
     ion-content.has-header
         .list
-            .item.item-text-wrap(ng-repeat="item in ::forecast")
+            .item.item-text-wrap(ng-repeat="item in ::forecast" ng-click="openHourly($index)")
                 h2 {{::item.time | amDateFormat: 'dddd, Do MMMM'}}
                 h3 {{::item.summary}}
-                span(ng-if="item.precipType") {{::item.precipType | resourcesStr}}&nbsp;
+                span(ng-if="::item.precipType") {{::item.precipType | resourcesStr}}&nbsp;
                     span(ng-if="::item.precipAccumulation") {{::item.precipAccumulation | round:1}} {{::culture.units.names.height | resourcesStr}}.
                     br
                 | {{::item.temperatureMin | round | plus}}&deg;{{::culture.units.names.temperature}}  &mdash;
                 | {{::item.temperatureMax | round | plus}}&deg;{{::culture.units.names.temperature}}
-
+                i.ion-arrow-right-c.positive(style="float: right" ng-if="::item.hourly")
