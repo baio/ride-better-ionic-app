@@ -10,9 +10,15 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
   ).then (res) ->
     _addMsgModal = res
 
-  console.log "messagesController.coffee:13 >>>", stateResolved.spot
 
-  $scope.board = board
+  prms = 
+    spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code
+
+  _board = new board.Board prms, $scope, null, baseMessages.opts    
+
+  console.log "messagesController.coffee:19 >>>", _board.data
+
+  $scope.board = _board
   $scope.spotTitle = stateResolved.spot.title
   $scope.filterMsgsForm = board.filterMsgsFormScope
   $scope.msgForm = baseMessages.opts.thread.scope.msgForm
@@ -26,7 +32,7 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
 
   console.log "messagesController.coffee:24 >>>", userResolved
   if userResolved.settings?.msgsFilter
-    board.restoreFilter userResolved.settings.msgsFilter
+    _board.restoreFilter userResolved.settings.msgsFilter
 
   $scope.openThread = (threadId) ->
     $state.transitionTo("root.main.messages-item.content", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
@@ -45,28 +51,18 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     if thread == "report"
       $state.transitionTo("root.main.report", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
     else
-      board.openThreadModal(thread, "create")
+      _board.openThreadModal(thread, "create")
     _addMsgModal.hide()
 
-  loadThreads = ->
-    board.clean()
-    board.loadMoreThreads()  
-
-  __firstLoad = true
-  
-  $scope.$on "$ionicView.enter", ->
-    console.log "messagesController.coffee:62 >>>", "$ionicView.enter", __firstLoad
-    board.init {spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code}, $scope, null, baseMessages.opts    
-    if __firstLoad
-      loadThreads()
-      __firstLoad = false
+  console.log "messagesController.coffee:57 >>>", _board.data
+  _board.loadMoreThreads()  
 
   $scope.getThreadHeight = (thread) ->
     boardThreadHeight.getHeight thread, $scope.data.containerElement
 
   $scope.$on '$destroy', ->
     console.log "messageController.coffee:55 >>>" 
-    board.dispose()
+    _board.dispose()
 
   $scope.openReplies = (thread) ->
     prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code

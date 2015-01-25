@@ -10,13 +10,22 @@ app.controller "ImportantController", ($scope, $state, board, stateResolved, mes
 
   load = ->
     console.log "importantController.coffee:12 >>>"
-    if !board.data.threads.length
+    if !$scope.board.data.threads.length
       $q.when
         items : homeResolved.latestImportant
         index : 0
         canLoadMoreThreads : true
 
-  $scope.board = board
+  prms = 
+    spot : stateResolved.spot.id
+    board : "message"
+    culture : stateResolved.culture.code
+    filter : filter
+    load : load
+
+  _board = new board.Board prms, $scope, null, messages.opts
+
+  $scope.board = _board
   $scope.spotTitle = stateResolved.spot.title
   $scope.msgForm = messages.opts.thread.scope.msgForm
   $scope.simpleMsgForm = messages.opts.thread.scope.simpleMsgForm
@@ -27,20 +36,15 @@ app.controller "ImportantController", ($scope, $state, board, stateResolved, mes
   $scope.openThread = (threadId) ->
     $state.transitionTo("root.main.messages-item.content", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
 
-  loadThreads = ->
-    board.clean()
-    board.loadMoreThreads()  
+  console.log "importantController.coffee:39 >>>", _board.data
+  _board.loadMoreThreads()  
   
-  $scope.$on "$ionicView.enter", ->
-    board.init {spot : stateResolved.spot.id, board : "message", culture : stateResolved.culture.code, filter : filter, load : load}, $scope, null, messages.opts
-    loadThreads()
-
   $scope.getThreadHeight = (thread) ->
     boardThreadHeight.getHeight thread, $scope.data.containerElement
 
   $scope.$on '$destroy', ->
     console.log "messageController.coffee:55 >>>" 
-    board.dispose()
+    _board.dispose()
 
   $scope.openReplies = (thread) ->
     prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code
