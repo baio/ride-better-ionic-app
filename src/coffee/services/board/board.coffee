@@ -34,7 +34,7 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
 
   class Board     
 
-    constructor: (prms, scope, currentThread, opts) ->
+    constructor: (prms, scope, opts) ->
 
       @_opts = {}
       @data =       
@@ -43,9 +43,7 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
         canLoadMoreReplies : false
         threads : []
 
-      @init prms, scope, currentThread, opts
-      console.log "board.coffee:39 >>>", @data
-
+      @init prms, scope, opts    
 
     getFilter: (spot) ->   
       _opts =  @_opts
@@ -110,7 +108,7 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       _opts = @_opts
       if _opts.board.threadModal?.isShown() then _opts.board.threadModal else _opts.board.replyModal      
 
-    init: (prms, scope, currentThread, opts) ->      
+    init: (prms, scope, opts) ->      
       angular.copy _defOpts, @_opts
       _opts = @_opts
       @dispose()
@@ -124,8 +122,6 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       _opts.board.filter = prms.filter
       _opts.board.load = prms.load
       @resetData()
-      if currentThread
-        @setThread currentThread
       if _opts.thread.modalTemplate
         if typeof _opts.thread.modalTemplate == "string"
           createThreadModal(_opts.thread.modalTemplate, scope)
@@ -280,8 +276,8 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       @openMsgModal item, mode, "reply"
 
     sendMessage: ->
-      _opts = @opts
-      msgModal = getShownModal()
+      _opts = @_opts
+      msgModal = @getShownModal()
       opts = msgModal.opts
       modalOpts = _opts[opts.type]
       err = modalOpts.validate(opts.item)
@@ -293,10 +289,10 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
         promise = null
         if opts.type == "thread"
           if opts.mode == "create"
-            promise = boardDA.postThread({spot : home, board : opts.boardName}, d).then (res) -> 
+            promise = boardDA.postThread({spot : home, board : opts.boardName}, d).then (res) => 
               @data.threads.splice 0, 0, res            
           else if opts.mode == "edit"
-            promise = boardDA.putThread(opts.item._id, d).then (res) ->
+            promise = boardDA.putThread(opts.item._id, d).then (res) =>
               @data.threads.splice @data.threads.indexOf(opts.item), 1, res
               if @data.currentThread
                 @data.currentThread.data = res.data
@@ -311,9 +307,9 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
         promise?.then -> msgModal.hide()
 
     cancelMsgModal: ->
-      msgModal = getShownModal()
+      msgModal = @getShownModal()
       opts = msgModal.opts
-      modalOpts = _opts[opts.type]    
+      modalOpts = @_opts[opts.type]    
       modalOpts.reset?(opts.item)
       msgModal.hide()
 

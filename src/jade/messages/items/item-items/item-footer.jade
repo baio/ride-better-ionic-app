@@ -1,12 +1,14 @@
 p
-  block footer-bar-button
   a.button.button-outline.button-positive.button-small(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
     | #{resources.str.reply} 
   &nbsp;
   a.button.button-outline.button-positive.button-small(ng-click="openReplies(board.data.currentThread)")
     | #{resources.str.replies} {{board.data.currentThread.repliesCount}}
-  span(ng-if="::board.data.currentThread.formatted.canEdit")
+  span(ng-if="::board.data.currentThread.formatted.canEdit" style="float: right")
     a.button.button-outline.button-royal.button-small(ng-click="board.openThreadModal(board.data.currentThread, 'edit')")
       i.icon.ion-edit &nbsp; #{resources.str.edit}                                
+    &nbsp;
     a.button.button-outline.button-royal.button-small(ng-click="board.removeThread(board.data.currentThread)")
       i.icon.ion-trash-b &nbsp; #{resources.str.remove}               
+
+  block footer-bar-button

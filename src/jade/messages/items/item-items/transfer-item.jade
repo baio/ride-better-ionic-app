@@ -21,16 +21,18 @@ block item-layout-content
     | {{board.data.currentThread.data.text}}                                        
 
 block footer-bar-button
-  span(ng-if="board.data.currentThread.data.meta.type != 'taxi'")
+  .padding-top(ng-if="board.data.currentThread.data.meta.type != 'taxi'")
     span(ng-switch="board.userRequestStatus(board.data.currentThread)")
-      a.subdued(ng-click='board.requestTransfer(board.data.currentThread)' ng-switch-when="none") 
-        i.icon.ion-checkmark-round &nbsp; #{resources.str.request} &nbsp; 
-      a.subdued.balanced(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="requested") 
-        i.icon.ion-checkmark-circled &nbsp; #{resources.str.requested} &nbsp;   
-      a.subdued.positive(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="accepted") 
-        i.icon.ion-checkmark-circled.positive &nbsp; #{resources.str.accepted} &nbsp;
-      a.assertive.subdued(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="rejected") 
-        i.icon.ion-close-round &nbsp; #{resources.str.rejected} &nbsp;            
-    i.icon.ion-person-stalker(ng-click='openTransferRequests(board.data.currentThread)') &nbsp; #{resources.str.already_go}
-      | {{board.data.currentThread.requests.length}} &nbsp; 
+      a.button.button-outline.button-calm.button-small(ng-click='board.requestTransfer(board.data.currentThread)' ng-switch-when="none") 
+        i.icon.ion-checkmark-round &nbsp; #{resources.str.request} 
+      a.button.button-outline.button-balanced.button-small(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="requested") 
+        i.icon.ion-checkmark-circled &nbsp; #{resources.str.requested}    
+      a.button.button-outline.button-positive.button-small(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="accepted") 
+        i.icon.ion-checkmark-circled &nbsp; #{resources.str.accepted} 
+      a.button.button-outline.button-asserive.button-small(ng-click='board.unrequestTransfer(board.data.currentThread)' ng-switch-when="rejected") 
+        i.icon.ion-close-round &nbsp; #{resources.str.rejected} 
+    &nbsp;
+    a.button.button-outline.button-positive.button-small(ng-click='openTransferRequests(board.data.currentThread)')
+      i.icon.ion-person-stalker &nbsp; #{resources.str.already_go}
+        | {{board.data.currentThread.requests.length}} &nbsp; 
 

@@ -1,42 +1,23 @@
-app.controller "MessageController", ($scope, $state, board, thread, stateResolved, messages, faq, report, transfer, $ionicModal, boardThreadHeight) ->
+app.controller "MessageController", ($scope, $state, board, thread, stateResolved, baseMessages, $ionicModal, boardThreadHeight) ->
 
   console.log "MessageItem Controller"
 
-  $scope.board = board
-  $scope.msgForm = messages.opts.thread.scope
-  $scope.faqMsgForm = faq.opts.thread.scope
-  $scope.transferForm = transfer.opts.thread.scope
-  $scope.reportForm = report.opts.thread.scope
-  $scope.simpleMsgForm = messages.opts.reply.scope
+  _board = new board.Board {spot : stateResolved.spot.id, culture : stateResolved.culture.code}, $scope, baseMessages.opts
+  _board.setThread thread
+
+  $scope.board = _board
   $scope.data = containerElement : null
 
+  $scope.msgForm = baseMessages.opts.thread.scope.msgForm
+  $scope.faqMsgForm = baseMessages.opts.thread.scope.faqMsgForm
+  $scope.transferForm = baseMessages.opts.thread.scope.transferForm
+  $scope.reportForm = baseMessages.opts.thread.scope.reportForm
+  $scope.simpleMsgForm = baseMessages.opts.thread.scope.simpleMsgForm
 
+  ###
   messages.opts.thread.moveToList = ->
     $state.transitionTo("root.main.messages", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
-
-  isThreadOfType = (thd, type) ->
-    thd.tags.indexOf(type) != -1
-
-  $scope.isThreadOfType = isThreadOfType
-
-  initBoard = ->
-    boardOpts =  
-      if isThreadOfType(thread, "faq")
-        name : "faq"
-        opts : faq.opts
-      else if isThreadOfType(thread, "message")
-        name : "message"
-        opts : messages.opts
-      else if isThreadOfType(thread, "transfer")
-        name : "transfer"
-        opts : transfer.opts
-      else if isThreadOfType(thread, "report")
-        name : "report"
-        opts : report.opts
-
-    board.init {spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code}, $scope, thread, boardOpts.opts
-
-  initBoard()
+  ###
 
   _requestsModal = null
 
@@ -58,6 +39,7 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
     $state.go("root.main.messages-item.replies", prms)
 
   $scope.openTransferRequests = (thread) ->
+    console.log "messageController.coffee:42 >>>", thread
     prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code
     $state.go("root.main.messages-item.requests", prms)
 

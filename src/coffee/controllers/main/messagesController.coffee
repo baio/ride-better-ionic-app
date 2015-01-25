@@ -10,13 +10,10 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
   ).then (res) ->
     _addMsgModal = res
 
-
   prms = 
     spot : stateResolved.spot.id, board : null, culture : stateResolved.culture.code
 
-  _board = new board.Board prms, $scope, null, baseMessages.opts    
-
-  console.log "messagesController.coffee:19 >>>", _board.data
+  _board = new board.Board prms, $scope, baseMessages.opts    
 
   $scope.board = _board
   $scope.spotTitle = stateResolved.spot.title
@@ -30,12 +27,12 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
   $scope.data = 
     containerElement : null
 
-  console.log "messagesController.coffee:24 >>>", userResolved
   if userResolved.settings?.msgsFilter
     _board.restoreFilter userResolved.settings.msgsFilter
 
-  $scope.openThread = (threadId) ->
-    $state.transitionTo("root.main.messages-item.content", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
+  $scope.openThread = (thread) ->
+    _board.setThread thread
+    $state.transitionTo("root.main.messages-item.content", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : thread._id})
 
   $scope.openAddMsgSelector = ->
     user.login().then ->
@@ -54,7 +51,6 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
       _board.openThreadModal(thread, "create")
     _addMsgModal.hide()
 
-  console.log "messagesController.coffee:57 >>>", _board.data
   _board.loadMoreThreads()  
 
   $scope.getThreadHeight = (thread) ->

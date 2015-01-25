@@ -1,7 +1,7 @@
 extends ./_item-layout.jade
 
 block item-layout-content
-  h2(ng-click='openThread(thread._id)')
+  h2(ng-click='openThread(thread)')
     i.ion-model-s.royal &nbsp;
     | {{::thread.formatted.transfer.title}}
     | 
@@ -19,7 +19,7 @@ block item-layout-content
     a.positive(ng-href="tel:{{::thread.data.meta.phone}}" style="text-decoration: none")
       i.ion-android-call 
       | {{::thread.data.meta.phone}}
-  h4.dark(ng-click='openThread(thread._id)') {{::thread.formatted.shortText}}       
+  h4.dark(ng-click='openThread(thread)') {{::thread.formatted.shortText}}       
     
 block footer-bar-button
   span(ng-switch="::thread.formatted.transfer.requestStatus" ng-if="::thread.data.meta.type != 'taxi'")
