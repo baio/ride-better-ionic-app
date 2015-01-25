@@ -82,6 +82,7 @@ app = angular.module("ride-better", [
     views:
       "main-home":
         templateUrl: "main/home/important.html"
+        controller: "ImportantController"
   ).state("root.main.report",
     url: "/report"
     views:

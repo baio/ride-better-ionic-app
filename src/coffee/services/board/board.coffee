@@ -67,9 +67,23 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       spot : filterSpots
       board : filterBoards        
 
+  loadBoardExternal = ->
+    loader = _opts.board.load?()
+    if loader
+      _opts.board.load().then (res) ->
+        setBoard(res.items, res.index)
+        data.canLoadMoreThreads = res.canLoadMore
+    loader
+
   loadBoard = (opts, pushIndex) ->
-    spot = if _opts.thread.getLoadSpot then _opts.thread.getLoadSpot() else _opts.board.spot
+    #!!!spot = if _opts.thread.getLoadSpot then _opts.thread.getLoadSpot() else _opts.board.spot
+    extarnalLoader = loadBoardExternal()
+    if extarnalLoader
+      return extarnalLoader
+
+    spot = _opts.board.spot
     board = _opts.board.boardName
+
     getFilter(spot)
     .then (filter) ->     
       opts ?= {}
@@ -186,6 +200,7 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     _opts.board.boardName = prms.board
     _opts.board.culture = prms.culture
     _opts.board.filter = prms.filter
+    _opts.board.load = prms.load
     resetData()
     if currentThread
       setThread currentThread
@@ -306,7 +321,6 @@ app.factory "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     _filterModal.hide()
 
   filter: ->    
-    console.log "board.coffee:308 >>>"
     @clean()
     _filterModal.hide()
     .then ->
