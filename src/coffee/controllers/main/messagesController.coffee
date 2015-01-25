@@ -68,3 +68,6 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
     console.log "messageController.coffee:55 >>>" 
     board.dispose()
 
+  $scope.openReplies = (thread) ->
+    prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code
+    $state.go("root.main.messages-item.replies", prms)
