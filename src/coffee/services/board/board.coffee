@@ -246,6 +246,7 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
           isMoveBack = @data.currentThread
           @data.threads.splice @data.threads.indexOf(thread), 1
           @data.currentThread = null
+
           if isMoveBack
             @_opts.thread.moveToList?()
 
@@ -280,12 +281,12 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       msgModal = @getShownModal()
       opts = msgModal.opts
       modalOpts = _opts[opts.type]
-      err = modalOpts.validate(opts.item)
+      err = modalOpts.validate()
       if err
         notifier.message err
       else
         home = _opts.board.spot
-        d = modalOpts.map2send(opts.item)
+        d = modalOpts.map2send()
         promise = null
         if opts.type == "thread"
           if opts.mode == "create"

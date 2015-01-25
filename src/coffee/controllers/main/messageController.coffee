@@ -14,11 +14,6 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
   $scope.reportForm = baseMessages.opts.thread.scope.reportForm
   $scope.simpleMsgForm = baseMessages.opts.thread.scope.simpleMsgForm
 
-  ###
-  messages.opts.thread.moveToList = ->
-    $state.transitionTo("root.main.messages", {id : stateResolved.spot.id, culture : stateResolved.culture.code})
-  ###
-
   _requestsModal = null
 
   $ionicModal.fromTemplateUrl("modals/transferRequestsForm.html",
@@ -36,7 +31,7 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
 
   $scope.openReplies = (thread) ->
     prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code
-    $state.go("root.main.messages-item.replies", prms)
+    $state.go("^.replies", prms)
 
   $scope.openTransferRequests = (thread) ->
     console.log "messageController.coffee:42 >>>", thread

@@ -92,6 +92,28 @@ app = angular.module("ride-better", [
         resolve:
           userResolved: (user) ->  
             user.login()
+  ).state("root.main.home-message",
+    url: "/home/messages/:threadId"
+    abstract : true
+    views:
+      "main-home": 
+        template: "<ion-nav-view name='main-home-message' style='background-color: white'></ion-nav-view>"
+        controller: "MessageController"
+    resolve:
+      thread: (boardDA, $stateParams, $q) ->
+        boardDA.getThread($stateParams.threadId).then null, ->
+          console.log "Message not found"
+          $q.when()                  
+  ).state("root.main.home-message.content",
+    url: "/content"
+    views:
+      "main-home-message":
+        templateUrl: "main/message.html"        
+  ).state("root.main.home-message.replies",
+    url: "/replies"
+    views:
+      "main-home-message":
+        templateUrl: "messages/messgae-replies.html"
   ).state("root.main.messages-item",
     url: "/messages/:threadId"
     abstract : true

@@ -23,20 +23,16 @@ app.controller "ImportantController", ($scope, $state, board, stateResolved, mes
     filter : filter
     load : load
 
-  _board = new board.Board prms, $scope, null, messages.opts
+  _board = new board.Board prms, $scope, messages.opts
 
   $scope.board = _board
   $scope.spotTitle = stateResolved.spot.title
-  $scope.msgForm = messages.opts.thread.scope.msgForm
-  $scope.simpleMsgForm = messages.opts.thread.scope.simpleMsgForm
+  $scope.msgForm = messages.opts.thread.scope
+  $scope.simpleMsgForm = messages.opts.reply.scope
 
   $scope.data = 
     containerElement : null
 
-  $scope.openThread = (threadId) ->
-    $state.transitionTo("root.main.messages-item.content", {id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : threadId})
-
-  console.log "importantController.coffee:39 >>>", _board.data
   _board.loadMoreThreads()  
   
   $scope.getThreadHeight = (thread) ->
@@ -46,6 +42,10 @@ app.controller "ImportantController", ($scope, $state, board, stateResolved, mes
     console.log "messageController.coffee:55 >>>" 
     _board.dispose()
 
+  $scope.openThread = (thread) ->
+    prms = id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : thread._id
+    $state.transitionTo("root.main.home-message.content", prms)
+
   $scope.openReplies = (thread) ->
     prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code
-    $state.go("root.main.messages-item.replies", prms)
+    $state.go("root.main.home-message.replies", prms)
