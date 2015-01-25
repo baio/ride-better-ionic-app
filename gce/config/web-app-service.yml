@@ -1,8 +1,7 @@
 id: web-app-service
 kind: Service
-apiVersion: v1beta1
+apiVersion: v1beta2
 port: 80
-createExternalLoadBalancer: true
 containerPort: web-app-port
 selector: 
   name: web-app

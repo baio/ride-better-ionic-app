@@ -4,6 +4,8 @@ app.controller "ForecastController", ($scope, homeResolved, stateResolved, $stat
 
   $scope.forecast = homeResolved.forecast
 
-  $scope.openHourly = (index) ->
-    $state.transitionTo("root.main.forecast-hourly", {id : stateResolved.spot.id, culture : stateResolved.culture.code, index : index})
+  $scope.openHourly = (item) ->
+    if item.hourly
+      index = $scope.forecast.indexOf item
+      $state.transitionTo("root.main.forecast-hourly", {id : stateResolved.spot.id, culture : stateResolved.culture.code, index : index})
 

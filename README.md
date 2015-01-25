@@ -1,6 +1,6 @@
 Ionic App Base
 =====================
-
+!!! gloud add forwarding rule here by "createExternalLoadBalancer": true or manualy, then you mast manually check allow http traffic on instances !!!
 !!! Is Lang and Culture must be setup on rootRoute ???? since resources.str - is compromise to not use filters !!!
 
 ```
