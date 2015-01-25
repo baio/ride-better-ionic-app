@@ -76,13 +76,22 @@ app = angular.module("ride-better", [
     url: "/home/reports"
     views:
       "main-home":
-        templateUrl: "main/home/reports.html"
+        templateUrl: "main/home/messages.html"
+        controller: "HomeMessagesController"
+    resolve:
+      messagesOptsResolved : (homeResolved) ->
+        initialItems : homeResolved.reports
+        board : "report"
   ).state("root.main.home-important",
     url: "/home/important"
     views:
       "main-home":
-        templateUrl: "main/home/important.html"
-        controller: "ImportantController"
+        templateUrl: "main/home/messages.html"
+        controller: "HomeMessagesController"
+    resolve:
+      messagesOptsResolved : (homeResolved) ->
+        initialItems : homeResolved.latestImportant
+        board : "message"        
   ).state("root.main.report",
     url: "/report"
     views:

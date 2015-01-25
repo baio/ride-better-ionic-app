@@ -28,6 +28,7 @@ app.controller "MessageController", ($scope, $state, board, thread, stateResolve
   $scope.$on '$destroy', ->
     console.log "messageController.coffee:55 >>>" 
     _requestsModal.remove()
+    _board.dispose()
 
   $scope.openReplies = (thread) ->
     prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code

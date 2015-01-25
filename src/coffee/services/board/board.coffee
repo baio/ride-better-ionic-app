@@ -1,6 +1,5 @@
 app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMsgsFormScope, $q, $ionicScrollDelegate) ->
-
-  _filterModal = null
+  
   _defOpts = 
     board :
       threadModal : null
@@ -141,9 +140,8 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       $ionicModal.fromTemplateUrl("modals/filterMsgsForm.html",
             scope : scope
             animation: 'slide-in-up'
-          ).then (modal3) ->
-            _filterModal = modal3
-
+          ).then (modal3) =>
+            @_filterModal = modal3
 
     setBoard : (res, index) ->
       @data.currentThread = null
@@ -265,10 +263,12 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       if _opts.board.threadModal
         _opts.board.threadModal.remove()
         _opts.board.replyModal.remove()
-        _filterModal.remove()
+        
         _opts.board.threadModal = null
         _opts.board.replyModal = null
-        _filterModal = null
+      if @_filterModal 
+        @_filterModal.remove()
+        @_filterModal = null
 
     openThreadModal: (item, mode, modalOpts) ->
       @openMsgModal item, mode, "thread"
@@ -315,14 +315,14 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       msgModal.hide()
 
     openFilterModal: ->
-      _filterModal.show()
+      @_filterModal.show()
 
     cancelFilterModal: ->
-      _filterModal.hide()
+      @_filterModal.hide()
 
     filter: ->    
       @clean()
-      _filterModal.hide()
+      @_filterModal.hide()
       .then =>
         @loadBoard()
       .then ->

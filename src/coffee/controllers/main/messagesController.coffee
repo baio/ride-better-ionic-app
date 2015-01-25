@@ -42,6 +42,7 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
 
   $scope.$on '$destroy', ->
     _addMsgModal.remove()
+    _board.dispose()
 
   $scope.createThreadModal = (thread) ->
     if thread == "report"
@@ -54,10 +55,6 @@ app.controller "MessagesController", ($scope, $state, board, stateResolved, base
 
   $scope.getThreadHeight = (thread) ->
     boardThreadHeight.getHeight thread, $scope.data.containerElement
-
-  $scope.$on '$destroy', ->
-    console.log "messageController.coffee:55 >>>" 
-    _board.dispose()
 
   $scope.openReplies = (thread) ->
     prms = threadId : thread._id, id : stateResolved.spot.id, culture : stateResolved.culture.code

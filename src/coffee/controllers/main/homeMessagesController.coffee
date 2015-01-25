@@ -1,6 +1,6 @@
-app.controller "ImportantController", ($scope, $state, board, stateResolved, messages, user, boardThreadHeight, homeResolved, $q) ->
+app.controller "HomeMessagesController", ($scope, $state, board, stateResolved, messages, user, boardThreadHeight, messagesOptsResolved, $q) ->
 
-  console.log "ImportantController"
+  console.log "HomeMessagesController"
 
   filter = ->
     console.log "importantController.coffee:7 >>>" 
@@ -9,16 +9,15 @@ app.controller "ImportantController", ($scope, $state, board, stateResolved, mes
     board : "message"
 
   load = ->
-    console.log "importantController.coffee:12 >>>"
     if !$scope.board.data.threads.length
       $q.when
-        items : homeResolved.latestImportant
+        items : messagesOptsResolved.initialItems
         index : 0
         canLoadMoreThreads : true
 
   prms = 
     spot : stateResolved.spot.id
-    board : "message"
+    board : messagesOptsResolved.board
     culture : stateResolved.culture.code
     filter : filter
     load : load
