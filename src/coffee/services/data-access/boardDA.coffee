@@ -40,7 +40,7 @@ app.factory "boardDA", (boardEP, $q, $rootScope, threadMapper, threadsPoolServic
     boardEP.requestTransfer(thread._id).then (res) ->
       thread.requests ?= []
       thread.requests.push res
-      threadsPoolService.push res
+      threadsPoolService.push thread
 
   unrequestTransfer: (thread) -> 
     boardEP.unrequestTransfer(thread._id).then (res) ->
@@ -48,12 +48,11 @@ app.factory "boardDA", (boardEP, $q, $rootScope, threadMapper, threadsPoolServic
       ix = thread.requests.indexOf thread.requests.filter((f) -> f.user.key == res.user.key)[0]
       if ix != -1
         thread.requests.splice ix, 1
-      threadsPoolService.push res
-
+      threadsPoolService.push thread
 
   acceptTransferRequest: (thread, userRequest, f) ->
     boardEP.acceptTransferRequest(thread._id, userRequest.user.key, f).then ->
-      userRequest.state = if f then "accepted" else "rejected"
+      userRequest.accepted = f
       threadsPoolService.push thread      
 
   removeReply: (reply, thread) ->

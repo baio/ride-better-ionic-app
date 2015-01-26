@@ -360,8 +360,7 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
 
     switchAccepted : (thread, request) ->
       f = !request.accepted
-      boardDA.acceptTransferRequest(thread._id, request.user.key, f).then ->
-        request.accepted = f
+      boardDA.acceptTransferRequest(thread, request, f)
 
 
   Board : Board        
