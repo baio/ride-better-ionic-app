@@ -44,15 +44,15 @@ app.factory "baseMessages", (messages, faq, report, transfer) ->
         getBase(thread).opts.thread.modalTemplate
 
       map2send: (thread) -> 
-        getBase(thread).opts.thread.map2send(thread)
+        getBase(thread).opts.thread.map2send()
       
       item2scope: (thread) ->
         getBase(thread).opts.thread.item2scope(thread)
 
       validate: (thread) ->
-        getBase(thread).opts.thread.validate(thread)
+        getBase(thread).opts.thread.validate()
 
       reset: (thread) ->
-        getBase(thread).opts.thread.reset(thread)
+        getBase(thread).opts.thread.reset()
         
     reply : faq.opts.reply  

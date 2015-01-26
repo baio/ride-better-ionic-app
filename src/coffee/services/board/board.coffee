@@ -40,7 +40,7 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
         currentThread : null
         canLoadMoreThreads : false
         canLoadMoreReplies : false
-        threads : []
+        threads : []        
 
       @init prms, scope, opts    
 
@@ -74,7 +74,7 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
         spot : filterSpots
         board : filterBoards        
 
-    openMsgModal: (item, mode, type) ->
+    openMsgModal: (item, mode, type, parent) ->
       _opts = @_opts    
       user.login()
       .then ->
@@ -90,6 +90,7 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
           type : type
           mode: mode
           item: item
+          parent: parent
           boardName: _opts.board.boardName
         if mode == "edit"
           _opts[type].item2scope item
@@ -107,7 +108,16 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
       _opts = @_opts
       if _opts.board.threadModal?.isShown() then _opts.board.threadModal else _opts.board.replyModal      
 
-    init: (prms, scope, opts) ->      
+    init: (prms, scope, opts) ->   
+
+      $rootScope.$on "thread::remove", (evt, thread) =>
+        console.log "board.coffee:113 >>>", thread
+        for th, i in @data.threads
+          if th._id == thread._id
+            console.log "board.coffee:116 >>>", i 
+            @data.threads.splice i, 1
+            break
+
       angular.copy _defOpts, @_opts
       _opts = @_opts
       @dispose()
@@ -239,24 +249,16 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
         if res
           home = user.getHome().code
           boardDA.removeThread(thread)
-      .then (res) =>
-        if res
-          isMoveBack = @data.currentThread
-          @data.threads.splice @data.threads.indexOf(thread), 1
-          @data.currentThread = null
-
-          if isMoveBack
-            @_opts.thread.moveToList?()
-
+      .then (res) =>        
+        @data.currentThread = null
+        $rootScope.$broadcast "thread::remove", thread
+          
     removeReply : (thread, reply) ->    
       notifier.confirm("confirm_delete")
       .then (res) ->
         if res
           home = user.getHome().code
-          boardDA.removeReply(reply._id)
-      .then (res) ->
-        if res
-          thread.replies.splice thread.replies.indexOf(reply), 1
+          boardDA.removeReply(reply, thread)
 
     dispose: -> 
       _opts = @_opts
@@ -273,20 +275,20 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
     openThreadModal: (item, mode, modalOpts) ->
       @openMsgModal item, mode, "thread"
 
-    openReplyModal: (item, mode) ->
-      @openMsgModal item, mode, "reply"
+    openReplyModal: (item, mode, parent) ->
+      @openMsgModal item, mode, "reply", parent
 
     sendMessage: ->
       _opts = @_opts
       msgModal = @getShownModal()
       opts = msgModal.opts
       modalOpts = _opts[opts.type]
-      err = modalOpts.validate()
+      err = modalOpts.validate(opts.item)
       if err
         notifier.message err
       else
         home = _opts.board.spot
-        d = modalOpts.map2send()
+        d = modalOpts.map2send(opts.item)
         promise = null
         if opts.type == "thread"
           if opts.mode == "create"
@@ -299,11 +301,9 @@ app.service "board", ($rootScope, boardDA, user, $ionicModal, notifier, filterMs
                 @data.currentThread.data = res.data
         else if opts.type == "reply"
           if opts.mode == "create"
-            promise = boardDA.postReply(opts.item._id, d).then (res) -> 
-              opts.item.replies.splice 0, 0, res
+            promise = boardDA.postReply(opts.item, d)
           else if opts.mode == "edit"
-            promise = boardDA.putReply(opts.item._id, d).then (res) -> 
-              opts.item.data = res.data
+            promise = boardDA.putReply(opts.item, opts.parent, d)
         modalOpts.reset?(opts.item)
         promise?.then -> msgModal.hide()
 

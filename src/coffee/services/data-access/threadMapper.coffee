@@ -28,6 +28,8 @@ app.factory "threadMapper",  (user, amCalendarFilter, amDateFormatFilter, resour
           return "requested"      
 
   mapThread = (thread) ->
+    if thread.formatted
+      return thread
     thread.repliesCount = thread.replies.length
     thread.formatted = 
       shortText : trimText(thread.data.text)

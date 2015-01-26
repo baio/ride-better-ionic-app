@@ -1,11 +1,4 @@
-app.factory "boardDA", (boardEP, $q, boardCache, $rootScope, threadMapper) ->
-
-
-  getFilterStr = (prms, opts) ->
-    filter = filter :
-        prms : prms 
-        opts : opts
-    JSON.stringify filter
+app.factory "boardDA", (boardEP, $q, $rootScope, threadMapper, threadsPoolService) ->
 
   saveThread = (method, opts, data) ->    
     if !data.img or (!data.img.file and !data.img.url)
@@ -22,47 +15,32 @@ app.factory "boardDA", (boardEP, $q, boardCache, $rootScope, threadMapper) ->
       data = angular.copy data
       delete data.img      
       promise = boardEP[method + "ThreadImg"] opts, file, data
-    promise.then threadMapper.mapThread
+    
+    promise.then threadsPoolService.push
 
   postThread: (opts, data) ->
-    saveThread("post", opts, data).then (res) ->
-      $rootScope.$broadcast "::board.thread.add", thread : res
-      res
+    saveThread("post", opts, data)
 
   putThread: (opts, data) ->
     saveThread "put", opts, data
 
   get: (prms, opts) ->
-    filterStr = getFilterStr prms, opts
-    cached = boardCache.get filterStr
-    if cached
-      return $q.when cached
     boardEP.get(prms, opts).then (res) ->
-      res = res.map threadMapper.mapThread      
-      boardCache.put filterStr, res
-      res
+      threadsPoolService.push res
 
   getThread: (id, opts) ->
-    thread = boardCache.getThread id
-    if thread
-      return $q.when thread
-    boardEP.getThread(id, opts).then threadMapper.mapThread      
+    existed = threadsPoolService.get id
+    if existed then return $q.when existed
+    boardEP.getThread(id, opts).then threadsPoolService.push
 
   removeThread: (thread) -> 
-    boardEP.removeThread(thread._id).then (res) ->
-      $rootScope.$broadcast "::board.thread.remove", thread : thread
-      res      
-
-  removeReply: boardEP.removeReply
-
-  postReply: (threadId, data) -> boardEP.postReply(threadId, data).then threadMapper.mapReply
-  putReply: (threadId, data) -> boardEP.putReply(threadId, data).then threadMapper.mapReply
+    boardEP.removeThread(thread._id)
 
   requestTransfer: (thread) -> 
     boardEP.requestTransfer(thread._id).then (res) ->
       thread.requests ?= []
       thread.requests.push res
-      threadMapper.mapThread thread
+      threadsPoolService.push res
 
   unrequestTransfer: (thread) -> 
     boardEP.unrequestTransfer(thread._id).then (res) ->
@@ -70,10 +48,28 @@ app.factory "boardDA", (boardEP, $q, boardCache, $rootScope, threadMapper) ->
       ix = thread.requests.indexOf thread.requests.filter((f) -> f.user.key == res.user.key)[0]
       if ix != -1
         thread.requests.splice ix, 1
-      threadMapper.mapThread thread
+      threadsPoolService.push res
 
-  acceptTransferRequest: (threadId, userRequestId, f) ->
-    boardEP.acceptTransferRequest(threadId, userRequestId, f)
+
+  acceptTransferRequest: (thread, userRequest, f) ->
+    boardEP.acceptTransferRequest(thread._id, userRequest.user.key, f).then ->
+      userRequest.state = if f then "accepted" else "rejected"
+      threadsPoolService.push thread      
+
+  removeReply: (reply, thread) ->
+    boardEP.removeReply(reply._id).then ->
+      thread.replies.splice thread.replies.indexOf(reply), 1
+      threadsPoolService.push thread      
+
+  postReply: (thread, data) -> 
+    boardEP.postReply(thread._id, data).then (res) ->
+      thread.replies.splice 0, 0, threadMapper.mapReply res
+      threadsPoolService.push thread      
+  
+  putReply: (reply, thread, data) ->
+    boardEP.putReply(reply._id, data).then (res) ->      
+      reply.data.text = data.message
+      threadsPoolService.push thread    
 
 
 

@@ -29,7 +29,7 @@ app.factory "boardEP", (_ep) ->
   putReply: (replyId, data) ->
     _ep.put "spots/boards/threads/replies/#{replyId}", data, true
 
-  removeReply: (replyId, data) ->
+  removeReply: (replyId) ->
     _ep.remove "spots/boards/threads/replies/#{replyId}", true
 
   requestTransfer: (threadId) ->

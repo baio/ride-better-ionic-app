@@ -8,5 +8,5 @@ p
   span(ng-if="::reply.formatted.canEdit")
     a.subdued(ng-click="board.removeReply(board.data.currentThread, reply)")
       i.icon.ion-trash-b &nbsp; #{resources.str.remove }
-    a.subdued(ng-click="board.openReplyModal(reply, 'edit')")
+    a.subdued(ng-click="board.openReplyModal(reply, 'edit', board.data.currentThread)")
       i.icon.ion-edit &nbsp; #{resources.str.edit}

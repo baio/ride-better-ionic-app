@@ -19,7 +19,7 @@ app.factory "messages", (resources, sendMsgFormScope, sendSimpleMsgFormScope) ->
         if item.data.img 
           sendMsgFormScope.scope.data.photo.src = item.data.img
 
-      validate: (data) ->
+      validate: ->
         sendMsgFormScope.scope.validate()
 
       reset: ->
