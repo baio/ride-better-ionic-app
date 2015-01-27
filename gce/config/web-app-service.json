@@ -1,7 +1,7 @@
 {
   "id": "web-app-service",
   "kind": "Service",
-  "apiVersion": "v1beta2",
+  "apiVersion": "v1beta1",
   "port": 80,
   "containerPort": "web-app-port",
   "selector": {

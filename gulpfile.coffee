@@ -63,6 +63,7 @@ gulp.task "jade", ["jade.d", "jade.m"]
 gulp.task "jade.m", ->
   locals = 
     env : config.env
+    version : require("./package.json").version
     i18n : 
       ru : resources : str : resources_str_ru
       en : resources : str : resources_str_en
@@ -75,6 +76,7 @@ gulp.task "jade.m", ->
 gulp.task "jade.d", ->
   locals =
     env : config.env
+    version : require("./package.json").version
     i18n : 
       ru : resources : str : resources_str_ru
       en : resources : str : resources_str_en
