@@ -1,6 +1,9 @@
 app = angular.module("ride-better", [
   "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", "angularFileUpload"
-]).run( ($ionicPlatform, $rootScope, user, cacheManager) ->
+]).run( ($ionicPlatform, $rootScope, user, notifier, resources) ->
+
+  $rootScope.$on "$stateChangeError", (evt) ->
+    evt.preventDefault()
 
   #initailize compiled and localized view on start - to restrict 'localization bindings'
   lang = user.getLangFromCache()
@@ -19,13 +22,14 @@ app = angular.module("ride-better", [
   _resortResolved = {}
   _stateResolved = {}
   _homeResolved = {}
+
   $stateProvider.state("root",
     url : "/:culture/:id"
     abstract: true
     controller: "RootController"
     template: "<ion-nav-view name='root'></ion-nav-view>"
     resolve:
-      stateResolved: ($stateParams, spotsDA, $q) ->  
+      stateResolved: ($stateParams, spotsDA) ->
         spotsDA.get($stateParams.id).then (res) ->
           culture = $stateParams.culture.split("-")
           res = 
@@ -35,9 +39,6 @@ app = angular.module("ride-better", [
               lang : culture[0]
               units : culture[1]
           angular.extend _stateResolved, res
-        , (err) ->
-          console.log "Failure, can't get spot"
-          $q.when("Failure, can't get spot")
   ).state("root.add",
     url: "/add"
     views:
@@ -55,13 +56,10 @@ app = angular.module("ride-better", [
         templateUrl: "main/main.html"
         controller: "MainController"
     resolve:
-      homeResolved: ($stateParams, homeDA, $q) ->
+      homeResolved: ($stateParams, homeDA) ->
         culture = $stateParams.culture.split("-")
         homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1]).then (res) ->
           angular.extend _homeResolved, res
-        , (err) ->
-          console.log "Failure, can't get spot"
-          $q.when("Failure, can't get spot")
   ).state("root.main.home",
     url: "/home",
     views:
@@ -106,9 +104,7 @@ app = angular.module("ride-better", [
         controller: "MessageController"
     resolve:
       thread: (boardDA, $stateParams, $q) ->
-        boardDA.getThread($stateParams.threadId).then null, ->
-          console.log "Message not found"
-          $q.when()                  
+        boardDA.getThread($stateParams.threadId)
   ).state("root.main.home-message.content",
     url: "/content"
     views:
@@ -127,10 +123,8 @@ app = angular.module("ride-better", [
         template: "<ion-nav-view name='main-messages-item' style='background-color: white'></ion-nav-view>"
         controller: "MessageController"
     resolve:
-      thread: (boardDA, $stateParams, $q) ->
-        boardDA.getThread($stateParams.threadId).then null, ->
-          console.log "Message not found"
-          $q.when()                  
+      thread: (boardDA, $stateParams) ->
+        boardDA.getThread($stateParams.threadId)
   ).state("root.main.messages-item.content",
     url: "/content"
     views:
@@ -293,18 +287,6 @@ app = angular.module("ride-better", [
         templateUrl: "user/settings.html"
         controller: "SettingsController"
   )
-  ###
-  .state("root.messages-item-replies",
-    url: "/messages/:threadId/replies"
-    templateUrl: "messages/messgae-replies.html"
-    controller: "RepliesController"
-    resolve:
-      thread: (boardDA, $stateParams, $q) ->
-        boardDA.getThread($stateParams.threadId).then null, ->
-          console.log "Message not found"
-          $q.when()                          
-  )
-  ###
 
 app.config ($urlRouterProvider) ->  
 
