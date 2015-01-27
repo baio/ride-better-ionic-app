@@ -41,6 +41,7 @@ app.factory "threadMapper",  (user, amCalendarFilter, amDateFormatFilter, resour
         requestStatus : userRequestStatus thread
     for reply in thread.replies
       mapReply(reply)
+    thread.latestReply = thread.replies[0]
 
     thread
 
