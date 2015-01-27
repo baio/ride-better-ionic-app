@@ -19,6 +19,7 @@ lr = require "tiny-lr"
 zip = require "gulp-zip"
 resources_str_ru = require("./resources/ru/strings_ru.json")
 resources_str_en = require("./resources/en/strings_en.json")
+package = require("./package.json")
 
 mainBowerFiles = require "main-bower-files"
 
@@ -63,7 +64,7 @@ gulp.task "jade", ["jade.d", "jade.m"]
 gulp.task "jade.m", ->
   locals = 
     env : config.env
-    version : require("./package.json").version
+    version : package.version
     i18n : 
       ru : resources : str : resources_str_ru
       en : resources : str : resources_str_en
@@ -76,7 +77,7 @@ gulp.task "jade.m", ->
 gulp.task "jade.d", ->
   locals =
     env : config.env
-    version : require("./package.json").version
+    version : package.version
     i18n : 
       ru : resources : str : resources_str_ru
       en : resources : str : resources_str_en
