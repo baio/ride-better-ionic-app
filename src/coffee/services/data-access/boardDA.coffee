@@ -60,9 +60,9 @@ app.factory "boardDA", (boardEP, $q, $rootScope, threadMapper, threadsPoolServic
       thread.replies.splice thread.replies.indexOf(reply), 1
       threadsPoolService.push thread      
 
-  postReply: (thread, data) -> 
+  postReply: (thread, data) ->     
     boardEP.postReply(thread._id, data).then (res) ->
-      thread.replies.splice 0, 0, threadMapper.mapReply res
+      thread.replies.splice 0, 0, threadMapper.mapReply res      
       threadsPoolService.push thread      
   
   putReply: (reply, thread, data) ->
