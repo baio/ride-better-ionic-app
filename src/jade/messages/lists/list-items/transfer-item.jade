@@ -19,13 +19,14 @@ block item-layout-content
     a.positive(ng-href="tel:{{::thread.data.meta.phone}}" style="text-decoration: none")
       i.ion-android-call 
       | {{::thread.data.meta.phone}}
-  h4.dark(ng-click='openThread(thread)') {{::thread.formatted.shortText}}       
-    
-block footer-bar-button
-  span(ng-switch="::thread.formatted.transfer.requestStatus" ng-if="::thread.data.meta.type != 'taxi'")
-    a.subdued.calm(ng-switch-when="requested") 
-      i.icon.ion-checkmark-round &nbsp; #{resources.str.requested}
-    a.subdued.positive(ng-switch-when="accepted") 
-      i.icon.ion-checkmark-round.positive &nbsp; #{resources.str.accepted}
-    a.assertive.subdued(ng-switch-when="rejected") 
-      i.icon.ion-close-round &nbsp; #{resources.str.rejected}
+  h4.dark(ng-click='openThread(thread)') {{thread.formatted.shortText}}
+
+//
+  block footer-bar-button
+    span(ng-switch="::thread.formatted.transfer.requestStatus" ng-if="::thread.data.meta.type != 'taxi'")
+      a.subdued.calm(ng-switch-when="requested")
+        i.icon.ion-checkmark-round &nbsp; #{resources.str.requested}
+      a.subdued.positive(ng-switch-when="accepted")
+        i.icon.ion-checkmark-round.positive &nbsp; #{resources.str.accepted}
+      a.assertive.subdued(ng-switch-when="rejected")
+        i.icon.ion-close-round &nbsp; #{resources.str.rejected}

@@ -4,4 +4,4 @@ block item-layout-content
   h3(ng-click='openThread(thread)') 
     i.ion-flag.energized &nbsp;    
     | {{::thread.data.meta.summary}}
-  h4.dark(ng-click='openThread(thread._id)') {{::thread.formatted.shortText}}
+  h4.dark(ng-click='openThread(thread._id)') {{thread.formatted.shortText}}

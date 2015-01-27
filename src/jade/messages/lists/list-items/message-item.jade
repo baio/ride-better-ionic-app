@@ -6,4 +6,4 @@ block item-layout-content
       i.ion-alert.assertive(ng-if="::thread.data.meta.priority=='important'") &nbsp;
       i.ion-speakerphone.positive &nbsp;
       | {{thread.formatted.shortText}}
-    img(ng-src="{{::thread.formatted.img.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;")
+    img(ng-src="{{thread.formatted.img.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;")

@@ -4,19 +4,21 @@ app.factory "threadsPoolService", (fifoService, threadMapper) ->
 
   get = (id) ->
     for f in fifo       
-      if f._id == id then return f
+      if f._id == id
+        console.log "!!!", f, fifo
+        return f
 
   get : get
 
+  fifo : fifo
+
   push: (threads) ->
-    console.log "threadsPoolService.coffee:12 >>>" 
     res = []
     isArray = Array.isArray threads
     threads = [threads] if !isArray
     for _thread in threads
       thread = threadMapper.mapThread _thread      
       existed = get(thread._id)
-      console.log "threadsPoolService.coffee:19 >>>", existed
       if existed        
         if thread != existed
           angular.copy thread, existed

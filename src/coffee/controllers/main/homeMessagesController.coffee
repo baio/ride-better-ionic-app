@@ -1,4 +1,4 @@
-app.controller "HomeMessagesController", ($scope, $state, board, stateResolved, messages, user, boardThreadHeight, messagesOptsResolved, $q) ->
+app.controller "HomeMessagesController", ($scope, $state, board, stateResolved, messages, user, boardThreadHeight, messagesOptsResolved, $q, threadsPoolService) ->
 
   console.log "HomeMessagesController"
 
@@ -9,6 +9,7 @@ app.controller "HomeMessagesController", ($scope, $state, board, stateResolved, 
     board : "message"
 
   load = ->
+    console.log "home:12", messagesOptsResolved.initialItems
     if !$scope.board.data.threads.length
       $q.when
         items : messagesOptsResolved.initialItems
@@ -40,6 +41,9 @@ app.controller "HomeMessagesController", ($scope, $state, board, stateResolved, 
   $scope.$on '$destroy', ->
     console.log "messageController.coffee:55 >>>" 
     _board.dispose()
+
+  $scope.$on '$ionicView.enter', ->
+    console.log "enter1", $scope.board.data, threadsPoolService.fifo
 
   $scope.openThread = (thread) ->
     prms = id : stateResolved.spot.id, culture : stateResolved.culture.code, threadId : thread._id

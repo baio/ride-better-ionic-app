@@ -1,4 +1,4 @@
-app.controller "HomeController", ($scope, homeResolved, stateResolved, $state) ->
+app.controller "HomeController", ($scope, stateResolved, $state) ->
 
   console.log "homeController.coffee:3 >>>"
    

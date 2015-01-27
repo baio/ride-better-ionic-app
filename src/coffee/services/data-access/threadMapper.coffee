@@ -28,14 +28,14 @@ app.factory "threadMapper",  (user, amCalendarFilter, amDateFormatFilter, resour
           return "requested"      
 
   mapThread = (thread) ->
-    thread.repliesCount = thread.replies.length
-    thread.formatted = 
-      shortText : trimText(thread.data.text)
+    thread.repliesCount = thread.replies?.length
+    thread.formatted =
       createdStr : amCalendarFilter(thread.created)
-      metaDateStrLong : if thread.data.meta?.date then amDateFormatFilter(thread.data.meta.date, 'dddd, MMMM Do YYYY, HH:00')
-      img : getImg(thread)
+      shortText : trimText(thread.data.text) if thread.data
+      metaDateStrLong : if thread.data?.meta?.date then amDateFormatFilter(thread.data.meta.date, 'dddd, MMMM Do YYYY, HH:00')
+      img : getImg(thread) if thread.data
       canEdit : user.isUser thread.user
-    if thread.tags.indexOf("transfer") != -1
+    if thread.tags.indexOf("transfer") != -1 and thread.data
       thread.formatted.transfer =
         title : resources.str(thread.data.meta.type) + " - " + resources.str(thread.data.meta.transport)
         requestStatus : userRequestStatus thread

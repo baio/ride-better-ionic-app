@@ -19,7 +19,6 @@ app = angular.module("ride-better", [
   _resortResolved = {}
   _stateResolved = {}
   _homeResolved = {}
-  _filterResolved = filter : null
   $stateProvider.state("root",
     url : "/:culture/:id"
     abstract: true
@@ -35,8 +34,7 @@ app = angular.module("ride-better", [
               code : $stateParams.culture
               lang : culture[0]
               units : culture[1]
-          angular.copy res, _stateResolved    
-          _stateResolved
+          angular.extend _stateResolved, res
         , (err) ->
           console.log "Failure, can't get spot"
           $q.when("Failure, can't get spot")
@@ -52,20 +50,18 @@ app = angular.module("ride-better", [
   ).state("root.main",
     url: "/main"
     abstract: true      
-    resolve:
-      homeResolved: ($stateParams, homeDA, $q) ->
-        culture = $stateParams.culture.split("-")             
-        homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1]).then (res) ->
-          angular.copy res, _homeResolved
-          console.log "homeResolved", _homeResolved
-          _homeResolved
-        , (err) ->
-          console.log "Failure, can't get spot"
-          $q.when("Failure, can't get spot")          
-    views:      
+    views:
       root:
         templateUrl: "main/main.html"
         controller: "MainController"
+    resolve:
+      homeResolved: ($stateParams, homeDA, $q) ->
+        culture = $stateParams.culture.split("-")
+        homeDA.get(spot : $stateParams.id, lang : culture[0], culture : culture[1]).then (res) ->
+          angular.extend _homeResolved, res
+        , (err) ->
+          console.log "Failure, can't get spot"
+          $q.when("Failure, can't get spot")
   ).state("root.main.home",
     url: "/home",
     views:
@@ -202,8 +198,7 @@ app = angular.module("ride-better", [
     resolve:      
       resortResolved: (resortsDA, $stateParams) ->
         resortsDA.getInfo($stateParams.id).then (res) ->
-          angular.copy res, _resortResolved
-          _resortResolved
+          angular.extend _resortResolved, res
   ).state("root.resort.main",
     url: "/main"
     views:
@@ -242,7 +237,6 @@ app = angular.module("ride-better", [
         controller: "PricesController"     
         resolve: 
           pricesViewResolved: (pricesResolved) ->
-            console.log "app.coffee:146 >>>", pricesResolved 
             pricesResolved.prices.filter (f) -> f.tag == "lift"
   ).state("root.prices.rent",
     url: "/rent"

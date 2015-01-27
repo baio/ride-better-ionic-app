@@ -38,10 +38,11 @@ app.service "filterMsgsFormScope", ->
       scope.data.messages = false
       scope.data.reports = false
       scope.data.faq = false
-      scope.data.transfer = false
+      scope.data.transfers = false
       for board in data.boards.split ","
         switch board
           when "message" then scope.data.messages = true
           when "report" then scope.data.reports = true
           when "faq" then scope.data.faq = true
           when "transfer" then scope.data.transfers = true
+
