@@ -182,5 +182,8 @@
   "accepted": "Accepted",
   "already_go": "Already Go",
   "unrequest_transfer": "Are you seriosuly refuse to take this transfer ?",
-  "feels_like" : "feels like"
+  "feels_like" : "feels like",
+  "error_page_header" : "Error",
+  "error_page_content" : "Service is temporary unavailable, please try again later !",
+  "try_reload_again" : "Try again"
 }

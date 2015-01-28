@@ -1,22 +1,27 @@
 app = angular.module("ride-better", [
   "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", "angularFileUpload"
-]).run( ($ionicPlatform, $rootScope, user, notifier, resources) ->
+]).run( ($ionicPlatform, $rootScope, user, notifier, resources, $state) ->
 
   $rootScope.$on "$stateChangeError", (evt) ->
     evt.preventDefault()
+    $state.go "error"
 
   #initailize compiled and localized view on start - to restrict 'localization bindings'
+  
   lang = user.getLangFromCache()
   lang ?= "ru"
   rm_lang = if lang == "ru" then "en" else "ru"
   angular.element(document.getElementById("body_#{rm_lang}")).remove()
-
+  
   $ionicPlatform.ready ->
     screen.lockOrientation("portrait") if window.screen and window.screen.lockOrientation 	
     StatusBar.styleDefault() if window.StatusBar
-    user.activate().then ->
-      if user.getLang() != lang
-        location.reload()
+    user.activate()
+    ###
+      .then ->
+        if user.getLang() != lang
+          location.reload()
+    ###        
 )
 .config ($stateProvider) ->
   _resortResolved = {}
@@ -286,6 +291,9 @@ app = angular.module("ride-better", [
       "user-settings":
         templateUrl: "user/settings.html"
         controller: "SettingsController"
+  ).state("error",
+    url: "/error"
+    templateUrl: "utils/error.html"
   )
 
 app.config ($urlRouterProvider) ->  

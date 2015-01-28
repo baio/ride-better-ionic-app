@@ -1,5 +1,19 @@
 Ionic App Base
 =====================
+
+gcloud config set compute/zone europe-west1-b
+gcloud preview container clusters create rb-satge --num-nodes 3 --machine-type n1-standard-1
+
+ gcloud compute forwarding-rules list
+
+sudo docker run -d -p 80:8080 \
+-e "NODE_ENV=gce_stage" \
+-e "PORT=8080" \
+-e "NEW_RELIC_LICENSE_KEY=cdc04e9a1643f8b59cbfe567de85e9fa2e7e39f8" \
+gcr.io/rb_gce/ride-better-web-app
+
+baio/ride-better-web-app
+
 !!! gloud add forwarding rule here by "createExternalLoadBalancer": true or manualy, then you mast manually check allow http traffic on instances !!!
 !!! Is Lang and Culture must be setup on rootRoute ???? since resources.str - is compromise to not use filters !!!
 
