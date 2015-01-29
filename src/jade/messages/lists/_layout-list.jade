@@ -5,7 +5,7 @@ ion-view(ng-attr-title="#{PAGE_TITLE}")
   block msg-list-subheader
 
   ion-content.has-header
-    ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" refreshing-icon="ion-loading-d")
+    ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d")
     .list(collection-repeat-container-element)
       .item.item-text-wrap.item-cr(collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'"
           collection-item-height="getThreadHeight(thread)" style="width: 101%")

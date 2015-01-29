@@ -1,7 +1,7 @@
 ion-view(ng-attr-title="#{resources.str.replies}")
 
   ion-content.has-header
-    ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)" refreshing-icon="ion-loading-d")
+    ion-refresher(pulling-text="Pull to refresh..." pulling-icon="ion-chevron-down" on-refresh="board.pullMoreReplies(board.data.currentThread)" refreshing-icon="ion-loading-d")
     include replies
     ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies" distance="1%")
 
