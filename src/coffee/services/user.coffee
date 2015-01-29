@@ -5,6 +5,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
 
   authForm = null
   deferredAuthForm = null
+  _platform = undefined
 
   initialize = ->
     setUser defaultUser()
@@ -84,7 +85,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       deferredAuthForm.reject()
 
   $rootScope.authorizeProvider = (provider) ->
-    opts = force : true
+    opts = force : true, platform : _platform
     notifier.showLoading()
     authio.login(provider, opts).then((res) ->
       setUser mapUser(res)
@@ -111,8 +112,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
 
   onPropertyChanged = ->
     $rootScope.$broadcast("user::propertyChanged", user)
-
-  #
 
   setHome = (spot) ->
     for fav in user.settings.favs
@@ -182,7 +181,10 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       setUser cachedUser
     notifier.message "user_not_logined"
 
-  activate = ->
+  activate = (platform) ->
+
+    _platform = platform
+    console.log "activate user", platform
     
     notifier.showLoading()
     initialize()
@@ -208,7 +210,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
           console.log ">>>user.coffee:16 3", "Something wrong, user is logined but profile not exists! logout"
           authio.logout()
         if cachedUser.profile
-          promise = authio.login(cachedUser.profile.provider, force : false)
+          promise = authio.login(cachedUser.profile.provider, {force : false, platform : platform})
           .then (res) ->
               setUser mapUser res
               saveChangesToCache()
@@ -247,9 +249,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     else
       $q.when()
 
-  activate: ->
+  activate: (platform) ->
     notifyNative().then ->
-      activate()
+      activate(platform)
 
   getUserAsync: getUserAsync
 
@@ -312,6 +314,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
 
   getLangFromCache : ->
     getCahchedUser()?.settings?.lang
+
 
 
 

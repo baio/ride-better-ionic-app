@@ -47,7 +47,7 @@ app.provider "authioLogin", ->
         OAuth.popup(provider, _opts).then (res) ->
           token = _token
           _token = null
-          deferred.resolve code : res.code, token : token, provider : provider
+          deferred.resolve code : res.code, token : token, provider : provider, platform : opts.platform
         , deferred.reject
       else
         deferred.reject new Error "Token not found, invoke requestToken first"
@@ -98,6 +98,7 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
       cache.remove "_jwt", jwt
 
   login = (provider, opts) ->
+    console.log opts
     jwt = getJWT()
     if !jwt and opts.force
       authioLogin.login(provider, opts).then (res) ->

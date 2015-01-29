@@ -141,6 +141,7 @@ gulp.task "create-app-config", ->
     apiUrl : config.client.apiUrl
     auth : config.client.auth
     env : $ENV
+    pushKeys : config.client.pushKeys
 
   gulp.src("./app.config.template")
   .pipe(template(clientOpts))

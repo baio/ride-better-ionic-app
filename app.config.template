@@ -5,6 +5,9 @@
 app.constant "webApiConfig",
   url : "<%= apiUrl %>"
 
+app.constant "pushConfig",
+  keys : "<%= pushKeys %>"
+
 app.constant "authConfig",
   <% if (auth.user) { %>
   user :

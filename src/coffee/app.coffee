@@ -1,6 +1,6 @@
 app = angular.module("ride-better", [
-  "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", "angularFileUpload"
-]).run( ($ionicPlatform, $rootScope, user, notifier, resources, $state) ->
+  "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", "angularFileUpload", "baio-ng-cordova"
+]).run( ($ionicPlatform, $rootScope, user, notifier, resources, $state, pushService) ->
 
   $rootScope.$on "$stateChangeError", (evt) ->
     evt.preventDefault()
@@ -16,7 +16,12 @@ app = angular.module("ride-better", [
   $ionicPlatform.ready ->
     screen.lockOrientation("portrait") if window.screen and window.screen.lockOrientation 	
     StatusBar.styleDefault() if window.StatusBar
-    user.activate()
+    pushService.register()
+    .then (platform) ->
+      user.activate platform
+    , (err) ->
+      console.log "getting platform error", err
+
     ###
       .then ->
         if user.getLang() != lang

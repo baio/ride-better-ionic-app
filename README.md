@@ -1,6 +1,8 @@
 Ionic App Base
 =====================
 
+ cordova restore plugins --experimental
+
 gcloud config set compute/zone europe-west1-b
 gcloud preview container clusters create rb-satge --num-nodes 3 --machine-type n1-standard-1
 

@@ -5,7 +5,6 @@ app.factory "threadsPoolService", (fifoService, threadMapper) ->
   get = (id) ->
     for f in fifo       
       if f._id == id
-        console.log "!!!", f, fifo
         return f
 
   get : get

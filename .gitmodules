@@ -1,0 +1,3 @@
+[submodule "src/coffee/submodules"]
+	path = src/coffee/submodules
+	url = git@github.com:baio/baio-ng-cordova.git
