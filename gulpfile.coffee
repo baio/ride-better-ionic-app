@@ -98,7 +98,7 @@ buildCoffee = ->
   .pipe(plumber())
   .pipe(coffee(bare: true))
   .pipe(concat("app.js"))
-  .pipe(gulp.dest("assets/app/js/"))
+  .pipe(gulp.dest("./assets/app/js/"))
 
 gulp.task "create-app-config", ->
 
