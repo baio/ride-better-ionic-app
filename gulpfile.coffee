@@ -23,7 +23,9 @@ pack = require("./package.json")
 ngAnnotate = require "gulp-ng-annotate"
 uglify = require "gulp-uglify"
 concat = require "gulp-concat"
-
+runSequence = require "run-sequence"
+concatCss = require "gulp-concat-css"
+minifyCSS = require "gulp-minify-css"
 mainBowerFiles = require "main-bower-files"
 
 require("gulp-grunt")(gulp)
@@ -73,7 +75,7 @@ gulp.task "jade.m", ->
       en : resources : str : resources_str_en
   gulp.src("./src/jade/index.jade")
   .pipe(plumber())
-  .pipe(jade(pretty : true, locals : locals))
+  .pipe(jade(pretty : false, locals : locals))
   .pipe(concat("index.html"))
   .pipe(gulp.dest("./www"))
 
@@ -86,7 +88,7 @@ gulp.task "jade.d", ->
       en : resources : str : resources_str_en
   gulp.src("./src/jade/index.d.jade")
   .pipe(plumber())
-  .pipe(jade(pretty : true, locals : locals))
+  .pipe(jade(pretty : false, locals : locals))
   .pipe(concat("index.d.html"))
   .pipe(gulp.dest("./www"))
 
@@ -95,66 +97,8 @@ buildCoffee = ->
   stream = gulp.src(["./src/coffee/app.coffee", "./src/coffee/**/*.coffee"])
   .pipe(plumber())
   .pipe(coffee(bare: true))
-
-  if config.env.release
-    stream  = stream.pipe(ngAnnotate())
-      .pipe(uglify())
-
-  stream.pipe(concat("app.js"))
-  .pipe(gulp.dest("./www"))
-
-gulp.task "concat",  ["build"], ->
-  gulp.src(["./www/fix/js/ionic.bundle.js",
-            "./www/lib-bundle/angular-cache.min.js",
-            "./www/lib-bundle/angular-file-upload-all.min.js",
-            "./www/lib-bundle/mobile-detect.min.js",
-            "./www/lib-bundle/moment.min.js",
-            "./www/lib-bundle/oauth.min.js",
-            "./www/lib-bundle/angular-moment.min.js",
-            "./www/app.js"
-  ])
-  .pipe(concat('app.bundle.js'))
-  .pipe(gulp.dest('./www/'))
-
-
-gulp.task "build-coffee",  ["create-app-config"], buildCoffee
-gulp.task "coffee",  buildCoffee
-
-gulp.task "watch-jade", ["jade"], ->
-  gulp.watch "./src/jade/**/*.jade", ["jade"]
-
-gulp.task "watch-coffee", ["build-coffee"], ->
-  gulp.watch "./src/coffee/**/*.coffee", ["coffee"]
-
-gulp.task "sass", (done) ->
-  gulp.src("./scss/ionic.app.scss").pipe(sass()).pipe(gulp.dest("./www/css/")).pipe(minifyCss(keepSpecialComments: 0)).pipe(rename(extname: ".min.css")).pipe(gulp.dest("./www/css/")).on "end", done
-  return
-
-gulp.task "watch-sass", ["sass"], ->
-  gulp.watch paths.sass, ["sass"]
-  return
-
-gulp.task "watch-assets", ->
-  lrServer.listen 35729, (err) ->
-    if err
-      console.log err
-  gulp.watch ["./www/app.js", "./www/css/*.css", "./www/index.html"], (file) ->
-    lrServer.changed body : files: [file.path]
-
-gulp.task "nodemon", ->
-  nodemon(script : "./server.coffee")
-
-gulp.task "install", ["git-check"], ->
-  bower.commands.install().on "log", (data) ->
-    gutil.log "bower", gutil.colors.cyan(data.id), data.message
-    return
-
-gulp.task "git-check", (done) ->
-  unless sh.which("git")
-    console.log "  " + gutil.colors.red("Git is not installed."), "\n  Git, the version control system, is required to download Ionic.", "\n  Download git here:", gutil.colors.cyan("http://git-scm.com/downloads") + ".", "\n  Once git is installed, run '" + gutil.colors.cyan("gulp install") + "' again."
-    process.exit 1
-  done()
-  return
+  .pipe(concat("app.js"))
+  .pipe(gulp.dest("./assets/app/js"))
 
 gulp.task "create-app-config", ->
 
@@ -168,6 +112,29 @@ gulp.task "create-app-config", ->
   .pipe(template(clientOpts))
   .pipe(concat("app.config.coffee"))
   .pipe(gulp.dest("./src/coffee"))
+
+
+gulp.task "build-coffee",  ["create-app-config"], buildCoffee
+gulp.task "coffee",  buildCoffee
+
+gulp.task "watch-jade", ["jade"], ->
+  gulp.watch "./src/jade/**/*.jade", ["jade"]
+
+gulp.task "watch-coffee", ["build-coffee"], ->
+  gulp.watch "./src/coffee/**/*.coffee", ["coffee"]
+
+gulp.task "watch-assets", ->
+  lrServer.listen 35729, (err) ->
+    if err
+      console.log err
+  gulp.watch ["./www/app.js", "./www/css/*.css", "./www/index.html"], (file) ->
+    lrServer.changed body : files: [file.path]
+
+gulp.task "nodemon", ->
+  nodemon(script : "./server.coffee")
+
+
+############### pgb-clean #################
 
 gulp.task "pgb-clean", ->
   gulp.src(".release/pgb-src", read : false).pipe(clean())
@@ -186,10 +153,73 @@ gulp.task "pgb-zip", ["pgb-build"], ->
 gulp.task "pgb-release", ["pgb-zip"], ->
   gulp.run("grunt-phonegap-build")
 
+#######
+
+gulp.task "build-minify-app", ["build-coffee"], ->
+  gulp.src("assets/app/js/app.js").pipe(ngAnnotate()).pipe(uglify()).pipe(gulp.dest("./.build"))
+
+gulp.task "build-minify-fix", ->
+  gulp.src("assets/fix/js/ionic.bundle.js").pipe(uglify()).pipe(gulp.dest("./.build"))
+
+gulp.task "build-minify-js", ["build-minify-app", "build-minify-fix"]
+
+gulp.task "build-js", ["build-minify-js"], ->
+  gulp.src([
+    "./.build/ionic.bundle.js",
+    "./assets/js/angular-cache/dist/angular-cache.min.js",
+    "./assets/js/ng-file-upload-shim/angular-file-upload-all.min.js",
+    "./assets/js/mobile-detect/mobile-detect.min.js",
+    "./assets/js/moment/min/moment.min.js",
+    "./assets/js/moment/locale/ru.js",
+    "./assets/js/oauth-js/dist/oauth.min.js",
+    "./assets/js/angular-moment/angular-moment.min.js",
+    "./.build/app.js"
+  ])
+  .pipe(concat("app.bundle.js"))
+  .pipe(gulp.dest("./www"))
+
+gulp.task "minify-css", ->
+  gulp.src(["./assets/css/desktop.css", "./assets/css/style.css"])
+  .pipe(minifyCSS())
+  .pipe(gulp.dest('./.build/'))
+
+gulp.task "build-minify-css", ["minify-css"], ->
+  gulp.src( ".build/desktop.css"  )
+  .pipe(gulp.dest("www/css"))
+
+gulp.task "build-css", ["build-minify-css"], ->
+  gulp.src( [
+      "assets/css/ionic.min.css",
+      "assets/css/ionicons.min.css",
+      ".build/style.css"
+    ]
+  )
+  .pipe(concatCss("app.bundle.css"))
+  .pipe(gulp.dest("www/css"))
+
+
+gulp.task "copy-fonts", ->
+  gulp.src( "assets/css/fonts/*")
+  .pipe(gulp.dest("www/fonts"))
+
+gulp.task "copy-img", ->
+  gulp.src( "assets/img/**/*")
+  .pipe(gulp.dest("www/img"))
+
+gulp.task "build-www-assets", ["build-css", "build-js", "jade", "copy-fonts", "copy-img"]
+
+gulp.task "clean-www", ->
+  gulp.src("www", read : false).pipe(clean())
+
+gulp.task "build-www", ->
+  runSequence "clean-www", "build-www-assets"
+
+###
 gulp.task "bundle-lib", ->
   gulp.src(mainBowerFiles())
   .pipe(gulp.dest('www/lib-bundle'))
+####
 
-gulp.task "dev-server", ["bundle-lib", "watch-jade", "watch-coffee", "watch-assets", "nodemon"]
-gulp.task "build", ["bundle-lib", "jade", "build-coffee"]
+gulp.task "dev-server", ["watch-jade", "watch-coffee", "watch-assets", "nodemon"]
+gulp.task "build", ["jade", "build-coffee"]
 
