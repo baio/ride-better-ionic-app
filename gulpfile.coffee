@@ -98,7 +98,7 @@ buildCoffee = ->
   .pipe(plumber())
   .pipe(coffee(bare: true))
   .pipe(concat("app.js"))
-  .pipe(gulp.dest("./.build"))
+  .pipe(gulp.dest("assets/app/js/"))
 
 gulp.task "create-app-config", ->
 
@@ -132,28 +132,6 @@ gulp.task "watch-assets", ->
 
 gulp.task "nodemon", ->
   nodemon(script : "./server.coffee")
-
-
-############### pgb-clean #################
-
-gulp.task "pgb-clean", ->
-  gulp.src(".release/pgb-src", read : false).pipe(clean())
-
-gulp.task "pgb-build", ["build", "pgb-clean"],  (done) ->
-  gulp.src("./www/**/*").pipe(gulp.dest(".release/pgb-src"))
-  gulp.src("./config.xml").pipe(gulp.dest(".release/pgb-src"))
-  gulp.src("./res/.res/**/*").pipe(gulp.dest(".release/pgb-src/res"))
-  gulp.src("./www/.pgbomit").pipe(gulp.dest(".release/pgb-src/res"))
-  gulp.src("./www/.pgbomit").pipe(gulp.dest(".release/pgb-src/lib"))
-  setTimeout done, 5000
-
-gulp.task "pgb-zip", ["pgb-build"], ->
-  gulp.src('.release/pgb-src/**/*').pipe(zip('pgb-src.zip')).pipe(gulp.dest('.release/pgb-src'))
-
-gulp.task "pgb-release", ["pgb-zip"], ->
-  gulp.run("grunt-phonegap-build")
-
-#######
 
 gulp.task "build-minify-app", ["build-coffee"], ->
   gulp.src("assets/app/js/app.js").pipe(ngAnnotate()).pipe(uglify()).pipe(gulp.dest("./.build"))
@@ -232,3 +210,23 @@ gulp.task "bundle-lib", ->
 gulp.task "dev-server", ["watch-jade", "watch-coffee", "watch-assets", "nodemon"]
 gulp.task "build", ["jade", "build-coffee"]
 
+############### pgb-clean #################
+
+gulp.task "pgb-clean", ->
+  gulp.src(".release/pgb-src", read : false).pipe(clean())
+
+gulp.task "pgb-build", ["build", "pgb-clean"],  (done) ->
+  gulp.src("./www/**/*").pipe(gulp.dest(".release/pgb-src"))
+  gulp.src("./config.xml").pipe(gulp.dest(".release/pgb-src"))
+  gulp.src("./res/.res/**/*").pipe(gulp.dest(".release/pgb-src/res"))
+  gulp.src("./www/.pgbomit").pipe(gulp.dest(".release/pgb-src/res"))
+  gulp.src("./www/.pgbomit").pipe(gulp.dest(".release/pgb-src/lib"))
+  setTimeout done, 5000
+
+gulp.task "pgb-zip", ["pgb-build"], ->
+  gulp.src('.release/pgb-src/**/*').pipe(zip('pgb-src.zip')).pipe(gulp.dest('.release/pgb-src'))
+
+gulp.task "pgb-release", ["pgb-zip"], ->
+  gulp.run("grunt-phonegap-build")
+
+#######
