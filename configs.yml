@@ -17,7 +17,6 @@ dev_gce:
   env:
     platform : browser
     debug : false
-    release : true
   client :
     apiUrl : http://ridebetter.info:85/
     auth :
