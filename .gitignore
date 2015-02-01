@@ -36,3 +36,4 @@ res/screen
 
 www
 assets/js
+!assets/fix/js
