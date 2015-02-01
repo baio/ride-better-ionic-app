@@ -20,6 +20,9 @@ zip = require "gulp-zip"
 resources_str_ru = require("./resources/ru/strings_ru.json")
 resources_str_en = require("./resources/en/strings_en.json")
 pack = require("./package.json")
+ngAnnotate = require "gulp-ng-annotate"
+uglify = require "gulp-uglify"
+concat = require "gulp-concat"
 
 mainBowerFiles = require "main-bower-files"
 
@@ -89,15 +92,33 @@ gulp.task "jade.d", ->
 
 
 buildCoffee = ->
-  gulp.src(["./src/coffee/app.coffee", "./src/coffee/**/*.coffee"])
+  stream = gulp.src(["./src/coffee/app.coffee", "./src/coffee/**/*.coffee"])
   .pipe(plumber())
   .pipe(coffee(bare: true))
-  .pipe(concat("app.js"))
+
+  if config.env.release
+    stream  = stream.pipe(ngAnnotate())
+      .pipe(uglify())
+
+  stream.pipe(concat("app.js"))
   .pipe(gulp.dest("./www"))
+
+gulp.task "concat",  ["build"], ->
+  gulp.src(["./www/fix/js/ionic.bundle.js",
+            "./www/lib-bundle/angular-cache.min.js",
+            "./www/lib-bundle/angular-file-upload-all.min.js",
+            "./www/lib-bundle/mobile-detect.min.js",
+            "./www/lib-bundle/moment.min.js",
+            "./www/lib-bundle/oauth.min.js",
+            "./www/lib-bundle/angular-moment.min.js",
+            "./www/app.js"
+  ])
+  .pipe(concat('app.bundle.js'))
+  .pipe(gulp.dest('./www/'))
+
 
 gulp.task "build-coffee",  ["create-app-config"], buildCoffee
 gulp.task "coffee",  buildCoffee
-
 
 gulp.task "watch-jade", ["jade"], ->
   gulp.watch "./src/jade/**/*.jade", ["jade"]

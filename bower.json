@@ -7,7 +7,6 @@
     "oauth-js": "~0.2.4",
     "angular-cache": "~3.1.0",
     "angular-moment": "~0.8.2",
-    "angular-google-chart": "~0.0.11",
     "mobile-detect": "hgoebl/mobile-detect.js#~0.4.3",
     "ng-file-upload-shim": "~2.0.5",
     "underscore": "~1.7.0"
@@ -20,8 +19,7 @@
   },
   "overrides": {
     "ionic": {
-      "main": "js/ionic.bundle.min.js",
-      "dependencies": null
+      "ignore": true
     },
     "moment": {
       "main": [
@@ -37,12 +35,9 @@
       "main": "dist/angular-cache.min.js",
       "dependencies": null
     },
-    "angular-google-chart": {
-      "main": "ng-google-chart.js",
-      "dependencies": null
-    },
     "oauth-js": {
-      "ignore": true
+      "main": "dist/oauth.min.js",
+      "dependencies": null
     },
     "mobile-detect": {
       "main": "mobile-detect.min.js",

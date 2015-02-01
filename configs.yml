@@ -16,12 +16,13 @@ dev_gce:
     port : 8005 #port where dev application are running
   env:
     platform : browser
-    debug : true
+    debug : false
+    release : true
   client :
     apiUrl : http://ridebetter.info:85/
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
-      apiUrl : //localhost:8002/ #http://ridebetter.info:86/
+      apiUrl : http://ridebetter.info:86/
     pushKeys :
       android : 730534788406
 debug:
@@ -71,6 +72,7 @@ gce_stage:
   env:
     platform : browser
     debug : false
+    release : true
   client :
     apiUrl : http://ridebetter.info:85/
     auth :
