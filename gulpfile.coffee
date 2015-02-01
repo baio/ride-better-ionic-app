@@ -24,9 +24,9 @@ ngAnnotate = require "gulp-ng-annotate"
 uglify = require "gulp-uglify"
 concat = require "gulp-concat"
 runSequence = require "run-sequence"
-concatCss = require "gulp-concat-css"
 minifyCSS = require "gulp-minify-css"
 mainBowerFiles = require "main-bower-files"
+manifest = require "gulp-manifest"
 
 require("gulp-grunt")(gulp)
 
@@ -98,7 +98,7 @@ buildCoffee = ->
   .pipe(plumber())
   .pipe(coffee(bare: true))
   .pipe(concat("app.js"))
-  .pipe(gulp.dest("./assets/app/js"))
+  .pipe(gulp.dest("./.build"))
 
 gulp.task "create-app-config", ->
 
@@ -179,7 +179,7 @@ gulp.task "build-js", ["build-minify-js"], ->
   .pipe(gulp.dest("./www"))
 
 gulp.task "minify-css", ->
-  gulp.src(["./assets/css/desktop.css", "./assets/css/style.css"])
+  gulp.src(["./assets/css/desktop.css", "./assets/css/style.css", "./assets/css/chart.css"])
   .pipe(minifyCSS())
   .pipe(gulp.dest('./.build/'))
 
@@ -191,10 +191,11 @@ gulp.task "build-css", ["build-minify-css"], ->
   gulp.src( [
       "assets/css/ionic.min.css",
       "assets/css/ionicons.min.css",
-      ".build/style.css"
+      ".build/style.css",
+      ".build/chart.css"
     ]
   )
-  .pipe(concatCss("app.bundle.css"))
+  .pipe(concat("app.bundle.css"))
   .pipe(gulp.dest("www/css"))
 
 
@@ -211,8 +212,16 @@ gulp.task "build-www-assets", ["build-css", "build-js", "jade", "copy-fonts", "c
 gulp.task "clean-www", ->
   gulp.src("www", read : false).pipe(clean())
 
+gulp.task 'manifest-www', ->
+  gulp.src([ "www/**/*" ]).pipe(manifest(
+    hash: true
+    preferOnline: true
+    network: ['http://*','https://*','*']
+    filename: 'app.manifest'
+    exclude: 'app.manifest')).pipe gulp.dest('www')
+
 gulp.task "build-www", ->
-  runSequence "clean-www", "build-www-assets"
+  runSequence "clean-www", "build-www-assets", "manifest-www"
 
 ###
 gulp.task "bundle-lib", ->

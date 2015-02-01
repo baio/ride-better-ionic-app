@@ -22,13 +22,6 @@ node_modules
 plugins
 platforms
 
-www/index.html
-www/lib
-www/js
-src/coffee/configs
-
-!www/fix/**/*.js
-
 
 app.config.coffee
 
@@ -40,3 +33,6 @@ res/screen
 !newrelic.js
 !hooks/after_prepare/clean_bower.js
 !hooks/after_prepare/icons_and_plash.js
+
+www
+assets/js
