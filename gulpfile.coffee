@@ -134,10 +134,10 @@ gulp.task "nodemon", ->
   nodemon(script : "./server.coffee")
 
 gulp.task "build-minify-app", ["build-coffee"], ->
-  gulp.src("assets/app/js/app.js").pipe(ngAnnotate()).pipe(uglify()).pipe(gulp.dest("./.build"))
+  gulp.src("./assets/app/js/app.js").pipe(ngAnnotate()).pipe(uglify()).pipe(gulp.dest("./.build"))
 
 gulp.task "build-minify-fix", ->
-  gulp.src("assets/fix/js/ionic.bundle.js").pipe(uglify()).pipe(gulp.dest("./.build"))
+  gulp.src("./assets/fix/js/ionic.bundle.js").pipe(uglify()).pipe(gulp.dest("./.build"))
 
 gulp.task "build-minify-js", ["build-minify-app", "build-minify-fix"]
 
@@ -162,28 +162,28 @@ gulp.task "minify-css", ->
   .pipe(gulp.dest('./.build/'))
 
 gulp.task "build-minify-css", ["minify-css"], ->
-  gulp.src( ".build/desktop.css"  )
-  .pipe(gulp.dest("www/css"))
+  gulp.src( "./.build/desktop.css"  )
+  .pipe(gulp.dest("./www/css"))
 
 gulp.task "build-css", ["build-minify-css"], ->
   gulp.src( [
-      "assets/css/ionic.min.css",
-      "assets/css/ionicons.min.css",
-      ".build/style.css",
-      ".build/chart.css"
+      "./assets/css/ionic.min.css",
+      "./assets/css/ionicons.min.css",
+      "./.build/style.css",
+      "./.build/chart.css"
     ]
   )
   .pipe(concat("app.bundle.css"))
-  .pipe(gulp.dest("www/css"))
+  .pipe(gulp.dest("./www/css"))
 
 
 gulp.task "copy-fonts", ->
-  gulp.src( "assets/css/fonts/*")
-  .pipe(gulp.dest("www/fonts"))
+  gulp.src( "./assets/css/fonts/*")
+  .pipe(gulp.dest("./www/fonts"))
 
 gulp.task "copy-img", ->
-  gulp.src( "assets/img/**/*")
-  .pipe(gulp.dest("www/img"))
+  gulp.src( "./assets/img/**/*")
+  .pipe(gulp.dest("./www/img"))
 
 gulp.task "build-www-assets", ["build-css", "build-js", "jade", "copy-fonts", "copy-img"]
 
