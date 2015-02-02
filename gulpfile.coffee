@@ -62,11 +62,10 @@ if typeof config.client.auth.apiUrl == "object"
 
 lrServer = lr()
 
-gulp.task "default", ["dev-server"]
-
 gulp.task "jade", ["jade.d", "jade.m"]
 
 gulp.task "jade.m", ->
+  pretty = !config.env.release
   locals = 
     env : config.env
     version : pack.version
@@ -75,26 +74,28 @@ gulp.task "jade.m", ->
       en : resources : str : resources_str_en
   gulp.src("./src/jade/index.jade")
   .pipe(plumber())
-  .pipe(jade(pretty : false, locals : locals))
+  .pipe(jade(pretty : pretty, locals : locals))
   .pipe(concat("index.html"))
   .pipe(gulp.dest("./www"))
 
 gulp.task "jade.d", ->
-  locals =
-    env : config.env
-    version : pack.version
-    i18n : 
-      ru : resources : str : resources_str_ru
-      en : resources : str : resources_str_en
-  gulp.src("./src/jade/index.d.jade")
-  .pipe(plumber())
-  .pipe(jade(pretty : false, locals : locals))
-  .pipe(concat("index.d.html"))
-  .pipe(gulp.dest("./www"))
+  if config.env.platform == "browser"
+    pretty = !config.env.release
+    locals =
+      env : config.env
+      version : pack.version
+      i18n :
+        ru : resources : str : resources_str_ru
+        en : resources : str : resources_str_en
+    gulp.src("./src/jade/index.d.jade")
+    .pipe(plumber())
+    .pipe(jade(pretty : pretty, locals : locals))
+    .pipe(concat("index.d.html"))
+    .pipe(gulp.dest("./www"))
 
 
 buildCoffee = ->
-  stream = gulp.src(["./src/coffee/app.coffee", "./src/coffee/**/*.coffee"])
+  gulp.src(["./src/coffee/app.coffee", "./src/coffee/**/*.coffee"])
   .pipe(plumber())
   .pipe(coffee(bare: true))
   .pipe(concat("app.js"))
@@ -114,20 +115,22 @@ gulp.task "create-app-config", ->
   .pipe(gulp.dest("./src/coffee"))
 
 
-gulp.task "build-coffee",  ["create-app-config"], buildCoffee
-gulp.task "coffee",  buildCoffee
+gulp.task "build-coffee", ["create-app-config"], buildCoffee
 
-gulp.task "watch-jade", ["jade"], ->
+gulp.task "watch-jade", ->
   gulp.watch "./src/jade/**/*.jade", ["jade"]
 
-gulp.task "watch-coffee", ["build-coffee"], ->
-  gulp.watch "./src/coffee/**/*.coffee", ["coffee"]
+gulp.task "watch-coffee", ->
+  gulp.watch "./src/coffee/**/*.coffee", ["build-js"]
+
+gulp.task "watch-css", ->
+  gulp.watch "./assets/css/**/*.css", ["build-css"]
 
 gulp.task "watch-assets", ->
   lrServer.listen 35729, (err) ->
     if err
       console.log err
-  gulp.watch ["./www/app.js", "./www/css/*.css", "./www/index.html"], (file) ->
+  gulp.watch ["./www/*.js", "./www/css/*.css", "./www/*.html"], (file) ->
     lrServer.changed body : files: [file.path]
 
 gulp.task "nodemon", ->
@@ -141,7 +144,7 @@ gulp.task "build-minify-fix", ->
 
 gulp.task "build-minify-js", ["build-minify-app", "build-minify-fix"]
 
-gulp.task "build-js", ["build-minify-js"], ->
+gulp.task "bundle-js-release", ["build-minify-js"], ->
   gulp.src([
     "./.build/ionic.bundle.js",
     "./assets/js/angular-cache/dist/angular-cache.min.js",
@@ -156,6 +159,33 @@ gulp.task "build-js", ["build-minify-js"], ->
   .pipe(concat("app.bundle.js"))
   .pipe(gulp.dest("./www"))
 
+gulp.task "build-fix", ->
+  gulp.src("./assets/fix/js/ionic.bundle.js").pipe(gulp.dest("./www"))
+
+gulp.task "build-app", ["build-coffee"], ->
+  gulp.src("./.build/app.js").pipe(gulp.dest("./www"))
+
+gulp.task "bundle-js-dev", ->
+  gulp.src([
+    "./assets/js/angular-cache/dist/angular-cache.min.js",
+    "./assets/js/ng-file-upload-shim/angular-file-upload-all.min.js",
+    "./assets/js/mobile-detect/mobile-detect.min.js",
+    "./assets/js/moment/min/moment.min.js",
+    "./assets/js/moment/locale/ru.js",
+    "./assets/js/oauth-js/dist/oauth.min.js",
+    "./assets/js/angular-moment/angular-moment.min.js"
+  ])
+  .pipe(concat("app.bundle.dev.js"))
+  .pipe(gulp.dest("./www"))
+
+gulp.task "build-js-dev", ["build-fix", "build-app", "bundle-js-dev"]
+
+gulp.task "build-js", ->
+  if !config.env.release
+    runSequence "build-js-dev"
+  else
+    runSequence "bundle-js-release"
+
 gulp.task "minify-css", ->
   gulp.src(["./assets/css/desktop.css", "./assets/css/style.css", "./assets/css/chart.css"])
   .pipe(minifyCSS())
@@ -165,7 +195,7 @@ gulp.task "build-minify-css", ["minify-css"], ->
   gulp.src( "./.build/desktop.css"  )
   .pipe(gulp.dest("./www/css"))
 
-gulp.task "build-css", ["build-minify-css"], ->
+gulp.task "bundle-css-release", ["build-minify-css"], ->
   gulp.src( [
       "./assets/css/ionic.min.css",
       "./assets/css/ionicons.min.css",
@@ -176,6 +206,24 @@ gulp.task "build-css", ["build-minify-css"], ->
   .pipe(concat("app.bundle.css"))
   .pipe(gulp.dest("./www/css"))
 
+gulp.task "bundle-css-dev", ->
+  gulp.src( [
+      "./assets/css/ionic.min.css",
+      "./assets/css/ionicons.min.css"
+    ]
+  )
+  .pipe(concat("app.bundle.css"))
+  .pipe(gulp.dest("./www/css"))
+
+gulp.task "build-css-dev", ["bundle-css-dev"], ->
+  gulp.src( ["./assets/css/desktop.css", "./assets/css/style.css", "./assets/css/chart.css" ] )
+  .pipe(gulp.dest("./www/css"))
+
+gulp.task "build-css", ->
+  if !config.env.release
+    runSequence "build-css-dev"
+  else
+    runSequence "bundle-css-release"
 
 gulp.task "copy-fonts", ->
   gulp.src( "./assets/css/fonts/*")
@@ -191,24 +239,20 @@ gulp.task "clean-www", ->
   gulp.src("www", read : false).pipe(clean())
 
 gulp.task 'manifest-www', ->
-  gulp.src([ "www/**/*" ]).pipe(manifest(
-    hash: true
-    preferOnline: true
-    network: ['http://*','https://*','*']
-    filename: 'app.manifest'
-    exclude: 'app.manifest')).pipe gulp.dest('www')
+  if config.env.release
+    gulp.src([ "www/**/*" ]).pipe(manifest(
+      hash: true
+      preferOnline: true
+      network: ['http://*','https://*','*']
+      filename: 'app.manifest'
+      exclude: 'app.manifest')).pipe gulp.dest('www')
 
 gulp.task "build-www", ->
   runSequence "clean-www", "build-www-assets", "manifest-www"
 
-###
-gulp.task "bundle-lib", ->
-  gulp.src(mainBowerFiles())
-  .pipe(gulp.dest('www/lib-bundle'))
-####
-
 gulp.task "dev-server", ["watch-jade", "watch-coffee", "watch-assets", "nodemon"]
-gulp.task "build", ["jade", "build-coffee"]
+
+gulp.task "default", ["dev-server"]
 
 ############### pgb-clean #################
 

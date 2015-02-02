@@ -6,46 +6,26 @@ head
     title Ride Better
 
     link(href='css/app.bundle.css', rel='stylesheet')
-    //
-        link(href='css/ionic.css', rel='stylesheet')
-        link(href='css/ionicons.css', rel='stylesheet')
 
+    if !env.release
         link(href='css/style.css', rel='stylesheet')
         link(href='css/chart.css', rel='stylesheet')
 
     block header
 
-
     if !env.release
-        //
-            script(src='fix/js/ionic.bundle.js')
-            script(src="lib-bundle/moment.min.js")
-            script(src="lib-bundle/ru.js")
-            script(src="lib-bundle/angular-moment.min.js")
-            script(src="lib-bundle/angular-cache.min.js")
-            script(src="lib-bundle/mobile-detect.min.js")
-            script(src="lib-bundle/angular-file-upload-all.min.js")
-
         if env.platform == 'cordova'
             script(src='cordova.js')
             if env.debug
                 script(src='http://#{env.weinreUrl}/target/target-script-min.js#anonymous')
         else
-            //script(src="lib-bundle/oauth.min.js")
             if env.debug
                 script(src="http://localhost:35729/livereload.js")
 
-        script(src='app.bundle.js')
+        script(src='ionic.bundle.js')
+        script(src='app.bundle.dev.js')
         script(src='app.js')
     else
-        //
-            script(src='fix/js/ionic.bundle.js')
-            script(src="lib-bundle/moment.min.js")
-            script(src="lib-bundle/ru.js")
-            script(src="lib-bundle/angular-moment.min.js")
-            script(src="lib-bundle/angular-cache.min.js")
-            script(src="lib-bundle/mobile-detect.min.js")
-            script(src="lib-bundle/angular-file-upload-all.min.js")
         script(src='app.bundle.js')
 
     body(ng-app='ride-better')
