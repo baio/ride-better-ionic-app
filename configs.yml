@@ -16,8 +16,8 @@ dev_gce:
     port : 8005 #port where dev application are running
   env:
     platform : browser
-    debug : false
-    release : true
+    debug : true
+    release : false
   client :
     apiUrl : http://ridebetter.info:85/
     auth :
@@ -82,6 +82,7 @@ cordova_gce:
   env:
     platform : cordova
     debug : false
+    release : true
   client :
     apiUrl : http://ridebetter.info:85/
     auth :

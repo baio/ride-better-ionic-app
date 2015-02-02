@@ -145,17 +145,22 @@ gulp.task "build-minify-fix", ->
 gulp.task "build-minify-js", ["build-minify-app", "build-minify-fix"]
 
 gulp.task "bundle-js-release", ["build-minify-js"], ->
-  gulp.src([
+
+  bundle = [
     "./.build/ionic.bundle.js",
     "./assets/js/angular-cache/dist/angular-cache.min.js",
     "./assets/js/ng-file-upload-shim/angular-file-upload-all.min.js",
     "./assets/js/mobile-detect/mobile-detect.min.js",
     "./assets/js/moment/min/moment.min.js",
     "./assets/js/moment/locale/ru.js",
-    "./assets/js/oauth-js/dist/oauth.min.js",
     "./assets/js/angular-moment/angular-moment.min.js",
     "./.build/app.js"
-  ])
+  ]
+
+  if config.env.platform != "cordova"
+    bundle.splice 1, 0, "./assets/js/oauth-js/dist/oauth.min.js"
+
+  gulp.src(bundle)
   .pipe(concat("app.bundle.js"))
   .pipe(gulp.dest("./www"))
 
@@ -192,8 +197,8 @@ gulp.task "minify-css", ->
   .pipe(gulp.dest('./.build/'))
 
 gulp.task "build-minify-css", ["minify-css"], ->
-  gulp.src( "./.build/desktop.css"  )
-  .pipe(gulp.dest("./www/css"))
+  if config.env.platform != "cordova"
+    gulp.src("./.build/desktop.css").pipe(gulp.dest("./www/css"))
 
 gulp.task "bundle-css-release", ["build-minify-css"], ->
   gulp.src( [
@@ -239,7 +244,7 @@ gulp.task "clean-www", ->
   gulp.src("www", read : false).pipe(clean())
 
 gulp.task 'manifest-www', ->
-  if config.env.release
+  if config.env.release and config.env.platform != "cordova"
     gulp.src([ "www/**/*" ]).pipe(manifest(
       hash: true
       preferOnline: true
