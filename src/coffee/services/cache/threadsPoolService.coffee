@@ -1,15 +1,15 @@
 app.factory "threadsPoolService", (fifoService, threadMapper) ->
 
-  fifo = new fifoService.Fifo(500)
+  _fifo = new fifoService.Fifo(500)
 
   get = (id) ->
-    for f in fifo       
+    for f in _fifo.arr
       if f._id == id
         return f
 
   get : get
 
-  fifo : fifo
+  fifo : _fifo
 
   push: (threads) ->
     res = []
@@ -23,7 +23,7 @@ app.factory "threadsPoolService", (fifoService, threadMapper) ->
           angular.copy thread, existed
         res.push existed
       else
-        fifo.push thread
+        _fifo.push thread
         res.push thread
     if isArray then res else res[0]
 

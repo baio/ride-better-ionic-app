@@ -51,12 +51,14 @@ cordova_dev:
   env:
     platform : cordova
     debug : true
-    weinreUrl : 172.30.99.102:9090
+    weinreUrl : 192.168.0.101:9090
   client :
-    apiUrl : http://ride-better-web-api.herokuapp.com/
+    apiUrl : http://ridebetter.info:85/
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
-      apiUrl : http://auth-server-oauthio.herokuapp.com/
+      apiUrl : http://ridebetter.info:86/
+    pushKeys :
+      android : 730534788406
 cordova_stage:
   env:
     platform : cordova
@@ -88,3 +90,5 @@ cordova_gce:
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
       apiUrl : http://ridebetter.info:86/
+    pushKeys :
+      android : 730534788406

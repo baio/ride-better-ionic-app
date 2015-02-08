@@ -136,6 +136,9 @@ gulp.task "watch-assets", ->
 gulp.task "nodemon", ->
   nodemon(script : "./server.coffee")
 
+
+### release ###
+
 gulp.task "build-minify-app", ["build-coffee"], ->
   gulp.src("./assets/app/js/app.js").pipe(ngAnnotate()).pipe(uglify()).pipe(gulp.dest("./.build"))
 
@@ -164,11 +167,13 @@ gulp.task "bundle-js-release", ["build-minify-js"], ->
   .pipe(concat("app.bundle.js"))
   .pipe(gulp.dest("./www"))
 
+### dev ###
+
 gulp.task "build-fix", ->
   gulp.src("./assets/fix/js/ionic.bundle.js").pipe(gulp.dest("./www"))
 
 gulp.task "build-app", ["build-coffee"], ->
-  gulp.src("./.build/app.js").pipe(gulp.dest("./www"))
+  gulp.src("./assets/app/js/app.js").pipe(gulp.dest("./www"))
 
 gulp.task "bundle-js-dev", ->
   gulp.src([

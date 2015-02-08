@@ -1,16 +1,15 @@
-app.factory "pushService", (cordovaPushNotifications, pushConfig, user, $q) ->
+app.factory "pushService", ($rootScope, cordovaPushNotifications, pushConfig, platformsEP) ->
 
   register : ->
 
-    deferred = $q.defer()
+    $rootScope.$on "device::push::registered", (evt, platform) ->
+      console.log "device::push::registered", platform
+      platformsEP.register platform
 
-    onRegistered = (id, platform) ->
-      deferred.resolve(key : id, platform : platform)
+    $rootScope.$on "device::push::error", (evt, err) ->
+      console.log "device::push::error", err
 
-    onMsg = (msg) -> alert msg.message
-    onError = (err) ->
-      deferred.reject err
+    $rootScope.$on "device::push::message", (evt, msg) ->
+      console.log "device::push::message", msg
 
-    cordovaPushNotifications.register pushConfig, onRegistered, onMsg, onError
-
-    deferred.promise
+    cordovaPushNotifications.register(pushConfig.keys)

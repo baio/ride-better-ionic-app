@@ -6,7 +6,8 @@ app.constant "webApiConfig",
   url : "<%= apiUrl %>"
 
 app.constant "pushConfig",
-  keys : "<%= pushKeys %>"
+  keys :
+    android : "<%= pushKeys.android %>"
 
 app.constant "authConfig",
   <% if (auth.user) { %>

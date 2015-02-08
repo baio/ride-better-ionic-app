@@ -130,3 +130,6 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
 
   isLogined: -> getJWT()
 
+  registerPlatform : (platform) ->
+
+

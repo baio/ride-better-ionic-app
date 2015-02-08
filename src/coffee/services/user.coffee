@@ -181,11 +181,8 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       setUser cachedUser
     notifier.message "user_not_logined"
 
-  activate = (platform) ->
+  activate = ->
 
-    _platform = platform
-    console.log "activate user", platform
-    
     notifier.showLoading()
     initialize()
 
@@ -229,7 +226,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       notifier.hideLoading()
 
     promise
-
 
   notifyNative = ->
     os = mobileDetect.mobileOS()

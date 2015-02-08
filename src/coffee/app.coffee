@@ -2,12 +2,14 @@ app = angular.module("ride-better", [
   "ionic", "angular-data.DSCacheFactory", "angular-authio-jwt", "angularMoment", "angularFileUpload", "baio-ng-cordova"
 ]).run( ($ionicPlatform, $rootScope, user, notifier, resources, $state, pushService) ->
 
+  console.log "start"
+
   $rootScope.$on "$stateChangeError", (evt) ->
+    console.log "$stateChangeError", evt
     evt.preventDefault()
     $state.go "error"
 
   #initailize compiled and localized view on start - to restrict 'localization bindings'
-  
   lang = user.getLangFromCache()
   lang ?= "ru"
   rm_lang = if lang == "ru" then "en" else "ru"
@@ -16,17 +18,8 @@ app = angular.module("ride-better", [
   $ionicPlatform.ready ->
     screen.lockOrientation("portrait") if window.screen and window.screen.lockOrientation 	
     StatusBar.styleDefault() if window.StatusBar
+    user.activate()
     pushService.register()
-    .then (platform) ->
-      user.activate platform
-    , (err) ->
-      console.log "getting platform error", err
-
-    ###
-      .then ->
-        if user.getLang() != lang
-          location.reload()
-    ###        
 )
 .config ($stateProvider) ->
   _resortResolved = {}
