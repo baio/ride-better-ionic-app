@@ -1,5 +1,5 @@
 app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
-                     authio, mapper, amMoment, globalization, notifier, spotsDA, mobileDetect, $ionicConfig) ->
+                     authio, mapper, amMoment, globalization, notifier, spotsDA, mobileDetect) ->
 
   user = {}
 
@@ -9,6 +9,15 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
 
   initialize = ->
     setUser defaultUser()
+
+  registerPlatform = (platform) ->
+    authio.setPlatform "ride_better", platform
+    _platform = null
+
+  $rootScope.$on "authioLogin::login", ->
+    if _platform
+      registerPlatform _platform
+
 
   setUser = (u) ->
     user.profile = u.profile    
@@ -149,7 +158,6 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       spotsDA.nearest(geo.lat + "," + geo.lon)
     .then (res) ->
       spots = res.map (m) -> id : m.code, title : m.label
-      console.log "user.coffee:153 >>>", spots
       for spot in spots
         addSpot spot
       res
@@ -310,6 +318,13 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
 
   getLangFromCache : ->
     getCahchedUser()?.settings?.lang
+
+  registerPlatform: (platform) ->
+    if @isLogined()
+      registerPlatform platform
+    else
+      _platform = platform
+
 
 
 

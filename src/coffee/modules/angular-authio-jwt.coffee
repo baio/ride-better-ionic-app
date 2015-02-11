@@ -18,6 +18,9 @@ app.factory "authioEndpoints", ($q, $http) ->
   setData: (jwt, key, data) ->
     $http.put(_authBaseUrl + "oauth/data/#{key}", data, headers : authorization: "Bearer " + jwt).then (res) -> res.data
 
+  setPlatform: (jwt, key, platform) ->
+    $http.put(_authBaseUrl + "oauth/platform/#{key}", platform, headers : authorization: "Bearer " + jwt).then (res) -> res.data
+
 app.provider "authioLogin", ->
 
   #could hold debug user
@@ -31,7 +34,7 @@ app.provider "authioLogin", ->
     _user = opts.user
     _key = opts.oauthio_key
 
-  $get : ($q, authioEndpoints) ->
+  $get : ($q, authioEndpoints, $rootScope) ->
 
     activate = ->
       if _authBaseUrl and _key
@@ -58,7 +61,10 @@ app.provider "authioLogin", ->
       if _user
         return $q.when _user
       activate()      
-      popup(provider, opts).then authioEndpoints.signin
+      popup(provider, opts)
+      .then authioEndpoints.signin
+      .then (res) ->
+        $rootScope.$broadcast "authioLogin::login", res
 
     requestToken: ->
       if _authBaseUrl
@@ -118,6 +124,13 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
     else
       $q.reject new Error status : 401
 
+  setPlatform : (key, platform) ->
+    jwt = getJWT()
+    if jwt
+      authioLogin.setPlatform jwt, key, platform
+    else
+      $q.reject new Error status : 401
+
   preLogin: ->
     authioLogin.requestToken()
 
@@ -130,6 +143,6 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
 
   isLogined: -> getJWT()
 
-  registerPlatform : (platform) ->
+
 
 
