@@ -14,10 +14,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     authio.setPlatform "ride_better", platform
     _platform = null
 
-  $rootScope.$on "authioLogin::login", ->
+  $rootScope.$on "authio::login", ->
     if _platform
       registerPlatform _platform
-
 
   setUser = (u) ->
     user.profile = u.profile    
@@ -94,7 +93,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
       deferredAuthForm.reject()
 
   $rootScope.authorizeProvider = (provider) ->
-    opts = force : true, platform : _platform
+    opts = force : true
     notifier.showLoading()
     authio.login(provider, opts).then((res) ->
       setUser mapUser(res)
@@ -215,7 +214,7 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
           console.log ">>>user.coffee:16 3", "Something wrong, user is logined but profile not exists! logout"
           authio.logout()
         if cachedUser.profile
-          promise = authio.login(cachedUser.profile.provider, {force : false, platform : platform})
+          promise = authio.login(cachedUser.profile.provider, {force : false })
           .then (res) ->
               setUser mapUser res
               saveChangesToCache()
@@ -253,9 +252,9 @@ app.factory "user", ($q, cache, $rootScope, $ionicModal, resources, geoLocator,
     else
       $q.when()
 
-  activate: (platform) ->
+  activate: ->
     notifyNative().then ->
-      activate(platform)
+      activate()
 
   getUserAsync: getUserAsync
 

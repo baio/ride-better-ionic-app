@@ -34,7 +34,7 @@ app.provider "authioLogin", ->
     _user = opts.user
     _key = opts.oauthio_key
 
-  $get : ($q, authioEndpoints, $rootScope) ->
+  $get : ($q, authioEndpoints) ->
 
     activate = ->
       if _authBaseUrl and _key
@@ -63,8 +63,6 @@ app.provider "authioLogin", ->
       activate()      
       popup(provider, opts)
       .then authioEndpoints.signin
-      .then (res) ->
-        $rootScope.$broadcast "authioLogin::login", res
 
     requestToken: ->
       if _authBaseUrl
@@ -83,14 +81,14 @@ app.provider "authioLogin", ->
       authioEndpoints.user(jwt)
 
     setData: (jwt, key, data) ->
-      #return `dev` user if exists
-      if _user
-        console.log ">>>angular-authio-jwt.coffee:82", "`dev` mode, setData ignored"
-        return
       activate()
       authioEndpoints.setData jwt, key, data
 
-app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
+    setPlatform: (jwt, key, data) ->
+      activate()
+      authioEndpoints.setPlatform jwt, key, data
+
+app.factory "authio", ($q, DSCacheFactory, authioLogin, $rootScope) ->
 
   cache = DSCacheFactory("authioCache")
 
@@ -104,11 +102,11 @@ app.factory "authio", ($q, DSCacheFactory, authioLogin, authioEndpoints) ->
       cache.remove "_jwt", jwt
 
   login = (provider, opts) ->
-    console.log opts
     jwt = getJWT()
     if !jwt and opts.force
       authioLogin.login(provider, opts).then (res) ->
         setJWT res.token
+        $rootScope.$broadcast "authio::login", res.profile
         res
     else if jwt
       authioLogin.getUser(jwt).catch (e) ->

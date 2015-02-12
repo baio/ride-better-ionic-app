@@ -22,7 +22,7 @@ dev_gce:
     apiUrl : http://ridebetter.info:85/
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
-      apiUrl : http://ridebetter.info:86/
+      apiUrl:  http://ridebetter.info:86/
     pushKeys :
       android : 730534788406
 debug:

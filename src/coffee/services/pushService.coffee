@@ -1,4 +1,4 @@
-app.factory "pushService", ($rootScope, cordovaPushNotifications, pushConfig, platformsEP, $ionicPopup, BAIO_AUTH_EVENTS, user) ->
+app.factory "pushService", ($rootScope, cordovaPushNotifications, pushConfig, platformsEP, $ionicPopup, user) ->
 
   showAlert = (msg) ->
     $ionicPopup.alert

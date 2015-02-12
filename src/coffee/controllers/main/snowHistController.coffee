@@ -58,11 +58,12 @@ app.controller "SnowHistController", ($scope, resources, stateResolved, cultureF
     favs = userResolved.settings.favs.map((m) -> m.id).join("-")
     if isChartOfType("spot")
       histDA.getSnowfall(stateResolved.spot.id, favs).then (res) ->
-        if res.length 
+        if res and res.length
           setSpotChart res[0].items
     else if isChartOfType("favs")
       histDA.getSnowfall(favs, favs).then (res) ->
-        setFavsChart res
+        if res and res.length
+          setFavsChart res
 
   $scope.$on "$ionicView.enter", ->
     loadChart()

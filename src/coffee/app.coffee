@@ -20,6 +20,8 @@ app = angular.module("ride-better", [
     StatusBar.styleDefault() if window.StatusBar
     user.activate()
     pushService.register()
+    undefined
+
 )
 .config ($stateProvider) ->
   _resortResolved = {}
