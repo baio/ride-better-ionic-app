@@ -1,7 +1,8 @@
-app.factory "pushService", ($rootScope, cordovaPushNotifications, pushConfig, platformsEP, $ionicPopup, user) ->
+app.factory "pushService", ($rootScope, cordovaPushNotifications, pushConfig, platformsEP, $ionicPopup, user, resources) ->
 
   showAlert = (msg) ->
     $ionicPopup.alert
+      title : resources.str("alert")
       content : msg
 
 
