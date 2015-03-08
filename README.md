@@ -8,13 +8,20 @@ gcloud preview container clusters create rb-satge --num-nodes 3 --machine-type n
 
  gcloud compute forwarding-rules list
 
-sudo docker run -d -p 80:8080 \
--e "NODE_ENV=gce_stage" \
--e "PORT=8080" \
--e "NEW_RELIC_LICENSE_KEY=cdc04e9a1643f8b59cbfe567de85e9fa2e7e39f8" \
-gcr.io/rb_gce/ride-better-web-app
 
-baio/ride-better-web-app
+docker-machine create \
+    --driver digitalocean \
+    --digitalocean-access-token xxx \
+    --digitalocean-size "1gb" \
+    --digitalocean-region "lon1" \
+    --swarm \
+    --swarm-master \
+    --swarm-discovery token://xxx \   
+    rb-stg
+
+
+docker run -d -p 80:8080 -e "NODE_ENV=gce_stage" baio/ride-better-web-app
+
 
 !!! gloud add forwarding rule here by "createExternalLoadBalancer": true or manualy, then you mast manually check allow http traffic on instances !!!
 !!! Is Lang and Culture must be setup on rootRoute ???? since resources.str - is compromise to not use filters !!!
