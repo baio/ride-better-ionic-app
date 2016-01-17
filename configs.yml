@@ -5,7 +5,7 @@ dev:
     platform : browser
     debug : true
   client :
-    apiUrl : //localhost:8001/
+    apiUrl : //localhost:1779/
     auth :
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
       apiUrl : http://ridebetter.info:86/ #//localhost:8002/ #http://ridebetter.info:86/

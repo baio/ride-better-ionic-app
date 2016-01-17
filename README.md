@@ -1,6 +1,18 @@
-Ionic App Base
+Ride-Better ionic app
 =====================
 
+## Install
+
+1. git clone --recursive ..
+If submodules throw an error, remove `src/coffee/submodules`
+Then `git rm -r src/coffee/submodules` and `git submodule add git@github.com:baio/baio-ng-cordova.git src/coffee/submodules`
+
+2. Set `NODE_ENV=xxx` see avaliable envs in `configs.yml`
+3. `gulp build-www`  
+4. `gulp`
+
+
+##Old Stuff
  cordova restore plugins --experimental
 
 gcloud config set compute/zone europe-west1-b
