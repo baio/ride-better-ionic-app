@@ -1,0 +1,166 @@
+/* Empty. Add your own CSS if you like */
+body
+{
+    -ms-content-zooming: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.transparent-background {
+    background-color: transparent;
+}
+.transparent-background-img {
+    background: url('../img/bkg/60degree_gray.png') repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.home-container
+{
+    background-image: url('../img/bkg/light-clouds.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: center;
+    background-attachment: local;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.home-container-sun
+{
+    background-image: url('../img/bkg/sky-sun.png');
+}
+
+.home-container-light-clouds
+{
+    background-image: url('../img/bkg/light-clouds.jpg');
+}
+
+.home-container-clouds
+{
+    background-image: url('../img/bkg/thick-clouds.jpg');
+}
+
+.home-container-snow
+{
+    background-image: url('../img/bkg/light-snow.png');
+}
+
+.padding-vertical {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.button-footer
+{
+    margin: 0!important;
+    padding: 0!important;
+}
+
+
+ion-footer-bar.no-padding-footer-bar
+{
+
+    /*background-color: lightcyan;*/
+
+    /*padding: 0;*/
+
+}
+
+button.button.button-wide-letters
+{
+    letter-spacing: 1px;
+}
+
+.text-bold
+{
+    color: #000000;
+    text-emphasis: grey;
+    font-family: "Bookman", Georgia, "Times New Roman", serif;
+    text-shadow: 1px 1px rgb(172,193,222);
+}
+
+.slider-pager {
+    top: 0;
+    bottom: initial;
+}
+
+ion-slide h3:first-child
+{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.loading-container .loading {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    margin-top: 0;
+    background-color: transparent;
+    padding: 0px;
+}
+
+.loading-non-block {
+ margin-top: 5px;
+ margin-right: 5px;
+ font-size: 30px;
+ color: darkgrey;
+ /*color: black;*/
+}
+
+.arrow-more {
+    top: 0px;
+    right: 3px;
+    position: absolute;
+
+    font-size: 25px;
+    color: #000000;
+}
+
+/*
+.webcam-stream {
+    margin-top: 80px;
+}
+
+.webcam-img {
+    margin-top: 50px;
+}
+*/
+
+.tabs-striped .tabs
+{
+    border-bottom: 0px;
+}
+
+.long-read 
+{
+    white-space: pre-wrap!important; 
+    color: black!important;
+}
+
+.bar.bar-header h3 {
+  width: 350px;
+  white-space: nowrap;
+  /*overflow: hidden;*/
+  text-overflow: ellipsis;
+}
+
+.trim-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-cr
+{
+    border-top-width: 0px;
+}

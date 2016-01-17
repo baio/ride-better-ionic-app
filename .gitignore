@@ -34,6 +34,6 @@ res/screen
 !hooks/after_prepare/clean_bower.js
 !hooks/after_prepare/icons_and_plash.js
 
-www
+
 assets/js
 !assets/fix/js/*.js
