@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html></html>
+<!--(manifest="app.manifest")-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title>Ride Better</title>
+  <link href="css/app.bundle.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/chart.css" rel="stylesheet">
+  <script src="ionic.bundle.js"></script>
+  <script src="app.bundle.dev.js"></script>
+  <script src="app.js"></script>
+  <body ng-app="ride-better">
+    <div type="text/html" id="body_ru">
+      <ion-side-menus>
+        <ion-side-menu side="right">
+          <ion-content>
+            <ion-list>
+              <ion-item nav-clear menu-close ng-click="open('main.home')" class="item-icon-left"><i class="icon ion-home"></i>Главная      </ion-item>
+              <ion-item nav-clear menu-close ng-click="open('resort.main')" class="item-icon-left"><i class="icon ion-information"> </i>Информация</ion-item>
+              <ion-item nav-clear menu-close ng-click="open('prices.lifts')" class="item-icon-left"><i class="icon ion-pricetags"> </i>Цены      </ion-item>
+              <ion-item nav-clear menu-close ui-sref="user.settings" class="item-icon-left"><i class="icon ion-person"></i>Пользователь      </ion-item>
+              <ion-item nav-clear menu-close ng-click="open('add')" class="item-icon-left"><i class="icon ion-plus"></i>Добавить</ion-item>
+            </ion-list>
+          </ion-content>
+        </ion-side-menu>
+        <ion-side-menu-content>
+          <ion-nav-bar class="bar-positive nav-title-slide-ios">           
+            <ion-nav-back-button class="button-clear"><i class="ion-ios-arrow-left"></i></ion-nav-back-button>
+            <ion-nav-buttons side="right" style="color: white">
+              <buttonbutton menu-toggle="right" class="button-icon icon ion-navicon"></buttonbutton>
+            </ion-nav-buttons>
+          </ion-nav-bar>
+          <ion-nav-view></ion-nav-view>
+        </ion-side-menu-content>
+      </ion-side-menus>
+      <script type="text/ng-template" id="add/addStuff.html">
+        <ion-view ng-attr-title="Добавить цену - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <button ng-file-select accept="image/*" ng-file-change="attachPhoto(attachedFile)" ng-model="attachedFile" type="file" class="button button-royal"><i class="icon ion-image">&nbsp; Добавить фото</i></button>
+            <div class="list">
+              <label class="item"><img ng-src="{{data.photo.src}}" height="200px"></label>
+              <label class="item item-input">
+                <input type="text" ng-model="data.title" placeholder="Заголовок">
+              </label>
+              <label class="item item-input item-select">
+                <div class="input-label">Таг</div>
+                <select ng-options="tag.name for tag in ::tagsList" ng-model="data.tag"></select>
+              </label>
+            </div>
+            <div class="button-bar"><a ng-click="cancel()" class="button button-stable">Отменить</a><a ng-click="send()" class="button button-stable">Отправить</a></div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/main.html">
+        <ion-tabs class="tabs-striped tabs-positive tabs-light">
+          <ion-tab icon="icon ion-home" ng-click="open('main.home')">
+            <ion-nav-view name="main-home"></ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-chatboxes" ng-click="open('main.messages')">
+            <ion-nav-view name="main-messages">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-cloud" ng-click="open('main.forecast')">
+            <ion-nav-view name="main-forecast">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-stats-bars" ng-click="open('main.hist')">
+            <ion-nav-view name="main-hist">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-star" ng-click="open('main.favs')">
+            <ion-nav-view name="main-favs">         </ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="main/home.html">
+        <ion-view ng-attr-title="{{::state.spot.title}}">
+          <ion-content ng-class="getBackgroundStyle(snapshot.forecast.icon)" class="has-header home-container">
+            <div ng-if="snapshot.report.summary || snapshot.forecast.summary" class="transparent-background card list home-card">
+              <div ng-if="snapshot.lastImportant" ng-click="openImportant()" class="transparent-background transparent-background-img height-300 item item-text-wrap text-bold"><i class="icon ion-alert assertive">&nbsp;</i><small>{{snapshot.lastImportant.formatted.createdStr}}</small><br><span>{{snapshot.lastImportant.formatted.shortText}}</span></div>
+              <div ng-if="snapshot.report.summary" ng-click="openReports()" class="transparent-background transparent-background-img height-300 item item-text-wrap text-center text-bold"><i style="font-size: 25px;" class="icon ion-flag royal">&nbsp;                     </i><span>{{snapshot.report.summary}} &nbsp;</span></div>
+              <div ng-click="open('main.forecast')" ng-if="snapshot.forecast.summary" class="transparent-background transparent-background-img item item-text-wrap text-center text-bold">{{snapshot.forecast.summary}}<br><i style="font-size: 25px; color: red;" class="icon ion-thermometer">&nbsp;                     </i><i class="icon ion-arrow-down-c">
+                  &nbsp; {{snapshot.forecast.temperatureMin | round | plus}}&deg;
+                  {{culture.units.names.temperature}} &nbsp;</i>&nbsp;&nbsp;&nbsp;<i class="icon ion-arrow-up-c">
+                  &nbsp; {{snapshot.forecast.temperatureMax | round | plus}}&deg;
+                  {{culture.units.names.temperature}} &nbsp;</i></div>
+              <div ng-click="open('main.hist')" ng-if="snowfallHistory.summary" class="transparent-background transparent-background-img item item-text-wrap text-center text-bold"><i style="font-size: 25px; color: blue;" class="icon ion-ios-snowy"></i>&nbsp; {{snowfallHistory.summary}}</div>
+            </div>
+          </ion-content>
+          <ion-footer-bar class="bar-positive">
+            <div class="button-bar">
+              <button ng-click="open('main.report')" class="button button-wide-letters button-energized"><i style="font-size: 20px;" class="ion-flag"></i>&nbsp; Отчет</button>
+            </div>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/home/messages.html">
+        <ion-view ng-attr-title="Сообщения">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <thread-list-item></thread-list-item>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/forecast.html">
+        <ion-view ng-attr-title="Погода - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="list">
+              <div ng-repeat="item in ::forecast" ng-click="openHourly(item)" class="item item-text-wrap">
+                <h2>{{::item.time | amDateFormat: 'dddd, Do MMMM'}}</h2>
+                <h3>{{::item.summary}}</h3><span ng-if="::item.precipType">{{::item.precipType | resourcesStr}}&nbsp;<span ng-if="::item.precipAccumulation">{{::item.precipAccumulation | round:1}} {{::culture.units.names.height | resourcesStr}}.</span><br></span>{{::item.temperatureMin | round | plus}}&deg;{{::culture.units.names.temperature}}  &mdash;
+                {{::item.temperatureMax | round | plus}}&deg;{{::culture.units.names.temperature}}<i style="float: right" ng-if="::item.hourly" class="ion-arrow-right-c positive"></i>
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/forecast-hourly.html">
+        <ion-view ng-attr-title="Погода - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="list">
+              <div ng-repeat="item in ::forecast" class="item item-text-wrap">
+                <h2>{{::item.time | amDateFormat: 'HH : mm'}}</h2>
+                <h3>{{::item.summary}}</h3><span ng-if="::item.precipType">{{::item.precipType | resourcesStr}}&nbsp;<span ng-if="::item.precipAccumulation">{{::item.precipAccumulation | round:1}} {{::culture.units.names.height | resourcesStr}}.</span><br></span>{{::item.temperature | round | plus}}&deg;{{::culture.units.names.temperature}}  &mdash; &nbsp;<small>чувствуется как </small>{{::item.apparentTemperature | round | plus}}&deg;{{::culture.units.names.temperature}}
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/messages.html">
+        <ion-view ng-attr-title="Сообщения">
+          <ion-nav-buttons side="primary">
+            <button ng-click="board.openFilterModal()" class="button"><i class="icon ion-funnel"></i></button>
+          </ion-nav-buttons>
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <thread-list-item></thread-list-item>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="openAddMsgSelector()" class="title positive"><i class="icon ion-chatbox-working">&nbsp; Добавить сообщение</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/message.html">
+        <thread-item></thread-item>
+      </script>
+      <script type="text/ng-template" id="main/snow-hist.html">
+        <ion-view ng-attr-title="Снегопад">
+          <ion-content class="has-header">   
+            <div class="button-bar"><a ng-class="{'button-outline': !isChartOfType('spot')}" ng-click="setChartType('spot')" class="button button-positive button-small">{{::state.spot.title}}</a><a ng-class="{'button-outline': !isChartOfType('favs')}" ng-click="setChartType('favs')" class="button button-positive button-small">Избранное</a></div>
+            <div ng-if="isChartOfType('spot')" class="padding-top text-center"><span style="background-color: #387ef5;" class="stable">&nbsp; За день &nbsp;</span>&nbsp;<span style="background-color: lightblue" class="dark">&nbsp; Суммарно за прошедшие дни &nbsp; </span></div>
+            <div ng-if="isChartOfType('favs')" class="padding-top text-center"><span class="dark">&nbsp; Количество выпавшего снега за неделю &nbsp;       </span></div>
+            <bar-chart chart-data="chartData">   </bar-chart>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/send-report.html">
+        <ion-view ng-attr-title="Отчет - {{::state.spot.title}}" cache-view="false">
+          <ion-content class="has-header">
+            <ion-slide-box>
+              <ion-slide>
+                <h3>Снег на трассах ?</h3>
+                <div class="list">
+                  <!--
+                  label.item.text-center.assertive(ng-click="closedReport()")
+                      span.item-conent-closed(ng-click="closedReport()")
+                          i.icon.ion-ios-locked-outline &nbsp; {{'Closed' | res}}
+                  -->
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="4">
+                    <div class="item-content">очень много снега</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="3">
+                    <div class="item-content">много снега</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="2">
+                    <div class="item-content">достаточно снега</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="1">
+                    <div ng-click="nextSlide()" class="item-content">недостаточно снега</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="0">
+                    <div class="item-content">очень мало снега</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                </div>
+              </ion-slide>
+              <ion-slide>
+                <h3>Снег идет ?</h3>
+                <div class="list">
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="4">
+                    <div class="item-content">выпало очень много снега</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="3">
+                    <div class="item-content">выпало много снега</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="2">
+                    <div class="item-content">выпало достаточно снега</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="1">
+                    <div class="item-content">выпало не много снега</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="0">
+                    <div class="item-content">снег не выпадал</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                </div>
+              </ion-slide>
+              <ion-slide>
+                <h3>Сколько людей ?</h3>
+                <div class="list">
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="4">
+                    <div class="item-content"></div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="3">
+                    <div class="item-content">много людей</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="2">
+                    <div class="item-content">достаточно людей</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="1">
+                    <div class="item-content">мало людей</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="0">
+                    <div class="item-content">очень мало людей</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                </div>
+              </ion-slide>
+              <ion-slide>
+                <h3></h3>
+                <div class="list">
+                  <label class="item item-input">
+                    <textarea placeholder="Добавить сообщение" ng-model="data.message" style="height: 120px; margin-right: -10px"></textarea>
+                  </label>
+                </div>
+                <div class="button-bar"><a ng-click="cancelReport()" class="button button-stable">Отменить</a><a ng-click="sendReport()" class="button button-stable">Отправить</a></div>
+              </ion-slide>
+            </ion-slide-box>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/closed-report.html">
+        <ion-view ng-attr-title="{{state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="list">
+              <label class="item text-center">
+                <h2>{{ 'Closed' | res }}</h2>
+              </label>
+              <div class="item item-input item-select"><span class="input-label">{{ 'Reason' | res }}</span>
+                <select ng-options="reason.name for reason in reasonsList" ng-model="data.reason"></select>
+              </div>
+              <label class="item item-input item-stacked-label"><span class="input-label">{{ 'Supposed open date' | res }}</span>
+                <input type="date" ng-model="data.openDate" placeholder="{{'dd.mm.yyyy' | res}}">
+              </label>
+              <label class="item item-input">
+                <textarea placeholder="{{'Add Message' | res}}" ng-model="data.message" style="height: 120px"></textarea>
+              </label>
+            </div>
+            <div class="button-bar"><a ng-click="cancelReport()" class="button button-stable">{{"Cancel" | res}}</a><a ng-click="sendReport()" class="button button-stable">{{"Send" | res}}</a></div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="resort/resort.html">
+        <ion-tabs class="tabs-striped tabs-energized tabs-light">     
+          <ion-tab icon="icon ion-earth" ng-click="open('resort.main')">
+            <ion-nav-view name="resort-main">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-android-call" ng-click="open('resort.contacts')">
+            <ion-nav-view name="resort-contacts"></ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-videocamera" ng-click="open('resort.webcams')">
+            <ion-nav-view name="resort-webcams"></ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-map" ng-click="open('resort.maps')">
+            <ion-nav-view name="resort-maps"></ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="resort/resort-main.html">
+        <ion-view ng-attr-title="{{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="row">
+              <div class="col"><img ng-src="{{::resort.headerImg.thumb}}" width="100%" height="200px"></div>
+            </div>
+            <div ng-if="::resort.geo" class="row">
+              <div ng-bind-html="::resort.geo | geo" class="col">               </div>
+            </div>
+            <div class="row">
+              <div class="col">{{::resort.description}}</div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <ul>
+                  <li ng-repeat="txt in ::resort.proscons.pros">{{::txt}}.</li>
+                </ul>
+              </div>
+              <div class="col">
+                <ul>
+                  <li ng-repeat="txt in ::resort.proscons.cons">{{::txt}}.</li>
+                </ul>
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="resort/resort-contacts.html">
+        <ion-view ng-attr-title="Контакты - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="list">
+              <div ng-repeat="contact in ::resort.contacts" open-system="{{::getContactHref(contact)}}" class="item item-icon-right">
+                <div class="positive">{{::contact.val}}</div><span ng-bind-html="::contact | contact"></span>
+                <p ng-if="::contact.comment">{{::contact.comment}}</p>
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="resort/resort-maps.html">
+        <ion-view ng-attr-title="Карты - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="padding-top"></div>
+            <ion-slide-box does-continue="true" show-pager="false" ng-if="::resort.maps.length !== 0" id="resort_maps">
+              <ion-slide ng-repeat="map in ::resort.maps" class="box"><img width="100%" ng-src="{{::map.img.thumb}}" open-external="{{::map.img.orig}}"></ion-slide>
+            </ion-slide-box>
+          </ion-content>
+          <ion-footer-bar class="bar-positive bar-clear">
+            <button ng-click="movePrev()" class="button button-clear ion-arrow-left-c"></button>&nbsp;
+            <button ng-click="moveNext()" class="button button-clear ion-arrow-right-c"></button>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="resort/resort-webcams.html">
+        <ion-view ng-attr-title="Камеры - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="padding-top"></div>
+            <div ng-if="current.meta.type === 'img'"><img ng-src="{{current.meta.src}}" open-external="{{::current.meta.src}}" width="100%" class="webcam-img"></div>
+            <div ng-if="current.meta.type === 'stream'">
+              <div style="width: 100%; text-align: center" class="webcam-stream-container">
+                <iframe src="{{current.meta.src}}" height="300" width="330" frameborder="0" seamless="seamless" class="webcam-stream"></iframe>
+              </div>
+            </div>
+            <div style="height:50px" ng-if="list" class="list">
+              <div style="height:50px" class="item item-input item-select">
+                <select ng-options="cam.title for cam in list" ng-model="data.currentItem" ng-change="loadLatest()"></select>
+              </div>
+            </div>
+          </ion-content>
+          <ion-footer-bar ng-if="current.meta.type === 'img'" class="bar-positive bar-clear">
+            <button ng-click="loadPrev()" class="button button-clear ion-arrow-left-c"></button>
+            <h2 class="title">{{current.meta.created | amCalendar}}</h2>
+            <button ng-click="loadNext()" class="button button-clear ion-arrow-right-c"></button>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="prices/prices.html">
+        <ion-tabs class="tabs-striped tabs-royal tabs-light">     
+          <ion-tab icon="icon ion-upload" ng-click="open('prices.lifts')">
+            <ion-nav-view name="prices-lifts">      </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-clipboard" ng-click="open('prices.rent')">
+            <ion-nav-view name="prices-rent"> </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-coffee" ng-click="open('prices.food')">
+            <ion-nav-view name="prices-food"> </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-bowtie" ng-click="open('prices.services')">
+            <ion-nav-view name="prices-services"></ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="prices/prices-content.html">
+        <ion-view ng-attr-title="Цены - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <ion-slide-box ng-if="::prices.length !== 0" does-continue="true" show-pager="false">           
+              <ion-slide ng-repeat="price in ::prices" class="box">
+                <p class="text-center">{{::price.title}}</p><img width="100%" ng-src="{{::price.img.thumb}}" open-external="{{::price.img.orig}}" alt="{{::price.title}}">
+              </ion-slide>
+            </ion-slide-box>
+          </ion-content>
+          <ion-footer-bar class="bar-positive bar-clear">
+            <button ng-click="movePrev()" class="button button-clear ion-arrow-left-c"></button>&nbsp;
+            <button ng-click="moveNext()" class="button button-clear ion-arrow-right-c"></button>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/messages.html">
+        <ion-tabs class="tabs-striped tabs-positive tabs-light">
+          <ion-tab icon="icon ion-speakerphone" ng-click="open('msg.messages')">
+            <ion-nav-view name="msg-messages"></ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-flag" ng-click="open('msg.reports')">
+            <ion-nav-view name="msg-reports">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-model-s" ng-click="open('msg.transfer')">
+            <ion-nav-view name="msg-transfer">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-help" ng-click="open('msg.faq')">
+            <ion-nav-view name="msg-faq">         </ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="messages/messages-list.html">
+        <ion-view ng-attr-title="#{resources.str.messages}} - {{::state.spot.title}">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <h4 class="positive">{{::thread.spot.title}}</h4>
+                <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3><span ng-click="openThread(thread)"> 
+                  <h3><i ng-if="::thread.data.meta.priority=='important'" class="ion-alert assertive">&nbsp;</i><i class="ion-speakerphone positive">&nbsp;</i>{{thread.formatted.shortText}}</h3><img ng-src="{{thread.formatted.img.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;"></span><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+                <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Ответить</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Ответы {{thread.repliesCount}}</a></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="board.openThreadModal(null, 'create')" class="title positive"><i class="icon ion-speakerphone">&nbsp; Добавить сообщение</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/messages-item.html">
+        <ion-view ng-attr-title="Сообщение">
+          <ion-content class="has-header">    
+            <!--ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")   -->
+            <ion-item class="item item-text-wrap">
+              <h3>
+                 
+                {{::board.data.currentThread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::board.data.currentThread.formatted.createdStr}}
+              </h3>
+              <p><a ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="button button-outline button-positive button-small">Ответить </a>&nbsp;<a ng-click="openReplies(board.data.currentThread)" class="button button-outline button-positive button-small">Ответы {{board.data.currentThread.repliesCount}}</a><span ng-if="::board.data.currentThread.formatted.canEdit" style="float: right"><a ng-click="board.openThreadModal(board.data.currentThread, 'edit')" class="button button-outline button-royal button-small"><i class="icon ion-edit">&nbsp; Изменить                                </i></a>&nbsp;<a ng-click="removeThread(board.data.currentThread)" class="button button-outline button-royal button-small"><i class="icon ion-trash-b">&nbsp; Удалить               </i></a></span>
+              </p>
+              <p ng-if="board.data.currentThread.data.img"><img ng-src="{{board.data.currentThread.formatted.img.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;" open-external="{{board.data.currentThread.formatted.img.orig}}"></p>
+              <p class="long-read item-text-wrap">{{board.data.currentThread.data.text}}                  </p>
+            </ion-item>
+            <!--include item-items/replies-->
+            <!--ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")-->
+          </ion-content>
+          <!--
+          ion-footer-bar
+              h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+                  i.icon.ion-chatboxes &nbsp; Ответить
+          -->
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/faq-list.html">
+        <ion-view ng-attr-title="#{resources.str.faq}} - {{::state.spot.title}">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <h4 class="positive">{{::thread.spot.title}}</h4>
+                <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+                <h3 ng-click="openThread(thread)"> <i class="ion-help-circled calm">&nbsp; </i>{{thread.formatted.shortText}}</h3><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+                <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Ответить</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Ответы {{thread.repliesCount}}</a></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="board.openThreadModal(null, 'create')" class="title calm"><i class="icon ion-help">&nbsp; Задать вопрос</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/faq-item.html">
+        <ion-view ng-attr-title="Сообщение">
+          <ion-content class="has-header">    
+            <!--ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")   -->
+            <ion-item class="item item-text-wrap">
+              <h3>
+                 
+                {{::board.data.currentThread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::board.data.currentThread.formatted.createdStr}}
+              </h3>
+              <p><a ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="button button-outline button-positive button-small">Ответить </a>&nbsp;<a ng-click="openReplies(board.data.currentThread)" class="button button-outline button-positive button-small">Ответы {{board.data.currentThread.repliesCount}}</a><span ng-if="::board.data.currentThread.formatted.canEdit" style="float: right"><a ng-click="board.openThreadModal(board.data.currentThread, 'edit')" class="button button-outline button-royal button-small"><i class="icon ion-edit">&nbsp; Изменить                                </i></a>&nbsp;<a ng-click="removeThread(board.data.currentThread)" class="button button-outline button-royal button-small"><i class="icon ion-trash-b">&nbsp; Удалить               </i></a></span>
+              </p>
+              <p class="long-read item-text-wrap">{{board.data.currentThread.data.text}}              </p>
+            </ion-item>
+            <!--include item-items/replies-->
+            <!--ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")-->
+          </ion-content>
+          <!--
+          ion-footer-bar
+              h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+                  i.icon.ion-chatboxes &nbsp; Ответить
+          -->
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/transfer-list.html">
+        <ion-view ng-attr-title="#{resources.str.transfer}} - {{::state.spot.title}">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <h4 class="positive">{{::thread.spot.title}}</h4>
+                <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+                <h2 ng-click="openThread(thread)"><i class="ion-model-s royal">&nbsp;</i>{{::thread.formatted.transfer.title}}
+                   <i class="ion-location positive">&nbsp;</i>{{::thread.data.meta.from}}     <br><span><i class="ion-card"> </i>{{::thread.data.meta.price}}<br></span><span><i class="ion-calendar"> </i>{{::thread.formatted.metaDateStrLong}}<br></span><a ng-href="tel:{{::thread.data.meta.phone}}" style="text-decoration: none" class="positive"><i class="ion-android-call"> </i>{{::thread.data.meta.phone}}</a>
+                </h2>
+                <h4 ng-click="openThread(thread)" class="dark">{{thread.formatted.shortText}}</h4><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+                <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Ответить</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Ответы {{thread.repliesCount}}</a></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="board.openThreadModal(null, 'create')" class="title royal"><i class="icon ion-model-s">&nbsp; Добавить трансфер</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/transfer-item.html">
+        <ion-view ng-attr-title="Сообщение">
+          <ion-content class="has-header">    
+            <!--ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")   -->
+            <ion-item class="item item-text-wrap">
+              <h3>
+                 
+                {{::board.data.currentThread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::board.data.currentThread.formatted.createdStr}}
+              </h3>
+              <p><a ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="button button-outline button-positive button-small">Ответить </a>&nbsp;<a ng-click="openReplies(board.data.currentThread)" class="button button-outline button-positive button-small">Ответы {{board.data.currentThread.repliesCount}}</a><span ng-if="::board.data.currentThread.formatted.canEdit" style="float: right"><a ng-click="board.openThreadModal(board.data.currentThread, 'edit')" class="button button-outline button-royal button-small"><i class="icon ion-edit">&nbsp; Изменить                                </i></a>&nbsp;<a ng-click="removeThread(board.data.currentThread)" class="button button-outline button-royal button-small"><i class="icon ion-trash-b">&nbsp; Удалить               </i></a></span>
+                <div ng-if="board.data.currentThread.data.meta.type != 'taxi'" class="padding-top"><span ng-switch="board.userRequestStatus(board.data.currentThread)"><a ng-click="board.requestTransfer(board.data.currentThread)" ng-switch-when="none" class="button button-outline button-calm button-small"> <i class="icon ion-checkmark-round">&nbsp; Запрос </i></a><a ng-click="board.unrequestTransfer(board.data.currentThread)" ng-switch-when="requested" class="button button-outline button-balanced button-small"> <i class="icon ion-checkmark-circled">&nbsp; Запрошен    </i></a><a ng-click="board.unrequestTransfer(board.data.currentThread)" ng-switch-when="accepted" class="button button-outline button-positive button-small"> <i class="icon ion-checkmark-circled">&nbsp; Подтвержден </i></a><a ng-click="board.unrequestTransfer(board.data.currentThread)" ng-switch-when="rejected" class="button button-outline button-asserive button-small"> <i class="icon ion-close-round">&nbsp; Отменен </i></a></span>&nbsp;<a ng-click="openTransferRequests(board.data.currentThread)" class="button button-outline button-positive button-small"><i class="icon ion-person-stalker">
+                      &nbsp; Уже едут
+                      {{board.data.currentThread.requests.length}} &nbsp; </i></a></div>
+              </p>
+              <div class="list card">
+                <div class="item item-icon-left"><i class="icon i ion-model-s"> </i>{{board.data.currentThread.formatted.transfer.title}}    </div>
+                <div class="item item-icon-left"><i class="icon ion-location"> </i>{{board.data.currentThread.data.meta.from}}                                </div>
+                <div ng-if="board.data.currentThread.data.meta.date" class="item item-icon-left item-text-wrap"><i class="icon ion-calendar"> </i>{{board.data.currentThread.data.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}                                  </div>
+                <div ng-if="board.data.currentThread.data.meta.price" class="item item-icon-left"><i class="icon i ion-card"> </i>{{board.data.currentThread.data.meta.price}}</div><a ng-href="tel:{{currentThread.data.meta.phone}}" ng-if="board.data.currentThread.data.meta.phone" class="item item-icon-left"><i class="icon i ion-android-call positive"></i>{{board.data.currentThread.data.meta.phone}}</a>
+              </div>
+              <div ng-if="board.data.currentThread.data.text" class="long-read item-text-wrap">{{board.data.currentThread.data.text}}                                        </div>
+            </ion-item>
+            <!--include item-items/replies-->
+            <!--ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")-->
+          </ion-content>
+          <!--
+          ion-footer-bar
+              h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+                  i.icon.ion-chatboxes &nbsp; Ответить
+          -->
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/reports-list.html">
+        <ion-view ng-attr-title="#{resources.str.reports}} - {{::state.spot.title}">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <h4 class="positive">{{::thread.spot.title}}</h4>
+                <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+                <h3 ng-click="openThread(thread)"> <i class="ion-flag energized">&nbsp;    </i>{{::thread.data.meta.summary}}</h3>
+                <h4 ng-click="openThread(thread._id)" class="dark">{{thread.formatted.shortText}}</h4><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+                <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Ответить</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Ответы {{thread.repliesCount}}</a></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="open('main.report')" class="title energized"><i class="icon ion-flag">&nbsp; Добавить сообщение</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/reports-item.html">
+        <ion-view ng-attr-title="Сообщение">
+          <ion-content class="has-header">    
+            <!--ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")   -->
+            <ion-item class="item item-text-wrap">
+              <h3>
+                 
+                {{::board.data.currentThread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::board.data.currentThread.formatted.createdStr}}
+              </h3>
+              <p><a ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="button button-outline button-positive button-small">Ответить </a>&nbsp;<a ng-click="openReplies(board.data.currentThread)" class="button button-outline button-positive button-small">Ответы {{board.data.currentThread.repliesCount}}</a><span ng-if="::board.data.currentThread.formatted.canEdit" style="float: right"><a ng-click="board.openThreadModal(board.data.currentThread, 'edit')" class="button button-outline button-royal button-small"><i class="icon ion-edit">&nbsp; Изменить                                </i></a>&nbsp;<a ng-click="removeThread(board.data.currentThread)" class="button button-outline button-royal button-small"><i class="icon ion-trash-b">&nbsp; Удалить               </i></a></span>
+              </p>
+              <div class="item-text-wrap">
+                <h3>{{::board.data.currentThread.data.meta.summary}}</h3>
+                <p class="long-read item-text-wrap">{{board.data.currentThread.data.text}}              </p>
+              </div>
+            </ion-item>
+            <!--include item-items/replies-->
+            <!--ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")-->
+          </ion-content>
+          <!--
+          ion-footer-bar
+              h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+                  i.icon.ion-chatboxes &nbsp; Ответить
+          -->
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/message-list-item.html">
+        <h4 class="positive">{{::thread.spot.title}}</h4>
+        <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3><span ng-click="openThread(thread)"> 
+          <h3><i ng-if="::thread.data.meta.priority=='important'" class="ion-alert assertive">&nbsp;</i><i class="ion-speakerphone positive">&nbsp;</i>{{thread.formatted.shortText}}</h3><img ng-src="{{thread.formatted.img.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;"></span><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+        <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Ответить</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Ответы {{thread.repliesCount}}</a></p>
+      </script>
+      <script type="text/ng-template" id="messages/faq-list-item.html">
+        <h4 class="positive">{{::thread.spot.title}}</h4>
+        <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+        <h3 ng-click="openThread(thread)"> <i class="ion-help-circled calm">&nbsp; </i>{{thread.formatted.shortText}}</h3><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+        <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Ответить</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Ответы {{thread.repliesCount}}</a></p>
+      </script>
+      <script type="text/ng-template" id="messages/report-list-item.html">
+        <h4 class="positive">{{::thread.spot.title}}</h4>
+        <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+        <h3 ng-click="openThread(thread)"> <i class="ion-flag energized">&nbsp;    </i>{{::thread.data.meta.summary}}</h3>
+        <h4 ng-click="openThread(thread._id)" class="dark">{{thread.formatted.shortText}}</h4><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+        <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Ответить</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Ответы {{thread.repliesCount}}</a></p>
+      </script>
+      <script type="text/ng-template" id="messages/transfer-list-item.html">
+        <h4 class="positive">{{::thread.spot.title}}</h4>
+        <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+        <h2 ng-click="openThread(thread)"><i class="ion-model-s royal">&nbsp;</i>{{::thread.formatted.transfer.title}}
+           <i class="ion-location positive">&nbsp;</i>{{::thread.data.meta.from}}     <br><span><i class="ion-card"> </i>{{::thread.data.meta.price}}<br></span><span><i class="ion-calendar"> </i>{{::thread.formatted.metaDateStrLong}}<br></span><a ng-href="tel:{{::thread.data.meta.phone}}" style="text-decoration: none" class="positive"><i class="ion-android-call"> </i>{{::thread.data.meta.phone}}</a>
+        </h2>
+        <h4 ng-click="openThread(thread)" class="dark">{{thread.formatted.shortText}}</h4><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+        <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Ответить</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Ответы {{thread.repliesCount}}</a></p>
+      </script>
+      <!--
+      script(type="text/ng-template", id="messages/transfer-requests.html")
+        include transfer-requests
+      
+      -->
+      <script type="text/ng-template" id="messages/reply-item.html">
+        <h3>{{::reply.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::reply.formatted.createdStr}}</h3>
+        <p class="long-read item-text-wrap">{{reply.data.text}}              </p>
+        <p>&nbsp;<span ng-if="::reply.formatted.canEdit"><a ng-click="board.removeReply(board.data.currentThread, reply)" class="subdued"><i class="icon ion-trash-b">&nbsp; Удалить</i></a><a ng-click="board.openReplyModal(reply, 'edit', board.data.currentThread)" class="subdued"><i class="icon ion-edit">&nbsp; Изменить</i></a></span></p>
+      </script>
+      <script type="text/ng-template" id="messages/messgae-replies.html">
+        <ion-view ng-attr-title="Ответы">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." pulling-icon="ion-chevron-down" on-refresh="board.pullMoreReplies(board.data.currentThread)" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="reply in board.data.currentThread.replies track by reply._id" collection-item-width="'100%'" collection-item-height="getReplyHeight(reply)" style="width: 101%" class="item item-text-wrap item-cr"> 
+                <h3>{{::reply.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::reply.formatted.createdStr}}</h3>
+                <p class="long-read item-text-wrap">{{reply.data.text}}              </p>
+                <p>&nbsp;<span ng-if="::reply.formatted.canEdit"><a ng-click="board.removeReply(board.data.currentThread, reply)" class="subdued"><i class="icon ion-trash-b">&nbsp; Удалить</i></a><a ng-click="board.openReplyModal(reply, 'edit', board.data.currentThread)" class="subdued"><i class="icon ion-edit">&nbsp; Изменить</i></a></span></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="title positive"><i class="icon ion-chatboxes">&nbsp; Ответить</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/transfer-requests.html">
+        <ion-view ng-attr-title="Запрос трансфера">
+          <ion-content class="has-header">
+            <ul class="list">
+              <li ng-repeat="request in board.data.currentThread.requests" class="item item-avatar item-button-right"><img ng-src="{{::request.user.avatar}}">{{::request.user.name}}
+                <p><a ng-if="request.accepted == undefined" class="subdued balanced"> <i class="icon ion-checkmark-circled">&nbsp; Запрошен &nbsp;   </i></a><a ng-if="request.accepted == true" class="subdued positive"> <i class="icon ion-checkmark-circled positive">&nbsp; Подтвержден &nbsp;</i></a><a ng-if="request.accepted == false" class="assertive subdued"> <i class="icon ion-close-round">&nbsp; Отменен &nbsp;            </i></a></p>
+                <button ng-click="board.switchAccepted(board.data.currentThread, request)" ng-if="::board.data.currentThread.formatted.canEdit" ng-class="{positive : request.accepted, assertive : (request.accepted == false)}" class="button"><i class="icon ion-checkmark-round"></i></button>
+              </li>
+            </ul>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="user/user.html">
+        <ion-tabs class="tabs-striped tabs-calm tabs-light">     
+          <ion-tab icon="icon ion-gear-a" ui-sref="user.settings">
+            <ion-nav-view name="user-settings">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-star" ui-sref="user.favs">
+            <ion-nav-view name="user-favs"></ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="user/settings.html">
+        <ion-view title="Профайл">
+          <ion-content class="has-header">
+            <div class="list">
+              <label ng-if="::user.profile.name" class="item item-input item-stacked-label"><span class="input-label">Имя</span>
+                <input type="text" ng-model="user.profile.name" disabled>
+              </label>
+              <label class="item item-input item-stacked-label"><span class="input-label">Дом</span>
+                <input type="text" ng-model="state.spot.title" disabled>
+              </label>
+              <label class="item item-input item-select"><span class="input-label">Язык
+                  <select ng-options="lang.name for lang in ::langsList" ng-model="data.lang" ng-change="setLang(data.lang)"></select></span></label>
+              <label class="item item-input item-select"><span class="input-label">Единицы
+                  <select ng-options="culture.name for culture in ::culturesList" ng-model="data.culture" ng-change="setCulture(data.culture)"></select></span></label>
+              <button ng-click="reload()" ng-show="isPropertyChanged" class="button button-full button-balanced">Перегрузить</button>
+              <button ng-click="reset()" class="button button-full button-energized">Сбросить</button>
+              <button ng-click="login()" ng-show="!isLogined()" class="button button-full button-positive">Войти</button>
+              <button ng-click="logout()" ng-show="isLogined()" class="button button-full button-assertive">Выйти</button>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="user/favs.html">
+        <ion-view ng-attr-title="Избранное">
+          <ion-content class="has-header">
+            <div class="list">
+              <div ng-if="canAddFav()" class="item">
+                <button ng-click="openSpotSelectorModal()" class="button button-block button-stable icon ion-ios-plus-outline">
+                  &nbsp;
+                  Добавить новое
+                </button>
+              </div>
+              <div ng-repeat="fav in favs" class="item item-icon-left item-icon-right"><i ng-class="{'ion-ios-home-outline' : !fav.isHome, 'ion-ios-home' : fav.isHome}" ng-click="setHome(fav)" class="icon"></i><span ng-click="openHome(fav)">
+                  <h2>{{::fav.title}}</h2></span><i ng-if="canRemoveFav()" ng-click="removeFav(fav)" class="icon ion-ios-minus-outline"></i></div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="modals/spotSelector.html">
+        <ion-modal-view>
+          <div class="bar bar-header item-input-inset">
+            <label class="item-input-wrapper"><i class="icon ion-ios-search placeholder-icon"></i>
+              <input type="search" placeholder="Поиск" ng-model="spotTerm" ng-model-options="{debounce:1000}" ng-change="onSpotTermChanged(spotTerm)">
+            </label>
+            <button ng-click="closeSpotSelectorModal()" class="button button-clear">Отменить</button>
+          </div>
+          <ion-content class="has-header">
+            <ul class="list">
+              <li ng-repeat="spot in spotsList" on-tap="selectSpot(spot)" class="item item-text-wrap"><span ng-bind-html="::spot.label" class="text-hlt"></span><span ng-if="spot.dist" class="item-note">{{::spot.formatted.dist}} {{::spot.formatted.distU}}</span></li>
+            </ul>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/authForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header item-input-inset">
+            <h1 class="title">Авторизация</h1>
+          </div>
+          <ion-content class="has-header"><a ng-click="authorizeProvider('facebook')" class="button button-block button-stable">Facebook</a><a ng-click="authorizeProvider('vk')" class="button button-block button-stable">VKontakte</a><a ng-click="hideAuthForm()" class="button button-block button-assertive">Отменить</a></ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/sendSimpleMsgForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h3>Добавить сообщение<small>&nbsp; {{::state.spot.title}}         </small></h3>
+          </div>
+          <ion-content class="has-header">
+            <div class="list">
+              <label class="item item-input">
+                <textarea placeholder="Добавить сообщение" ng-model="simpleMsgForm.data.message" style="height: 120px; margin-right: -10px"></textarea>
+              </label>
+            </div>
+            <div class="button-bar"><a ng-click="board.cancelMsgModal()" class="button button-stable">Отменить</a><a ng-click="board.sendMessage()" class="button button-stable">Отправить</a></div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/sendMsgForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h3>Добавить сообщение <small>&nbsp; {{::state.spot.title}} </small></h3>
+          </div>
+          <ion-content class="has-header">
+            <div class="list">
+              <label class="item item-input item-select">
+                <div class="input-label">Важность</div>
+                <select ng-options="priority.name for priority in ::msgForm.prioritiesList" ng-model="msgForm.data.priority">               </select>
+              </label>
+              <label class="item item-input">
+                <textarea placeholder="Добавить сообщение" ng-model="msgForm.data.message" style="height: 120px; margin-right: -10px"></textarea>
+              </label>
+              <div ng-if="msgForm.data.photo.src" class="item"><img ng-src="{{msgForm.data.photo.src}}" height="200px"></div>
+              <label class="item"></label>
+            </div>
+            <div class="button-bar">
+              <button ng-file-select accept="image/*" ng-file-change="msgForm.attachPhoto(attachedFile)" ng-model="attachedFile" type="file" class="button button-royal"><i class="icon ion-image">&nbsp; Добавить фото</i></button>
+              <button ng-click="msgForm.removePhoto()" ng-if="msgForm.data.photo.src" class="button button-assertive"><i class="icon ion-trash-a">&nbsp; Удалить фото</i></button>
+            </div><br>
+            <div class="button-bar"><a ng-click="board.cancelMsgModal()" class="button button-stable">Отменить</a><a ng-click="board.sendMessage()" class="button button-stable">Отправить</a></div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/transferMsgForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h3>Создать трансфер <small>&nbsp; {{::state.spot.title}} </small></h3>
+          </div>
+          <ion-content class="has-header">
+            <form name="transferMsgForm" novalidate>
+              <div class="list">
+                <div class="item item-input item-select"><span class="input-label">Тип трансфера</span>
+                  <select ng-options="type.name for type in ::transferForm.typesList" ng-model="transferForm.data.type">                         </select>
+                </div>
+                <div class="item item-input"><span ng-hide="transferMsgForm.from.$error.required" class="input-label">Из города</span><span ng-show="transferMsgForm.from.$error.required" class="input-label alert">Из</span>
+                  <input placeholder="Из" ng-model="transferForm.data.from" type="text" name="from" required>
+                </div>
+                <div ng-if="transferForm.data.type.code != 'taxi'" class="item item-input"><span class="input-label">Дата</span>
+                  <input placeholder="Дата" ng-model="transferForm.data.date" type="date">
+                </div>
+                <div ng-if="transferForm.data.type.code != 'taxi'" class="item item-input item-select"><span class="input-label">Часы</span>
+                  <select ng-options="hour.label for hour in ::transferForm.hoursList" ng-model="transferForm.data.time">               </select>
+                </div>
+                <div class="item item-input item-select"><span class="input-label">Тип транспорта</span>
+                  <select ng-options="transport.name for transport in ::transferForm.transportTypesList" ng-model="transferForm.data.transport">               </select>
+                </div>
+                <div class="item item-input"><span class="input-label">Цена</span>
+                  <input placeholder="Цена" ng-model="transferForm.data.price" type="number">
+                </div>
+                <div class="item item-input"><span class="input-label">Номер телефона</span>
+                  <input placeholder="Номер телефона" ng-model="transferForm.data.phone" type="tel">
+                </div>
+                <div class="item item-input">
+                  <textarea placeholder="Добавить сообщение" ng-model="transferForm.data.message" style="height: 120px; margin-right: -10px"></textarea>
+                </div>
+              </div>
+              <div class="button-bar"><a ng-click="board.cancelMsgModal()" class="button button-stable">Отменить</a><a ng-click="board.sendMessage()" class="button button-stable">Отправить</a></div>
+            </form>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/addMsgSelector.html">
+        <ion-modal-view>
+          <div class="bar bar-header item-input-inset">
+            <h1 class="title">Выберитеь сообщение</h1>
+          </div>
+          <ion-content class="has-header"><a ng-click="createThreadModal('message')" class="button button-block button-positive"> <i class="icon ion-speakerphone">&nbsp;</i>Сообщение</a><a ng-click="createThreadModal('report')" class="button button-block button-energized"> <i class="icon ion-flag">&nbsp;</i>Отчет</a><a ng-click="createThreadModal('transfer')" class="button button-block button-royal"><i class="icon ion-model-s">&nbsp;</i>Трансфер        </a><a ng-click="createThreadModal('faq')" class="button button-block button-calm"> <i class="icon ion-help">&nbsp;</i>Вопрос</a><a ng-click="cancelAddMsgSelector()" class="button button-block button-stable">Отменить</a></ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/filterMsgsForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h4 class="text-center">Показывать сообщения для</h4>
+          </div>
+          <ion-content class="has-header">
+            <div class="button-bar"><a ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('current')}" ng-click="filterMsgsForm.setActiveFilter('current')" class="button button-positive button-small">{{::spotTitle}}</a><a ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('favs')}" ng-click="filterMsgsForm.setActiveFilter('favs')" class="button button-positive button-small">Избранное</a><a ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('all')}" ng-click="filterMsgsForm.setActiveFilter('all')" class="button button-positive button-small">Все</a></div>
+            <ul class="list">
+              <li class="item item-toggle"><i class="icon ion-speakerphone positive">&nbsp;</i>Сообщение
+                <label class="toggle toggle-positive">
+                  <input type="checkbox" ng-model="filterMsgsForm.data.messages">
+                  <div class="track">
+                    <div class="handle">       </div>
+                  </div>
+                </label>
+              </li>
+              <li class="item item-toggle"><i class="icon ion-flag energized">&nbsp; </i>Отчет
+                <label class="toggle toggle-positive">
+                  <input type="checkbox" ng-model="filterMsgsForm.data.reports">
+                  <div class="track">
+                    <div class="handle">       </div>
+                  </div>
+                </label>
+              </li>
+              <li class="item item-toggle"><i class="icon ion-model-s royal">&nbsp; </i>Трансфер        
+                <label class="toggle toggle-positive">
+                  <input type="checkbox" ng-model="filterMsgsForm.data.transfers">
+                  <div class="track">
+                    <div class="handle">       </div>
+                  </div>
+                </label>
+              </li>
+              <li class="item item-toggle"><i class="icon ion-help calm">&nbsp; </i>Вопрос
+                <label class="toggle toggle-positive">
+                  <input type="checkbox" ng-model="filterMsgsForm.data.faq">
+                  <div class="track">
+                    <div class="handle">       </div>
+                  </div>
+                </label>
+              </li>
+            </ul>
+            <div class="button-bar"><a ng-click="board.cancelFilterModal()" class="button button-stable">Отменить</a><a ng-click="board.filter()" class="button button-stable">OK</a></div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/transferRequestsForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h3 style="width: 80%">Запрос трансфера</h3>
+            <button ng-click="closeTransferRequests()" style="float: right" class="button button-clear">Закрыть</button>
+          </div>
+          <ion-content class="has-header">
+            <ul class="list">
+              <li ng-repeat="request in board.data.currentThread.requests" class="item item-avatar item-button-right"><img ng-src="{{::request.user.avatar}}">{{::request.user.name}}
+                <p><a ng-if="request.accepted == undefined" class="subdued balanced"> <i class="icon ion-checkmark-circled">&nbsp; Запрошен &nbsp;   </i></a><a ng-if="request.accepted == true" class="subdued positive"> <i class="icon ion-checkmark-circled positive">&nbsp; Подтвержден &nbsp;</i></a><a ng-if="request.accepted == false" class="assertive subdued"> <i class="icon ion-close-round">&nbsp; Отменен &nbsp;            </i></a></p>
+                <button ng-click="board.switchAccepted(board.data.currentThread, request)" ng-if="::board.data.currentThread.formatted.canEdit" ng-class="{positive : request.accepted, assertive : (request.accepted == false)}" class="button"><i class="icon ion-checkmark-round"></i></button>
+              </li>
+            </ul>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="utils/loading.html">
+        <div class="loading-non-block"><i class="ion-loading-c"></i></div>
+      </script>
+      <script type="text/ng-template" id="utils/error.html">
+        <ion-view ng-attr-title="Ошибка">
+          <ion-content class="has-header">
+            <div class="row">
+              <h3 class="center assertive">Сервис временно не доступен, пожайлуста попробуйте позднее !</h3>
+            </div>
+            <div class="row"><a href="/" class="button button-balanced">Попробовать еще раза</a></div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="charts/bar-chart.html">
+        <div class="wrap">
+          <div class="barGraph">
+            <ul class="graph"><span ng-repeat="item in items">
+                <h4 style="margin: 0" class="graph-legend trim-text dark">{{item.label}}</h4><span class="graph-barBack">
+                  <li ng-style="item.style" class="graph-bar"></li></span></span></ul>
+          </div>
+        </div>
+      </script>
+    </div>
+    <div type="text/html" id="body_en">
+      <ion-side-menus>
+        <ion-side-menu side="right">
+          <ion-content>
+            <ion-list>
+              <ion-item nav-clear menu-close ng-click="open('main.home')" class="item-icon-left"><i class="icon ion-home"></i>Main      </ion-item>
+              <ion-item nav-clear menu-close ng-click="open('resort.main')" class="item-icon-left"><i class="icon ion-information"> </i>Info</ion-item>
+              <ion-item nav-clear menu-close ng-click="open('prices.lifts')" class="item-icon-left"><i class="icon ion-pricetags"> </i>Prices      </ion-item>
+              <ion-item nav-clear menu-close ui-sref="user.settings" class="item-icon-left"><i class="icon ion-person"></i>User      </ion-item>
+              <ion-item nav-clear menu-close ng-click="open('add')" class="item-icon-left"><i class="icon ion-plus"></i>Add Stuff</ion-item>
+            </ion-list>
+          </ion-content>
+        </ion-side-menu>
+        <ion-side-menu-content>
+          <ion-nav-bar class="bar-positive nav-title-slide-ios">           
+            <ion-nav-back-button class="button-clear"><i class="ion-ios-arrow-left"></i></ion-nav-back-button>
+            <ion-nav-buttons side="right" style="color: white">
+              <buttonbutton menu-toggle="right" class="button-icon icon ion-navicon"></buttonbutton>
+            </ion-nav-buttons>
+          </ion-nav-bar>
+          <ion-nav-view></ion-nav-view>
+        </ion-side-menu-content>
+      </ion-side-menus>
+      <script type="text/ng-template" id="add/addStuff.html">
+        <ion-view ng-attr-title="Add Price - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <button ng-file-select accept="image/*" ng-file-change="attachPhoto(attachedFile)" ng-model="attachedFile" type="file" class="button button-royal"><i class="icon ion-image">&nbsp; Attach photo</i></button>
+            <div class="list">
+              <label class="item"><img ng-src="{{data.photo.src}}" height="200px"></label>
+              <label class="item item-input">
+                <input type="text" ng-model="data.title" placeholder="Title">
+              </label>
+              <label class="item item-input item-select">
+                <div class="input-label">Tag</div>
+                <select ng-options="tag.name for tag in ::tagsList" ng-model="data.tag"></select>
+              </label>
+            </div>
+            <div class="button-bar"><a ng-click="cancel()" class="button button-stable">Cancel</a><a ng-click="send()" class="button button-stable">Send</a></div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/main.html">
+        <ion-tabs class="tabs-striped tabs-positive tabs-light">
+          <ion-tab icon="icon ion-home" ng-click="open('main.home')">
+            <ion-nav-view name="main-home"></ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-chatboxes" ng-click="open('main.messages')">
+            <ion-nav-view name="main-messages">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-cloud" ng-click="open('main.forecast')">
+            <ion-nav-view name="main-forecast">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-stats-bars" ng-click="open('main.hist')">
+            <ion-nav-view name="main-hist">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-star" ng-click="open('main.favs')">
+            <ion-nav-view name="main-favs">         </ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="main/home.html">
+        <ion-view ng-attr-title="{{::state.spot.title}}">
+          <ion-content ng-class="getBackgroundStyle(snapshot.forecast.icon)" class="has-header home-container">
+            <div ng-if="snapshot.report.summary || snapshot.forecast.summary" class="transparent-background card list home-card">
+              <div ng-if="snapshot.lastImportant" ng-click="openImportant()" class="transparent-background transparent-background-img height-300 item item-text-wrap text-bold"><i class="icon ion-alert assertive">&nbsp;</i><small>{{snapshot.lastImportant.formatted.createdStr}}</small><br><span>{{snapshot.lastImportant.formatted.shortText}}</span></div>
+              <div ng-if="snapshot.report.summary" ng-click="openReports()" class="transparent-background transparent-background-img height-300 item item-text-wrap text-center text-bold"><i style="font-size: 25px;" class="icon ion-flag royal">&nbsp;                     </i><span>{{snapshot.report.summary}} &nbsp;</span></div>
+              <div ng-click="open('main.forecast')" ng-if="snapshot.forecast.summary" class="transparent-background transparent-background-img item item-text-wrap text-center text-bold">{{snapshot.forecast.summary}}<br><i style="font-size: 25px; color: red;" class="icon ion-thermometer">&nbsp;                     </i><i class="icon ion-arrow-down-c">
+                  &nbsp; {{snapshot.forecast.temperatureMin | round | plus}}&deg;
+                  {{culture.units.names.temperature}} &nbsp;</i>&nbsp;&nbsp;&nbsp;<i class="icon ion-arrow-up-c">
+                  &nbsp; {{snapshot.forecast.temperatureMax | round | plus}}&deg;
+                  {{culture.units.names.temperature}} &nbsp;</i></div>
+              <div ng-click="open('main.hist')" ng-if="snowfallHistory.summary" class="transparent-background transparent-background-img item item-text-wrap text-center text-bold"><i style="font-size: 25px; color: blue;" class="icon ion-ios-snowy"></i>&nbsp; {{snowfallHistory.summary}}</div>
+            </div>
+          </ion-content>
+          <ion-footer-bar class="bar-positive">
+            <div class="button-bar">
+              <button ng-click="open('main.report')" class="button button-wide-letters button-energized"><i style="font-size: 20px;" class="ion-flag"></i>&nbsp; Report</button>
+            </div>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/home/messages.html">
+        <ion-view ng-attr-title="Messages">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <thread-list-item></thread-list-item>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/forecast.html">
+        <ion-view ng-attr-title="Forecast - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="list">
+              <div ng-repeat="item in ::forecast" ng-click="openHourly(item)" class="item item-text-wrap">
+                <h2>{{::item.time | amDateFormat: 'dddd, Do MMMM'}}</h2>
+                <h3>{{::item.summary}}</h3><span ng-if="::item.precipType">{{::item.precipType | resourcesStr}}&nbsp;<span ng-if="::item.precipAccumulation">{{::item.precipAccumulation | round:1}} {{::culture.units.names.height | resourcesStr}}.</span><br></span>{{::item.temperatureMin | round | plus}}&deg;{{::culture.units.names.temperature}}  &mdash;
+                {{::item.temperatureMax | round | plus}}&deg;{{::culture.units.names.temperature}}<i style="float: right" ng-if="::item.hourly" class="ion-arrow-right-c positive"></i>
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/forecast-hourly.html">
+        <ion-view ng-attr-title="Forecast - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="list">
+              <div ng-repeat="item in ::forecast" class="item item-text-wrap">
+                <h2>{{::item.time | amDateFormat: 'HH : mm'}}</h2>
+                <h3>{{::item.summary}}</h3><span ng-if="::item.precipType">{{::item.precipType | resourcesStr}}&nbsp;<span ng-if="::item.precipAccumulation">{{::item.precipAccumulation | round:1}} {{::culture.units.names.height | resourcesStr}}.</span><br></span>{{::item.temperature | round | plus}}&deg;{{::culture.units.names.temperature}}  &mdash; &nbsp;<small>feels like </small>{{::item.apparentTemperature | round | plus}}&deg;{{::culture.units.names.temperature}}
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/messages.html">
+        <ion-view ng-attr-title="Messages">
+          <ion-nav-buttons side="primary">
+            <button ng-click="board.openFilterModal()" class="button"><i class="icon ion-funnel"></i></button>
+          </ion-nav-buttons>
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <thread-list-item></thread-list-item>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="openAddMsgSelector()" class="title positive"><i class="icon ion-chatbox-working">&nbsp; Add Message</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/message.html">
+        <thread-item></thread-item>
+      </script>
+      <script type="text/ng-template" id="main/snow-hist.html">
+        <ion-view ng-attr-title="Snowfall">
+          <ion-content class="has-header">   
+            <div class="button-bar"><a ng-class="{'button-outline': !isChartOfType('spot')}" ng-click="setChartType('spot')" class="button button-positive button-small">{{::state.spot.title}}</a><a ng-class="{'button-outline': !isChartOfType('favs')}" ng-click="setChartType('favs')" class="button button-positive button-small">Favorites</a></div>
+            <div ng-if="isChartOfType('spot')" class="padding-top text-center"><span style="background-color: #387ef5;" class="stable">&nbsp; For the day &nbsp;</span>&nbsp;<span style="background-color: lightblue" class="dark">&nbsp; Total for the past days &nbsp; </span></div>
+            <div ng-if="isChartOfType('favs')" class="padding-top text-center"><span class="dark">&nbsp; Snowfall for past week &nbsp;       </span></div>
+            <bar-chart chart-data="chartData">   </bar-chart>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/send-report.html">
+        <ion-view ng-attr-title="Report - {{::state.spot.title}}" cache-view="false">
+          <ion-content class="has-header">
+            <ion-slide-box>
+              <ion-slide>
+                <h3>Powder on pistes ?</h3>
+                <div class="list">
+                  <!--
+                  label.item.text-center.assertive(ng-click="closedReport()")
+                      span.item-conent-closed(ng-click="closedReport()")
+                          i.icon.ion-ios-locked-outline &nbsp; {{'Closed' | res}}
+                  -->
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="4">
+                    <div class="item-content">lots of powder</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="3">
+                    <div class="item-content">much powder</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="2">
+                    <div class="item-content">enough powder</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="1">
+                    <div ng-click="nextSlide()" class="item-content">not enough powder</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="tracks" ng-model="data.tracks" value="0">
+                    <div class="item-content">very little powder</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                </div>
+              </ion-slide>
+              <ion-slide>
+                <h3>Snowing ?</h3>
+                <div class="list">
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="4">
+                    <div class="item-content">lots of snow fell</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="3">
+                    <div class="item-content">much snow fell</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="2">
+                    <div class="item-content">dropped enough snow</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="1">
+                    <div class="item-content">not much snow fell</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="snowing" ng-model="data.snowing" value="0">
+                    <div class="item-content">snow does not fall out</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                </div>
+              </ion-slide>
+              <ion-slide>
+                <h3>Crowd ?</h3>
+                <div class="list">
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="4">
+                    <div class="item-content"></div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="3">
+                    <div class="item-content">many people</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="2">
+                    <div class="item-content">enough people</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="1">
+                    <div class="item-content">few people</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                  <label ng-click="nextSlide()" class="item item-radio">
+                    <input type="radio" name="crowd" ng-model="data.crowd" value="0">
+                    <div class="item-content">very few people</div><i class="radio-icon ion-checkmark"></i>
+                  </label>
+                </div>
+              </ion-slide>
+              <ion-slide>
+                <h3></h3>
+                <div class="list">
+                  <label class="item item-input">
+                    <textarea placeholder="Add Message" ng-model="data.message" style="height: 120px; margin-right: -10px"></textarea>
+                  </label>
+                </div>
+                <div class="button-bar"><a ng-click="cancelReport()" class="button button-stable">Cancel</a><a ng-click="sendReport()" class="button button-stable">Send</a></div>
+              </ion-slide>
+            </ion-slide-box>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="main/closed-report.html">
+        <ion-view ng-attr-title="{{state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="list">
+              <label class="item text-center">
+                <h2>{{ 'Closed' | res }}</h2>
+              </label>
+              <div class="item item-input item-select"><span class="input-label">{{ 'Reason' | res }}</span>
+                <select ng-options="reason.name for reason in reasonsList" ng-model="data.reason"></select>
+              </div>
+              <label class="item item-input item-stacked-label"><span class="input-label">{{ 'Supposed open date' | res }}</span>
+                <input type="date" ng-model="data.openDate" placeholder="{{'dd.mm.yyyy' | res}}">
+              </label>
+              <label class="item item-input">
+                <textarea placeholder="{{'Add Message' | res}}" ng-model="data.message" style="height: 120px"></textarea>
+              </label>
+            </div>
+            <div class="button-bar"><a ng-click="cancelReport()" class="button button-stable">{{"Cancel" | res}}</a><a ng-click="sendReport()" class="button button-stable">{{"Send" | res}}</a></div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="resort/resort.html">
+        <ion-tabs class="tabs-striped tabs-energized tabs-light">     
+          <ion-tab icon="icon ion-earth" ng-click="open('resort.main')">
+            <ion-nav-view name="resort-main">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-android-call" ng-click="open('resort.contacts')">
+            <ion-nav-view name="resort-contacts"></ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-videocamera" ng-click="open('resort.webcams')">
+            <ion-nav-view name="resort-webcams"></ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-map" ng-click="open('resort.maps')">
+            <ion-nav-view name="resort-maps"></ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="resort/resort-main.html">
+        <ion-view ng-attr-title="{{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="row">
+              <div class="col"><img ng-src="{{::resort.headerImg.thumb}}" width="100%" height="200px"></div>
+            </div>
+            <div ng-if="::resort.geo" class="row">
+              <div ng-bind-html="::resort.geo | geo" class="col">               </div>
+            </div>
+            <div class="row">
+              <div class="col">{{::resort.description}}</div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <ul>
+                  <li ng-repeat="txt in ::resort.proscons.pros">{{::txt}}.</li>
+                </ul>
+              </div>
+              <div class="col">
+                <ul>
+                  <li ng-repeat="txt in ::resort.proscons.cons">{{::txt}}.</li>
+                </ul>
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="resort/resort-contacts.html">
+        <ion-view ng-attr-title="Contacts - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="list">
+              <div ng-repeat="contact in ::resort.contacts" open-system="{{::getContactHref(contact)}}" class="item item-icon-right">
+                <div class="positive">{{::contact.val}}</div><span ng-bind-html="::contact | contact"></span>
+                <p ng-if="::contact.comment">{{::contact.comment}}</p>
+              </div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="resort/resort-maps.html">
+        <ion-view ng-attr-title="Maps - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="padding-top"></div>
+            <ion-slide-box does-continue="true" show-pager="false" ng-if="::resort.maps.length !== 0" id="resort_maps">
+              <ion-slide ng-repeat="map in ::resort.maps" class="box"><img width="100%" ng-src="{{::map.img.thumb}}" open-external="{{::map.img.orig}}"></ion-slide>
+            </ion-slide-box>
+          </ion-content>
+          <ion-footer-bar class="bar-positive bar-clear">
+            <button ng-click="movePrev()" class="button button-clear ion-arrow-left-c"></button>&nbsp;
+            <button ng-click="moveNext()" class="button button-clear ion-arrow-right-c"></button>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="resort/resort-webcams.html">
+        <ion-view ng-attr-title="Webcams - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <div class="padding-top"></div>
+            <div ng-if="current.meta.type === 'img'"><img ng-src="{{current.meta.src}}" open-external="{{::current.meta.src}}" width="100%" class="webcam-img"></div>
+            <div ng-if="current.meta.type === 'stream'">
+              <div style="width: 100%; text-align: center" class="webcam-stream-container">
+                <iframe src="{{current.meta.src}}" height="300" width="330" frameborder="0" seamless="seamless" class="webcam-stream"></iframe>
+              </div>
+            </div>
+            <div style="height:50px" ng-if="list" class="list">
+              <div style="height:50px" class="item item-input item-select">
+                <select ng-options="cam.title for cam in list" ng-model="data.currentItem" ng-change="loadLatest()"></select>
+              </div>
+            </div>
+          </ion-content>
+          <ion-footer-bar ng-if="current.meta.type === 'img'" class="bar-positive bar-clear">
+            <button ng-click="loadPrev()" class="button button-clear ion-arrow-left-c"></button>
+            <h2 class="title">{{current.meta.created | amCalendar}}</h2>
+            <button ng-click="loadNext()" class="button button-clear ion-arrow-right-c"></button>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="prices/prices.html">
+        <ion-tabs class="tabs-striped tabs-royal tabs-light">     
+          <ion-tab icon="icon ion-upload" ng-click="open('prices.lifts')">
+            <ion-nav-view name="prices-lifts">      </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-clipboard" ng-click="open('prices.rent')">
+            <ion-nav-view name="prices-rent"> </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-coffee" ng-click="open('prices.food')">
+            <ion-nav-view name="prices-food"> </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-bowtie" ng-click="open('prices.services')">
+            <ion-nav-view name="prices-services"></ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="prices/prices-content.html">
+        <ion-view ng-attr-title="Prices - {{::state.spot.title}}">
+          <ion-content class="has-header">
+            <ion-slide-box ng-if="::prices.length !== 0" does-continue="true" show-pager="false">           
+              <ion-slide ng-repeat="price in ::prices" class="box">
+                <p class="text-center">{{::price.title}}</p><img width="100%" ng-src="{{::price.img.thumb}}" open-external="{{::price.img.orig}}" alt="{{::price.title}}">
+              </ion-slide>
+            </ion-slide-box>
+          </ion-content>
+          <ion-footer-bar class="bar-positive bar-clear">
+            <button ng-click="movePrev()" class="button button-clear ion-arrow-left-c"></button>&nbsp;
+            <button ng-click="moveNext()" class="button button-clear ion-arrow-right-c"></button>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/messages.html">
+        <ion-tabs class="tabs-striped tabs-positive tabs-light">
+          <ion-tab icon="icon ion-speakerphone" ng-click="open('msg.messages')">
+            <ion-nav-view name="msg-messages"></ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-flag" ng-click="open('msg.reports')">
+            <ion-nav-view name="msg-reports">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-model-s" ng-click="open('msg.transfer')">
+            <ion-nav-view name="msg-transfer">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-help" ng-click="open('msg.faq')">
+            <ion-nav-view name="msg-faq">         </ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="messages/messages-list.html">
+        <ion-view ng-attr-title="#{resources.str.messages}} - {{::state.spot.title}">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <h4 class="positive">{{::thread.spot.title}}</h4>
+                <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3><span ng-click="openThread(thread)"> 
+                  <h3><i ng-if="::thread.data.meta.priority=='important'" class="ion-alert assertive">&nbsp;</i><i class="ion-speakerphone positive">&nbsp;</i>{{thread.formatted.shortText}}</h3><img ng-src="{{thread.formatted.img.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;"></span><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+                <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Reply</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Replies {{thread.repliesCount}}</a></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="board.openThreadModal(null, 'create')" class="title positive"><i class="icon ion-speakerphone">&nbsp; Add Message</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/messages-item.html">
+        <ion-view ng-attr-title="Message">
+          <ion-content class="has-header">    
+            <!--ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")   -->
+            <ion-item class="item item-text-wrap">
+              <h3>
+                 
+                {{::board.data.currentThread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::board.data.currentThread.formatted.createdStr}}
+              </h3>
+              <p><a ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="button button-outline button-positive button-small">Reply </a>&nbsp;<a ng-click="openReplies(board.data.currentThread)" class="button button-outline button-positive button-small">Replies {{board.data.currentThread.repliesCount}}</a><span ng-if="::board.data.currentThread.formatted.canEdit" style="float: right"><a ng-click="board.openThreadModal(board.data.currentThread, 'edit')" class="button button-outline button-royal button-small"><i class="icon ion-edit">&nbsp; Edit                                </i></a>&nbsp;<a ng-click="removeThread(board.data.currentThread)" class="button button-outline button-royal button-small"><i class="icon ion-trash-b">&nbsp; Remove               </i></a></span>
+              </p>
+              <p ng-if="board.data.currentThread.data.img"><img ng-src="{{board.data.currentThread.formatted.img.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;" open-external="{{board.data.currentThread.formatted.img.orig}}"></p>
+              <p class="long-read item-text-wrap">{{board.data.currentThread.data.text}}                  </p>
+            </ion-item>
+            <!--include item-items/replies-->
+            <!--ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")-->
+          </ion-content>
+          <!--
+          ion-footer-bar
+              h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+                  i.icon.ion-chatboxes &nbsp; Reply
+          -->
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/faq-list.html">
+        <ion-view ng-attr-title="#{resources.str.faq}} - {{::state.spot.title}">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <h4 class="positive">{{::thread.spot.title}}</h4>
+                <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+                <h3 ng-click="openThread(thread)"> <i class="ion-help-circled calm">&nbsp; </i>{{thread.formatted.shortText}}</h3><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+                <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Reply</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Replies {{thread.repliesCount}}</a></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="board.openThreadModal(null, 'create')" class="title calm"><i class="icon ion-help">&nbsp; Ask Question</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/faq-item.html">
+        <ion-view ng-attr-title="Message">
+          <ion-content class="has-header">    
+            <!--ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")   -->
+            <ion-item class="item item-text-wrap">
+              <h3>
+                 
+                {{::board.data.currentThread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::board.data.currentThread.formatted.createdStr}}
+              </h3>
+              <p><a ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="button button-outline button-positive button-small">Reply </a>&nbsp;<a ng-click="openReplies(board.data.currentThread)" class="button button-outline button-positive button-small">Replies {{board.data.currentThread.repliesCount}}</a><span ng-if="::board.data.currentThread.formatted.canEdit" style="float: right"><a ng-click="board.openThreadModal(board.data.currentThread, 'edit')" class="button button-outline button-royal button-small"><i class="icon ion-edit">&nbsp; Edit                                </i></a>&nbsp;<a ng-click="removeThread(board.data.currentThread)" class="button button-outline button-royal button-small"><i class="icon ion-trash-b">&nbsp; Remove               </i></a></span>
+              </p>
+              <p class="long-read item-text-wrap">{{board.data.currentThread.data.text}}              </p>
+            </ion-item>
+            <!--include item-items/replies-->
+            <!--ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")-->
+          </ion-content>
+          <!--
+          ion-footer-bar
+              h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+                  i.icon.ion-chatboxes &nbsp; Reply
+          -->
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/transfer-list.html">
+        <ion-view ng-attr-title="#{resources.str.transfer}} - {{::state.spot.title}">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <h4 class="positive">{{::thread.spot.title}}</h4>
+                <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+                <h2 ng-click="openThread(thread)"><i class="ion-model-s royal">&nbsp;</i>{{::thread.formatted.transfer.title}}
+                   <i class="ion-location positive">&nbsp;</i>{{::thread.data.meta.from}}     <br><span><i class="ion-card"> </i>{{::thread.data.meta.price}}<br></span><span><i class="ion-calendar"> </i>{{::thread.formatted.metaDateStrLong}}<br></span><a ng-href="tel:{{::thread.data.meta.phone}}" style="text-decoration: none" class="positive"><i class="ion-android-call"> </i>{{::thread.data.meta.phone}}</a>
+                </h2>
+                <h4 ng-click="openThread(thread)" class="dark">{{thread.formatted.shortText}}</h4><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+                <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Reply</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Replies {{thread.repliesCount}}</a></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="board.openThreadModal(null, 'create')" class="title royal"><i class="icon ion-model-s">&nbsp; Add transfer</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/transfer-item.html">
+        <ion-view ng-attr-title="Message">
+          <ion-content class="has-header">    
+            <!--ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")   -->
+            <ion-item class="item item-text-wrap">
+              <h3>
+                 
+                {{::board.data.currentThread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::board.data.currentThread.formatted.createdStr}}
+              </h3>
+              <p><a ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="button button-outline button-positive button-small">Reply </a>&nbsp;<a ng-click="openReplies(board.data.currentThread)" class="button button-outline button-positive button-small">Replies {{board.data.currentThread.repliesCount}}</a><span ng-if="::board.data.currentThread.formatted.canEdit" style="float: right"><a ng-click="board.openThreadModal(board.data.currentThread, 'edit')" class="button button-outline button-royal button-small"><i class="icon ion-edit">&nbsp; Edit                                </i></a>&nbsp;<a ng-click="removeThread(board.data.currentThread)" class="button button-outline button-royal button-small"><i class="icon ion-trash-b">&nbsp; Remove               </i></a></span>
+                <div ng-if="board.data.currentThread.data.meta.type != 'taxi'" class="padding-top"><span ng-switch="board.userRequestStatus(board.data.currentThread)"><a ng-click="board.requestTransfer(board.data.currentThread)" ng-switch-when="none" class="button button-outline button-calm button-small"> <i class="icon ion-checkmark-round">&nbsp; Request </i></a><a ng-click="board.unrequestTransfer(board.data.currentThread)" ng-switch-when="requested" class="button button-outline button-balanced button-small"> <i class="icon ion-checkmark-circled">&nbsp; Requested    </i></a><a ng-click="board.unrequestTransfer(board.data.currentThread)" ng-switch-when="accepted" class="button button-outline button-positive button-small"> <i class="icon ion-checkmark-circled">&nbsp; Accepted </i></a><a ng-click="board.unrequestTransfer(board.data.currentThread)" ng-switch-when="rejected" class="button button-outline button-asserive button-small"> <i class="icon ion-close-round">&nbsp; Rejected </i></a></span>&nbsp;<a ng-click="openTransferRequests(board.data.currentThread)" class="button button-outline button-positive button-small"><i class="icon ion-person-stalker">
+                      &nbsp; Already Go
+                      {{board.data.currentThread.requests.length}} &nbsp; </i></a></div>
+              </p>
+              <div class="list card">
+                <div class="item item-icon-left"><i class="icon i ion-model-s"> </i>{{board.data.currentThread.formatted.transfer.title}}    </div>
+                <div class="item item-icon-left"><i class="icon ion-location"> </i>{{board.data.currentThread.data.meta.from}}                                </div>
+                <div ng-if="board.data.currentThread.data.meta.date" class="item item-icon-left item-text-wrap"><i class="icon ion-calendar"> </i>{{board.data.currentThread.data.meta.date | amDateFormat:'dddd, MMMM Do YYYY, HH:00'}}                                  </div>
+                <div ng-if="board.data.currentThread.data.meta.price" class="item item-icon-left"><i class="icon i ion-card"> </i>{{board.data.currentThread.data.meta.price}}</div><a ng-href="tel:{{currentThread.data.meta.phone}}" ng-if="board.data.currentThread.data.meta.phone" class="item item-icon-left"><i class="icon i ion-android-call positive"></i>{{board.data.currentThread.data.meta.phone}}</a>
+              </div>
+              <div ng-if="board.data.currentThread.data.text" class="long-read item-text-wrap">{{board.data.currentThread.data.text}}                                        </div>
+            </ion-item>
+            <!--include item-items/replies-->
+            <!--ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")-->
+          </ion-content>
+          <!--
+          ion-footer-bar
+              h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+                  i.icon.ion-chatboxes &nbsp; Reply
+          -->
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/reports-list.html">
+        <ion-view ng-attr-title="#{resources.str.reports}} - {{::state.spot.title}">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="board.pullMoreThreads()" pulling-icon="ion-chevron-down" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="thread in board.data.threads track by thread._id" collection-item-width="'100%'" collection-item-height="getThreadHeight(thread)" style="width: 101%" class="item item-text-wrap item-cr">
+                <h4 class="positive">{{::thread.spot.title}}</h4>
+                <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+                <h3 ng-click="openThread(thread)"> <i class="ion-flag energized">&nbsp;    </i>{{::thread.data.meta.summary}}</h3>
+                <h4 ng-click="openThread(thread._id)" class="dark">{{thread.formatted.shortText}}</h4><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+                <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Reply</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Replies {{thread.repliesCount}}</a></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreThreads()" ng-if="board.data.canLoadMoreThreads" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="open('main.report')" class="title energized"><i class="icon ion-flag">&nbsp; Add report</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/reports-item.html">
+        <ion-view ng-attr-title="Message">
+          <ion-content class="has-header">    
+            <!--ion-refresher(pulling-text="Pull to refresh..." on-refresh="board.pullMoreReplies(board.data.currentThread)")   -->
+            <ion-item class="item item-text-wrap">
+              <h3>
+                 
+                {{::board.data.currentThread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::board.data.currentThread.formatted.createdStr}}
+              </h3>
+              <p><a ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="button button-outline button-positive button-small">Reply </a>&nbsp;<a ng-click="openReplies(board.data.currentThread)" class="button button-outline button-positive button-small">Replies {{board.data.currentThread.repliesCount}}</a><span ng-if="::board.data.currentThread.formatted.canEdit" style="float: right"><a ng-click="board.openThreadModal(board.data.currentThread, 'edit')" class="button button-outline button-royal button-small"><i class="icon ion-edit">&nbsp; Edit                                </i></a>&nbsp;<a ng-click="removeThread(board.data.currentThread)" class="button button-outline button-royal button-small"><i class="icon ion-trash-b">&nbsp; Remove               </i></a></span>
+              </p>
+              <div class="item-text-wrap">
+                <h3>{{::board.data.currentThread.data.meta.summary}}</h3>
+                <p class="long-read item-text-wrap">{{board.data.currentThread.data.text}}              </p>
+              </div>
+            </ion-item>
+            <!--include item-items/replies-->
+            <!--ion-infinite-scroll(on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies")-->
+          </ion-content>
+          <!--
+          ion-footer-bar
+              h1.title.positive(ng-click="board.openReplyModal(board.data.currentThread, 'create')")
+                  i.icon.ion-chatboxes &nbsp; Reply
+          -->
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/message-list-item.html">
+        <h4 class="positive">{{::thread.spot.title}}</h4>
+        <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3><span ng-click="openThread(thread)"> 
+          <h3><i ng-if="::thread.data.meta.priority=='important'" class="ion-alert assertive">&nbsp;</i><i class="ion-speakerphone positive">&nbsp;</i>{{thread.formatted.shortText}}</h3><img ng-src="{{thread.formatted.img.thumb}}" style="width: 100%; margin-left: auto;margin-right: auto;display: block;"></span><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+        <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Reply</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Replies {{thread.repliesCount}}</a></p>
+      </script>
+      <script type="text/ng-template" id="messages/faq-list-item.html">
+        <h4 class="positive">{{::thread.spot.title}}</h4>
+        <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+        <h3 ng-click="openThread(thread)"> <i class="ion-help-circled calm">&nbsp; </i>{{thread.formatted.shortText}}</h3><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+        <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Reply</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Replies {{thread.repliesCount}}</a></p>
+      </script>
+      <script type="text/ng-template" id="messages/report-list-item.html">
+        <h4 class="positive">{{::thread.spot.title}}</h4>
+        <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+        <h3 ng-click="openThread(thread)"> <i class="ion-flag energized">&nbsp;    </i>{{::thread.data.meta.summary}}</h3>
+        <h4 ng-click="openThread(thread._id)" class="dark">{{thread.formatted.shortText}}</h4><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+        <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Reply</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Replies {{thread.repliesCount}}</a></p>
+      </script>
+      <script type="text/ng-template" id="messages/transfer-list-item.html">
+        <h4 class="positive">{{::thread.spot.title}}</h4>
+        <h3>{{::thread.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::thread.formatted.createdStr}}</h3>
+        <h2 ng-click="openThread(thread)"><i class="ion-model-s royal">&nbsp;</i>{{::thread.formatted.transfer.title}}
+           <i class="ion-location positive">&nbsp;</i>{{::thread.data.meta.from}}     <br><span><i class="ion-card"> </i>{{::thread.data.meta.price}}<br></span><span><i class="ion-calendar"> </i>{{::thread.formatted.metaDateStrLong}}<br></span><a ng-href="tel:{{::thread.data.meta.phone}}" style="text-decoration: none" class="positive"><i class="ion-android-call"> </i>{{::thread.data.meta.phone}}</a>
+        </h2>
+        <h4 ng-click="openThread(thread)" class="dark">{{thread.formatted.shortText}}</h4><small class="dark">{{thread.latestReply.formatted.shortText}}</small>
+        <p class="padding-top"><a ng-click="board.openReplyModal(thread, 'create')" class="button button-light button-small">Reply</a>&nbsp;<a ng-click="openReplies(thread)" class="button button-light button-small">Replies {{thread.repliesCount}}</a></p>
+      </script>
+      <!--
+      script(type="text/ng-template", id="messages/transfer-requests.html")
+        include transfer-requests
+      
+      -->
+      <script type="text/ng-template" id="messages/reply-item.html">
+        <h3>{{::reply.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::reply.formatted.createdStr}}</h3>
+        <p class="long-read item-text-wrap">{{reply.data.text}}              </p>
+        <p>&nbsp;<span ng-if="::reply.formatted.canEdit"><a ng-click="board.removeReply(board.data.currentThread, reply)" class="subdued"><i class="icon ion-trash-b">&nbsp; Remove</i></a><a ng-click="board.openReplyModal(reply, 'edit', board.data.currentThread)" class="subdued"><i class="icon ion-edit">&nbsp; Edit</i></a></span></p>
+      </script>
+      <script type="text/ng-template" id="messages/messgae-replies.html">
+        <ion-view ng-attr-title="Replies">
+          <ion-content class="has-header">
+            <ion-refresher pulling-text="Pull to refresh..." pulling-icon="ion-chevron-down" on-refresh="board.pullMoreReplies(board.data.currentThread)" refreshing-icon="ion-loading-d"></ion-refresher>
+            <div collection-repeat-container-element class="list">
+              <div collection-repeat="reply in board.data.currentThread.replies track by reply._id" collection-item-width="'100%'" collection-item-height="getReplyHeight(reply)" style="width: 101%" class="item item-text-wrap item-cr"> 
+                <h3>{{::reply.user.name}} &nbsp;<i class="ion-ios-clock-outline">&nbsp;</i>{{::reply.formatted.createdStr}}</h3>
+                <p class="long-read item-text-wrap">{{reply.data.text}}              </p>
+                <p>&nbsp;<span ng-if="::reply.formatted.canEdit"><a ng-click="board.removeReply(board.data.currentThread, reply)" class="subdued"><i class="icon ion-trash-b">&nbsp; Remove</i></a><a ng-click="board.openReplyModal(reply, 'edit', board.data.currentThread)" class="subdued"><i class="icon ion-edit">&nbsp; Edit</i></a></span></p>
+              </div>
+            </div>
+            <ion-infinite-scroll on-infinite="board.loadMoreReplies(board.data.currentThread)" ng-if="board.data.canLoadMoreReplies" distance="1%"></ion-infinite-scroll>
+          </ion-content>
+          <ion-footer-bar>
+            <h1 ng-click="board.openReplyModal(board.data.currentThread, 'create')" class="title positive"><i class="icon ion-chatboxes">&nbsp; Reply</i></h1>
+          </ion-footer-bar>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="messages/transfer-requests.html">
+        <ion-view ng-attr-title="Transfer Requests">
+          <ion-content class="has-header">
+            <ul class="list">
+              <li ng-repeat="request in board.data.currentThread.requests" class="item item-avatar item-button-right"><img ng-src="{{::request.user.avatar}}">{{::request.user.name}}
+                <p><a ng-if="request.accepted == undefined" class="subdued balanced"> <i class="icon ion-checkmark-circled">&nbsp; Requested &nbsp;   </i></a><a ng-if="request.accepted == true" class="subdued positive"> <i class="icon ion-checkmark-circled positive">&nbsp; Accepted &nbsp;</i></a><a ng-if="request.accepted == false" class="assertive subdued"> <i class="icon ion-close-round">&nbsp; Rejected &nbsp;            </i></a></p>
+                <button ng-click="board.switchAccepted(board.data.currentThread, request)" ng-if="::board.data.currentThread.formatted.canEdit" ng-class="{positive : request.accepted, assertive : (request.accepted == false)}" class="button"><i class="icon ion-checkmark-round"></i></button>
+              </li>
+            </ul>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="user/user.html">
+        <ion-tabs class="tabs-striped tabs-calm tabs-light">     
+          <ion-tab icon="icon ion-gear-a" ui-sref="user.settings">
+            <ion-nav-view name="user-settings">         </ion-nav-view>
+          </ion-tab>
+          <ion-tab icon="icon ion-star" ui-sref="user.favs">
+            <ion-nav-view name="user-favs"></ion-nav-view>
+          </ion-tab>
+        </ion-tabs>
+      </script>
+      <script type="text/ng-template" id="user/settings.html">
+        <ion-view title="Me">
+          <ion-content class="has-header">
+            <div class="list">
+              <label ng-if="::user.profile.name" class="item item-input item-stacked-label"><span class="input-label">Name</span>
+                <input type="text" ng-model="user.profile.name" disabled>
+              </label>
+              <label class="item item-input item-stacked-label"><span class="input-label">Home</span>
+                <input type="text" ng-model="state.spot.title" disabled>
+              </label>
+              <label class="item item-input item-select"><span class="input-label">Language
+                  <select ng-options="lang.name for lang in ::langsList" ng-model="data.lang" ng-change="setLang(data.lang)"></select></span></label>
+              <label class="item item-input item-select"><span class="input-label">Units
+                  <select ng-options="culture.name for culture in ::culturesList" ng-model="data.culture" ng-change="setCulture(data.culture)"></select></span></label>
+              <button ng-click="reload()" ng-show="isPropertyChanged" class="button button-full button-balanced">Reload</button>
+              <button ng-click="reset()" class="button button-full button-energized">Reset</button>
+              <button ng-click="login()" ng-show="!isLogined()" class="button button-full button-positive">Login</button>
+              <button ng-click="logout()" ng-show="isLogined()" class="button button-full button-assertive">Logout</button>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="user/favs.html">
+        <ion-view ng-attr-title="Favorites">
+          <ion-content class="has-header">
+            <div class="list">
+              <div ng-if="canAddFav()" class="item">
+                <button ng-click="openSpotSelectorModal()" class="button button-block button-stable icon ion-ios-plus-outline">
+                  &nbsp;
+                  Add New
+                </button>
+              </div>
+              <div ng-repeat="fav in favs" class="item item-icon-left item-icon-right"><i ng-class="{'ion-ios-home-outline' : !fav.isHome, 'ion-ios-home' : fav.isHome}" ng-click="setHome(fav)" class="icon"></i><span ng-click="openHome(fav)">
+                  <h2>{{::fav.title}}</h2></span><i ng-if="canRemoveFav()" ng-click="removeFav(fav)" class="icon ion-ios-minus-outline"></i></div>
+            </div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="modals/spotSelector.html">
+        <ion-modal-view>
+          <div class="bar bar-header item-input-inset">
+            <label class="item-input-wrapper"><i class="icon ion-ios-search placeholder-icon"></i>
+              <input type="search" placeholder="Search" ng-model="spotTerm" ng-model-options="{debounce:1000}" ng-change="onSpotTermChanged(spotTerm)">
+            </label>
+            <button ng-click="closeSpotSelectorModal()" class="button button-clear">Cancel</button>
+          </div>
+          <ion-content class="has-header">
+            <ul class="list">
+              <li ng-repeat="spot in spotsList" on-tap="selectSpot(spot)" class="item item-text-wrap"><span ng-bind-html="::spot.label" class="text-hlt"></span><span ng-if="spot.dist" class="item-note">{{::spot.formatted.dist}} {{::spot.formatted.distU}}</span></li>
+            </ul>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/authForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header item-input-inset">
+            <h1 class="title">Authorization</h1>
+          </div>
+          <ion-content class="has-header"><a ng-click="authorizeProvider('facebook')" class="button button-block button-stable">Facebook</a><a ng-click="authorizeProvider('vk')" class="button button-block button-stable">VKontakte</a><a ng-click="hideAuthForm()" class="button button-block button-assertive">Cancel</a></ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/sendSimpleMsgForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h3>Add Message<small>&nbsp; {{::state.spot.title}}         </small></h3>
+          </div>
+          <ion-content class="has-header">
+            <div class="list">
+              <label class="item item-input">
+                <textarea placeholder="Add Message" ng-model="simpleMsgForm.data.message" style="height: 120px; margin-right: -10px"></textarea>
+              </label>
+            </div>
+            <div class="button-bar"><a ng-click="board.cancelMsgModal()" class="button button-stable">Cancel</a><a ng-click="board.sendMessage()" class="button button-stable">Send</a></div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/sendMsgForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h3>Add Message <small>&nbsp; {{::state.spot.title}} </small></h3>
+          </div>
+          <ion-content class="has-header">
+            <div class="list">
+              <label class="item item-input item-select">
+                <div class="input-label">Priority</div>
+                <select ng-options="priority.name for priority in ::msgForm.prioritiesList" ng-model="msgForm.data.priority">               </select>
+              </label>
+              <label class="item item-input">
+                <textarea placeholder="Add Message" ng-model="msgForm.data.message" style="height: 120px; margin-right: -10px"></textarea>
+              </label>
+              <div ng-if="msgForm.data.photo.src" class="item"><img ng-src="{{msgForm.data.photo.src}}" height="200px"></div>
+              <label class="item"></label>
+            </div>
+            <div class="button-bar">
+              <button ng-file-select accept="image/*" ng-file-change="msgForm.attachPhoto(attachedFile)" ng-model="attachedFile" type="file" class="button button-royal"><i class="icon ion-image">&nbsp; Attach photo</i></button>
+              <button ng-click="msgForm.removePhoto()" ng-if="msgForm.data.photo.src" class="button button-assertive"><i class="icon ion-trash-a">&nbsp; Remove Photo</i></button>
+            </div><br>
+            <div class="button-bar"><a ng-click="board.cancelMsgModal()" class="button button-stable">Cancel</a><a ng-click="board.sendMessage()" class="button button-stable">Send</a></div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/transferMsgForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h3>Create transfer <small>&nbsp; {{::state.spot.title}} </small></h3>
+          </div>
+          <ion-content class="has-header">
+            <form name="transferMsgForm" novalidate>
+              <div class="list">
+                <div class="item item-input item-select"><span class="input-label">Transfer type</span>
+                  <select ng-options="type.name for type in ::transferForm.typesList" ng-model="transferForm.data.type">                         </select>
+                </div>
+                <div class="item item-input"><span ng-hide="transferMsgForm.from.$error.required" class="input-label">From town</span><span ng-show="transferMsgForm.from.$error.required" class="input-label alert">From</span>
+                  <input placeholder="From" ng-model="transferForm.data.from" type="text" name="from" required>
+                </div>
+                <div ng-if="transferForm.data.type.code != 'taxi'" class="item item-input"><span class="input-label">Date</span>
+                  <input placeholder="Date" ng-model="transferForm.data.date" type="date">
+                </div>
+                <div ng-if="transferForm.data.type.code != 'taxi'" class="item item-input item-select"><span class="input-label">Hours</span>
+                  <select ng-options="hour.label for hour in ::transferForm.hoursList" ng-model="transferForm.data.time">               </select>
+                </div>
+                <div class="item item-input item-select"><span class="input-label">Transport Type</span>
+                  <select ng-options="transport.name for transport in ::transferForm.transportTypesList" ng-model="transferForm.data.transport">               </select>
+                </div>
+                <div class="item item-input"><span class="input-label">Price</span>
+                  <input placeholder="Price" ng-model="transferForm.data.price" type="number">
+                </div>
+                <div class="item item-input"><span class="input-label">Phone number</span>
+                  <input placeholder="Phone number" ng-model="transferForm.data.phone" type="tel">
+                </div>
+                <div class="item item-input">
+                  <textarea placeholder="Add Message" ng-model="transferForm.data.message" style="height: 120px; margin-right: -10px"></textarea>
+                </div>
+              </div>
+              <div class="button-bar"><a ng-click="board.cancelMsgModal()" class="button button-stable">Cancel</a><a ng-click="board.sendMessage()" class="button button-stable">Send</a></div>
+            </form>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/addMsgSelector.html">
+        <ion-modal-view>
+          <div class="bar bar-header item-input-inset">
+            <h1 class="title">Choose message</h1>
+          </div>
+          <ion-content class="has-header"><a ng-click="createThreadModal('message')" class="button button-block button-positive"> <i class="icon ion-speakerphone">&nbsp;</i>Message</a><a ng-click="createThreadModal('report')" class="button button-block button-energized"> <i class="icon ion-flag">&nbsp;</i>Report</a><a ng-click="createThreadModal('transfer')" class="button button-block button-royal"><i class="icon ion-model-s">&nbsp;</i>Transfer        </a><a ng-click="createThreadModal('faq')" class="button button-block button-calm"> <i class="icon ion-help">&nbsp;</i>Question</a><a ng-click="cancelAddMsgSelector()" class="button button-block button-stable">Cancel</a></ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/filterMsgsForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h4 class="text-center">Show messages for</h4>
+          </div>
+          <ion-content class="has-header">
+            <div class="button-bar"><a ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('current')}" ng-click="filterMsgsForm.setActiveFilter('current')" class="button button-positive button-small">{{::spotTitle}}</a><a ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('favs')}" ng-click="filterMsgsForm.setActiveFilter('favs')" class="button button-positive button-small">Favorites</a><a ng-class="{'button-outline': !filterMsgsForm.isActiveFilter('all')}" ng-click="filterMsgsForm.setActiveFilter('all')" class="button button-positive button-small">All</a></div>
+            <ul class="list">
+              <li class="item item-toggle"><i class="icon ion-speakerphone positive">&nbsp;</i>Message
+                <label class="toggle toggle-positive">
+                  <input type="checkbox" ng-model="filterMsgsForm.data.messages">
+                  <div class="track">
+                    <div class="handle">       </div>
+                  </div>
+                </label>
+              </li>
+              <li class="item item-toggle"><i class="icon ion-flag energized">&nbsp; </i>Report
+                <label class="toggle toggle-positive">
+                  <input type="checkbox" ng-model="filterMsgsForm.data.reports">
+                  <div class="track">
+                    <div class="handle">       </div>
+                  </div>
+                </label>
+              </li>
+              <li class="item item-toggle"><i class="icon ion-model-s royal">&nbsp; </i>Transfer        
+                <label class="toggle toggle-positive">
+                  <input type="checkbox" ng-model="filterMsgsForm.data.transfers">
+                  <div class="track">
+                    <div class="handle">       </div>
+                  </div>
+                </label>
+              </li>
+              <li class="item item-toggle"><i class="icon ion-help calm">&nbsp; </i>Question
+                <label class="toggle toggle-positive">
+                  <input type="checkbox" ng-model="filterMsgsForm.data.faq">
+                  <div class="track">
+                    <div class="handle">       </div>
+                  </div>
+                </label>
+              </li>
+            </ul>
+            <div class="button-bar"><a ng-click="board.cancelFilterModal()" class="button button-stable">Cancel</a><a ng-click="board.filter()" class="button button-stable">OK</a></div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="modals/transferRequestsForm.html">
+        <ion-modal-view>
+          <div class="bar bar-header">
+            <h3 style="width: 80%">Transfer Requests</h3>
+            <button ng-click="closeTransferRequests()" style="float: right" class="button button-clear">Close</button>
+          </div>
+          <ion-content class="has-header">
+            <ul class="list">
+              <li ng-repeat="request in board.data.currentThread.requests" class="item item-avatar item-button-right"><img ng-src="{{::request.user.avatar}}">{{::request.user.name}}
+                <p><a ng-if="request.accepted == undefined" class="subdued balanced"> <i class="icon ion-checkmark-circled">&nbsp; Requested &nbsp;   </i></a><a ng-if="request.accepted == true" class="subdued positive"> <i class="icon ion-checkmark-circled positive">&nbsp; Accepted &nbsp;</i></a><a ng-if="request.accepted == false" class="assertive subdued"> <i class="icon ion-close-round">&nbsp; Rejected &nbsp;            </i></a></p>
+                <button ng-click="board.switchAccepted(board.data.currentThread, request)" ng-if="::board.data.currentThread.formatted.canEdit" ng-class="{positive : request.accepted, assertive : (request.accepted == false)}" class="button"><i class="icon ion-checkmark-round"></i></button>
+              </li>
+            </ul>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script type="text/ng-template" id="utils/loading.html">
+        <div class="loading-non-block"><i class="ion-loading-c"></i></div>
+      </script>
+      <script type="text/ng-template" id="utils/error.html">
+        <ion-view ng-attr-title="Error">
+          <ion-content class="has-header">
+            <div class="row">
+              <h3 class="center assertive">Service is temporary unavailable, please try again later !</h3>
+            </div>
+            <div class="row"><a href="/" class="button button-balanced">Try again</a></div>
+          </ion-content>
+        </ion-view>
+      </script>
+      <script type="text/ng-template" id="charts/bar-chart.html">
+        <div class="wrap">
+          <div class="barGraph">
+            <ul class="graph"><span ng-repeat="item in items">
+                <h4 style="margin: 0" class="graph-legend trim-text dark">{{item.label}}</h4><span class="graph-barBack">
+                  <li ng-style="item.style" class="graph-bar"></li></span></span></ul>
+          </div>
+        </div>
+      </script>
+    </div>
+  </body>
+</head>
