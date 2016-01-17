@@ -47,6 +47,8 @@ stage:
     auth :
       apiUrl : //auth-server-oauthio.herokuapp.com/
       oauthio_key : 9E7SoR97JvCrmryqfLMBC5Fe5ic
+    pushKeys :
+      android : 730534788406      
 cordova_dev:
   env:
     platform : cordova
